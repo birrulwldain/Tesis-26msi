@@ -8,11 +8,65 @@
 \section{Tinjauan Pustaka}
 \blindtext
 
+Beberapa penelitian terdahulu dapat dilihat pada Tabel \ref{tab:penelitian-terdahulu}:
+
+\begin{table}[htbp]
+\centering
+\caption{Ringkasan penelitian terdahulu}
+\label{tab:penelitian-terdahulu}
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Peneliti} & \textbf{Metode} & \textbf{Tahun} & \textbf{Akurasi} \\ \hline
+Smith et al. & Deep Learning & 2020 & 92\% \\ \hline
+Johnson & Machine Learning & 2021 & 89\% \\ \hline
+Li dan Wang & Hybrid Method & 2022 & 95\% \\ \hline
+Kumar & Statistical & 2023 & 87\% \\ \hline
+\end{tabular}
+\end{table}
+
+\blindtext
+
 \section{Dasar Teori}
 \blindtext
+
+Persamaan Schrödinger untuk atom hidrogen dinyatakan sebagai:
+
+\begin{equation}
+\left[-\frac{\hbar^2}{2m}\nabla^2 - \frac{e^2}{4\pi\epsilon_0 r}\right]\psi = E\psi
+\label{eq:schrodinger}
+\end{equation}
+
+di mana $\hbar$ adalah konstanta Planck tereduksi, $m$ adalah massa elektron, $e$ adalah muatan elektron, dan $\psi$ adalah fungsi gelombang.
 
 \subsection{Teori Pertama}
 \blindtext
 
+Distribusi Boltzmann menggambarkan populasi tingkat energi:
+
+\begin{equation}
+\frac{N_i}{N_j} = \frac{g_i}{g_j}\exp\left(-\frac{E_i - E_j}{k_B T}\right)
+\label{eq:boltzmann}
+\end{equation}
+
+dengan $g_i$ dan $g_j$ adalah berat statistik, $k_B$ konstanta Boltzmann, dan $T$ temperatur.
+
 \subsection{Teori Kedua}
+\blindtext
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+% Energy levels
+\draw[thick] (0,0) -- (3,0) node[right] {$n=1$, $E_1 = -13.6$ eV};
+\draw[thick] (0,2) -- (3,2) node[right] {$n=2$, $E_2 = -3.4$ eV};
+\draw[thick] (0,3) -- (3,3) node[right] {$n=3$, $E_3 = -1.5$ eV};
+\draw[thick] (0,3.7) -- (3,3.7) node[right] {$n=4$, $E_4 = -0.85$ eV};
+% Transitions
+\draw[->,red,very thick] (1.5,3) -- (1.5,0.1) node[midway,right] {$\lambda = 102.6$ nm};
+\draw[->,blue,very thick] (2,2) -- (2,0.1) node[midway,left] {$\lambda = 121.6$ nm};
+\end{tikzpicture}
+\caption{Diagram tingkat energi atom hidrogen dan transisi elektron}
+\label{fig:energy-diagram}
+\end{figure}
+
 \blindtext

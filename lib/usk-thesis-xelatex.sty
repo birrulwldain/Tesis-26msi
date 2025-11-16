@@ -152,6 +152,10 @@
 
 \RequirePackage{enumitem}
 
+% TikZ untuk diagram dan flowchart
+\RequirePackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+
 % Matematika dan sains
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
@@ -159,7 +163,9 @@
 % Paket untuk TOC/LOF/LOT formatting
 \RequirePackage[titles]{tocloft}
 \RequirePackage{etoolbox}
-\RequirePackage[justification=centering]{caption}
+\RequirePackage[labelsep=period]{caption}
+\RequirePackage[labelfont=bf]{caption}
+\RequirePackage{subcaption}
 \RequirePackage{algorithm}
 \RequirePackage{algorithmic}
 
@@ -204,9 +210,35 @@
 \setlength{\cftbeforesecskip}{0pt}   % Spacing sebelum section
 \setlength{\cftbeforesubsecskip}{0pt} % Spacing sebelum subsection
 
+% Spacing untuk LOF dan LOT - MINIMAL spacing, seharusnya sama dengan section di TOC
+\setlength{\cftbeforefigskip}{0pt}   % Spacing sebelum figure - sama dengan section
+\setlength{\cftbeforetabskip}{0pt}   % Spacing sebelum table - sama dengan section
+
 % Prefix untuk Figure dan Table
 \renewcommand\cftfigpresnum{Gambar\  }
 \renewcommand\cfttabpresnum{Tabel\   }
+
+% Width untuk nomor gambar dan tabel (agar tidak tabrak dengan judul)
+\newlength{\mylenf}
+\settowidth{\mylenf}{\cftfigpresnum}
+\setlength{\cftfignumwidth}{\dimexpr\mylenf+2em}
+\setlength{\cfttabnumwidth}{\dimexpr\mylenf+2em}
+
+% Indent untuk figure dan table - set ke 0 agar rata kiri
+\setlength{\cftfigindent}{0pt}
+\setlength{\cfttabindent}{0pt}
+
+% Font dan leader dots untuk figure dan table entries
+\renewcommand{\cftfigfont}{\normalfont}
+\renewcommand{\cftfigpagefont}{\normalfont}
+\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cfttabfont}{\normalfont}
+\renewcommand{\cfttabpagefont}{\normalfont}
+\renewcommand{\cfttableader}{\cftdotfill{\cftdotsep}}
+
+% Pastikan multiline entries tidak menambah extra spacing
+\renewcommand{\cftfigafterpnum}{\vskip0pt}
+\renewcommand{\cfttabafterpnum}{\vskip0pt}
 
 % Prefix untuk Chapter
 \renewcommand\cftchappresnum{BAB } 
@@ -228,6 +260,35 @@
   \addtocontents{apc}{~\hfill \textit{Halaman}\par}%
 }
 
+% Wrapper untuk TOC/LOF/LOT dengan singlespacing dan judul KAPITAL (seperti contoh.tex)
+\let\originaltableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{%
+  \pagestyle{preliminarypage}%
+  \prelimchapter{DAFTAR ISI}%
+  \begin{singlespace}%
+    \@starttoc{toc}%
+  \end{singlespace}%
+}
+
+% LOF dan LOT dibungkus dengan singlespace environment (seperti contoh.tex)
+\let\originallistoffigures\listoffigures
+\renewcommand{\listoffigures}{%
+  \pagestyle{preliminarypage}%
+  \prelimchapter{DAFTAR GAMBAR}%
+  \begin{singlespace}%
+    \@starttoc{lof}%
+  \end{singlespace}%
+}
+
+\let\originallistoftables\listoftables
+\renewcommand{\listoftables}{%
+  \pagestyle{preliminarypage}%
+  \prelimchapter{DAFTAR TABEL}%
+  \begin{singlespace}%
+    \@starttoc{lot}%
+  \end{singlespace}%
+}
+
 % Konfigurasi daftar lampiran
 \newcommand{\listappendicesname}{DAFTAR LAMPIRAN}
 \newlistof{appendices}{apc}{\listappendicesname}
@@ -235,6 +296,16 @@
   \addcontentsline{apc}{appendices}{\protect\numberline{}#1}%
 }
 \newcounter{lampiran}
+
+% Wrapper untuk listofappendices dengan singlespacing
+\let\originallistofappendices\listofappendices
+\renewcommand{\listofappendices}{%
+  \pagestyle{preliminarypage}%
+  \prelimchapter{DAFTAR LAMPIRAN}%
+  \begin{singlespace}%
+    \@starttoc{apc}%
+  \end{singlespace}%
+}
 
 %==============================================================================
 % 3C. KONFIGURASI BIBLIOGRAFI (Biblatex dengan APA style)
@@ -269,15 +340,23 @@
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
 
+% Pagestyle untuk regular pages (BAB) - nomor halaman di bawah kanan
 \fancyhf{}
-\fancyhead[L]{}
-\fancyhead[C]{}
-\fancyhead[R]{\thepage}
+\fancyfoot[R]{\thepage}
 \pagestyle{fancy}
 
+% Pagestyle untuk chapter heading pages - no number
 \fancypagestyle{chapterheading}{%
   \fancyhf{}
   \renewcommand{\headrulewidth}{0.0pt}
+}
+
+% Pagestyle untuk preliminary pages - nomor halaman di bawah tengah
+\fancypagestyle{preliminarypage}{%
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
 }
 
 %==============================================================================
@@ -295,40 +374,6 @@
   \global\@topnum\z@ % Prevents figures from going at top of page
   \@afterindenttrue % Indent the 1st paragraph
   \secdef\@chapter\@schapter}
-
-\renewcommand{\@makechapterhead}[1]{%
-  {\parindent\z@\centering\normalfont
-    \ifnum\c@secnumdepth>\m@ne
-        \large\bfseries\@chapapp\space\thechapter
-        \par\nobreak
-        \vskip -0.2cm
-    \fi
-    \interlinepenalty\@M
-    \large\bfseries #1\par\nobreak
-    \vskip 20\p@
-    }}
-
-\renewcommand{\@makeschapterhead}[1]{%
-  {\parindent\z@\centering\normalfont
-    \interlinepenalty\@M\large\bfseries #1\par\nobreak\vskip 20\p@}}
-
-% Section formatting
-\renewcommand{\section}{\@startsection{section}{1}{\z@}%
-                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
-                                   {0.5ex \@plus.2ex}%
-                                   {\normalfont\normalsize\bfseries}}
-
-\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {0.5ex \@plus .2ex}%
-                                     {\normalfont\normalsize\bfseries}}
-
-\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
-                                    {3.25ex \@plus1ex \@minus.2ex}%
-                                    {-1em}%
-                                    {\normalfont\normalsize\bfseries}}
-
-\renewcommand{\paragraph}{\subparagraph}
 
 % Numbering for equations, figures, tables
 \@addtoreset{equation}{chapter}
@@ -355,15 +400,22 @@
   \secdef\@chapter\@schapter
 }
 
+% Custom command untuk preliminary chapter (chapter* tanpa chapterheading)
+\newcommand{\prelimchapter}[1]{%
+  \clearpage
+  \@makeschapterhead{#1}%
+  \@afterheading
+}
+
 \renewcommand{\@makechapterhead}[1]{%
   {\parindent \z@ \centering \normalfont
     \ifnum \c@secnumdepth >\m@ne
-      \large\bfseries \@chapapp\space \thechapter
+      \large\bfseries \MakeUppercase{\@chapapp}\space \thechapter
       \par\nobreak
       \vskip -0.2cm
     \fi
     \interlinepenalty\@M
-    \large\bfseries #1\par\nobreak
+    \large\bfseries \MakeUppercase{#1}\par\nobreak
     \vskip 20\p@
   }
 }
@@ -371,17 +423,17 @@
 \renewcommand{\@makeschapterhead}[1]{%
   {\parindent \z@ \centering \normalfont
     \interlinepenalty\@M
-    \large\bfseries #1\par\nobreak
+    \large\bfseries \MakeUppercase{#1}\par\nobreak
     \vskip 20\p@
   }
 }
 
-% Section
+% Section - judul KAPITAL di halaman, normal di TOC
 \renewcommand{\section}{%
   \@startsection{section}{1}{\z@}%
     {-3.5ex \@plus -1ex \@minus -.2ex}%
     {0.5ex \@plus.2ex}%
-    {\normalfont\normalsize\bfseries}
+    {\normalfont\normalsize\bfseries\MakeUppercase}
 }
 
 % Subsection
@@ -630,8 +682,8 @@
 %==============================================================================
 
 \def\approvalpage{%
-  \clearpage\addcontentsline{toc}{chapter}{\approvalname}
-  \chapter*{\approvalname}%
+  \clearpage\pagestyle{preliminarypage}\addcontentsline{toc}{chapter}{Halaman Pengesahan}
+  \prelimchapter{PENGESAHAN}%
   \begin{center}
     \begin{doublespace}
       \vspace{0.5cm}
@@ -687,8 +739,8 @@
 %==============================================================================
 
 \newenvironment{abstractind}[0]{%
-  \clearpage\thispagestyle{chapterheading}%
-  \chapter*{\abstractname}%
+  \clearpage\pagestyle{preliminarypage}%
+  \prelimchapter{ABSTRAK}%
   \begin{singlespacing}%
   \addcontentsline{toc}{chapter}{Abstrak}%
 }{%
@@ -696,8 +748,8 @@
 }
 
 \newenvironment{abstracteng}[0]{%
-  \clearpage\thispagestyle{chapterheading}\selectlanguage{english}%
-  \chapter*{\abstractname}%
+  \clearpage\pagestyle{preliminarypage}\selectlanguage{english}%
+  \prelimchapter{ABSTRACT}%
   \begin{singlespacing}%
   \addcontentsline{toc}{chapter}{\textit{Abstract}}%
 }{%
@@ -706,13 +758,15 @@
 }
 
 \newenvironment{preface}[0]{%
-  \chapter*{\prefacename}%
-  \addcontentsline{toc}{chapter}{\prefacename}%
+  \clearpage\pagestyle{preliminarypage}%
+  \prelimchapter{KATA PENGANTAR}%
+  \addcontentsline{toc}{chapter}{Kata Pengantar}%
 }{%
 }
 
 \newenvironment{acknowledgment}[0]{%
-  \chapter*{UCAPAN TERIMA KASIH}%
+  \clearpage\pagestyle{preliminarypage}%
+  \prelimchapter{UCAPAN TERIMA KASIH}%
   \addcontentsline{toc}{chapter}{UCAPAN TERIMA KASIH}%
 }{%
 }
@@ -728,6 +782,28 @@
   \else
     \selectlanguage{english}%
   \fi
+  
+  % Caption setup untuk figure dan table (dari contoh.tex)
+  \captionsetup[figure]{%
+    labelfont={normalfont},%
+    textfont={normalfont},%
+    singlelinecheck=false,%
+    justification=raggedright,%
+    labelsep=space,%
+    format=hang,%
+    indention=0pt,%
+    skip=10pt%
+  }
+  \captionsetup[table]{%
+    labelfont={normalfont},%
+    textfont={normalfont},%
+    singlelinecheck=false,%
+    justification=raggedright,%
+    labelsep=space,%
+    format=hang,%
+    indention=0pt,%
+    skip=10pt%
+  }
 }
 
 %==============================================================================

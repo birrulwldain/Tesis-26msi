@@ -1,6 +1,6 @@
 %-------------------------------------------------------------------------------
 %                            BAB III
-%               abstrak-english.texMETODE PENELITIAN
+%                        METODE PENELITIAN
 %-------------------------------------------------------------------------------
 
 \chapter{METODE PENELITIAN}
@@ -12,19 +12,98 @@
 \blindtext
 
 \subsection{Perangkat Keras}
+Spesifikasi perangkat keras yang digunakan ditampilkan pada Tabel \ref{tab:hardware}:
+
+\begin{table}[htbp]
+\centering
+\caption{Spesifikasi perangkat keras}
+\label{tab:hardware}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Komponen} & \textbf{Spesifikasi} \\ \hline
+Processor & Intel Core i7-10700K @ 3.8 GHz \\ \hline
+RAM & 32 GB DDR4 3200 MHz \\ \hline
+GPU & NVIDIA RTX 3080 10GB \\ \hline
+Storage & SSD NVMe 1TB \\ \hline
+\end{tabular}
+\end{table}
+
 \blindtext
 
 \subsection{Perangkat Lunak}
 \blindtext
 
+\begin{table}[htbp]
+\centering
+\caption{Perangkat lunak yang digunakan}
+\label{tab:software}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Software} & \textbf{Versi} & \textbf{Fungsi} \\ \hline
+Python & 3.10.8 & Bahasa pemrograman utama \\ \hline
+TensorFlow & 2.12.0 & Framework deep learning \\ \hline
+NumPy & 1.23.5 & Komputasi numerik \\ \hline
+Matplotlib & 3.7.1 & Visualisasi data \\ \hline
+Pandas & 2.0.0 & Analisis data \\ \hline
+\end{tabular}
+\end{table}
+
 \section{Prosedur Penelitian}
 \blindtext
+
+Diagram alir penelitian dapat dilihat pada Gambar \ref{fig:flowchart}:
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, auto]
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\node (start) [startstop] {Mulai};
+\node (pro1) [process, below of=start] {Pengumpulan Data};
+\node (pro2) [process, below of=pro1] {Preprocessing};
+\node (pro3) [process, below of=pro2] {Training Model};
+\node (dec1) [decision, below of=pro3, yshift=-0.5cm] {Akurasi > 90\%?};
+\node (pro4) [process, below of=dec1, yshift=-0.5cm] {Evaluasi};
+\node (stop) [startstop, below of=pro4] {Selesai};
+
+\draw [arrow] (start) -- (pro1);
+\draw [arrow] (pro1) -- (pro2);
+\draw [arrow] (pro2) -- (pro3);
+\draw [arrow] (pro3) -- (dec1);
+\draw [arrow] (dec1) -- node[anchor=east] {Ya} (pro4);
+\draw [arrow] (dec1) -- ++(3,0) node[anchor=south] {Tidak} |- (pro3);
+\draw [arrow] (pro4) -- (stop);
+\end{tikzpicture}
+\caption{Diagram alir penelitian}
+\label{fig:flowchart}
+\end{figure}
 
 \subsection{Tahap Persiapan}
 \blindtext
 
+Model arsitektur yang digunakan mengikuti persamaan attention mechanism:
+
+\begin{equation}
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\label{eq:attention}
+\end{equation}
+
+di mana $Q$ adalah query, $K$ adalah key, $V$ adalah value, dan $d_k$ adalah dimensi key.
+
 \subsection{Tahap Pelaksanaan}
 \blindtext
+
+Fungsi loss yang digunakan adalah Mean Squared Error (MSE):
+
+\begin{equation}
+\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2
+\label{eq:mse}
+\end{equation}
+
+dengan $y_i$ adalah nilai sebenarnya dan $\hat{y}_i$ adalah nilai prediksi.
 
 \subsection{Tahap Analisis Data}
 \blindtext

@@ -4,16 +4,25 @@
 % ============================================================================
 %
 % Pilih MODE di bawah ini (ubah nilai sesuai kebutuhan):
-%   - sempro : Seminar Proposal (Bab 1-2)
-%   - semhas : Seminar Hasil (Bab 1-3)
-%   - sidang : Sidang Skripsi Lengkap (Bab 1-5 + Lampiran)
+%   - sempro  : Seminar Proposal 
+%              Konten: Cover, Pengesahan, Abstrak (ID+EN), Kata Pengantar, TOC, 
+%                      Daftar Gambar, Daftar Tabel, Daftar Lampiran,
+%                      BAB 1-3, Daftar Pustaka, Lampiran
+%   - semhas  : Seminar Hasil (Hasil Penelitian)
+%              Konten: Cover, Pengesahan, Pernyataan, Bebas Plagiasi, Abstrak (ID+EN), Kata Pengantar, 
+%                      TOC, Daftar Gambar, Daftar Tabel, Daftar Lampiran,
+%                      BAB 1-3, Daftar Pustaka, Lampiran
+%   - sidang  : Sidang Skripsi Lengkap
+%              Konten: Cover, Pengesahan, Pernyataan, Bebas Plagiasi, Abstrak (ID+EN), Kata Pengantar, 
+%                      TOC, Daftar Gambar, Daftar Tabel, Daftar Lampiran, 
+%                      BAB 1-5, Daftar Pustaka, Lampiran
 %
 % Output: thesis.pdf (otomatis compile saat save)
 %
 % ============================================================================
 
 % PILIH MODE (ganti dengan: sempro, semhas, atau sidang)
-\def\thesismode{sidang}
+\def\thesismode{sempro}
 
 % ============================================================================
 % PATH SETUP
@@ -168,13 +177,17 @@
 \clearpage
 \approvalpage
 
-% HALAMAN PERNYATAAN
+% HALAMAN PERNYATAAN (hanya untuk sidang dan semhas)
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{surat-pernyataan}
+\fi
 
-% HALAMAN PENGESAHAN
+% HALAMAN PENGESAHAN (hanya untuk sidang dan semhas)
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{bebas-plagiasi}
+\fi
 
 % ABSTRAK INDONESIA
 \clearpage
@@ -195,25 +208,25 @@
 % DAFTAR GAMBAR
 \clearpage
 \listoffigures
-\addcontentsline{toc}{chapter}{\listfigurename}
+\addcontentsline{toc}{chapter}{Daftar Gambar}
 
 % DAFTAR TABEL
 \clearpage
 \listoftables
-\addcontentsline{toc}{chapter}{\listtablename}
+\addcontentsline{toc}{chapter}{Daftar Tabel}
 
-% DAFTAR SINGKATAN (jika ada)
-\clearpage
-\input{daftar-singkatan}
+% % DAFTAR SINGKATAN (jika ada)
+% \clearpage
+% \input{daftar-singkatan}
 
-% DAFTAR SIMBOL (jika ada)
-\clearpage
-\input{simbol}
+% % DAFTAR SIMBOL (jika ada)
+% \clearpage
+% \input{simbol}
 
 % DAFTAR LAMPIRAN
 \clearpage
 \listofappendices
-\addcontentsline{toc}{chapter}{\listappendixname}
+\addcontentsline{toc}{chapter}{Daftar Lampiran}
 
 % ============================================================================
 % MAIN CONTENT
@@ -222,6 +235,9 @@
 % Mulai penomoran dengan angka arabic (1, 2, 3, ...)
 \clearpage
 \pagenumbering{arabic}
+
+% Kembali ke pagestyle regular (nomor halaman di kanan atas)
+\pagestyle{fancy}
 
 % Aktifkan bold untuk chapter di daftar isi
 \enableboldchapterintoc
@@ -237,13 +253,17 @@
 \clearpage
 \input{bab3}
 
-% BAB 4
+% BAB 4 (hanya untuk sidang)
+\ifnum\pdfstrcmp{\thesismode}{sidang}=0
 \clearpage
 \input{bab4}
+\fi
 
-% BAB 5
+% BAB 5 (hanya untuk sidang)
+\ifnum\pdfstrcmp{\thesismode}{sidang}=0
 \clearpage
 \input{bab5}
+\fi
 
 % ============================================================================
 % BIBLIOGRAPHY
@@ -255,6 +275,8 @@
 % APPENDIX
 % ============================================================================
 \appendix
+% Nonaktifkan penambahan chapter lampiran ke TOC (hanya muncul di Daftar Lampiran)
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 \clearpage
 \input{lampiran}
 
