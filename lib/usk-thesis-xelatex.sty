@@ -171,6 +171,9 @@
 \RequirePackage{algorithm}
 \RequirePackage{algorithmic}
 
+% Paket untuk tabel profesional (top/mid/bottom lines)
+\RequirePackage{booktabs}
+
 % Link dan referensi
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{url}
@@ -379,13 +382,17 @@
 
 % Pagestyle untuk regular pages (BAB) - nomor halaman di bawah kanan
 \fancyhf{}
-\fancyfoot[R]{\thepage}
+\fancyhead{} % Pastikan header kosong
+\fancyfoot{} % Bersihkan footer dulu
+\fancyfoot[R]{\thepage} % Nomor halaman di kanan bawah
 \pagestyle{fancy}
 
 % Pagestyle untuk chapter heading pages - dengan nomor halaman di kanan bawah
 \fancypagestyle{chapterheading}{%
   \fancyhf{}
-  \fancyfoot[R]{\thepage}
+  \fancyhead{} % Pastikan header kosong
+  \fancyfoot{} % Bersihkan footer dulu
+  \fancyfoot[R]{\thepage} % Nomor halaman di kanan bawah
   \renewcommand{\headrulewidth}{0.0pt}
   \renewcommand{\footrulewidth}{0.0pt}
 }
@@ -401,7 +408,9 @@
 % Pagestyle plain (dipakai oleh beberapa halaman default) - selaraskan dengan fancy (nomor di kanan bawah)
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyfoot[R]{\thepage}%
+  \fancyhead{} % Pastikan header kosong
+  \fancyfoot{} % Bersihkan footer dulu
+  \fancyfoot[R]{\thepage}% Nomor halaman di kanan bawah
   \renewcommand{\headrulewidth}{0pt}%
   \renewcommand{\footrulewidth}{0pt}%
 }
@@ -466,7 +475,7 @@
     \fi
     \interlinepenalty\@M
     \large\bfseries \MakeUppercase{#1}\par\nobreak
-    \vskip 20\p@
+    \vskip 5.25ex plus 1ex minus 0.5ex
   }
 }
 
@@ -474,7 +483,7 @@
   {\parindent \z@ \centering \normalfont
     \interlinepenalty\@M
     \large\bfseries \MakeUppercase{#1}\par\nobreak
-    \vskip 20\p@
+    \vskip 5.25ex plus 1ex minus 0.5ex
   }
 }
 
@@ -548,7 +557,7 @@
       \ifnum \c@secnumdepth >\m@ne
         \normalsize\bfseries \@chapapp\space \thechapter. ##1
         \par\nobreak
-        \vskip 20\p@
+        \vskip 5.25ex plus 1ex minus 0.5ex
       \fi
     }%
   }%
@@ -663,6 +672,9 @@
 \newcommand{\yearsubmit}[1]{\gdef\@yearsubmit{#1}}
 \newcommand{\@yearsubmit}{}
 
+\newcommand{\monthsubmit}[1]{\gdef\@monthsubmit{#1}}
+\newcommand{\@monthsubmit}{}
+
 \newcommand{\program}[1]{\gdef\@program{#1}}
 \newcommand{\@program}{}
 
@@ -755,7 +767,7 @@
     \begin{singlespace}
       \fontsize{20pt}{20pt}\selectfont\MakeUppercase{\Large{\bfseries\@judulcover}}\par\nobreak
       \vspace{2.5cm}
-      \MakeUppercase{\large{\bfseries{TUGAS AKHIR}}}\\
+      \MakeUppercase{\large{\bfseries{TESIS}}}\\
       \vspace{1.0cm}
       \normalsize{Diajukan untuk melengkapi tugas-tugas dan\\ memenuhi syarat-syarat guna memperoleh \@degree}\\
       \vspace{1.0cm}
@@ -773,6 +785,42 @@
         \MakeUppercase{\normalfont\bfseries Program Studi \@prodi\space Departemen \@dept}\\
         \MakeUppercase{\normalfont\bfseries\@faculty}\\
         \MakeUppercase{\normalfont\bfseries\@university,\space\@city}\\
+        \MakeUppercase{\normalfont\bfseries\@monthsubmit,\space}
+        \MakeUppercase{\normalfont\bfseries\@yearsubmit}}
+    \end{singlespace}
+  \end{center}%
+}
+
+\def\coverproposal{%
+  \newgeometry{left=3.5cm,right=3cm,top=3cm,bottom=3cm}%
+  \disableboldchapterintoc
+  \addcontentsline{toc}{chapter}{Halaman Judul}
+  \thispagestyle{empty}%
+  \pagenumbering{roman}%
+  \setcounter{page}{1}%
+  \begin{center}
+    \begin{singlespace}
+      \fontsize{20pt}{20pt}\selectfont\MakeUppercase{\Large{\bfseries\@judulcover}}\par\nobreak
+      \vspace{2.5cm}
+      \MakeUppercase{\large{\bfseries{PROPOSAL PENELITIAN}}}\\
+      \vspace{1.0cm}
+      \normalsize{Diajukan untuk melengkapi tugas-tugas dan\\ memenuhi syarat-syarat guna pelaksanaan penelitian Tesis}\\
+      \vspace{1.0cm}
+      {\normalfont
+        Oleh:\\
+        \vspace{1.0cm}
+        \MakeUppercase{\normalfont\bfseries \underline{\@fullname}}\\
+        \MakeUppercase{\normalfont\bfseries \@idnum}}\\
+      \vspace{2cm}
+      \vfill
+      \includegraphics[width=0.3\textwidth]{images/logo_usk.png}
+      \vfill
+      \vspace{2cm}
+      {\normalfont
+        \MakeUppercase{\normalfont\bfseries Program Studi \@prodi\space Departemen \@dept}\\
+        \MakeUppercase{\normalfont\bfseries\@faculty}\\
+        \MakeUppercase{\normalfont\bfseries\@university,\space\@city}\\
+        \MakeUppercase{\normalfont\bfseries\@monthsubmit,\space}
         \MakeUppercase{\normalfont\bfseries\@yearsubmit}}
     \end{singlespace}
   \end{center}%
@@ -791,7 +839,7 @@
       \vspace{0.5cm}
       \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judul}}\par\nobreak
       \vspace{1cm}
-      \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judull}}\par\nobreak
+      \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\textit{\@judull}}}\par\nobreak
       \vspace{0.9cm}
       Oleh:
       \begin{singlespace}
@@ -819,22 +867,75 @@
       \begin{tabular}{lll}
         &&Mengetahui:\\
         Dekan FMIPA & \hfill &
-        Ketua Departemen \@dept\space FMIPA\\
+        Koordinator Prodi Magister \@dept\space FMIPA\\
         \vspace{-0.27cm} & \vspace{-0.27cm} & \vspace{-0.27cm}\\
         Universitas Syiah Kuala, & & Universitas Syiah Kuala,\\
         \vspace{0.3cm} & \vspace{0.3cm} & \vspace{0.3cm}\\
-        \underline{\@dekan} & & \underline{\@kajur}\\
-        NIP. \@dekannip & & NIP. \@kajurnip
+        \underline{\@dekan} & & \underline{\@kaprodi}\\
+        NIP. \@dekannip & & NIP. \@kaprodinip
       \end{tabular}
     \end{doublespace}
     \vspace{0.9cm}
-    \ifx\@tanggalhari\empty\else
-      Lulus Sidang Sarjana pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun\\
-      \vspace{0.5cm}
-      Tugas Akhir disahkan pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun
-    \fi
+    % \ifx\@tanggalhari\empty\else
+    %   Lulus Sidang Magister pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun\\
+    %   \vspace{0.5cm}
+    %   Tesis disahkan pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun
+    % \fi
   \end{center}%
 }
+
+
+% Approval page: no page number printed (like cover), but roman counter continues for subsequent pages.
+\def\approvalpageproposal{%
+  \clearpage\thispagestyle{empty}\pagestyle{preliminarypage}\addcontentsline{toc}{chapter}{Halaman Pengesahan}
+  \prelimchapter{PENGESAHAN}%
+  \begin{center}
+    \begin{doublespace}
+      \vspace{0.5cm}
+      \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judul}}\par\nobreak
+      % \vspace{1cm}
+      % \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judull}}\par\nobreak
+      \vspace{0.9cm}
+      Oleh:
+      \begin{singlespace}
+        \begin{compactitem}
+          \addtolength{\itemindent}{3.5cm}
+          \setlength{\parsep}{0pt}
+          \item[]{\makebox[2.5cm]{Nama\hfill} : \@fullname}
+          \item[]{\makebox[2.5cm]{NPM\hfill} : \@idnum}
+          \item[]{\makebox[2.5cm]{Program Studi\hfill} : \@prodi}
+        \end{compactitem}
+      \end{singlespace}
+      \vspace{0.9cm}
+
+      Menyetujui:\\
+      \onehalfspacing
+      \begin{tabular}{lll}
+        Pembimbing I, & \hspace{2.5cm} & Pembimbing II, \\
+        \vspace{0.3cm} & \vspace{0.3cm} & \vspace{0.3cm}\\
+        \underline{\@firstsupervisor}& &
+        \underline{\@secondsupervisor} \\
+        NIP. \@firstnip & & NIP. \@secondnip
+      \end{tabular}
+      \vspace{1.0cm}
+
+      \begin{tabular}{lll}
+        &Mengetahui:&\\
+        &Koordinator Prodi Magister \@dept\space FMIPA&\\
+        \vspace{-0.27cm} & \vspace{-0.27cm} & \vspace{-0.27cm}\\
+        & Universitas Syiah Kuala,&\\
+        \vspace{0.3cm} & \vspace{0.3cm} & \vspace{0.3cm}\\
+        &\underline{\@kaprodi}&\\
+        & NIP. \@kaprodinip&
+      \end{tabular}
+    \end{doublespace}
+    \vspace{5cm}
+    % \ifx\@tanggalhari\empty\else
+    %   Lulus Proposal Penelitian pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun
+    % \fi
+  \end{center}%
+}
+
 
 %==============================================================================
 % 11. ENVIRONMENT UNTUK HALAMAN KHUSUS

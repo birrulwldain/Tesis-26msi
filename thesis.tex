@@ -22,7 +22,7 @@
 % ============================================================================
 
 % PILIH MODE (ganti dengan: sempro, semhas, atau sidang)
-\def\thesismode{sempro}
+\def\thesismode{sidang}
 
 % ============================================================================
 % PATH SETUP
@@ -88,7 +88,7 @@
 \idnum{250820201100015}
 
 % Gelar yang akan diperoleh
-\degree{Sarjana Sains}
+\degree{Magister Sains}
 
 % Tahun pengumpulan
 \yearsubmit{2025}
@@ -109,13 +109,13 @@
 % PEMBIMBING
 % ============================================
 % Pembimbing Utama
-\firstsupervisor{Prof. Dr. Eng. Nasrullah, M.T.}
-\firstnip{197908202005011001}
+\firstsupervisor{Prof. Dr. Eng. Nasrullah, S.Si., M.T.}
+\firstnip{197607031995121001}
 \firstdept{Fisika}
 
 % Pembimbing Kedua
 \secondsupervisor{Dr. Gunawati, M.Si.}
-\secondnip{197504202008121001}
+\secondnip{197309032000122001}
 \seconddept{Fisika}
 
 % ============================================
@@ -126,12 +126,11 @@
 \kajurnip{197504202009121001}
 
 % Ketua Program Studi
-\kaprodi{Dr. Saumi Syahreza, S.Si., M.Si.}
-\kaprodinip{197504202009121001}
-
+\kaprodi{Prof. Dr. Muksin, S.Si., M.Si., M.Phil.}
+\kaprodinip{197406252000121001}
 % Dekan
-\dekan{Prof. Dr. Ir. Samsul Rizal, M.Eng.}
-\dekannip{196503151990031001}
+\dekan{Prof. Dr. Taufik Fuadi Abidin, S.Si., M.Tech.}
+\dekannip{197010081994031002}
 
 % Koordinator Tugas Akhir (biasanya salah satu dosen senior)
 \koorta{Dr. Eng. Vebi Permadi, S.Si., M.Si.}
@@ -154,6 +153,8 @@
 \ketua{Prof. Dr. Ir. Samsul Rizal, M.Eng.}
 \nipketua{196503151990031001}
 
+\monthsubmit{November}
+\yearsubmit{2025}
 
 % ============================================================================
 % METADATA INTERNAL
@@ -171,31 +172,38 @@
 % ============================================================================
 
 % HALAMAN JUDUL
-\cover
+
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0
+  \coverproposal
+\else
+  \cover
+\fi
 
 % LEMBAR PENGESAHAN PROPOSAL/SKRIPSI
 \clearpage
-\approvalpage
-
-% HALAMAN PERNYATAAN (hanya untuk sidang dan semhas)
-\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
-\clearpage
-\input{surat-pernyataan}
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0
+  \approvalpageproposal
+\else
+  \approvalpage
 \fi
 
-% HALAMAN PENGESAHAN (hanya untuk sidang dan semhas)
-\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
+% HALAMAN BEBAS PLAGIASI (hanya untuk sidang)
+\ifnum\pdfstrcmp{\thesismode}{sidang}=0
 \clearpage
 \input{bebas-plagiasi}
 \fi
 
-% ABSTRAK INDONESIA
+% ABSTRAK INDONESIA (hanya untuk semhas dan sidang)
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{abstrak-indonesia}
+\fi
 
-% ABSTRAK ENGLISH
+% ABSTRAK ENGLISH (hanya untuk semhas dan sidang)
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{abstrak-english}
+\fi
 
 % KATA PENGANTAR
 \clearpage
@@ -236,8 +244,18 @@
 \clearpage
 \pagenumbering{arabic}
 
-% Kembali ke pagestyle regular (nomor halaman di kanan atas)
+% Kembali ke pagestyle regular (nomor halaman di kanan bawah)
 \pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% Override plain style untuk halaman-halaman dalam BAB
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
 
 % Aktifkan bold untuk chapter di daftar isi
 \enableboldchapterintoc
