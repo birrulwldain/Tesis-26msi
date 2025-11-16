@@ -4,6 +4,17 @@ Template LaTeX untuk penulisan tugas akhir di Universitas Syiah Kuala FMIPA yang
 
 Disesuaikan dengan aturan penulisan tugas akhir yang terdapat pada dokumen Panduan Tugas Akhir FMIPA Unsyiah tahun 2016.
 
+---
+
+## 📝 Author & License
+
+**Author**: BIRRUL WALIDAIN  
+**GitHub**: [@birrulwldain](https://github.com/birrulwldain)  
+**Repository**: [Tesis-26msi](https://github.com/birrulwldain/Tesis-26msi)  
+**Copyright**: © 2025 BIRRUL WALIDAIN
+
+---
+
 ## ✨ Fitur Utama
 
 - **1 File Utama** (`thesis.tex`) untuk semua tahap
@@ -84,6 +95,10 @@ sudo apt install texlive-xetex biber
 
 ---
 
+**Author**: BIRRUL WALIDAIN  
+**GitHub**: [@birrulwldain](https://github.com/birrulwldain)  
+**Repository**: https://github.com/birrulwldain/Tesis-26msi  
 **Status**: 🟢 Production Ready  
-**Version**: 2.0 (Simplified)  
-**Last Updated**: November 15, 2025
+**Version**: 2.1  
+**Last Updated**: November 16, 2025  
+**Copyright**: © 2025 BIRRUL WALIDAIN

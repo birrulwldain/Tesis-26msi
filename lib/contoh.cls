@@ -1,7 +1,11 @@
 %
 % Template Laporan Tugas Akhir
 %
-% @author Abdul
+% @author Abdul, Birrul Walidain
+% Copyright (c) 2025 BIRRUL WALIDAIN
+% Repository: https://github.com/birrulwldain/Tesis-26msi
+% GitHub: https://github.com/birrulwldain
+%
 % Template ini telah disesuaikan dengan aturan penulisan tugas akhir yang terdapat pada dokumen Panduan Tugas Akhir FMIPA Unsyiah tahun 2010.
 %
 
