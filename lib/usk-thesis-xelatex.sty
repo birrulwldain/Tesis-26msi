@@ -87,13 +87,13 @@
 % XeLaTeX requires fontspec instead of times/inputenc
 \RequirePackage{fontspec}
 \RequirePackage{xltxtra}  % Extra features for XeLaTeX
-\RequirePackage{tgtermes}
 \RequirePackage[T1]{fontenc}
-% Set main fonts for XeLaTeX
-% % Using TeX Gyre fonts which are included with standard TeX distributions
-% \setmainfont{TeX Gyre Termes}[Ligatures=TeX]
-% \setsansfont{TeX Gyre Heros}[Ligatures=TeX]
-% \setmonofont{TeX Gyre Cursor}[Scale=0.9]
+
+% Set main fonts to comply with Panduan (Times New Roman 12 pt)
+% Pastikan font ini tersedia di sistem (Windows/macOS biasanya sudah ada)
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
 
 % Fallback ke Serif untuk font umum
 \renewcommand{\familydefault}{\rmdefault}
@@ -125,11 +125,11 @@
 \setlength{\footskip}{1.5cm}  % Akan di-override ke 20pt di bagian fancyhdr
 \setlength{\marginparsep}{0pt}
 \setlength{\marginparwidth}{0pt}
-\setlength{\parindent}{3em}  % Indent approx 6 character
+\setlength{\parindent}{1.25cm}  % Indentasi paragraf baru: 1,25 cm dari margin kiri
 
 % Matematika indent
 \RequirePackage[fleqn,reqno]{amsmath}
-\setlength{\mathindent}{1cm}
+\setlength{\mathindent}{1.5cm}  % Jarak rumus matematika dari margin kiri
 
 % Paket dasar
 \RequirePackage{graphicx}
@@ -147,7 +147,9 @@
 \RequirePackage{fancyhdr}
 
 % Override footskip dan headsep untuk fancyhdr (dari contoh.cls baris 105-106)
-\setlength{\footskip}{20pt}
+% footskip diatur agar nomor halaman berada 2cm dari tepi bawah kertas
+% Dengan bottom=3cm, footskip=1cm akan menempatkan nomor di 2cm dari bawah
+\setlength{\footskip}{1cm}
 \setlength{\headsep}{20pt}
 
 \RequirePackage{enumitem}
@@ -188,13 +190,29 @@
 % Command untuk enable/disable bold chapter di TOC
 \newcommand*{\enableboldchapterintoc}{%
   \addtocontents{toc}{\string\renewcommand{\protect\cftchapfont}{\protect\normalfont\protect\bfseries}}%
-  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont\protect}}%
   \addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{12pt}}%
+  % Indent BAB dari margin kiri, hilangkan dots dan page number
+  \addtocontents{toc}{\string\cftsetindents{chapter}{1.5em}{4.5em}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapleader}{\protect\hfill}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}[1]{}}%
 }
 \newcommand*{\disableboldchapterintoc}{%
-  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont}}%                             
   \addtocontents{toc}{\string\renewcommand{\protect\cftchapfont}{\protect\normalfont}}%
   \addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{0pt}}%
+  % Restore dots dan page number
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapleader}{\protect\cftdotfill{\protect\cftdotsep}}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont}}%
+}
+
+% Command baru untuk DAFTAR KEPUSTAKAAN dan LAMPIRAN
+% Format: bold, indent 1.5em, DENGAN dots dan page number
+\newcommand*{\specialchapterintoc}{%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapfont}{\protect\normalfont\protect\bfseries}}%
+  \addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{12pt}}%
+  % Indent 1.5em, dengan dots dan page number
+  \addtocontents{toc}{\string\cftsetindents{chapter}{1.5em}{4.5em}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapleader}{\protect\cftdotfill{\protect\cftdotsep}}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont}}%
 }
 
 % Kerapatan dots (0.5 = rapat)
@@ -216,13 +234,15 @@
 \setlength{\cftbeforefigskip}{0pt}% lebih rapat antar entri gambar
 \setlength{\cftbeforetabskip}{0pt}% lebih rapat antar entri tabel
 
-% --- Prefix/label nomor ---
+% --- Prefix/label nomor dengan titik ---
 \renewcommand{\cftfigpresnum}{Gambar\ }
+\renewcommand{\cftfigaftersnum}{.\ }% Tambah titik setelah nomor
 \renewcommand{\cfttabpresnum}{Tabel\ }
+\renewcommand{\cfttabaftersnum}{.\ }% Tambah titik setelah nomor
 
-% --- Lebar kolom nomor (diperapat, masih muat "Gambar 3.10") ---
-\setlength{\cftfignumwidth}{4.5em}
-\setlength{\cfttabnumwidth}{4.5em}
+% --- Lebar kolom nomor (disesuaikan untuk 1 spasi natural setelah titik) ---
+\setlength{\cftfignumwidth}{5em}
+\setlength{\cfttabnumwidth}{4em}
 
 % --- Indent: 0 = rata kiri ---
 \setlength{\cftfigindent}{0pt}
@@ -276,7 +296,11 @@
   \pagestyle{preliminarypage}%
   \prelimchapter{DAFTAR GAMBAR}%
   \begin{singlespace}%
-    \@starttoc{lof}%
+    \begingroup
+      \let\orig@addvspace\addvspace
+      \renewcommand{\addvspace}[1]{}%
+      \@starttoc{lof}%
+    \endgroup
   \end{singlespace}%
 }
 
@@ -285,13 +309,25 @@
   \pagestyle{preliminarypage}%
   \prelimchapter{DAFTAR TABEL}%
   \begin{singlespace}%
-    \@starttoc{lot}%
+    \begingroup
+      \let\orig@addvspace\addvspace
+      \renewcommand{\addvspace}[1]{}%
+      \@starttoc{lot}%
+    \endgroup
   \end{singlespace}%
 }
 
 % Konfigurasi daftar lampiran
 \newcommand{\listappendicesname}{DAFTAR LAMPIRAN}
 \newlistof{appendices}{apc}{\listappendicesname}
+
+% Atur lebar kolom untuk Daftar Lampiran
+\setlength{\cftappendicesindent}{0pt}
+\setlength{\cftappendicesnumwidth}{5.2em}  % Cukup untuk "Lampiran 10. " dengan 1 spasi
+\renewcommand{\cftappendicesfont}{\normalfont}
+\renewcommand{\cftappendicesleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftappendicespagefont}{\normalfont}
+
 \newcommand{\appendices}[1]{%
   \addcontentsline{apc}{appendices}{\protect\numberline{}#1}%
 }
@@ -308,9 +344,10 @@
 }
 
 %==============================================================================
-% 3C. KONFIGURASI BIBLIOGRAFI (Biblatex dengan APA style)
+% 3C. KONFIGURASI BIBLIOGRAFI (Biblatex dengan Biber)
 %==============================================================================
 
+% Menggunakan biblatex dengan backend biber
 \RequirePackage[style=apa, backend=biber, natbib=true]{biblatex}
 
 % Language mapping untuk APA style
@@ -345,10 +382,12 @@
 \fancyfoot[R]{\thepage}
 \pagestyle{fancy}
 
-% Pagestyle untuk chapter heading pages - no number
+% Pagestyle untuk chapter heading pages - dengan nomor halaman di kanan bawah
 \fancypagestyle{chapterheading}{%
   \fancyhf{}
+  \fancyfoot[R]{\thepage}
   \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
 }
 
 % Pagestyle untuk preliminary pages - nomor halaman di bawah tengah
@@ -357,6 +396,14 @@
   \fancyfoot[C]{\thepage}
   \renewcommand{\headrulewidth}{0.0pt}
   \renewcommand{\footrulewidth}{0.0pt}
+}
+
+% Pagestyle plain (dipakai oleh beberapa halaman default) - selaraskan dengan fancy (nomor di kanan bawah)
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
 %==============================================================================
@@ -368,6 +415,9 @@
 \renewcommand\thechapter{\@Roman\c@chapter}
 \renewcommand\thesection{\@arabic\c@chapter.\@arabic\c@section}
 \renewcommand\thesubsection{\@arabic\c@chapter.\@arabic\c@section.\@arabic\c@subsection}
+
+% Spacing antara nomor section dan judul (1 spasi)
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\ }
 
 % Chapter formatting
 \renewcommand{\chapter}{\clearpage\thispagestyle{chapterheading}%
@@ -429,26 +479,32 @@
 }
 
 % Section - judul KAPITAL di halaman, normal di TOC
+% Spacing: dari paragraf ke section, dari section ke paragraf
+% Nilai positif pada spacing sebelum = paragraf setelah section AKAN ter-indent
 \renewcommand{\section}{%
   \@startsection{section}{1}{\z@}%
-    {-3.5ex \@plus -1ex \@minus -.2ex}%
-    {0.5ex \@plus.2ex}%
+    {3.5ex \@plus 1ex \@minus .2ex}% spacing sebelum section (POSITIF = indent paragraf setelah)
+    {0.5ex \@plus.2ex}% spacing setelah section
     {\normalfont\normalsize\bfseries\MakeUppercase}
 }
 
-% Subsection
+% Subsection (subjudul)
+% Spacing: 3 spasi sebelum (dari paragraf), 1.5 spasi setelah (ke paragraf)
+% Nilai positif = paragraf setelah subsection AKAN ter-indent
 \renewcommand{\subsection}{%
   \@startsection{subsection}{2}{\z@}%
-    {-3.25ex\@plus -1ex \@minus -.2ex}%
-    {0.5ex \@plus .2ex}%
+    {3.5ex \@plus 1ex \@minus .2ex}% 3 spasi sebelum (POSITIF = indent paragraf setelah)
+    {0.5ex \@plus.2ex}% spacing setelah
     {\normalfont\normalsize\bfseries}
 }
 
-% Subsubsection
+% Subsubsection (subsubjudul)
+% Spacing: 1.5 spasi sebelum (dari paragraf), 1.5 spasi setelah (ke paragraf)
+% Nilai positif = paragraf setelah subsubsection AKAN ter-indent
 \renewcommand{\subsubsection}{%
   \@startsection{subsubsection}{3}{\z@}%
-    {3.25ex \@plus1ex \@minus.2ex}%
-    {-1em}%
+    {2ex \@plus 0.5ex \@minus .2ex}% 1.5 spasi sebelum (POSITIF = indent paragraf setelah)
+    {0.5ex \@plus.2ex}% 1.5 spasi setelah
     {\normalfont\normalsize\bfseries}
 }
 
@@ -462,6 +518,51 @@
 }
 \renewcommand{\thetable}{%
   \ifnum \c@chapter>\z@ \@arabic\c@chapter.\fi \@arabic\c@table
+}
+
+%==============================================================================
+% 6B. CUSTOM APPENDIX FORMAT
+%==============================================================================
+
+% Override \appendix untuk format lampiran custom
+\let\oldappendix\appendix
+\renewcommand{\appendix}{%
+  \oldappendix
+  \renewcommand{\@chapapp}{Lampiran}%
+  % Penomoran lampiran: 1, 2, 3, dst (bukan A, B, C)
+  \renewcommand\thechapter{\@arabic\c@chapter}%
+  % Penomoran equation, figure, table dalam lampiran: L.1.1, L.2.1, dst
+  \renewcommand{\theequation}{L.\thechapter.\arabic{equation}}%
+  \renewcommand{\thefigure}{L.\thechapter.\arabic{figure}}%
+  \renewcommand{\thetable}{L.\thechapter.\arabic{table}}%
+  % Jangan tambahkan gambar/tabel lampiran ke Daftar Gambar/Tabel
+  \captionsetup[figure]{list=no}%
+  \captionsetup[table]{list=no}%
+  % Penomoran section dalam lampiran: L.2.1 (untuk Lampiran 2, section 1)
+  \renewcommand\thesection{L.\thechapter.\@arabic\c@section}%
+  % Nonaktifkan subsection (set tocdepth dan secnumdepth)
+  \setcounter{secnumdepth}{1}% Hanya chapter dan section yang diberi nomor
+  % Format chapter heading untuk lampiran: rata kiri, bold 12pt
+  \renewcommand{\@makechapterhead}[1]{%
+    {\parindent \z@ \raggedright \normalfont
+      \ifnum \c@secnumdepth >\m@ne
+        \normalsize\bfseries \@chapapp\space \thechapter. ##1
+        \par\nobreak
+        \vskip 20\p@
+      \fi
+    }%
+  }%
+  % Format section dalam lampiran: tidak KAPITAL, hanya huruf pertama kapital
+  \renewcommand{\section}{%
+    \@startsection{section}{1}{\z@}%
+      {3.5ex \@plus 1ex \@minus .2ex}%
+      {0.5ex \@plus.2ex}%
+      {\normalfont\normalsize\bfseries}% Tanpa \MakeUppercase
+  }%
+  % Override \appendices untuk menampilkan "Lampiran X. Judul" di Daftar Lampiran
+  \renewcommand{\appendices}[1]{%
+    \addcontentsline{apc}{appendices}{\protect\numberline{Lampiran \thechapter.}##1}%
+  }%
 }
 
 %==============================================================================
@@ -681,8 +782,9 @@
 % 10. APPROVAL PAGE
 %==============================================================================
 
+% Approval page: no page number printed (like cover), but roman counter continues for subsequent pages.
 \def\approvalpage{%
-  \clearpage\pagestyle{preliminarypage}\addcontentsline{toc}{chapter}{Halaman Pengesahan}
+  \clearpage\thispagestyle{empty}\pagestyle{preliminarypage}\addcontentsline{toc}{chapter}{Halaman Pengesahan}
   \prelimchapter{PENGESAHAN}%
   \begin{center}
     \begin{doublespace}
@@ -771,6 +873,15 @@
 }{%
 }
 
+\newcommand{\uskstartmain}{%
+  \clearpage
+  \pagenumbering{arabic}%
+  \setcounter{page}{1}%
+  \pagestyle{fancy}%
+  \fancyhf{}% Clear all header/footer
+  \fancyfoot[R]{\thepage}% Nomor halaman di kanan bawah
+}
+
 %==============================================================================
 % 12. DEFAULT SPACING
 %==============================================================================
@@ -783,26 +894,35 @@
     \selectlanguage{english}%
   \fi
   
+  % Float spacing: Jarak paragraf ke gambar/tabel dan sebaliknya
+  % textfloatsep: jarak antara float (top/bottom page) dengan teks = 3 spasi
+  \setlength{\textfloatsep}{3.5ex plus 1ex minus 0.5ex}
+  % intextsep: jarak antara teks dengan float yang berada di tengah teks = 3 spasi
+  \setlength{\intextsep}{3.5ex plus 1ex minus 0.5ex}
+  % floatsep: jarak antar float jika ada beberapa float berurutan = 3 spasi
+  \setlength{\floatsep}{3.5ex plus 1ex minus 0.5ex}
+  
   % Caption setup untuk figure dan table (dari contoh.tex)
+  % Format: "Gambar 2.1. Caption teks" atau "Tabel 2.1. Caption teks"
   \captionsetup[figure]{%
     labelfont={normalfont},%
     textfont={normalfont},%
-    singlelinecheck=false,%
+    singlelinecheck=true,%
     justification=raggedright,%
-    labelsep=space,%
+    labelsep=period,%  % Titik setelah nomor, lalu spasi
     format=hang,%
     indention=0pt,%
-    skip=10pt%
+    skip=2ex%  % Jarak caption ke gambar = 1.5 spasi versi kita
   }
   \captionsetup[table]{%
     labelfont={normalfont},%
     textfont={normalfont},%
-    singlelinecheck=false,%
+    singlelinecheck=true,%
     justification=raggedright,%
-    labelsep=space,%
+    labelsep=period,%  % Titik setelah nomor, lalu spasi
     format=hang,%
     indention=0pt,%
-    skip=10pt%
+    skip=2ex%  % Jarak caption ke tabel = 1.5 spasi versi kita
   }
 }
 

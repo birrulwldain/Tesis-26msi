@@ -269,15 +269,23 @@
 % BIBLIOGRAPHY
 % ============================================================================
 \clearpage
-\input{dafpus}
+\specialchapterintoc
+% Tampilkan semua entri di .bib meskipun tidak dikutip
+\nocite{*}
+% Untuk biblatex/biber: gunakan \printbibliography
+\printbibliography[title={DAFTAR KEPUSTAKAAN}]
+\addcontentsline{toc}{chapter}{DAFTAR KEPUSTAKAAN}
 
 % ============================================================================
 % APPENDIX
 % ============================================================================
 \appendix
+% Tambahkan "LAMPIRAN" ke TOC dengan format special (bold, indent, dots, halaman)
+\clearpage
+\specialchapterintoc
+\addcontentsline{toc}{chapter}{LAMPIRAN}
 % Nonaktifkan penambahan chapter lampiran ke TOC (hanya muncul di Daftar Lampiran)
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
-\clearpage
 \input{lampiran}
 
 \end{document}
