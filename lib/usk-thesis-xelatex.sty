@@ -209,34 +209,34 @@
 \setlength{\cftbeforechapskip}{0pt}  % Default: 0pt (untuk preliminary)
 \setlength{\cftbeforesecskip}{0pt}   % Spacing sebelum section
 \setlength{\cftbeforesubsecskip}{0pt} % Spacing sebelum subsection
+% Pastikan tidak ada \parskip ekstra antar entri di TOC/LOF/LOT
+\setlength{\cftparskip}{0pt}
 
-% Spacing untuk LOF dan LOT - MINIMAL spacing, seharusnya sama dengan section di TOC
-\setlength{\cftbeforefigskip}{0pt}   % Spacing sebelum figure - sama dengan section
-\setlength{\cftbeforetabskip}{0pt}   % Spacing sebelum table - sama dengan section
+% --- Spasi vertikal antar entri (diperapat) ---
+\setlength{\cftbeforefigskip}{0pt}% lebih rapat antar entri gambar
+\setlength{\cftbeforetabskip}{0pt}% lebih rapat antar entri tabel
 
-% Prefix untuk Figure dan Table
-\renewcommand\cftfigpresnum{Gambar\  }
-\renewcommand\cfttabpresnum{Tabel\   }
+% --- Prefix/label nomor ---
+\renewcommand{\cftfigpresnum}{Gambar\ }
+\renewcommand{\cfttabpresnum}{Tabel\ }
 
-% Width untuk nomor gambar dan tabel (agar tidak tabrak dengan judul)
-\newlength{\mylenf}
-\settowidth{\mylenf}{\cftfigpresnum}
-\setlength{\cftfignumwidth}{\dimexpr\mylenf+2em}
-\setlength{\cfttabnumwidth}{\dimexpr\mylenf+2em}
+% --- Lebar kolom nomor (diperapat, masih muat "Gambar 3.10") ---
+\setlength{\cftfignumwidth}{4.5em}
+\setlength{\cfttabnumwidth}{4.5em}
 
-% Indent untuk figure dan table - set ke 0 agar rata kiri
+% --- Indent: 0 = rata kiri ---
 \setlength{\cftfigindent}{0pt}
 \setlength{\cfttabindent}{0pt}
 
-% Font dan leader dots untuk figure dan table entries
+% --- Font dan leader dots ---
 \renewcommand{\cftfigfont}{\normalfont}
-\renewcommand{\cftfigpagefont}{\normalfont}
-\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cfttabfont}{\normalfont}
+\renewcommand{\cftfigpagefont}{\normalfont}
 \renewcommand{\cfttabpagefont}{\normalfont}
+\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cfttableader}{\cftdotfill{\cftdotsep}}
 
-% Pastikan multiline entries tidak menambah extra spacing
+% --- Spasi setelah nomor halaman ---
 \renewcommand{\cftfigafterpnum}{\vskip0pt}
 \renewcommand{\cfttabafterpnum}{\vskip0pt}
 
