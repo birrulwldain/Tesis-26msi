@@ -1,0 +1,744 @@
+%==============================================================================
+% USK THESIS PACKAGE FOR XELATEX
+%==============================================================================
+% XeLaTeX-optimized package untuk penulisan tugas akhir di Universitas Syiah Kuala
+% Format: LaTeX 2e (.sty - Style Package) untuk XeLaTeX
+%
+% @author Abdul Hafidh, Birrul Walidain
+% @date 2025
+% @version 2.1
+%
+% Deskripsi:
+%   Paket ini dioptimalkan untuk XeLaTeX dengan dukungan penuh:
+%   - Unicode support native
+%   - Fontspec untuk font selection
+%   - Tidak perlu inputenc (XeLaTeX handles UTF-8 natively)
+%   - Better OpenType font support
+%
+% Penggunaan:
+%   xelatex skripsi.tex
+%   (tidak perlu pdflatex)
+%
+% Opsi paket:
+%   - proposal: Untuk proposal penelitian
+%   - hasil: Untuk laporan hasil
+%   - skripsi: Untuk skripsi lengkap (default)
+%   - indonesia: Untuk bahasa Indonesia (default)
+%   - inggris: Untuk bahasa Inggris
+%
+%==============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{usk-thesis-xelatex}[2025/01/01 v2.1 USK Thesis Package for XeLaTeX]
+
+%==============================================================================
+% 1. OPSI PAKET & MODE PARAMETER
+%==============================================================================
+
+\newif\if@thesis
+\newif\if@proposal
+\newif\if@hasil
+\newif\if@langindo
+\newif\if@langeng
+
+% Default values
+\gdef\@thesismode{sidang}  % Default mode: sidang (skripsi)
+
+% Option declarations
+\DeclareOption{thesis}{\@thesistrue\@proposalfalse\@hasilfalse\gdef\@thesismode{sidang}}
+\DeclareOption{proposal}{\@thesisfalse\@proposaltrue\@hasilfalse\gdef\@thesismode{sempro}}
+\DeclareOption{hasil}{\@thesisfalse\@proposalfalse\@hasiltrue\gdef\@thesismode{semhas}}
+\DeclareOption{sidang}{\@thesistrue\@proposalfalse\@hasilfalse\gdef\@thesismode{sidang}}
+\DeclareOption{sempro}{\@thesisfalse\@proposaltrue\@hasilfalse\gdef\@thesismode{sempro}}
+\DeclareOption{semhas}{\@thesisfalse\@proposalfalse\@hasiltrue\gdef\@thesismode{semhas}}
+
+% Mode parameter support (simple flags-based handling)
+% The package supports options: thesis / proposal / hasil / sidang / sempro / semhas
+% and language options: indonesia / inggris. Unknown options are ignored.
+\DeclareOption{indonesia}{\@langindotrue\@langengfalse}
+\DeclareOption{inggris}{\@langindofalse\@langengtrue}
+
+\ExecuteOptions{indonesia}
+% Gracefully ignore unknown options (e.g., key-value style like mode=sempro)
+\DeclareOption*{%
+  \PackageWarning{usk-thesis-xelatex}{Unknown option `\CurrentOption' ignored}%
+}
+\ProcessOptions\relax
+
+% Set mode based on the boolean flags set by the \DeclareOption calls above.
+% Prefer explicit flags (proposal / hasil); otherwise default to sidang.
+\if@proposal
+  \gdef\@thesismode{sempro}%
+  \@proposaltrue\@thesisfalse\@hasilfalse
+\else
+  \if@hasil
+    \gdef\@thesismode{semhas}%
+    \@proposalfalse\@thesisfalse\@hasiltrue
+  \else
+    \gdef\@thesismode{sidang}%
+    \@thesistrue\@proposalfalse\@hasilfalse
+  \fi
+\fi
+
+%==============================================================================
+% 2. XELATEX SPECIFIC PACKAGES
+%==============================================================================
+
+% XeLaTeX requires fontspec instead of times/inputenc
+\RequirePackage{fontspec}
+\RequirePackage{xltxtra}  % Extra features for XeLaTeX
+\RequirePackage{tgtermes}
+\RequirePackage[T1]{fontenc}
+% Set main fonts for XeLaTeX
+% % Using TeX Gyre fonts which are included with standard TeX distributions
+% \setmainfont{TeX Gyre Termes}[Ligatures=TeX]
+% \setsansfont{TeX Gyre Heros}[Ligatures=TeX]
+% \setmonofont{TeX Gyre Cursor}[Scale=0.9]
+
+% Fallback ke Serif untuk font umum
+\renewcommand{\familydefault}{\rmdefault}
+
+%==============================================================================
+% 3. LOAD PAKET DASAR
+%==============================================================================
+
+% Bahasa - Babel untuk XeLaTeX dengan polyglossia
+\RequirePackage{polyglossia}
+\setdefaultlanguage{bahasai}
+\setotherlanguage{english}
+
+% Layout dan geometry - ikuti contoh.cls PERSIS
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}
+\RequirePackage[a4paper,left=3.5cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+
+% Pengaturan manual layout detail (dari contoh.cls) - OVERRIDE geometry
+% NOTE: Ini override geometry package di atas, seperti di contoh.cls
+\setlength{\topmargin}{-0.9cm}
+\setlength{\headheight}{12pt}
+\setlength{\headsep}{2.3cm}  % Akan di-override ke 20pt di bagian fancyhdr
+\setlength{\topskip}{1ex}
+\setlength{\oddsidemargin}{1.46cm}
+\setlength{\evensidemargin}{1.46cm}
+\setlength{\textwidth}{14.3cm}
+\setlength{\textheight}{22cm}
+\setlength{\footskip}{1.5cm}  % Akan di-override ke 20pt di bagian fancyhdr
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\parindent}{3em}  % Indent approx 6 character
+
+% Matematika indent
+\RequirePackage[fleqn,reqno]{amsmath}
+\setlength{\mathindent}{1cm}
+
+% Paket dasar
+\RequirePackage{graphicx}
+\RequirePackage{latexsym}
+\RequirePackage{setspace}
+\RequirePackage{indentfirst}
+\RequirePackage{verbatim}
+\RequirePackage{enumerate}
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+\RequirePackage{multirow}
+\RequirePackage{float}
+\RequirePackage{paralist}
+\RequirePackage{fancyhdr}
+
+% Override footskip dan headsep untuk fancyhdr (dari contoh.cls baris 105-106)
+\setlength{\footskip}{20pt}
+\setlength{\headsep}{20pt}
+
+\RequirePackage{enumitem}
+
+% Matematika dan sains
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+
+% Paket untuk TOC/LOF/LOT formatting
+\RequirePackage[titles]{tocloft}
+\RequirePackage{etoolbox}
+\RequirePackage[justification=centering]{caption}
+\RequirePackage{algorithm}
+\RequirePackage{algorithmic}
+
+% Link dan referensi
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{url}
+
+%==============================================================================
+% 3B. KONFIGURASI TOC/LOF/LOT (dari contoh.tex)
+%==============================================================================
+
+% Custom algorithm environment
+\newenvironment{algoritma}{\begin{algorithm}}{\end{algorithm}}
+\floatname{algorithm}{Algoritma}
+
+% Hapus spacing ekstra antar chapter di LOF dan LOT
+\patchcmd{\@chapter}{\addtocontents{lof}{\protect\addvspace{10\p@}}}{}{}{} 
+\patchcmd{\@chapter}{\addtocontents{lot}{\protect\addvspace{10\p@}}}{}{}{} 
+
+% Command untuk enable/disable bold chapter di TOC
+\newcommand*{\enableboldchapterintoc}{%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapfont}{\protect\normalfont\protect\bfseries}}%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont\protect}}%
+  \addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{12pt}}%
+}
+\newcommand*{\disableboldchapterintoc}{%
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchappagefont}{\protect\normalfont}}%                             
+  \addtocontents{toc}{\string\renewcommand{\protect\cftchapfont}{\protect\normalfont}}%
+  \addtocontents{toc}{\protect\setlength{\cftbeforechapskip}{0pt}}%
+}
+
+% Kerapatan dots (0.5 = rapat)
+\renewcommand{\cftdotsep}{0.5}
+
+% Chapter: dengan dots dan BOLD
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchapfont}{\normalfont\bfseries}
+\renewcommand{\cftchappagefont}{\normalfont\bfseries}
+
+% Spacing antar baris di TOC
+\setlength{\cftbeforechapskip}{0pt}  % Default: 0pt (untuk preliminary)
+\setlength{\cftbeforesecskip}{0pt}   % Spacing sebelum section
+\setlength{\cftbeforesubsecskip}{0pt} % Spacing sebelum subsection
+
+% Prefix untuk Figure dan Table
+\renewcommand\cftfigpresnum{Gambar\  }
+\renewcommand\cfttabpresnum{Tabel\   }
+
+% Prefix untuk Chapter
+\renewcommand\cftchappresnum{BAB } 
+
+% Indentasi dan width
+\cftsetindents{chapter}{0em}{4.5em}
+\cftsetindents{section}{4.5em}{2em}
+\cftsetindents{subsection}{6.5em}{3em}
+
+% Suffix titik untuk section dan subsection
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+
+% Header "Halaman" di kanan atas TOC/LOF/LOT
+\AtBeginDocument{%
+  \addtocontents{toc}{~\hfill \textit{Halaman}\par}%
+  \addtocontents{lof}{~\hfill \textit{Halaman}\par}%
+  \addtocontents{lot}{~\hfill \textit{Halaman}\par}%
+  \addtocontents{apc}{~\hfill \textit{Halaman}\par}%
+}
+
+% Konfigurasi daftar lampiran
+\newcommand{\listappendicesname}{DAFTAR LAMPIRAN}
+\newlistof{appendices}{apc}{\listappendicesname}
+\newcommand{\appendices}[1]{%
+  \addcontentsline{apc}{appendices}{\protect\numberline{}#1}%
+}
+\newcounter{lampiran}
+
+%==============================================================================
+% 3C. KONFIGURASI BIBLIOGRAFI (Biblatex dengan APA style)
+%==============================================================================
+
+\RequirePackage[style=apa, backend=biber, natbib=true]{biblatex}
+
+% Language mapping untuk APA style
+\DeclareLanguageMapping{bahasa}{english-apa}
+
+% Label date format
+\DeclareLabeldate{%
+  \field{date}
+  \field{year}
+  \literal{n.d.}
+}
+
+% String bibliografi dalam Bahasa Indonesia
+\DefineBibliographyStrings{bahasa}{
+  andothers   = {{dkk\adddot}},
+  page        = {{hlm\adddot}},
+  pages       = {{hlm\adddot}},
+  in          = {{Dalam}},
+  bibliography= {{DAFTAR KEPUSTAKAAN}},
+  references  = {{DAFTAR KEPUSTAKAAN}}
+}
+
+%==============================================================================
+% 4. HEADER DAN FOOTER (dari contoh.cls)
+%==============================================================================
+
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+\fancyhf{}
+\fancyhead[L]{}
+\fancyhead[C]{}
+\fancyhead[R]{\thepage}
+\pagestyle{fancy}
+
+\fancypagestyle{chapterheading}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0.0pt}
+}
+
+%==============================================================================
+% 5. PENOMORAN DAN STRUKTUR CHAPTER/SECTION (dari contoh.cls)
+%==============================================================================
+
+\setcounter{secnumdepth}{2}
+\renewcommand\thepart{\@Roman\c@part}
+\renewcommand\thechapter{\@Roman\c@chapter}
+\renewcommand\thesection{\@arabic\c@chapter.\@arabic\c@section}
+\renewcommand\thesubsection{\@arabic\c@chapter.\@arabic\c@section.\@arabic\c@subsection}
+
+% Chapter formatting
+\renewcommand{\chapter}{\clearpage\thispagestyle{chapterheading}%
+  \global\@topnum\z@ % Prevents figures from going at top of page
+  \@afterindenttrue % Indent the 1st paragraph
+  \secdef\@chapter\@schapter}
+
+\renewcommand{\@makechapterhead}[1]{%
+  {\parindent\z@\centering\normalfont
+    \ifnum\c@secnumdepth>\m@ne
+        \large\bfseries\@chapapp\space\thechapter
+        \par\nobreak
+        \vskip -0.2cm
+    \fi
+    \interlinepenalty\@M
+    \large\bfseries #1\par\nobreak
+    \vskip 20\p@
+    }}
+
+\renewcommand{\@makeschapterhead}[1]{%
+  {\parindent\z@\centering\normalfont
+    \interlinepenalty\@M\large\bfseries #1\par\nobreak\vskip 20\p@}}
+
+% Section formatting
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {0.5ex \@plus.2ex}%
+                                   {\normalfont\normalsize\bfseries}}
+
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {0.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries}}
+
+\renewcommand{\paragraph}{\subparagraph}
+
+% Numbering for equations, figures, tables
+\@addtoreset{equation}{chapter}
+\renewcommand\theequation{\ifnum\c@chapter>\z@\@arabic\c@chapter.\fi\@arabic\c@equation}
+\renewcommand\thefigure{\ifnum\c@chapter>\z@\@arabic\c@chapter.\fi\@arabic\c@figure}
+\renewcommand\thetable{\ifnum\c@chapter>\z@\@arabic\c@chapter.\fi\@arabic\c@table}
+
+%==============================================================================
+% 6. PENOMORAN DAN STRUKTUR CHAPTER/SECTION
+%==============================================================================
+
+\setcounter{secnumdepth}{2}
+
+% Penomoran menggunakan Romawi untuk chapter
+\renewcommand{\thechapter}{\@Roman\c@chapter}
+\renewcommand{\thesection}{\@arabic\c@chapter.\@arabic\c@section}
+\renewcommand{\thesubsection}{\@arabic\c@chapter.\@arabic\c@section.\@arabic\c@subsection}
+
+% Chapter
+\renewcommand{\chapter}{%
+  \clearpage\thispagestyle{chapterheading}%
+  \global\@topnum\z@
+  \@afterindenttrue
+  \secdef\@chapter\@schapter
+}
+
+\renewcommand{\@makechapterhead}[1]{%
+  {\parindent \z@ \centering \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \large\bfseries \@chapapp\space \thechapter
+      \par\nobreak
+      \vskip -0.2cm
+    \fi
+    \interlinepenalty\@M
+    \large\bfseries #1\par\nobreak
+    \vskip 20\p@
+  }
+}
+
+\renewcommand{\@makeschapterhead}[1]{%
+  {\parindent \z@ \centering \normalfont
+    \interlinepenalty\@M
+    \large\bfseries #1\par\nobreak
+    \vskip 20\p@
+  }
+}
+
+% Section
+\renewcommand{\section}{%
+  \@startsection{section}{1}{\z@}%
+    {-3.5ex \@plus -1ex \@minus -.2ex}%
+    {0.5ex \@plus.2ex}%
+    {\normalfont\normalsize\bfseries}
+}
+
+% Subsection
+\renewcommand{\subsection}{%
+  \@startsection{subsection}{2}{\z@}%
+    {-3.25ex\@plus -1ex \@minus -.2ex}%
+    {0.5ex \@plus .2ex}%
+    {\normalfont\normalsize\bfseries}
+}
+
+% Subsubsection
+\renewcommand{\subsubsection}{%
+  \@startsection{subsubsection}{3}{\z@}%
+    {3.25ex \@plus1ex \@minus.2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}
+}
+
+% Persamaan, gambar, tabel
+\@addtoreset{equation}{chapter}
+\renewcommand{\theequation}{%
+  \ifnum \c@chapter>\z@ \@arabic\c@chapter.\fi \@arabic\c@equation
+}
+\renewcommand{\thefigure}{%
+  \ifnum \c@chapter>\z@ \@arabic\c@chapter.\fi \@arabic\c@figure
+}
+\renewcommand{\thetable}{%
+  \ifnum \c@chapter>\z@ \@arabic\c@chapter.\fi \@arabic\c@table
+}
+
+%==============================================================================
+% 7. NAMA-NAMA CAPTION (MULTILINGUAL)
+%==============================================================================
+
+% Bahasa Indonesia (default) - dengan Polyglossia
+\def\captions@indo{%
+  \def\prefacename{Kata Pengantar}%
+  \def\contentsname{Daftar Isi}%
+  \def\listfigurename{Daftar Gambar}%
+  \def\listtablename{Daftar Tabel}%
+  \def\listappendixname{Daftar Lampiran}%
+  \def\nomenclaturename{Daftar Simbol}%
+  \def\abbreviationname{Daftar Singkatan}%
+  \def\abstractname{Abstrak}%
+  \def\acknowledgmentname{Halaman Persembahan}%
+  \def\approvalname{Pengesahan}%
+  \def\partname{Bagian}%
+  \def\chaptername{BAB}%
+  \def\appendixname{Lampiran}%
+  \def\refname{Daftar Pustaka}%
+  \def\bibname{Daftar Pustaka}%
+  \def\indexname{Indeks}%
+  \def\figurename{Gambar}%
+  \def\tablename{Tabel}%
+  \def\pagename{Halaman}%
+  \def\bplagiasiname{Pernyataan Bebas Plagiasi}%
+  \def\spernyataanname{Pernyataan Persetujuan Publikasi dan Embargo Karya Tulis Civitas Akademika USK}%
+}
+
+% Bahasa Inggris
+\def\captions@eng{%
+  \def\prefacename{Preface}%
+  \def\contentsname{Contents}%
+  \def\listfigurename{List of Figures}%
+  \def\listtablename{List of Tables}%
+  \def\listappendixname{List of Appendices}%
+  \def\nomenclaturename{Nomenclature}%
+  \def\abbreviationname{List of Abbreviations}%
+  \def\abstractname{Abstract}%
+  \def\partname{Part}%
+  \def\chaptername{CHAPTER}%
+  \def\appendixname{Appendix}%
+  \def\refname{References}%
+  \def\bibname{References}%
+  \def\indexname{Index}%
+  \def\figurename{Figure}%
+  \def\tablename{Table}%
+  \def\pagename{Page}%
+}
+
+% Set caption berdasarkan opsi bahasa
+\if@langindo
+  \captions@indo
+  \setdefaultlanguage{bahasai}
+\else
+  \captions@eng
+  \setdefaultlanguage{english}
+\fi
+
+%==============================================================================
+% 8. METADATA DOKUMEN DAN COMMANDS
+%==============================================================================
+
+% Informasi universitas dan institusi
+\gdef\@university{Universitas Syiah Kuala}
+\gdef\@faculty{Fakultas Matematika dan Ilmu Pengetahuan Alam}
+\gdef\@city{Banda Aceh}
+
+% Judul - PERSIS dari contoh.cls
+\newcommand{\judulcover}[1]{\gdef\@judulcover{#1}}
+\newcommand{\@judulcover}{}
+
+\newcommand{\judul}[1]{\gdef\@judul{#1}}
+\newcommand{\@judul}{}
+
+\newcommand{\judulinggris}[1]{\gdef\@judull{#1}}
+\newcommand{\@judulinggris}{}
+
+% Data penulis - PERSIS dari contoh.cls
+\newcommand{\fullname}[1]{\gdef\@fullname{#1}}
+\newcommand{\@fullname}{}
+
+\newcommand{\idnum}[1]{\gdef\@idnum{#1}}
+\newcommand{\@idnum}{}
+
+\newcommand{\examdate}[1]{\gdef\@examdate{#1}}
+\newcommand{\approvaldate}[1]{\gdef\@approvaldate{#1}}
+\newcommand{\@examdate}{\number\day~\ifcase\month\or
+    Januari\or Februari\or Maret\or April\or Mei\or Juni\or
+    Juli\or Agustus\or September\or Oktober\or November\or Desember\fi
+    \space \number\year}
+
+\newcommand{\degree}[1]{\gdef\@degree{#1}}
+\newcommand{\@degree}{}
+
+\newcommand{\yearsubmit}[1]{\gdef\@yearsubmit{#1}}
+\newcommand{\@yearsubmit}{}
+
+\newcommand{\program}[1]{\gdef\@program{#1}}
+\newcommand{\@program}{}
+
+\newcommand{\headprogram}[1]{\gdef\@headprogram{#1}}
+\newcommand{\@headprogram}{}
+
+\newcommand{\dept}[1]{\gdef\@dept{#1}}
+\newcommand{\@dept}{}
+
+\newcommand{\prodi}[1]{\gdef\@prodi{#1}}
+\newcommand{\@prodi}{}
+
+% Pembimbing - PERSIS dari contoh.cls
+\newcommand{\firstsupervisor}[1]{\gdef\@firstsupervisor{#1}}
+\newcommand{\@firstsupervisor}{}
+
+\newcommand{\firstdept}[1]{\gdef\@firstdept{#1}}
+\newcommand{\@firstdept}{}
+
+\newcommand{\secondsupervisor}[1]{\gdef\@secondsupervisor{#1}}
+\newcommand{\@secondsupervisor}{}
+
+\newcommand{\seconddept}[1]{\gdef\@seconddept{#1}}
+\newcommand{\@seconddept}{}
+
+\newcommand{\kajur}[1]{\gdef\@kajur{#1}}
+\newcommand{\@kajur}{}
+
+\newcommand{\firstnip}[1]{\gdef\@firstnip{#1}}
+\newcommand{\@firstnip}{}
+
+\newcommand{\secondnip}[1]{\gdef\@secondnip{#1}}
+\newcommand{\@secondnip}{}
+
+\newcommand{\kajurnip}[1]{\gdef\@kajurnip{#1}}
+\newcommand{\@kajurnip}{}
+
+% Pejabat penandatangan - PERSIS dari contoh.cls
+\newcommand{\dekan}[1]{\gdef\@dekan{#1}}
+\newcommand{\@dekan}{}
+
+\newcommand{\dekannip}[1]{\gdef\@dekannip{#1}}
+\newcommand{\@dekannip}{}
+
+\newcommand{\kaprodi}[1]{\gdef\@kaprodi{#1}}
+\newcommand{\@kaprodi}{}
+
+\newcommand{\kaprodinip}[1]{\gdef\@kaprodinip{#1}}
+\newcommand{\@kaprodinip}{}
+
+\newcommand{\koorta}[1]{\gdef\@koorta{#1}}
+\newcommand{\@koorta}{}
+
+\newcommand{\koortanip}[1]{\gdef\@koortanip{#1}}
+\newcommand{\@koortanip}{}
+
+%==============================================================================
+% VARIABEL TAMBAHAN UNTUK FLEKSIBILITAS (tidak ada di contoh.cls tapi dibutuhkan)
+%==============================================================================
+
+% Ketua sidang (untuk mode sidang)
+\newcommand{\ketua}[1]{\gdef\@ketua{#1}}
+\gdef\@ketua{}
+
+\newcommand{\nipketua}[1]{\gdef\@nipketua{#1}}
+\gdef\@nipketua{}
+
+% Tanggal fleksibel (hari, bulan, tahun)
+\newcommand{\tanggal}[3]{%
+  \gdef\@tanggalhari{#1}%
+  \gdef\@tanggalbulan{#2}%
+  \gdef\@tanggaltahun{#3}%
+}
+\gdef\@tanggalhari{}
+\gdef\@tanggalbulan{}
+\gdef\@tanggaltahun{}
+
+%==============================================================================
+% 9. COVER PAGE
+%==============================================================================
+
+\def\cover{%
+  \newgeometry{left=3.5cm,right=3cm,top=3cm,bottom=3cm}%
+  \disableboldchapterintoc
+  \addcontentsline{toc}{chapter}{Halaman Judul}
+  \thispagestyle{empty}%
+  \pagenumbering{roman}%
+  \setcounter{page}{1}%
+  \begin{center}
+    \begin{singlespace}
+      \fontsize{20pt}{20pt}\selectfont\MakeUppercase{\Large{\bfseries\@judulcover}}\par\nobreak
+      \vspace{2.5cm}
+      \MakeUppercase{\large{\bfseries{TUGAS AKHIR}}}\\
+      \vspace{1.0cm}
+      \normalsize{Diajukan untuk melengkapi tugas-tugas dan\\ memenuhi syarat-syarat guna memperoleh \@degree}\\
+      \vspace{1.0cm}
+      {\normalfont
+        Oleh:\\
+        \vspace{1.0cm}
+        \MakeUppercase{\normalfont\bfseries \underline{\@fullname}}\\
+        \MakeUppercase{\normalfont\bfseries \@idnum}}\\
+      \vspace{2cm}
+      \vfill
+      \includegraphics[width=0.3\textwidth]{images/logo_usk.png}
+      \vfill
+      \vspace{2cm}
+      {\normalfont
+        \MakeUppercase{\normalfont\bfseries Program Studi \@prodi\space Departemen \@dept}\\
+        \MakeUppercase{\normalfont\bfseries\@faculty}\\
+        \MakeUppercase{\normalfont\bfseries\@university,\space\@city}\\
+        \MakeUppercase{\normalfont\bfseries\@yearsubmit}}
+    \end{singlespace}
+  \end{center}%
+}
+
+%==============================================================================
+% 10. APPROVAL PAGE
+%==============================================================================
+
+\def\approvalpage{%
+  \clearpage\addcontentsline{toc}{chapter}{\approvalname}
+  \chapter*{\approvalname}%
+  \begin{center}
+    \begin{doublespace}
+      \vspace{0.5cm}
+      \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judul}}\par\nobreak
+      \vspace{1cm}
+      \fontsize{12pt}{10pt}\selectfont\MakeUppercase{\large{\bfseries\@judull}}\par\nobreak
+      \vspace{0.9cm}
+      Oleh:
+      \begin{singlespace}
+        \begin{compactitem}
+          \addtolength{\itemindent}{3.5cm}
+          \setlength{\parsep}{0pt}
+          \item[]{\makebox[2.5cm]{Nama\hfill} : \@fullname}
+          \item[]{\makebox[2.5cm]{NPM\hfill} : \@idnum}
+          \item[]{\makebox[2.5cm]{Program Studi\hfill} : \@prodi}
+        \end{compactitem}
+      \end{singlespace}
+      \vspace{0.9cm}
+
+      Menyetujui:\\
+      \onehalfspacing
+      \begin{tabular}{lll}
+        Pembimbing I, & \hspace{2.5cm} & Pembimbing II, \\
+        \vspace{0.3cm} & \vspace{0.3cm} & \vspace{0.3cm}\\
+        \underline{\@firstsupervisor}& &
+        \underline{\@secondsupervisor} \\
+        NIP. \@firstnip & & NIP. \@secondnip
+      \end{tabular}
+      \vspace{1.0cm}
+
+      \begin{tabular}{lll}
+        &&Mengetahui:\\
+        Dekan FMIPA & \hfill &
+        Ketua Departemen \@dept\space FMIPA\\
+        \vspace{-0.27cm} & \vspace{-0.27cm} & \vspace{-0.27cm}\\
+        Universitas Syiah Kuala, & & Universitas Syiah Kuala,\\
+        \vspace{0.3cm} & \vspace{0.3cm} & \vspace{0.3cm}\\
+        \underline{\@dekan} & & \underline{\@kajur}\\
+        NIP. \@dekannip & & NIP. \@kajurnip
+      \end{tabular}
+    \end{doublespace}
+    \vspace{0.9cm}
+    \ifx\@tanggalhari\empty\else
+      Lulus Sidang Sarjana pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun\\
+      \vspace{0.5cm}
+      Tugas Akhir disahkan pada hari \@tanggalhari\space\@tanggalbulan\space\@tanggaltahun
+    \fi
+  \end{center}%
+}
+
+%==============================================================================
+% 11. ENVIRONMENT UNTUK HALAMAN KHUSUS
+%==============================================================================
+
+\newenvironment{abstractind}[0]{%
+  \clearpage\thispagestyle{chapterheading}%
+  \chapter*{\abstractname}%
+  \begin{singlespacing}%
+  \addcontentsline{toc}{chapter}{Abstrak}%
+}{%
+  \par\vfil\null\end{singlespacing}%
+}
+
+\newenvironment{abstracteng}[0]{%
+  \clearpage\thispagestyle{chapterheading}\selectlanguage{english}%
+  \chapter*{\abstractname}%
+  \begin{singlespacing}%
+  \addcontentsline{toc}{chapter}{\textit{Abstract}}%
+}{%
+  \par\vfil\null\end{singlespacing}%
+  \selectlanguage{bahasai}%
+}
+
+\newenvironment{preface}[0]{%
+  \chapter*{\prefacename}%
+  \addcontentsline{toc}{chapter}{\prefacename}%
+}{%
+}
+
+\newenvironment{acknowledgment}[0]{%
+  \chapter*{UCAPAN TERIMA KASIH}%
+  \addcontentsline{toc}{chapter}{UCAPAN TERIMA KASIH}%
+}{%
+}
+
+%==============================================================================
+% 12. DEFAULT SPACING
+%==============================================================================
+
+\AtBeginDocument{%
+  \onehalfspacing
+  \if@langindo
+    \selectlanguage{bahasai}%
+  \else
+    \selectlanguage{english}%
+  \fi
+}
+
+%==============================================================================
+% 13. XELATEX SPECIFIC SETTINGS
+%==============================================================================
+
+% Microtype untuk XeLaTeX (basic settings only, protrusion disabled for compatibility)
+\RequirePackage[protrusion=false]{microtype}
+
+%==============================================================================
+% 15. END OF PACKAGE
+%==============================================================================
+
+\endinput

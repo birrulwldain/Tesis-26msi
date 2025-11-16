@@ -1,0 +1,265 @@
+%
+% ============================================================================
+% THESIS TEMPLATE - Universitas Syiah Kuala FMIPA
+% ============================================================================
+%
+% Pilih MODE di bawah ini (ubah nilai sesuai kebutuhan):
+%   - sempro : Seminar Proposal (Bab 1-2)
+%   - semhas : Seminar Hasil (Bab 1-3)
+%   - sidang : Sidang Skripsi Lengkap (Bab 1-5 + Lampiran)
+%
+% Output: thesis.pdf (otomatis compile saat save)
+%
+% ============================================================================
+
+% PILIH MODE (ganti dengan: sempro, semhas, atau sidang)
+\def\thesismode{sidang}
+
+% ============================================================================
+% PATH SETUP
+% ============================================================================
+\makeatletter
+\def\input@path{{lib/}{language/}{include/}}
+\makeatother
+
+% ============================================================================
+% DOCUMENT CLASS
+% ============================================================================
+\documentclass[a4paper,12pt,dvipsnames]{report}
+
+% ============================================================================
+% LOAD USK THESIS PACKAGE (dengan mode parameter)
+% ============================================================================
+\usepackage[mode=\thesismode]{usk-thesis-xelatex}
+
+% ============================================================================
+% BIBLIOGRAPHY SETUP
+% ============================================================================
+% Daftar pustaka Anda (ganti dengan file .bib Anda)
+\addbibresource{daftar-pustaka.bib}
+
+% ============================================================================
+% ADDITIONAL PACKAGES (User-specific)
+% ============================================================================
+\usepackage{tikz}
+\usepackage{blindtext}  % Untuk dummy text - hapus saat produksi
+
+% Language setup
+\input{hype.indonesia}
+
+% Hyphenation and spacing
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+% ============================================================================
+% METADATA (PERSIS dari contoh.cls)
+% ============================================================================
+
+% ============================================
+% JUDUL
+% ============================================
+% Judul untuk cover
+\judulcover{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+
+% Judul untuk halaman pengesahan
+\judul{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+
+% Judul dalam bahasa Inggris
+\judulinggris{Computational Study of Rydberg Electrons in Hydrogen Atoms using Schr\"{o}dinger Equation for Quantum Computing Applications}
+
+% ============================================
+% DATA PENULIS
+% ============================================
+% Nama lengkap
+\fullname{Birrul Walidain}
+
+% NIM
+\idnum{250820201100015}
+
+% Gelar yang akan diperoleh
+\degree{Sarjana Sains}
+
+% Tahun pengumpulan
+\yearsubmit{2025}
+
+% Program
+\program{Sarjana}
+
+% Kepala Program (Ketua Prodi yang juga sebagai Kepala Program)
+\headprogram{Dr. Saiful Bahri, S.Si., M.Si.}
+
+% Departemen
+\dept{Fisika}
+
+% Program Studi
+\prodi{Magister Fisika}
+
+% ============================================
+% PEMBIMBING
+% ============================================
+% Pembimbing Utama
+\firstsupervisor{Prof. Dr. Eng. Nasrullah, M.T.}
+\firstnip{197908202005011001}
+\firstdept{Fisika}
+
+% Pembimbing Kedua
+\secondsupervisor{Dr. Gunawati, M.Si.}
+\secondnip{197504202008121001}
+\seconddept{Fisika}
+
+% ============================================
+% PEJABAT PENANDATANGAN
+% ============================================
+% Ketua Jurusan/Departemen
+\kajur{Dr. Saumi Syahreza, S.Si., M.Si.}
+\kajurnip{197504202009121001}
+
+% Ketua Program Studi
+\kaprodi{Dr. Saumi Syahreza, S.Si., M.Si.}
+\kaprodinip{197504202009121001}
+
+% Dekan
+\dekan{Prof. Dr. Ir. Samsul Rizal, M.Eng.}
+\dekannip{196503151990031001}
+
+% Koordinator Tugas Akhir (biasanya salah satu dosen senior)
+\koorta{Dr. Eng. Vebi Permadi, S.Si., M.Si.}
+\koortanip{197908202005011001}
+
+% ============================================
+% TANGGAL
+% ============================================
+% Tanggal ujian (akan di-format otomatis, atau bisa diisi manual)
+\examdate{15 November 2025}
+
+% Tanggal persetujuan
+\approvaldate{15 November 2025}
+
+% Tanggal pengesahan (format fleksibel: hari, bulan, tahun)
+% Untuk halaman pengesahan dengan format custom
+\tanggal{15}{November}{2025}
+
+% Ketua sidang (untuk mode sidang)
+\ketua{Prof. Dr. Ir. Samsul Rizal, M.Eng.}
+\nipketua{196503151990031001}
+
+
+% ============================================================================
+% METADATA INTERNAL
+% ============================================================================
+\author{Birrul Walidain}
+\title{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+
+% ============================================================================
+% BEGIN DOCUMENT
+% ============================================================================
+\begin{document}
+
+% ============================================================================
+% PRELIMINARY PAGES
+% ============================================================================
+
+% HALAMAN JUDUL
+\cover
+
+% LEMBAR PENGESAHAN PROPOSAL/SKRIPSI
+\clearpage
+\approvalpage
+
+% HALAMAN PERNYATAAN
+\clearpage
+\input{surat-pernyataan}
+
+% HALAMAN PENGESAHAN
+\clearpage
+\input{bebas-plagiasi}
+
+% ABSTRAK INDONESIA
+\clearpage
+\input{abstrak-indonesia}
+
+% ABSTRAK ENGLISH
+\clearpage
+\input{abstrak-english}
+
+% KATA PENGANTAR
+\clearpage
+\input{kata-pengantar}
+
+% DAFTAR ISI
+\clearpage
+\tableofcontents
+
+% DAFTAR GAMBAR
+\clearpage
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+
+% DAFTAR TABEL
+\clearpage
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+% DAFTAR SINGKATAN (jika ada)
+\clearpage
+\input{daftar-singkatan}
+
+% DAFTAR SIMBOL (jika ada)
+\clearpage
+\input{simbol}
+
+% DAFTAR LAMPIRAN
+\clearpage
+\listofappendices
+\addcontentsline{toc}{chapter}{\listappendixname}
+
+% ============================================================================
+% MAIN CONTENT
+% ============================================================================
+
+% Mulai penomoran dengan angka arabic (1, 2, 3, ...)
+\clearpage
+\pagenumbering{arabic}
+
+% Aktifkan bold untuk chapter di daftar isi
+\enableboldchapterintoc
+
+% BAB 1
+\input{bab1}
+
+% BAB 2
+\clearpage
+\input{bab2}
+
+% BAB 3
+\clearpage
+\input{bab3}
+
+% BAB 4
+\clearpage
+\input{bab4}
+
+% BAB 5
+\clearpage
+\input{bab5}
+
+% ============================================================================
+% BIBLIOGRAPHY
+% ============================================================================
+\clearpage
+\input{dafpus}
+
+% ============================================================================
+% APPENDIX
+% ============================================================================
+\appendix
+\clearpage
+\input{lampiran}
+
+\end{document}
+
+% ============================================================================
+% END OF FILE
+% ============================================================================

@@ -1,0 +1,141 @@
+% LAMPIRAN
+% Setelah \appendix, chapter akan otomatis menggunakan huruf (A, B, C, dst)
+
+\chapter{Kode Program Python untuk Analisis Spektrum}
+\label{app:kode-python}
+\appendices{Kode Program Python untuk Analisis Spektrum}
+
+Berikut adalah contoh kode program Python yang digunakan untuk menganalisis spektrum plasma.
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def analyze_spectrum(wavelength, intensity):
+    """
+    Fungsi untuk menganalisis spektrum
+    """
+    peaks = find_peaks(intensity)
+    return peaks
+
+# Load data
+data = np.loadtxt('spectrum_data.txt')
+wavelength = data[:, 0]
+intensity = data[:, 1]
+
+# Analisis
+peaks = analyze_spectrum(wavelength, intensity)
+print(f"Ditemukan {len(peaks)} puncak spektrum")
+
+# Plot hasil
+plt.figure(figsize=(10, 6))
+plt.plot(wavelength, intensity)
+plt.xlabel('Panjang Gelombang (nm)')
+plt.ylabel('Intensitas (a.u.)')
+plt.title('Spektrum Plasma Hidrogen')
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\section{Penjelasan Kode}
+
+Program di atas melakukan analisis spektrum dengan langkah-langkah berikut:
+\begin{enumerate}
+    \item Membaca data spektrum dari file
+    \item Mencari puncak-puncak intensitas
+    \item Memvisualisasikan hasil dalam bentuk grafik
+\end{enumerate}
+
+\blindtext[2]
+
+\chapter{Data Hasil Pengukuran}
+\label{app:data-pengukuran}
+\appendices{Data Hasil Pengukuran}
+
+Berikut adalah tabel data hasil pengukuran spektrum plasma pada berbagai kondisi.
+
+\section{Data Temperatur Plasma}
+
+\begin{table}[h]
+\centering
+\caption{Hasil pengukuran temperatur plasma}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{No.} & \textbf{Tekanan (Torr)} & \textbf{Daya (W)} & \textbf{Temperatur (K)} \\ \hline
+1 & 0.5 & 100 & 8500 \\ \hline
+2 & 0.5 & 150 & 9200 \\ \hline
+3 & 0.5 & 200 & 10100 \\ \hline
+4 & 1.0 & 100 & 7800 \\ \hline
+5 & 1.0 & 150 & 8600 \\ \hline
+6 & 1.0 & 200 & 9500 \\ \hline
+7 & 1.5 & 100 & 7200 \\ \hline
+8 & 1.5 & 150 & 8100 \\ \hline
+9 & 1.5 & 200 & 9000 \\ \hline
+\end{tabular}
+\end{table}
+
+\blindtext[2]
+
+\section{Data Kerapatan Elektron}
+
+\begin{table}[h]
+\centering
+\caption{Hasil pengukuran kerapatan elektron}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{No.} & \textbf{Tekanan (Torr)} & \textbf{Daya (W)} & \textbf{$n_e$ ($\times 10^{16}$ cm$^{-3}$)} \\ \hline
+1 & 0.5 & 100 & 2.3 \\ \hline
+2 & 0.5 & 150 & 3.1 \\ \hline
+3 & 0.5 & 200 & 4.2 \\ \hline
+4 & 1.0 & 100 & 3.5 \\ \hline
+5 & 1.0 & 150 & 4.8 \\ \hline
+6 & 1.0 & 200 & 6.1 \\ \hline
+7 & 1.5 & 100 & 4.2 \\ \hline
+8 & 1.5 & 150 & 5.6 \\ \hline
+9 & 1.5 & 200 & 7.3 \\ \hline
+\end{tabular}
+\end{table}
+
+\blindtext
+
+\chapter{Dokumentasi Peralatan}
+\label{app:dokumentasi}
+\appendices{Dokumentasi Peralatan}
+
+\section{Spesifikasi Spektrometer}
+
+Spektrometer yang digunakan dalam penelitian ini memiliki spesifikasi sebagai berikut:
+
+\begin{itemize}
+    \item \textbf{Model}: Ocean Optics HR4000
+    \item \textbf{Range panjang gelombang}: 200-1100 nm
+    \item \textbf{Resolusi optik}: 0.025 nm (FWHM)
+    \item \textbf{Detector}: Sony ILX511B CCD array (3648 pixels)
+    \item \textbf{Signal-to-noise ratio}: 250:1 (single acquisition)
+    \item \textbf{Integration time}: 1 ms - 65 seconds
+\end{itemize}
+
+\section{Diagram Setup Eksperimen}
+
+\blindtext[2]
+
+% Jika ada gambar, bisa ditambahkan seperti ini:
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.8\textwidth]{images/setup-eksperimen.pdf}
+% \caption{Diagram setup eksperimen}
+% \label{fig:setup-eksperimen}
+% \end{figure}
+
+\section{Prosedur Kalibrasi}
+
+\begin{enumerate}
+    \item Nyalakan spektrometer dan tunggu 30 menit untuk warm-up
+    \item Lakukan dark spectrum measurement
+    \item Gunakan lampu kalibrasi Mercury-Argon
+    \item Identifikasi minimal 5 garis kalibrasi
+    \item Lakukan polynomial fitting untuk kalibrasi panjang gelombang
+    \item Simpan file kalibrasi untuk digunakan pada pengukuran selanjutnya
+\end{enumerate}
+
+\blindtext[3]
