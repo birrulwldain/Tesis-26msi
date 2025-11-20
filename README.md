@@ -1,8 +1,8 @@
-# Template Tugas Akhir FMIPA Unsyiah - Unified System
+# Template Tugas Akhir FMIPA USK - Unified System
 
 Template LaTeX untuk penulisan tugas akhir di Universitas Syiah Kuala FMIPA yang telah disederhanakan menjadi **1 file utama dengan 3 mode kompilasi**.
 
-Disesuaikan dengan aturan penulisan tugas akhir yang terdapat pada dokumen Panduan Tugas Akhir FMIPA Unsyiah tahun 2016.
+Disesuaikan dengan aturan penulisan tugas akhir yang terdapat pada dokumen Panduan Tugas Akhir FMIPA USK tahun 2024.
 
 ---
 
@@ -127,9 +127,9 @@ sudo apt install texlive-xetex biber
 
 | Mode | Konten | Output |
 |------|--------|--------|
-| SEMPRO | Bab 1-2 | sempro.pdf |
-| SEMHAS | Bab 1-3 | semhas.pdf |
-| SIDANG | Bab 1-5 + Lampiran | sidang.pdf |
+| SEMPRO | Bab 1-3 | sempro.pdf |
+| SEMHAS | Abstrak + Bab 1-5 + Lampiran | semhas.pdf |
+| SIDANG | Abstrak + Bab 1-5 + Lampiran | sidang.pdf |
 
 ---
 
