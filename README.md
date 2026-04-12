@@ -93,6 +93,37 @@ xelatex thesis
 - **SUBMISSION_CHECKLIST.md** - Checklist lengkap sebelum submit ✅
 - **CONTRIBUTING.md** - Cara berkontribusi ke project
 
+## 📋 Daftar Simbol (Symbol List)
+
+Template mendukung **automatic symbol list generation** menggunakan paket `nomencl`. Simbol yang Anda definisikan di dalam bab akan otomatis terkumpul, diurutkan abjad, dan ditampilkan di "DAFTAR SIMBOL".
+
+### Cara Penggunaan
+
+**1. Di dalam bab (bab1.tex, bab2.tex, dst):**
+```latex
+\nomenclature{$\alpha$}{Sudut fase (radian)}
+\nomenclature{$f$}{Frekuensi (Hz)}
+\nomenclature{$\lambda$}{Panjang gelombang (nm)}
+```
+
+**2. Compile dengan makeindex:**
+```bash
+xelatex thesis
+bibtex thesis
+makeindex thesis.nlo -s nomencl.ist -o thesis.nls
+xelatex thesis
+xelatex thesis
+```
+
+Atau gunakan script otomatis:
+```bash
+./prepare-submission.sh  # Mencakup semua langkah di atas
+```
+
+**Hasil**: Daftar simbol otomatis muncul di DAFTAR SIMBOL, terurut abjad!
+
+Contoh lengkap lihat: `include/simbol.tex` dan `include/bab1.tex`
+
 ## 📤 Submission ke FMIPA USK
 
 Template ini sudah sesuai dengan [Panduan FMIPA Unsyiah](https://fmipa.usk.ac.id/web/documents/).

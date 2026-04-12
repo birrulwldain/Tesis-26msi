@@ -6,42 +6,49 @@
 \chapter{PENDAHULUAN}
 
 \section{Latar Belakang}
-\blindtext
+Laser-Induced Breakdown Spectroscopy (LIBS) merupakan teknik spektroskopi emisi yang telah banyak digunakan untuk analisis komposisi unsur pada berbagai material kompleks, termasuk mineral, batuan, dan material tanah \citep{legnaioli_laser-induced_2025}. Kemampuan LIBS untuk melakukan analisis multi-elemen secara cepat tanpa memerlukan preparasi sampel yang kompleks menjadikannya metode yang menarik untuk aplikasi geokimia dan eksplorasi sumber daya alam \citep{sawyers_database_2025}. Berbagai penelitian menunjukkan bahwa LIBS telah berhasil digunakan untuk kuantifikasi unsur pada sampel geologi melalui beragam pendekatan analitik, mulai dari regresi multivariat, kurva kalibrasi univariat berbasis garis spektral tertentu, hingga metode berbasis machine learning \citep{babos_laser-induced_2024, zhang_improving_2025, manzoor_machine_2025}. Pendekatan-pendekatan tersebut menunjukkan bahwa LIBS mampu mencapai akurasi analitik yang tinggi pada material geologi, namun juga menegaskan bahwa keberhasilan kuantifikasi sangat bergantung pada strategi pemodelan spektrum yang digunakan serta sensitivitas metode terhadap efek matriks pada sampel geologi yang kompleks \citep{hao_machine_2024, manelski_libs_2024}. Kondisi ini menjadi semakin relevan pada analisis tanah vulkanik, yang secara inheren memiliki komposisi multi-elemen dengan variasi matriks yang tinggi.
 
-Penelitian ini didasarkan pada persamaan fundamental fisika kuantum yang menggambarkan tingkat energi atom hidrogen:
+Dalam pendekatan kuantitatif LIBS, salah satu metode yang banyak digunakan adalah Calibration-Free LIBS (CF-LIBS), yang memungkinkan estimasi komposisi unsur tanpa memerlukan sampel standar kalibrasi. Metode ini bergantung pada ekstraksi parameter plasma fundamental seperti temperatur elektron ($T_e$) dan densitas elektron ($n_e$), yang dihitung berdasarkan asumsi Local Thermodynamic Equilibrium (LTE) \citep{cristoforetti_local_2010}. Namun, berbagai penelitian menunjukkan bahwa asumsi plasma homogen dalam kondisi LTE sering kali tidak memadai untuk mendeskripsikan plasma LIBS yang bersifat sangat transien dan bergradien tinggi \citep{zaitsev_two-zone_2024, bultel_mcwhirter_2025}. Penyimpangan dari kondisi LTE ini dapat memicu distorsi spektral akibat efek opasitas optik dan penyerapan mandiri (self-absorption), yang pada akhirnya mengganggu stabilitas estimasi temperatur dan densitas plasma \citep{tang_review_2024, hansen_modeling_2021}. Untuk merespons keterbatasan tersebut, sejumlah pendekatan berbasis model fisika plasma telah dikembangkan, termasuk model radiative transfer adaptif yang diperkenalkan oleh Favre \textit{et al.} \citep{favre_merlin_2025}, yang memanfaatkan distribusi Saha–Boltzmann serta Persamaan Transfer Radiatif (RTE) untuk mensimulasikan spektrum plasma secara konsisten. Pendekatan ini menunjukkan bahwa rekonstruksi spektrum LIBS yang kompleks dapat dicapai dengan mempertahankan konsistensi termodinamika plasma, meskipun implementasinya masih menghadapi hambatan komputasi yang signifikan akibat kebutuhan inversi numerik nonlinier \citep{favre_towards_2025}.
 
-\begin{equation}
-E_n = -\frac{13.6 \text{ eV}}{n^2}
-\label{eq:energy-levels}
-\end{equation}
+Di sisi lain, perkembangan metode pembelajaran mesin telah menawarkan alternatif untuk mempercepat analisis spektrum LIBS dengan mempelajari hubungan nonlinier antara spektrum dan parameter plasma secara langsung dari data. Pendekatan berbasis machine learning dan deep learning telah menunjukkan peningkatan akurasi dalam berbagai aplikasi analisis spektrum LIBS \citep{favre_towards_2025, liu_remote_2026, wang_simulation_2024}. Namun demikian, sebagian besar model data-driven murni beroperasi sebagai sistem black-box yang tidak secara eksplisit mempertimbangkan hukum fisika plasma yang mendasari pembentukan spektrum emisi \citep{hao_machine_2024}. Akibatnya, model tersebut sering mengalami keterbatasan generalisasi serta bergantung pada ketersediaan dataset eksperimen berskala besar. Kondisi ini menimbulkan dilema metodologis dalam analisis LIBS: pendekatan berbasis fisika menawarkan konsistensi termodinamika yang tinggi tetapi mahal secara komputasi, sedangkan pendekatan machine learning murni menawarkan efisiensi komputasi namun sering mengorbankan konsistensi fisika \citep{favre_towards_2025, hao_machine_2024}.
 
-di mana $n$ adalah bilangan kuantum utama dan $E_n$ adalah energi tingkat ke-$n$.
-
-\blindtext
+Berdasarkan permasalahan tersebut, penelitian ini mengusulkan sebuah arsitektur \textit{Physics-Informed Surrogate Model} yang mengintegrasikan model fisika plasma deterministik dengan model inversi berbasis pembelajaran mesin. Dalam arsitektur ini, model maju dua-zona berbasis \textit{partial Local Thermodynamic Equilibrium} (pLTE) \citep{zaitsev_two-zone_2024} dan Persamaan Transfer Radiatif \citep{favre_merlin_2025, hansen_modeling_2021} digunakan sebagai generator spektrum sintetis pada fase \textit{offline}. Dataset sintetis yang dihasilkan kemudian dimanfaatkan untuk melatih model inversi berbasis \textit{Support Vector Regression} (SVR) yang berfungsi sebagai \textit{surrogate model} pada fase \textit{online} \citep{wu_novel_2025}. Dengan pendekatan ini, ekstraksi parameter plasma dapat dilakukan secara cepat tanpa perlu menjalankan iterasi numerik RTE secara langsung \citep{favre_towards_2025}, sekaligus tetap mempertahankan konsistensi terhadap hukum fisika plasma yang mendasari pembentukan spektrum. Selain itu, generator spektrum yang dibangun dalam penelitian ini juga menyediakan fondasi bagi pengembangan pendekatan \textit{physics-informed machine learning} yang lebih lanjut, termasuk integrasi dengan arsitektur \textit{spectral transformer} untuk analisis spektrum LIBS pada penelitian tahap berikutnya \citep{liu_remote_2026, walidain_informer-based_2026}.
 
 \section{Rumusan Masalah}
-\blindtext
+Berdasarkan latar belakang yang telah diuraikan, analisis spektrum pada metode Laser-Induced Breakdown Spectroscopy (LIBS) untuk material geologi masih menghadapi berbagai tantangan metodologis. Kompleksitas matriks unsur pada sampel tanah vulkanik, efek plasma yang bersifat sangat transien, serta fenomena penyerapan mandiri (self-absorption) sering menyebabkan ketidakstabilan dalam proses ekstraksi parameter plasma dan kuantifikasi unsur. Selain itu, pendekatan analitik berbasis model fisika plasma sering menghadapi hambatan komputasi yang tinggi, sementara pendekatan berbasis pembelajaran mesin murni sering mengabaikan struktur fisika yang mendasari pembentukan spektrum LIBS.
 
-Permasalahan utama dapat diilustrasikan pada Gambar \ref{fig:diagram-masalah} berikut:
-
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}
-\draw[thick,->] (0,0) -- (6,0) node[anchor=north west] {Kompleksitas};
-\draw[thick,->] (0,0) -- (0,4) node[anchor=south east] {Akurasi};
-\draw[blue,thick] (0,0.5) -- (5,3.5);
-\node at (3,2.5) [above,blue] {Tren Penelitian};
-\filldraw[red] (2,1.5) circle (2pt) node[anchor=west] {Target};
-\end{tikzpicture}
-\caption{Diagram permasalahan penelitian}
-\label{fig:diagram-masalah}
-\end{figure}
+Berdasarkan permasalahan tersebut, maka rumusan masalah dalam penelitian ini dapat dirumuskan sebagai berikut:
+\begin{enumerate}
+    \item Bagaimana memodelkan hubungan antara spektrum poliatomik yang dihasilkan dari plasma LIBS dengan spektrum monoatomik penyusun yang merepresentasikan karakteristik unsur individual?
+    \item Bagaimana merancang arsitektur pembelajaran mendalam yang mampu mengekstraksi fitur spektral lokal serta menangkap dependensi global antar panjang gelombang pada spektrum LIBS?
+    \item Bagaimana memanfaatkan arsitektur CNN–Transformer encoder–decoder untuk mempelajari hubungan struktural antara spektrum monoatomik dan spektrum poliatomik dalam analisis spektrum LIBS?
+    \item Bagaimana kinerja model yang diusulkan dalam memprediksi konsentrasi unsur serta parameter plasma dari spektrum LIBS pada sampel tanah vulkanik?
+\end{enumerate}
+Penelitian ini dibatasi pada pengembangan model komputasi berbasis arsitektur CNN–Transformer encoder–decoder yang memanfaatkan representasi spektrum monoatomik dan spektrum poliatomik sebagai pasangan data pembelajaran, menggunakan dataset simulasi serta data pengujian eksperimen pada sampel tanah vulkanik tanpa membahas aspek perancangan instrumen maupun sistem akuisisi data LIBS.
 
 \section{Tujuan Penelitian}
-\blindtext
+Penelitian ini bertujuan untuk mengembangkan suatu pendekatan komputasi dalam analisis spektrum Laser-Induced Breakdown Spectroscopy (LIBS) yang mampu memodelkan hubungan antara spektrum poliatomik yang dihasilkan oleh plasma dengan spektrum monoatomik penyusunnya. Melalui pendekatan ini diharapkan dapat diperoleh representasi spektral yang lebih informatif sehingga proses identifikasi unsur serta analisis spektrum pada material geologi, khususnya tanah vulkanik, dapat dilakukan secara lebih akurat. Selain itu, penelitian ini juga bertujuan untuk merancang suatu model yang mampu mengekstraksi fitur spektral lokal dari garis emisi sekaligus menangkap hubungan global antar panjang gelombang dalam spektrum LIBS yang kompleks.
 
-\section{Batasan Penelitian}
-\blindtext
+Secara khusus, penelitian ini bertujuan untuk mengembangkan arsitektur pembelajaran mendalam berbasis Convolutional Neural Network (CNN) dan Transformer encoder–decoder yang mampu mempelajari hubungan struktural antara spektrum monoatomik dan spektrum poliatomik dalam analisis spektrum LIBS. Model yang dikembangkan diharapkan mampu memanfaatkan representasi spektral tersebut untuk memprediksi konsentrasi unsur dan parameter plasma pada sampel tanah vulkanik, sehingga dapat memberikan pendekatan alternatif dalam analisis spektrum LIBS yang lebih efektif dibandingkan metode analitik konvensional.
+
+
+
+% \section{Batasan Penelitian}
+
+% Penelitian ini memiliki beberapa batasan sebagai berikut:
+
+% \begin{enumerate}
+%     \item Dataset utama penelitian dibangun melalui simulasi spektrum LIBS menggunakan distribusi Saha–Boltzmann dan Radiative Transfer Equation.
+%     \item Parameter plasma yang digunakan dalam simulasi dibatasi pada temperatur elektron ($T_e$) dan densitas elektron ($n_e$) yang diambil dari rentang nilai yang direkomendasikan oleh eksperimen pada sampel tanah vulkanik.
+%     \item Model yang dikembangkan menggunakan arsitektur CNN sebagai ekstraktor fitur spektrum dan Transformer encoder–decoder untuk memodelkan hubungan antara spektrum monoatomik dan poliatomik.
+%     \item Evaluasi model dilakukan pada dua skenario: model tanpa adaptasi domain dan model dengan pendekatan \textit{domain adaptation}.
+%     \item Kinerja model dievaluasi menggunakan metrik kesalahan prediksi seperti Root Mean Square Error (RMSE) serta metrik tambahan seperti Mean Absolute Error (MAE) dan koefisien determinasi ($R^2$).
+% \end{enumerate}
 
 \section{Manfaat Penelitian}
-\blindtext
+
+Penelitian ini diharapkan dapat memberikan kontribusi dalam pengembangan metode analisis spektrum Laser-Induced Breakdown Spectroscopy (LIBS), khususnya pada material geologi seperti tanah vulkanik yang memiliki komposisi unsur yang kompleks. Melalui pemanfaatan pendekatan pembelajaran mendalam berbasis arsitektur Convolutional Neural Network (CNN) dan Transformer encoder–decoder, penelitian ini diharapkan mampu memberikan alternatif metode komputasi yang dapat memodelkan hubungan antara spektrum poliatomik dan spektrum monoatomik secara lebih efektif. Dengan demikian, penelitian ini diharapkan dapat meningkatkan kemampuan analisis spektrum LIBS dalam proses identifikasi unsur serta kuantifikasi komposisi material yang memiliki karakteristik spektral yang kompleks.
+
+Selain itu, penelitian ini juga diharapkan dapat memberikan kontribusi dalam pengembangan metode komputasi berbasis pembelajaran mendalam untuk analisis data spektroskopi secara umum. Hasil penelitian ini diharapkan dapat menjadi dasar pengembangan model analisis spektrum yang lebih interpretatif dan mampu menangkap hubungan struktural antar fitur spektral. Dengan adanya model yang mampu mempelajari hubungan antara spektrum campuran dan komponen spektral penyusunnya, penelitian ini diharapkan dapat memberikan referensi bagi pengembangan metode analisis LIBS yang lebih akurat dan efisien pada berbagai aplikasi material geologi maupun bidang spektroskopi lainnya.
+
+

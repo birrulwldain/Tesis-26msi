@@ -74,13 +74,13 @@
 % JUDUL
 % ============================================
 % Judul untuk cover
-\judulcover{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+\judulcover{Physics-Informed Surrogate Model Based on Partial-LTE and Two-Zone Radiative Transfer Equation for Calibration-Free Plasma Diagnostics}
 
 % Judul untuk halaman pengesahan
-\judul{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+\judul{Physics-Informed Surrogate Model Based on Partial-LTE and Two-Zone Radiative Transfer Equation for Calibration-Free Plasma Diagnostics}
 
 % Judul dalam bahasa Inggris
-\judulinggris{Computational Study of Rydberg Electrons in Hydrogen Atoms using Schr\"{o}dinger Equation for Quantum Computing Applications}
+\judulinggris{Physics-Informed Surrogate Model Based on Partial-LTE and Two-Zone Radiative Transfer Equation for Calibration-Free Plasma Diagnostics}
 
 % ============================================
 % DATA PENULIS
@@ -98,7 +98,7 @@
 \yearsubmit{2025}
 
 % Program
-\program{Sarjana}
+\program{Magister}
 
 % Kepala Program (Ketua Prodi yang juga sebagai Kepala Program)
 \headprogram{Dr. Saiful Bahri, S.Si., M.Si.}
@@ -118,9 +118,9 @@
 \firstdept{Fisika}
 
 % Pembimbing Kedua
-\secondsupervisor{Dr. Gunawati, M.Si.}
-\secondnip{197309032000122001}
-\seconddept{Fisika}
+\secondsupervisor{Dr. Khairun Saddami, S.T.}
+\secondnip{199103182022031008}
+\seconddept{Teknik Komputer}
 
 % ============================================
 % PEJABAT PENANDATANGAN
@@ -130,8 +130,8 @@
 \kajurnip{197504202009121001}
 
 % Ketua Program Studi
-\kaprodi{Prof. Dr. Muksin, S.Si., M.Si., M.Phil.}
-\kaprodinip{197406252000121001}
+\kaprodi{Prof. Dr.Eng. Elin Yusibani, S.Si., M.Eng.}
+\kaprodinip{197903232006042002}
 % Dekan
 \dekan{Prof. Dr. Taufik Fuadi Abidin, S.Si., M.Tech.}
 \dekannip{197010081994031002}
@@ -164,7 +164,7 @@
 % METADATA INTERNAL
 % ============================================================================
 \author{Birrul Walidain}
-\title{Studi Komputasi Elektron Rydberg dalam Atom Hydrogen menggunakan Persamaan Schr\"{o}dinger untuk Aplikasi Quantum Computing}
+\title{Physics-Informed Surrogate Model Based on Partial-LTE and Two-Zone Radiative Transfer Equation for Calibration-Free Plasma Diagnostics}
 
 % ============================================================================
 % BEGIN DOCUMENT
@@ -231,9 +231,12 @@
 % \clearpage
 % \input{daftar-singkatan}
 
-% % DAFTAR SIMBOL (jika ada)
-% \clearpage
-% \input{simbol}
+% DAFTAR SIMBOL (jika ada)
+% Catatan: Untuk generate nomenclature, jalankan:
+%   makeindex thesis.nlo -s nomencl.ist -o thesis.nls
+% Atau gunakan script: ./prepare-submission.sh
+\clearpage
+\printnomenclature
 
 % DAFTAR LAMPIRAN
 \clearpage
@@ -248,7 +251,7 @@
 \clearpage
 \pagenumbering{arabic}
 
-% Kembali ke pagestyle regular (nomor halaman di kanan bawah)
+% Kembali ke pagestyle regular (nomor halaman di kanan bawah) 
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot[R]{\thepage}

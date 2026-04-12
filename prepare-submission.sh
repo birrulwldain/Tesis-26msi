@@ -98,6 +98,18 @@ compile_thesis() {
         print_warning "BibTeX had warnings. Check thesis.blg for details."
     }
     
+    # Process nomenclature (symbol list) if present
+    if [ -f "thesis.nlo" ]; then
+        if command -v makeindex &> /dev/null; then
+            print_step "Running makeindex for nomenclature..."
+            makeindex thesis.nlo -s nomencl.ist -o thesis.nls > /dev/null 2>&1 || {
+                print_warning "Nomenclature index generation had issues. Check thesis.nls."
+            }
+        else
+            print_warning "makeindex not found. Nomenclature symbols may not appear correctly."
+        fi
+    fi
+    
     print_step "Running XeLaTeX (2nd pass)..."
     xelatex -interaction=nonstopmode thesis.tex > /dev/null 2>&1
     
@@ -211,13 +223,17 @@ Prasyarat:
 - Install XeLaTeX (TeX Live atau MacTeX)
 - Install BibTeX
 
-Langkah Compile:
+Langkah Compile (Manual):
 1. xelatex thesis
 2. bibtex thesis
-3. xelatex thesis
+3. makeindex thesis.nlo -s nomencl.ist -o thesis.nls  (jika ada simbol)
 4. xelatex thesis
+5. xelatex thesis
 
 Output: thesis.pdf
+
+Atau gunakan script otomatis:
+./prepare-submission.sh
 
 Untuk pertanyaan, lihat README.md atau SUBMIT_GUIDE.md
 
