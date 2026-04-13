@@ -33,9 +33,9 @@
 
 % ----- Metadata -----
 \title[CNN--Transformer LIBS]{%
-  CNN--Transformer Encoder--Decoder\\
-  untuk Analisis Spektrum LIBS\\
-  pada Tanah Vulkanik}
+  Spectral Reconstruction in\\ Laser-Induced Breakdown Spectroscopy\\
+  Using a CNN--Transformer Encoder--Decoder:\\
+  Application to Volcanic Soil}
 
 \subtitle{Seminar Proposal Tesis}
 
@@ -193,21 +193,19 @@
 % Slide 5a: Deep Dive Literature 1 (2x2 Flowchart)
 % =============================================================
 \begin{frame}{Previous Research}
+  \framesubtitle{Favre et al. (2025) --- MERLIN \textit{(Physics Simulation)}}
   \centering  
   \tikzset{
-    titlebox/.style={font=\normalsize\bfseries\color{maincolor}, align=center, text width=10.4cm},
-    flowbox/.style={rectangle, draw=maincolor!50, fill=white, rounded corners=1mm,
-      text width=4.8cm, align=center, font=\small, minimum height=1.3cm, inner sep=2mm},
-    gapbox/.style={flowbox, draw=red!50, fill=red!5},
-    impbox/.style={rectangle, draw=orange!80, fill=orange!5, rounded corners=1mm,
-      text width=10.4cm, align=center, font=\small\bfseries, minimum height=0.6cm, inner sep=2mm},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=maincolor!70}
+    flowbox/.style={rectangle, draw=black!60, fill=gray!10, rounded corners=1mm,
+      text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.3cm, inner sep=2mm},
+    gapbox/.style={flowbox, fill=red!8, draw=red!50},
+    impbox/.style={rectangle, draw=orange!80!black, fill=orange!10, rounded corners=1mm,
+      text width=10.4cm, align=center, font=\small\sffamily\bfseries, minimum height=0.8cm, inner sep=2mm},
+    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!60}
   }
 
   \begin{tikzpicture}[node distance=0.2cm and 0.4cm]
-    \node[titlebox] (title) {1. Favre et al. (2025) -- MERLIN (\textit{Physics Simulation})};
-    
-    \node[flowbox, below=0.2cm of title.south west, anchor=north west] (p1) {\textbf{Problem}\\[0.5em] \footnotesize CF-LIBS butuh model plasma realistis untuk pemetaan \textit{spectral emission}.};
+    \node[flowbox] (p1) {\textbf{Problem}\\[0.5em] \footnotesize CF-LIBS butuh model plasma realistis untuk pemetaan \textit{spectral emission}.};
     \node[flowbox, right=of p1] (m1) {\textbf{Method}\\[0.5em] \footnotesize Simulasi \textit{radiative transfer} fisik MERLIN via basis data NIST (LTE).};
     
     \node[flowbox, below=of m1] (i1) {\textbf{Insight}\\[0.5em] \footnotesize Sukses visualisasi \textit{self-absorption} optik tebal \& \textit{line broadening}.};
@@ -226,21 +224,19 @@
 % Slide 5b: Deep Dive Literature 2 (2x2 Flowchart)
 % =============================================================
 \begin{frame}{Previous Research}
+  \framesubtitle{Walidain et al. (2026) --- Informer \textit{(Qualitative DL)}}
   \centering  
   \tikzset{
-    titlebox/.style={font=\normalsize\bfseries\color{maincolor}, align=center, text width=10.4cm},
-    flowbox/.style={rectangle, draw=maincolor!50, fill=white, rounded corners=1mm,
-      text width=4.8cm, align=center, font=\small, minimum height=1.3cm, inner sep=2mm},
-    gapbox/.style={flowbox, draw=red!50, fill=red!5},
-    impbox/.style={rectangle, draw=orange!80, fill=orange!5, rounded corners=1mm,
-      text width=10.4cm, align=center, font=\small\bfseries, minimum height=0.6cm, inner sep=2mm},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=maincolor!70}
+    flowbox/.style={rectangle, draw=black!60, fill=gray!10, rounded corners=1mm,
+      text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.3cm, inner sep=2mm},
+    gapbox/.style={flowbox, fill=red!8, draw=red!50},
+    impbox/.style={rectangle, draw=orange!80!black, fill=orange!10, rounded corners=1mm,
+      text width=10.4cm, align=center, font=\small\sffamily\bfseries, minimum height=0.8cm, inner sep=2mm},
+    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!60}
   }
 
   \begin{tikzpicture}[node distance=0.2cm and 0.4cm]
-    \node[titlebox] (title) {2. Walidain et al. (2026) -- Informer (\textit{Qualitative DL})};
-    
-    \node[flowbox, below=0.2cm of title.south west, anchor=north west] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Rentang spektrum emisi LIBS berdimensi sangat besar.};
+    \node[flowbox] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Rentang spektrum emisi LIBS berdimensi sangat besar.};
     \node[flowbox, right=of p1] (m1) {\textbf{Method}\\[0.5em] \footnotesize \textit{Informer Transformer} dengan mekanisme \textit{ProbSparse Self-Attention}.};
     
     \node[flowbox, below=of m1] (i1) {\textbf{Insight}\\[0.5em] \footnotesize Atensi spasial efektif rotasi tangkap \textit{wavelength dependency} korelasi spektral.};
@@ -259,21 +255,19 @@
 % Slide 5c: Deep Dive Literature 3 (2x2 Flowchart)
 % =============================================================
 \begin{frame}{Previous Research}
+  \framesubtitle{Liu et al. (2026) --- TransCNN \textit{(Quantitative Hybrid DL)}}
   \centering  
   \tikzset{
-    titlebox/.style={font=\normalsize\bfseries\color{maincolor}, align=center, text width=10.4cm},
-    flowbox/.style={rectangle, draw=maincolor!50, fill=white, rounded corners=1mm,
-      text width=4.8cm, align=center, font=\small, minimum height=1.3cm, inner sep=2mm},
-    gapbox/.style={flowbox, draw=red!50, fill=red!5},
-    impbox/.style={rectangle, draw=orange!80, fill=orange!5, rounded corners=1mm,
-      text width=10.4cm, align=center, font=\small\bfseries, minimum height=0.6cm, inner sep=2mm},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=maincolor!70}
+    flowbox/.style={rectangle, draw=black!60, fill=gray!10, rounded corners=1mm,
+      text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.3cm, inner sep=2mm},
+    gapbox/.style={flowbox, fill=red!8, draw=red!50},
+    impbox/.style={rectangle, draw=orange!80!black, fill=orange!10, rounded corners=1mm,
+      text width=10.4cm, align=center, font=\small\sffamily\bfseries, minimum height=0.8cm, inner sep=2mm},
+    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!60}
   }
 
   \begin{tikzpicture}[node distance=0.2cm and 0.4cm]
-    \node[titlebox] (title) {3. Liu et al. (2026) -- transCNN (\textit{Quantitative Hybrid DL})};
-    
-    \node[flowbox, below=0.2cm of title.south west, anchor=north west] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Analisis Remote LIBS terganggu oleh variansi SNR \& \textit{noise} pola non-linear.};
+    \node[flowbox] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Analisis Remote LIBS terganggu oleh variansi SNR \& \textit{noise} pola non-linear.};
     \node[flowbox, right=of p1] (m1) {\textbf{Method}\\[0.5em] \footnotesize Hibridisasi pra-filter \textit{wavelet} $\rightarrow$ fitur \textit{Transformer} $\rightarrow$ \textit{CNN}.};
     
     \node[flowbox, below=of m1] (i1) {\textbf{Insight}\\[0.5em] \footnotesize Mantap memadukan ikatan \textit{global dependency} dan deteksi pendaran lokal.};
@@ -292,21 +286,19 @@
 % Slide 5d: Deep Dive Literature 4 (2x2 Flowchart)
 % =============================================================
 \begin{frame}{Previous Research}
+  \framesubtitle{Favre et al. (2025) --- ML CF-LIBS \textit{(Quantitative ML)}}
   \centering  
   \tikzset{
-    titlebox/.style={font=\normalsize\bfseries\color{maincolor}, align=center, text width=10.4cm},
-    flowbox/.style={rectangle, draw=maincolor!50, fill=white, rounded corners=1mm,
-      text width=4.8cm, align=center, font=\small, minimum height=1.3cm, inner sep=2mm},
-    gapbox/.style={flowbox, draw=red!50, fill=red!5},
-    impbox/.style={rectangle, draw=orange!80, fill=orange!5, rounded corners=1mm,
-      text width=10.4cm, align=center, font=\small\bfseries, minimum height=0.6cm, inner sep=2mm},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=maincolor!70}
+    flowbox/.style={rectangle, draw=black!60, fill=gray!10, rounded corners=1mm,
+      text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.3cm, inner sep=2mm},
+    gapbox/.style={flowbox, fill=red!8, draw=red!50},
+    impbox/.style={rectangle, draw=orange!80!black, fill=orange!10, rounded corners=1mm,
+      text width=10.4cm, align=center, font=\small\sffamily\bfseries, minimum height=0.8cm, inner sep=2mm},
+    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!60}
   }
 
   \begin{tikzpicture}[node distance=0.2cm and 0.4cm]
-    \node[titlebox] (title) {4. Favre et al. (2025) -- ML CF-LIBS (\textit{Quantitative ML})};
-    
-    \node[flowbox, below=0.2cm of title.south west, anchor=north west] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Butuh iterasi tebakan empiris \textit{real-time} rasio multi-variabel elemen.};
+    \node[flowbox] (p1) {\textbf{Problem}\\[0.5em] \footnotesize Butuh iterasi tebakan empiris \textit{real-time} rasio multi-variabel elemen.};
     \node[flowbox, right=of p1] (m1) {\textbf{Method}\\[0.5em] \footnotesize Ekstraksi fitur \textit{Convolutional Neural Network} dari set databasa raksasa.};
     
     \node[flowbox, below=of m1] (i1) {\textbf{Insight}\\[0.5em] \footnotesize Terbukti ampuh meramal \textit{simultaneous diagnostics} tanpa rekalibrasi.};
@@ -322,78 +314,81 @@
 \end{frame}
 
 % =============================================================
-% Slide 5e: Literature Landscape (Box-to-Box Roadmap)
+% Slide 5e: Research Landscape of LIBS + AI
 % =============================================================
-\begin{frame}{Literature Landscape \& Roadmap}
+\begin{frame}{Research Landscape of LIBS + AI}
   \centering
-  \vspace{0.8em}
-  
+  \vspace{0.4em}
+
   \tikzset{
     litbox/.style={rectangle, rounded corners, draw=maincolor!80, fill=maincolor!10,
-      text width=2.4cm, align=center, minimum height=1.4cm, font=\scriptsize\sffamily},
-    gapbox/.style={rectangle, rounded corners, draw=red!60, fill=red!10,
-      text width=2.4cm, align=center, minimum height=1.4cm, font=\scriptsize\sffamily},
-    thesisbox/.style={rectangle, rounded corners, draw=green!60!black, fill=green!10,
-      text width=3.5cm, align=center, minimum height=1.6cm, font=\small\sffamily\bfseries},
+      text width=3.0cm, align=center, minimum height=1.8cm, font=\scriptsize\sffamily},
+    obsbox/.style={rectangle, rounded corners, draw=orange!80, fill=orange!8,
+      text width=10.4cm, align=center, minimum height=0.8cm, font=\small, inner sep=3mm},
     arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!50}
   }
 
-  \begin{tikzpicture}[node distance=0.6cm and 0.8cm]
-    % Nodes
-    \node[litbox] (merlin) {\textbf{Physics Simulation}\\ \vspace{0.2em} {\tiny Favre et al. (2025)}\\ \vspace{0.1em} \textit{\tiny Radiative Transfer LTE}};
-    
-    \node[litbox, right=of merlin] (informer) {\textbf{Qualitative DL}\\ \vspace{0.2em} {\tiny Walidain et al. (2026)}\\ \vspace{0.1em} \textit{\tiny Informer Transformer}};
-    
-    \node[litbox, right=of informer] (hybrid) {\textbf{Quantitative DL}\\ \vspace{0.2em} {\tiny Liu / Favre (2025/26)}\\ \vspace{0.1em} \textit{\tiny Hybrid CNN \& Regresi}};
-    
-    \node[gapbox, below=0.8cm of hybrid] (gap) {\textbf{Unresolved Gap}\\ \vspace{0.2em} \textit{\tiny Single-signal processing lacks structural composition}};
+  \begin{tikzpicture}[node distance=0.5cm and 0.7cm]
+    % Three literature pillars
+    \node[litbox] (merlin) {\textbf{Physics Modeling}\\ \vspace{0.2em} {\tiny Favre et al. (2025)}\\ \vspace{0.1em} \textit{\tiny Radiative transfer}\\ \textit{\tiny simulation (MERLIN)}};
 
-    \node[thesisbox, left=1cm of gap] (thesis) {Proposed Thesis\\ \vspace{0.2em} \textit{\scriptsize Physics-Informed CNN--Transformer}};
-    
-    % Arrows
+    \node[litbox, right=of merlin] (informer) {\textbf{Qualitative}\\ \textbf{Spectral Learning}\\ \vspace{0.2em} {\tiny Walidain et al. (2026)}\\ \vspace{0.1em} \textit{\tiny Transformer-based}\\ \textit{\tiny classification}};
+
+    \node[litbox, right=of informer] (hybrid) {\textbf{Quantitative}\\ \textbf{Spectral Regression}\\ \vspace{0.2em} {\tiny Liu (2026) / Favre (2025)}\\ \vspace{0.1em} \textit{\tiny Hybrid CNN \&}\\ \textit{\tiny Transformer}};
+
+    % Arrows between pillars
     \draw[arrow] (merlin) -- (informer);
     \draw[arrow] (informer) -- (hybrid);
-    \draw[arrow] (hybrid) -- (gap);
-    \draw[arrow, draw=red!60, very thick] (gap) -- (thesis);
-    
+
+    % Key observation box
+    \node[obsbox, below=0.8cm of informer] (obs) {\textbf{Key Observation:} Semua pendekatan memperlakukan spektrum sebagai \textit{single signal}.\\ Struktur komposisi spektrum LIBS (mono $\rightarrow$ poliatom) \textbf{belum dieksplorasi}.};
+
+    \draw[arrow, draw=orange!80, very thick] (hybrid.south) -- (hybrid.south |- obs.north);
+
   \end{tikzpicture}
 
-  \vspace{1.5em}
-  {\small \textbf{Konklusi Peta Riset:}\\ \textit{Pendekatan kualitatif dan kuantitatif masih memperlakukan spektrum secara "black-box". Studi ini memecah belenggu tersebut via dekomposisi eksplisit mono-poliatom.}}
+  \vspace{0.8em}
+  {\small \textit{Penelitian LIBS telah berkembang dari simulasi fisika hingga deep learning, namun belum ada yang memodelkan hubungan komposisi spektral secara eksplisit.}}
 \end{frame}
 
 % =============================================================
-% Slide 6: Celah Penelitian
+% Slide 6: Research Gap — Structural Modeling
 % =============================================================
-\begin{frame}{Research Gap}
+\begin{frame}{Research Gap: Structural Modeling of LIBS Spectra}
   \centering
+  \vspace{0.2em}
 
   \tikzset{
-    box/.style={rectangle, rounded corners, draw=black!40, fill=gray!10,
-      text width=3.2cm, align=center, minimum height=1.3cm, font=\small\sffamily},
-    gapbox/.style={box, draw=red!60!black, fill=red!8, font=\small\sffamily\bfseries},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
+    currbox/.style={rectangle, rounded corners, draw=black!40, fill=gray!10,
+      text width=2.8cm, align=center, minimum height=1.4cm, font=\small\sffamily},
+    limbox/.style={rectangle, rounded corners, draw=red!60, fill=red!8,
+      text width=2.8cm, align=center, minimum height=1.4cm, font=\small\sffamily},
+    propbox/.style={rectangle, rounded corners, draw=green!60!black, fill=green!8,
+      text width=3.2cm, align=center, minimum height=1.4cm, font=\small\sffamily},
+    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick, draw=black!50}
   }
 
-  \begin{tikzpicture}[node distance=0.8cm and 1.2cm]
-    \node[box] (current) {\textbf{Saat Ini}\\Spektrum $\rightarrow$ Model\\(sinyal tunggal)};
-    \node[gapbox, right=of current] (gap) {\textbf{CELAH}\\Hubungan mono--poly\\tidak dimodelkan};
-    \node[box, right=of gap] (proposed) {\textbf{Diusulkan}\\Encoder--Decoder\\(komposisi eksplisit)};
+  \begin{tikzpicture}[node distance=0.5cm and 0.6cm]
+    \node[currbox] (current) {\textbf{Current}\\{\scriptsize Spectrum $\rightarrow$ Model}\\{\scriptsize (single signal)}};
 
-    \draw[arrow, draw=red!50] (current) -- (gap);
-    \draw[arrow, draw=maincolor] (gap) -- (proposed);
+    \node[limbox, right=of current] (limit) {\textbf{Limitation}\\{\scriptsize Komposisi spektral}\\{\scriptsize diabaikan}};
+
+    \node[propbox, right=of limit] (proposed) {\textbf{Proposed}\\{\scriptsize Mono $\rightarrow$ Encoder}\\{\scriptsize Poly $\rightarrow$ Decoder}\\{\scriptsize Cross-attention}};
+
+    \draw[arrow, draw=red!50] (current) -- (limit);
+    \draw[arrow, draw=green!60!black, very thick] (limit) -- (proposed);
   \end{tikzpicture}
 
-  \vspace{0.6em}
+  \vspace{0.4em}
 
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       {\small
       \textbf{Yang belum ada:}
       \begin{itemize}\setlength{\itemsep}{2pt}
-        \item Belum ada pemisahan spektrum monoatom vs poliatom.
-        \item Belum ada mekanisme \textit{attention} lintas komposisi.
-        \item Belum ada kerangka encoder--decoder untuk LIBS.
+        \item Pemisahan spektrum monoatom vs poliatom.
+        \item Mekanisme \textit{attention} lintas komposisi.
+        \item Kerangka encoder--decoder untuk LIBS.
       \end{itemize}}
     \end{column}
     \begin{column}{0.48\textwidth}
@@ -401,8 +396,8 @@
       \textbf{Yang kami usulkan:}
       \begin{itemize}\setlength{\itemsep}{2pt}
         \item Encoder mempelajari representasi monoatom.
-        \item Decoder mempelajari komposisi poliatom via \textit{cross-attention}.
-        \item Prediksi konsentrasi secara \textit{end-to-end}.
+        \item Decoder merekonstruksi komposisi poliatom via \textit{cross-attention}.
+        \item Prediksi konsentrasi unsur secara \textit{end-to-end}.
       \end{itemize}}
     \end{column}
   \end{columns}
@@ -414,24 +409,43 @@
 \begin{frame}{Research Questions \& Objectives}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Rumusan Masalah}
-        \begin{enumerate}\setlength{\itemsep}{5pt}
-          \item Bagaimana memodelkan hubungan spektral \textbf{mono--poliatom}?
-          \item Bagaimana mengekstraksi \textbf{fitur lokal} dan \textbf{dependensi global} secara simultan?
-          \item Dapatkah CNN--Transformer \textbf{meningkatkan} analisis kuantitatif LIBS?
-        \end{enumerate}
-      \end{block}
+      \textbf{Rumusan Masalah:}
+      \vspace{0.5em}
+      
+      \centering
+      \begin{tikzpicture}[
+        node distance=0.4cm,
+        rqbox/.style={rectangle, draw=maincolor, fill=maincolor!5, rounded corners=1mm,
+          text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.0cm, inner sep=1.5mm},
+        arrow/.style={-{Stealth[length=2.5mm,width=2mm]}, thick, draw=maincolor!80}
+      ]
+        \node[rqbox] (rq1) {\textbf{RQ1}\\Bagaimana memodelkan hubungan spektral \textbf{mono--poliatom}?};
+        \node[rqbox, below=of rq1] (rq2) {\textbf{RQ2}\\Bagaimana mengekstraksi \textbf{fitur lokal} \& \textbf{dependensi global}?};
+        \node[rqbox, below=of rq2] (rq3) {\textbf{RQ3}\\Dapatkah CNN-Transformer \textbf{meningkatkan} analisis kuantitatif?};
+        
+        \draw[arrow] (rq1) -- (rq2);
+        \draw[arrow] (rq2) -- (rq3);
+      \end{tikzpicture}
     \end{column}
 
     \begin{column}{0.48\textwidth}
-      \begin{block}{Tujuan Penelitian}
-        \begin{enumerate}\setlength{\itemsep}{5pt}
-          \item Memodelkan komposisi spektral mono--poliatom melalui encoder--decoder.
-          \item Mengembangkan arsitektur CNN--Transformer untuk pola lokal \& global.
-          \item Memprediksi konsentrasi unsur pada tanah vulkanik.
-          \item Mengevaluasi terhadap metode \textit{baseline}.
-        \end{enumerate}
-      \end{block}
+      \textbf{Tujuan Penelitian:}
+      \vspace{0.5em}
+
+      \centering
+      \begin{tikzpicture}[
+        node distance=0.4cm,
+        objbox/.style={rectangle, draw=green!60!black, fill=green!5, rounded corners=1mm,
+          text width=4.8cm, align=center, font=\small\sffamily, minimum height=1.0cm, inner sep=1.5mm},
+        arrow/.style={-{Stealth[length=2.5mm,width=2mm]}, thick, draw=green!60!black}
+      ]
+        \node[objbox] (obj1) {\textbf{Obj 1}\\Memodelkan komposisi spektral via \textit{encoder--decoder}.};
+        \node[objbox, below=of obj1] (obj2) {\textbf{Obj 2}\\Mengembangkan CNN-Transformer (deteksi pola lokal \& global).};
+        \node[objbox, below=of obj2] (obj3) {\textbf{Obj 3}\\Prediksi konsentrasi unsur akurat \& evaluasi vs \textit{baseline}.};
+        
+        \draw[arrow] (obj1) -- (obj2);
+        \draw[arrow] (obj2) -- (obj3);
+      \end{tikzpicture}
     \end{column}
   \end{columns}
 \end{frame}
