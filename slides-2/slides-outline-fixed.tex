@@ -1,0 +1,161 @@
+\documentclass{beamer}
+\usepackage[en]{zafu}
+
+% Metadata (7-minute talk)
+\title[Calibration-Free LIBS w/ Informer]{An Informer-Based Calibration-Free LIBS Spectral Identification}
+\subtitle{Case Study: Aceh Traditional Women's Medicine}
+\author[Walidain]{Birrul Walidain}
+\date{5 Sep 2025}
+
+% Optional: small logo on title (uses your USK logo)
+\titlegraphic{\includegraphics[width=0.16\textwidth]{src/logo-usk.png}}
+
+\begin{document}
+
+\maketitle % 0:00–0:30
+
+% 0:30–1:30
+\begin{frame}{Motivation: Why LIBS is hard}
+  \begin{itemize}
+    \item Overlapping lines; matrix effects
+    \item High-resolution spectra → compute bottleneck
+    \item Need fast, calibration-free screening
+  \end{itemize}
+  % Visual placeholder (replace or remove)
+  \vspace{4pt}\fbox{\parbox{0.96\textwidth}{Visual: LIBS spectrum with overlapping peaks (placeholder)}}
+\end{frame}
+
+% 1:30–2:15
+\begin{frame}{Method: Informer for LIBS}
+  \begin{itemize}
+    \item ProbSparse Self-Attention: \(\mathcal O(L\log L)\)
+    \item 2-layer Informer → efficient, avoids overfitting
+    \item MultiLabelFocalLoss for class imbalance
+  \end{itemize}
+  \vspace{4pt}\fbox{\parbox{0.96\textwidth}{Visual: Tiny encoder diagram + ProbSparse callout (placeholder)}}
+\end{frame}
+
+% 2:15–3:00
+\begin{frame}{Data: Physics-based synthetic spectra}
+  \begin{itemize}
+    \item Saha–Boltzmann plasma modeling; varied conditions
+    \item Synthetic-only training for coverage \& control
+    \item Evaluation on target dataset
+  \end{itemize}
+  \vspace{4pt}\fbox{\parbox{0.96\textwidth}{Visual: Pipeline (physics → synthetic → training) placeholder}}
+\end{frame}
+
+% 3:00–4:00
+\begin{frame}{Results: Accuracy vs. depth}
+  \begin{itemize}
+    \item 2-layer best vs. \{1,4,8\} layers (F1 = 0.94, 0.92, 0.93, 0.91)
+    \item Sample efficiency: 1k samples competitive with 10k
+    \item Speed: \(0.3\,\text{ms}/\text{spectrum}\) vs. \(15\,\text{ms}\) (CNN)
+  \end{itemize}
+  \vspace{4pt}\fbox{\parbox{0.96\textwidth}{Visual: Bar chart of F1 scores + timing (placeholder)}}
+\end{frame}
+
+% 4:00–5:30
+\begin{frame}{Herbal screening case study}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Success}
+      \begin{itemize}
+        \item Major: Fe, Ca, Mg (\textcolor{green}{✓})
+        \item Trace: Cu, Zn (\textcolor{green}{✓})
+        \item Fast 2-class triage
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Limits}
+      \begin{itemize}
+        \item Precision hit by peak overlaps
+        \item Needs domain priors / grouping
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 6:15–7:00
+\begin{frame}{Takeaways}
+  \begin{itemize}
+    \item Informer (\(\mathcal O(L\log L)\)) enables scalable LIBS
+    \item Works on complex herbal matrices (major/minor/trace)
+    \item Ready for screening; next: precision via priors
+  \end{itemize}
+\end{frame}
+
+% Combined Q&A and Acknowledgments
+\begin{frame}{}
+  \vfill
+  \begin{center}
+    {\Huge \textcolor{uskGold}{\textbf{Q\&A Session}}}
+    
+    \vspace{2em}
+    
+    {\large Thank you for your attention!}
+  \end{center}
+  \vfill
+  
+  \begin{center}
+    {\footnotesize \textcolor{gray}{\textbf{Acknowledgments}}}
+    
+    \vspace{0.5em}
+    
+    {\scriptsize \textcolor{gray}{
+    This research was made possible through the computational resources\\
+    provided by the National Research and Innovation Agency (BRIN)\\
+    via the High Performance Computing (HPC) facility\\
+    (Proposal No. 224246 \& 189541).
+    }}
+    
+    \vspace{0.3em}
+    
+    {\scriptsize \textcolor{gray}{
+    We gratefully acknowledge the support of the Institute for\\
+    Research and Community Service (LPPM) Universitas Syiah Kuala\\
+    in facilitating the patent application for the invention\\
+    derived from this research (Application No. S00202506246).
+    }}
+    
+    \vspace{0.3em}
+    
+    {\scriptsize \textcolor{gray}{
+    Finally, we would like to thank the organizing committee\\
+    of the Annual International Conference on Science and\\
+    Engineering (AIC-SE) USK for the opportunity to present this work.
+    }}
+  \end{center}
+\end{frame}
+
+% Template Credits Slide
+\begin{frame}{}
+  \vfill
+  \begin{center}
+    {\Large \textcolor{uskGold}{\textbf{Template Credits}}}
+    
+    \vspace{1.5em}
+    
+    {\large Presentation template based on:}
+    
+    \vspace{1em}
+    
+    {\LARGE \textbf{ZAFU Beamer Theme}}\\
+    \vspace{0.5em}
+    {\normalsize Original by: \textcolor{gray}{github.com/ke1ewang/ZAFU-Beamer-Theme}}
+    
+    \vspace{1.5em}
+    
+    {\large \textcolor{uskGold}{\textbf{USK Adaptation}}}\\
+    \vspace{0.5em}
+    {\normalsize Adapted \& Modified by: \textbf{Birrul Walidain}}\\
+    {\small \textcolor{gray}{Editor for Universitas Syiah Kuala}}
+    
+    \vspace{1em}
+    
+    {\small \textcolor{gray}{September 2025}}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}

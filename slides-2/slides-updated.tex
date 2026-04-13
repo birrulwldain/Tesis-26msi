@@ -1,0 +1,322 @@
+\documentclass{beamer}
+\usepackage[en]{zafu}
+
+% Metadata (7-minute presentation)
+\title[Calibration-Free LIBS w/ Informer]{An Informer-Based Calibration-Free LIBS Spectral Identification}
+\subtitle{Case Study: Aceh Traditional Women's Medicine}
+\author[Walidain et al.]{
+  Birrul Walidain\textsuperscript{1}, Nasrullah Idris\textsuperscript{1*}, \\
+  Khairun Saddami\textsuperscript{2}, Natasya Yuza\textsuperscript{1}
+}
+\institute{
+  \small
+  \textsuperscript{1}Department of Physics, Faculty of Mathematics and Natural Sciences\\
+  \textsuperscript{2}Department of Electrical and Computer Engineering\\
+  \textbf{Universitas Syiah Kuala}, Banda Aceh, Indonesia, 23111\\
+  \vspace{0.5em}
+  \textsuperscript{*}Corresponding author: \texttt{birrul@mhs.usk.ac.id}
+}
+\date{September 5, 2025}
+
+% Optional: small logo on title (uses your USK logo)
+\titlegraphic{\includegraphics[width=0.16\textwidth]{src/logo-usk.png}}
+
+\begin{document}
+
+% Slide 1: Title Slide (0:00–0:30)
+\maketitle
+
+\section{Introduction}
+
+% Slide 2: Research Objectives (0:30–1:15)
+\begin{frame}{Research Objectives}
+  \begin{block}{Main Goal}
+    Develop calibration-free LIBS identification using Informer deep learning with synthetic physics-based training
+  \end{block}
+  
+  \vspace{1em}
+  
+  \begin{itemize}
+    \item \textbf{Innovation}: First use of Informer architecture for LIBS spectral analysis
+    \item \textbf{Physics approach}: Saha-Boltzmann equations + NIST database simulation
+    \item \textbf{Efficiency gain}: ProbSparse attention reduces complexity to $\mathcal{O}(L \log L)$
+    \item \textbf{Validation}: Synthetic-trained model tested on real experimental data
+  \end{itemize}
+  
+  \vspace{0.5em}
+  \begin{alertblock}{Research Question}
+    Can synthetic LIBS spectra based on fundamental plasma physics replace expensive calibration procedures?
+  \end{alertblock}
+\end{frame}
+
+% Slide 3: Problem Statement (1:15–1:45)
+\begin{frame}{Why LIBS Analysis is Challenging}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Spectral Complexity:}
+      \begin{itemize}
+        \item Al/Ca interference at 393-396 nm
+        \item Ion-neutral equilibrium shifts
+        \item Temperature-dependent dominance
+        \item Multi-element overlapping
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Analysis Challenges:}
+      \begin{itemize}
+        \item Ca II (393.37 nm) vs Al I overlap
+        \item Saha equilibrium complexity
+        \item Matrix effect variations
+        \item Manual peak deconvolution
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{alertblock}{Real Example from Research}
+    At T=8000K: Ca II dominates (100\% intensity), Al I weak (14.6\% Saha fraction)\\
+    Traditional methods struggle with such dynamic equilibria
+  \end{alertblock}
+\end{frame}
+
+\section{Methodology}
+
+% Slide 4: Informer Architecture (1:45–2:30)
+\begin{frame}{Informer-Based Solution}
+  \begin{block}{Key Innovation: ProbSparse Self-Attention}
+    Reduces complexity from $\mathcal{O}(L^2)$ to $\mathcal{O}(L \log L)$ for efficient spectral processing
+  \end{block}
+  
+  \vspace{0.5em}
+  
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \textbf{Technical Implementation:}
+      \begin{itemize}
+        \item 2-layer encoder (optimal depth)
+        \item MultiLabelFocalLoss for class imbalance
+        \item Automatic Mixed Precision (AMP)
+        \item 18-element multi-label classification
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \textbf{Training Details:}
+      \begin{itemize}
+        \item 70 epochs, stable convergence
+        \item Focal Loss $\alpha$=0.25, $\gamma$=2.0
+        \item Dropout regularization
+        \item Physics-guided attention
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.5em}
+  \begin{exampleblock}{Advantage over Traditional CNNs}
+    Global attention captures long-range spectral dependencies and interference patterns
+  \end{exampleblock}
+\end{frame}
+
+% Slide 5: Dataset and Training (2:30–3:15)
+\begin{frame}{Physics-Based Synthetic Training}
+  \begin{block}{Saha-Boltzmann Plasma Modeling}
+    NIST database + controlled conditions: T=6000-12000K, $n_e=10^{16}-10^{18}$ cm$^{-3}$
+  \end{block}
+  
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Physics Implementation:}
+      \begin{itemize}
+        \item 18 elements (Al, Ca, Fe, Si, etc.)
+        \item Saha equilibrium calculations
+        \item Boltzmann population statistics
+        \item Gaussian line profiles
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Validation Results:}
+      \begin{itemize}
+        \item NIST comparison: high agreement
+        \item Temperature effects captured
+        \item Ion-neutral transitions modeled
+        \item Real interference patterns
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{exampleblock}{Example: Al-Ca System}
+    At T=8000K: Al I (14.6\% Saha) vs Ca II (83.0\% Saha) - correctly predicted dominance
+  \end{exampleblock}
+\end{frame}
+
+\section{Results}
+
+% Slide 6: Performance Results (3:15–4:15)
+\begin{frame}{Experimental Results}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Model Performance:}
+      \begin{itemize}
+        \item \textcolor{green}{\textbf{F1-Score: 0.6445}} (2-layer optimal)
+        \item \textbf{Precision:} 0.5938 (macro avg)
+        \item \textbf{Recall:} 0.7733 (high sensitivity)
+        \item 3-layer: 0.5199 (overfitting)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Element-Specific Results:}
+      \begin{itemize}
+        \item Ca: F1=0.8065 (excellent)
+        \item Si: F1=0.8397 (excellent)
+        \item Al: F1=0.6665 (good)
+        \item Fe: F1=0.1761 (challenging)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{1em}
+  
+  \begin{block}{Key Findings}
+    High recall (0.77) shows excellent sensitivity; Lower precision indicates interference challenges - consistent with physics expectations
+  \end{block}
+\end{frame}
+
+% Slide 7: Case Study Application (4:15–5:15)
+\begin{frame}{Physics Interpretation \& Validation}
+  \begin{block}{NIST Validation Success}
+    Synthetic spectra match NIST reference data with high fidelity across multiple wavelength ranges
+  \end{block}
+  
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Temperature Effects:}
+      \begin{itemize}
+        \item 6000K: Ca I dominant (1.000)
+        \item 8000K: Ca II takes over (1.000)
+        \item Model captures transitions
+        \item Ion-neutral equilibrium learned
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Spectral Complexity:}
+      \begin{itemize}
+        \item Multi-element interference
+        \item Al-Ca overlap at 393-396 nm
+        \item ProbSparse attention handles overlaps
+        \item Physics-consistent predictions
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{exampleblock}{Real-World Application}
+    Eggshell sample analysis: Successfully identified Ca, Al, Fe with model trained only on synthetic data
+  \end{exampleblock}
+\end{frame}
+
+\section{Conclusion}
+
+% Slide 8: Conclusions and Future Work (5:15–6:15)
+\begin{frame}{Conclusions \& Future Directions}
+  \begin{block}{Key Achievements}
+    \begin{itemize}
+      \item \textbf{Physics-based validation}: Synthetic spectra match NIST data
+      \item \textbf{Practical performance}: F1=0.6445 on 18-element classification
+      \item \textbf{Calibration-free operation}: Model works on real data without retraining
+    \end{itemize}
+  \end{block}
+  
+  \vspace{1em}
+  
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Research Contributions:}
+      \begin{itemize}
+        \item Saha-Boltzmann simulation validation
+        \item Informer architecture optimization
+        \item Multi-element interference handling
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Future Research:}
+      \begin{itemize}
+        \item Non-LTE plasma conditions
+        \item Quantitative concentration analysis  
+        \item Extended element database
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{alertblock}{Impact}
+    Opens pathway for \textbf{calibration-free LIBS} in resource-limited settings
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Q&A and Acknowledgments (6:15–7:00 + 3 min Q&A)
+\begin{frame}{}
+  \vfill
+  \begin{center}
+    {\Huge \textcolor{uskGold}{\textbf{Thank You!}}}
+    
+    \vspace{1em}
+    
+    {\Large Questions \& Discussion}
+    
+    \vspace{1.5em}
+    
+    {\large \textcolor{uskGold}{\textbf{Contacts:}}}
+    
+    \vspace{0.5em}
+    
+    {\normalsize 
+    \textbf{Birrul Walidain:} \texttt{birrul@mhs.usk.ac.id}\\
+    \textbf{Nasrullah Idris:} \texttt{nasrullah.idris@usk.ac.id}
+    }
+  \end{center}
+  \vfill
+  
+  \begin{center}
+    {\footnotesize \textcolor{gray}{\textbf{Acknowledgments}}}
+    
+    \vspace{0.3em}
+    
+    {\scriptsize \textcolor{gray}{
+    This research was supported by BRIN High Performance Computing\\
+    (Proposals 224246 \& 189541) and LPPM USK (Patent Application S00202506246).\\
+    Thanks to AIC-SE USK organizing committee.
+    }}
+  \end{center}
+\end{frame}
+
+% Slide 10: Template Credits
+\begin{frame}{}
+  \vfill
+  \begin{center}
+    {\Large \textcolor{uskGold}{\textbf{Template Credits}}}
+    
+    \vspace{1.5em}
+    
+    {\large Presentation template based on:}
+    
+    \vspace{1em}
+    
+    {\LARGE \textbf{ZAFU Beamer Theme}}\\
+    \vspace{0.5em}
+    {\normalsize Original by: \textcolor{gray}{github.com/ke1ewang/ZAFU-Beamer-Theme}}
+    
+    \vspace{1.5em}
+    
+    {\large \textcolor{uskGold}{\textbf{USK Adaptation}}}\\
+    \vspace{0.5em}
+    {\normalsize Adapted \& Modified by: \textbf{Birrul Walidain}}\\
+    {\small \textcolor{gray}{Department of Physics, USK}}
+    
+    \vspace{1em}
+    
+    {\small \textcolor{gray}{September 2025}}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}

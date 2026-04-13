@@ -5,153 +5,153 @@
 
 \chapter{TINJAUAN KEPUSTAKAAN}
 
-\section{Termodinamika Plasma \textit{Laser-Induced Breakdown Spectroscopy} (LIBS)}
+% \section{Termodinamika Plasma \textit{Laser-Induced Breakdown Spectroscopy} (LIBS)}
 
-\subsection{Dinamika Ablasi dan Evolusi Plasma Stasioner Semu (\textit{Quasi-Stationary})}
+% \subsection{Dinamika Ablasi dan Evolusi Plasma Stasioner Semu (\textit{Quasi-Stationary})}
 
-Teknik \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) didasarkan pada interaksi destruktif antara pulsa laser berintensitas tinggi dengan permukaan sampel material. Pada awal interaksi, energi laser diserap oleh material, memicu pemanasan lokal yang ekstrem, pelelehan, dan penguapan untuk membentuk sebuah kawah (\textit{crater}). Penguapan ini menghasilkan awan uap yang padat, yang kemudian terus menyerap energi laser yang datang melalui mekanisme seperti emisi invers \textit{Bremsstrahlung} dan fotoionisasi. Penyerapan berkelanjutan ini menyebabkan ekspansi kaskade tumbukan elektron dan pemecahan dielektrik (\textit{dielectric breakdown}), menghasilkan plasma bersuhu dan berkerapatan sangat tinggi \citep{CremersRadzemski2013}.
+% Teknik \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) didasarkan pada interaksi destruktif antara pulsa laser berintensitas tinggi dengan permukaan sampel material. Pada awal interaksi, energi laser diserap oleh material, memicu pemanasan lokal yang ekstrem, pelelehan, dan penguapan untuk membentuk sebuah kawah (\textit{crater}). Penguapan ini menghasilkan awan uap yang padat, yang kemudian terus menyerap energi laser yang datang melalui mekanisme seperti emisi invers \textit{Bremsstrahlung} dan fotoionisasi. Penyerapan berkelanjutan ini menyebabkan ekspansi kaskade tumbukan elektron dan pemecahan dielektrik (\textit{dielectric breakdown}), menghasilkan plasma bersuhu dan berkerapatan sangat tinggi \citep{CremersRadzemski2013}.
 
-Setelah pulsa laser berakhir, plasma mulai berekspansi ke ruang bebas dan mendingin. Dinamika ekspansi ini mengubah konstelasi sifat termodinamika plasma dari keadaan dengan gradien suhu dan densitas ekstrem menjadi sedikit lebih homogen. Pada jendela waktu tertentu (umumnya dalam skala mikrodetik setelah fase awal), laju pendinginan plasma akibat ekspansi adiabatik dan emisi radiatif cukup melambat sehingga plasma tersebut dapat dipandang berada dalam keadaan stasioner semu (\textit{quasi-stationary}). Pada keadaan ini, perubahan parameter termodinamika berlalu cukup lambat sehingga pertimbangan ekuilibrium termodinamika sementara dapat diaplikasikan \citep{Beiser1992, Demtroder2010}.
+% Setelah pulsa laser berakhir, plasma mulai berekspansi ke ruang bebas dan mendingin. Dinamika ekspansi ini mengubah konstelasi sifat termodinamika plasma dari keadaan dengan gradien suhu dan densitas ekstrem menjadi sedikit lebih homogen. Pada jendela waktu tertentu (umumnya dalam skala mikrodetik setelah fase awal), laju pendinginan plasma akibat ekspansi adiabatik dan emisi radiatif cukup melambat sehingga plasma tersebut dapat dipandang berada dalam keadaan stasioner semu (\textit{quasi-stationary}). Pada keadaan ini, perubahan parameter termodinamika berlalu cukup lambat sehingga pertimbangan ekuilibrium termodinamika sementara dapat diaplikasikan \citep{Beiser1992, Demtroder2010}.
 
-\subsection{Kriteria Validitas \textit{Local Thermodynamic Equilibrium} (LTE) dan Kriteria McWhirter}
+% \subsection{Kriteria Validitas \textit{Local Thermodynamic Equilibrium} (LTE) dan Kriteria McWhirter}
 
-Analisis kuantitatif dari emisi plasma LIBS sangat bergantung pada asumsi keseimbangan termodinamika, yang paling umum adalah \textit{Local Thermodynamic Equilibrium} (LTE). Dalam LTE, meskipun suhu tidak seragam di seluruh volume plasma makroskopik, keadaan tumbukan antar partikel pada daerah lokal tertentu yang sangat kecil dapat dianggap cukup padat untuk menentukan distribusi populasi spesies secara independen dari proses radiatif. 
+% Analisis kuantitatif dari emisi plasma LIBS sangat bergantung pada asumsi keseimbangan termodinamika, yang paling umum adalah \textit{Local Thermodynamic Equilibrium} (LTE). Dalam LTE, meskipun suhu tidak seragam di seluruh volume plasma makroskopik, keadaan tumbukan antar partikel pada daerah lokal tertentu yang sangat kecil dapat dianggap cukup padat untuk menentukan distribusi populasi spesies secara independen dari proses radiatif. 
 
-Agar LTE sahih, laju eksitasi dan de-eksitasi melalui tumbukan elektron harus jauh melampaui laju yang diatur oleh proses radiasi spontan. Kriteria McWhirter merumuskan ambang batas minimum densitas elektron untuk menjamin dominasi tumbukan terhadap transisi radiatif bebas \citep{McWhirter1965}:
-\begin{equation}
-n_e \geq 1.6 \times 10^{12} T_e^{1/2} (\Delta E)^3 \, \text{cm}^{-3}, \label{eq:bab2_eq28}
-\end{equation}
-di mana \( T_e \) adalah suhu elektron dalam eV dan \( \Delta E \) adalah perbedaan interval energi transisi konstan ekuilibrium eksitasi dominan dalam spektrum eV. Memenuhi kriteria ini memastikan keabsahan pendekatan teoretis yang menggunakan suhu tunggal transien untuk menerangkan distribusi kinetik molekuler murni. Jika ketidakseimbangan minimal terjadi, formula ekuivalen \textit{Partial} LTE (pLTE) diberlakukan, di mana elektron hanya mampu mengendalikan tingkat energi makroskopik dari eksitasi orde tinggi ke batas mutlak ion tanpa merekonsiliasi keadaan kuantum taraf energi paling dasar secara penuh \citep{favre_merlin_2025}.
+% Agar LTE sahih, laju eksitasi dan de-eksitasi melalui tumbukan elektron harus jauh melampaui laju yang diatur oleh proses radiasi spontan. Kriteria McWhirter merumuskan ambang batas minimum densitas elektron untuk menjamin dominasi tumbukan terhadap transisi radiatif bebas \citep{McWhirter1965}:
+% \begin{equation}
+% n_e \geq 1.6 \times 10^{12} T_e^{1/2} (\Delta E)^3 \, \text{cm}^{-3}, \label{eq:bab2_eq28}
+% \end{equation}
+% di mana \( T_e \) adalah suhu elektron dalam eV dan \( \Delta E \) adalah perbedaan interval energi transisi konstan ekuilibrium eksitasi dominan dalam spektrum eV. Memenuhi kriteria ini memastikan keabsahan pendekatan teoretis yang menggunakan suhu tunggal transien untuk menerangkan distribusi kinetik molekuler murni. Jika ketidakseimbangan minimal terjadi, formula ekuivalen \textit{Partial} LTE (pLTE) diberlakukan, di mana elektron hanya mampu mengendalikan tingkat energi makroskopik dari eksitasi orde tinggi ke batas mutlak ion tanpa merekonsiliasi keadaan kuantum taraf energi paling dasar secara penuh \citep{favre_merlin_2025}.
 
-\subsection{Hukum Aksi Massa: Distribusi Populasi Saha-Boltzmann pada Keadaan Tunak}
+% \subsection{Hukum Aksi Massa: Distribusi Populasi Saha-Boltzmann pada Keadaan Tunak}
 
-Dalam batas validitas stabilitas keseimbangan plasma asimtotik mutlak termodinamika, ekspektasi rasio kerapatan absolut bagi transisi spesies turunan ekuivalen murni dari sistem komposisional analitik atom terobservasi tunduk lurus pada teori fungsi deterministik probabilitas ekuilibrium Boltzmann:
-\begin{equation}
-\frac{n_i}{N} = \frac{g_i \exp\left(-\frac{E_i}{k_B T}\right)}{Z(T)}, \quad Z(T) = \sum_k g_k \exp\left(-\frac{E_k}{k_B T}\right) \label{eq:boltzmann1}
-\end{equation}
-di mana \( n_i \) memformulasikan proporsi deterministik atom tereksitasi populasi kuantum spesifik matriks absolut, \( N \) merupakan kuantitas agregat densitas dasar fungsional komputasi total spesies tersebut mutlak, \( g_i \) adalah bobot transisi faktor degenerasi simetrik teoretis, dan probabilitas mutlak fasa komputasi asimtot penyusutan eksponensial diintervensi penahanan parameter \( k_B = 8.617 \times 10^{-5} \, \text{eV/K} \) konstanta konstan fisik persamaan mutlak, dengan fasa resolusi fungsional pembagi partisi ditakar sebagai formulasi konstan penyebut \( Z(T) \).
+% Dalam batas validitas stabilitas keseimbangan plasma asimtotik mutlak termodinamika, ekspektasi rasio kerapatan absolut bagi transisi spesies turunan ekuivalen murni dari sistem komposisional analitik atom terobservasi tunduk lurus pada teori fungsi deterministik probabilitas ekuilibrium Boltzmann:
+% \begin{equation}
+% \frac{n_i}{N} = \frac{g_i \exp\left(-\frac{E_i}{k_B T}\right)}{Z(T)}, \quad Z(T) = \sum_k g_k \exp\left(-\frac{E_k}{k_B T}\right) \label{eq:boltzmann1}
+% \end{equation}
+% di mana \( n_i \) memformulasikan proporsi deterministik atom tereksitasi populasi kuantum spesifik matriks absolut, \( N \) merupakan kuantitas agregat densitas dasar fungsional komputasi total spesies tersebut mutlak, \( g_i \) adalah bobot transisi faktor degenerasi simetrik teoretis, dan probabilitas mutlak fasa komputasi asimtot penyusutan eksponensial diintervensi penahanan parameter \( k_B = 8.617 \times 10^{-5} \, \text{eV/K} \) konstanta konstan fisik persamaan mutlak, dengan fasa resolusi fungsional pembagi partisi ditakar sebagai formulasi konstan penyebut \( Z(T) \).
 
-Pada limit fungsi fungsional determinasi disosiasi analitik pelepasan muatan partikel matriks gas, intervensi proses ionisasi spesifik ini terepresentasikan utuh menyatu pada fungsi Hukum Aksi Massa yang melahirkan derivasi mutlak dari identitas skema murni keseimbangan termal Persamaan Saha \citep{Pathria2011}:
-\begin{equation}
-\frac{n_{z+1} n_e}{n_z} = 2 \frac{Z_{z+1}(T)}{Z_z(T)} \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} \exp\left(-\frac{E_{ion} - \Delta E_{ion}}{k_B T}\right), \label{eq:bab2_eq27}
-\end{equation}
-di mana \( n_e \) adalah determinan densitas bebas partikel elektron plasma reaktif asimtot interaktif, rasio fungsi \( Z_{z+1} \) dan \( Z_z \) adalah identitas parsial fasa pembagi interaksi diferensial eksitasi fungsional konstan fasa ionik teoretis murni versus analit murni reaktif netral absolut. Parameter penyusutan ionisasi mutakhir ini ditekan mutlak serapan kohesi oleh faktor korektif interaksi polar \( \Delta E_{ion} \) (biasa dikenal dengan distorsi deterministik *lowering* Griem dari eksistensi konstan \textit{Stark} matriks polarisasi murni plasma densitas rapat) terhadap konstanta ambang murni dasar absolut sejati (\( E_{ion} \)).
+% Pada limit fungsi fungsional determinasi disosiasi analitik pelepasan muatan partikel matriks gas, intervensi proses ionisasi spesifik ini terepresentasikan utuh menyatu pada fungsi Hukum Aksi Massa yang melahirkan derivasi mutlak dari identitas skema murni keseimbangan termal Persamaan Saha \citep{Pathria2011}:
+% \begin{equation}
+% \frac{n_{z+1} n_e}{n_z} = 2 \frac{Z_{z+1}(T)}{Z_z(T)} \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} \exp\left(-\frac{E_{ion} - \Delta E_{ion}}{k_B T}\right), \label{eq:bab2_eq27}
+% \end{equation}
+% di mana \( n_e \) adalah determinan densitas bebas partikel elektron plasma reaktif asimtot interaktif, rasio fungsi \( Z_{z+1} \) dan \( Z_z \) adalah identitas parsial fasa pembagi interaksi diferensial eksitasi fungsional konstan fasa ionik teoretis murni versus analit murni reaktif netral absolut. Parameter penyusutan ionisasi mutakhir ini ditekan mutlak serapan kohesi oleh faktor korektif interaksi polar \( \Delta E_{ion} \) (biasa dikenal dengan distorsi deterministik *lowering* Griem dari eksistensi konstan \textit{Stark} matriks polarisasi murni plasma densitas rapat) terhadap konstanta ambang murni dasar absolut sejati (\( E_{ion} \)).
 
-\section{Spektroskopi Emisi dan Profil Garis Spektral}
+% \section{Spektroskopi Emisi dan Profil Garis Spektral}
 
-\subsection{Emisi Spontan dan Koefisien Einstein (\textit{Bound-Bound Transitions})}
+% \subsection{Emisi Spontan dan Koefisien Einstein (\textit{Bound-Bound Transitions})}
 
-Resolusi spektroskopi deterministik mengaplikasikan penangkapan ekstraksi deteksi fasa emisi gelombang paket diskrit pendaran rill foton sewaktu muatan eksitasi terelektronik analitik merosot kembali turun menyongsong transisi energi batas terikat (\textit{bound-bound}) aras yang direndahkan. Loncatan spontan yang terjadi dari ambang eksitasi teoretis tingkat atas \( k \) menuju fasa keadaan aras penerima bawah \( i \) ini mendelegasikan energi mutlak dengan memancarkan radiasi emisi yang ditakar linearitasnya oleh representasi fungsional analitik ekuivalensi radiometris intensitas:
-\begin{equation}
-I_{ki} = \frac{hc}{4\pi\lambda_{ki}} A_{ki} n_k, \label{eq:bab2_eq9}
-\end{equation}
-di mana rill konstanta probabilitas transisi mutlak independen absolut sejati bagi peristiwa emisi teoretik yang merubah level muatan kuantum ini tercatat spesifik seukuran resolusi fasa rasio \textit{Koefisien Einstein} (\( A_{ki} \)), bergantung interdependensi absolut presisi fisika kuantitatif atas fraksi matriks ekuilibrium populasi eksitasi deterministik Saha-Boltzmann independen konstan (\( n_k \)) \citep{Rybicki1985}.
+% Resolusi spektroskopi deterministik mengaplikasikan penangkapan ekstraksi deteksi fasa emisi gelombang paket diskrit pendaran rill foton sewaktu muatan eksitasi terelektronik analitik merosot kembali turun menyongsong transisi energi batas terikat (\textit{bound-bound}) aras yang direndahkan. Loncatan spontan yang terjadi dari ambang eksitasi teoretis tingkat atas \( k \) menuju fasa keadaan aras penerima bawah \( i \) ini mendelegasikan energi mutlak dengan memancarkan radiasi emisi yang ditakar linearitasnya oleh representasi fungsional analitik ekuivalensi radiometris intensitas:
+% \begin{equation}
+% I_{ki} = \frac{hc}{4\pi\lambda_{ki}} A_{ki} n_k, \label{eq:bab2_eq9}
+% \end{equation}
+% di mana rill konstanta probabilitas transisi mutlak independen absolut sejati bagi peristiwa emisi teoretik yang merubah level muatan kuantum ini tercatat spesifik seukuran resolusi fasa rasio \textit{Koefisien Einstein} (\( A_{ki} \)), bergantung interdependensi absolut presisi fisika kuantitatif atas fraksi matriks ekuilibrium populasi eksitasi deterministik Saha-Boltzmann independen konstan (\( n_k \)) \citep{Rybicki1985}.
 
-\subsection{Emisi Kontinuum: \textit{Bremsstrahlung} dan Rekombinasi Radiatif}
+% \subsection{Emisi Kontinuum: \textit{Bremsstrahlung} dan Rekombinasi Radiatif}
 
-Selain loncatan elektron terkuantisasi riil yang menghadirkan jejak emisi pita diskrit spektroskopi analitik kaku murni, medium plasma LIBS berdensitas ekuilibrium stasioner senantiasa akan diterpa anomali mutlak distorsi latar fasa (\textit{baseline}) pendaran kontinuum difus radiatif teoretis nir-diskrit di sepanjang ekuator pantauan resolusi rentang kordinat gelombang. Pelemahan presisi spektrum kuantitatif mutlak asimtot ini murni memancar melalui dua perpaduan mekanisme independen absolut deterministik fasa fisika:
-\begin{enumerate}
-    \item \textit{Bremsstrahlung} (Radiasi Pengereman): Disipasi pemancaran termodinamika energi riil hasil dari fasa deviasi pelepasan deselerasi kelajuan deseleratif hambatan laju partikel bebas (*free-free*), tatkala trajektori percepatan elektron merdeka terbuang membengkok memutari kuatnya gradien potensial kelistrikan kation ion sisa mutlak analitis plasma transien asimtotik deterministik \citep{CremersRadzemski2013}.
-    \item \textbf{Rekombinasi Radiatif}: Sumbangsih luapan residu sisa ekskresi panas pelepasan emisi (*free-bound*). Proses mutlak ini terjadi persis asimtot di ambang kejadian termal teoretis deterministik di kala sebaran acak kecepatan elektron bebas merdeka tertelan ditangkap jatuh mendarat ke fasa orbit batas serapan kuantum inti radikal muatan ion kation kembali stabil murni.
-\end{enumerate}
+% Selain loncatan elektron terkuantisasi riil yang menghadirkan jejak emisi pita diskrit spektroskopi analitik kaku murni, medium plasma LIBS berdensitas ekuilibrium stasioner senantiasa akan diterpa anomali mutlak distorsi latar fasa (\textit{baseline}) pendaran kontinuum difus radiatif teoretis nir-diskrit di sepanjang ekuator pantauan resolusi rentang kordinat gelombang. Pelemahan presisi spektrum kuantitatif mutlak asimtot ini murni memancar melalui dua perpaduan mekanisme independen absolut deterministik fasa fisika:
+% \begin{enumerate}
+%     \item \textit{Bremsstrahlung} (Radiasi Pengereman): Disipasi pemancaran termodinamika energi riil hasil dari fasa deviasi pelepasan deselerasi kelajuan deseleratif hambatan laju partikel bebas (*free-free*), tatkala trajektori percepatan elektron merdeka terbuang membengkok memutari kuatnya gradien potensial kelistrikan kation ion sisa mutlak analitis plasma transien asimtotik deterministik \citep{CremersRadzemski2013}.
+%     \item \textbf{Rekombinasi Radiatif}: Sumbangsih luapan residu sisa ekskresi panas pelepasan emisi (*free-bound*). Proses mutlak ini terjadi persis asimtot di ambang kejadian termal teoretis deterministik di kala sebaran acak kecepatan elektron bebas merdeka tertelan ditangkap jatuh mendarat ke fasa orbit batas serapan kuantum inti radikal muatan ion kation kembali stabil murni.
+% \end{enumerate}
 
-\subsection{Mekanisme Pelebaran Garis (\textit{Line Broadening})}
+% \subsection{Mekanisme Pelebaran Garis (\textit{Line Broadening})}
 
-Walaupun probabilitas matriks resolusional deterministik energi memproyeksikan presisi garis eksak monokromatik analitik mutlak tajam, namun profil pendaran optis LIBS riil secara eksperimen terekam mendeskripsikan luasan dispersi pembiasan distorsi puncak pita emisi secara sistematis. Disjungsi rill ini menguak keberadaan difusi morfologi termal murni:
+% Walaupun probabilitas matriks resolusional deterministik energi memproyeksikan presisi garis eksak monokromatik analitik mutlak tajam, namun profil pendaran optis LIBS riil secara eksperimen terekam mendeskripsikan luasan dispersi pembiasan distorsi puncak pita emisi secara sistematis. Disjungsi rill ini menguak keberadaan difusi morfologi termal murni:
 
-\begin{itemize}
-    \item \textbf{Pelebaran Termal Doppler (Gaussian)}: Eksistensi kinematika pergerakan fluida termodinamika analitik penyebaran Maxwell atom emitter (panas riil konstan mutakhir temperatur fungsional asimtotik absolut deterministik plasma, ekskresi fungsi \( T \)) bermanifestasi menebarkan efek berantai distorsi anomali mekanikal frekuensi radiasi seakan mengembang menyamping murni. Profil fasa distorsi deterministik penyimpangan kurva mutlak ini memiliki bentuk presisi ekuilibrium fungsi sebaran statistik \textit{Gaussian} konstan:
-    \begin{equation}
-    \sigma = \frac{\lambda_0}{c} \sqrt{\frac{k_B T}{m}}, \label{eq:bab2_eq30}
-    \end{equation}
-    di mana resolusi \textit{Half Width Half Maximum} dispersi teoretis mutlak murni penyimpangan ini linear eksponensial takaran deterministik \( \sqrt{T} \) \citep{Demtroder2010}.
+% \begin{itemize}
+%     \item \textbf{Pelebaran Termal Doppler (Gaussian)}: Eksistensi kinematika pergerakan fluida termodinamika analitik penyebaran Maxwell atom emitter (panas riil konstan mutakhir temperatur fungsional asimtotik absolut deterministik plasma, ekskresi fungsi \( T \)) bermanifestasi menebarkan efek berantai distorsi anomali mekanikal frekuensi radiasi seakan mengembang menyamping murni. Profil fasa distorsi deterministik penyimpangan kurva mutlak ini memiliki bentuk presisi ekuilibrium fungsi sebaran statistik \textit{Gaussian} konstan:
+%     \begin{equation}
+%     \sigma = \frac{\lambda_0}{c} \sqrt{\frac{k_B T}{m}}, \label{eq:bab2_eq30}
+%     \end{equation}
+%     di mana resolusi \textit{Half Width Half Maximum} dispersi teoretis mutlak murni penyimpangan ini linear eksponensial takaran deterministik \( \sqrt{T} \) \citep{Demtroder2010}.
 
-    \item \textbf{Pelebaran Tumbukan Stark (Lorentzian)}: Efek konstan distorsi tekanan asimtot mekanis deterministik diinduksi kuat oleh konstelasi tabrakan turbulensi elektrodinamika riil rapat muatan antara matriks murni plasma penampang partikel pengemisi spektroskopi absolut atom/ion deterministik dengan badai populasi padat awan elektron dan rintangan fasa teoretis rapat kation konstan mutlak (*Stark effect*). Formasi resolusi fungsi difusi distorsinya melekat pada kurva distribusi ekuilibrium analitik probabilitas kaku fasa teoretis \textit{Lorentzian}, yang asimtot korelasinya terukur linier lurus dari fungsi absolut kepadatan mutlak variabilitas raksasa konstan fasa deterministik (\( n_e \)) riil \citep{Griem1997}:
-    \begin{equation}
-    \gamma_{Stark} \approx 2w \left( \frac{n_e}{10^{16}} \right).
-    \end{equation}
-\end{itemize}
+%     \item \textbf{Pelebaran Tumbukan Stark (Lorentzian)}: Efek konstan distorsi tekanan asimtot mekanis deterministik diinduksi kuat oleh konstelasi tabrakan turbulensi elektrodinamika riil rapat muatan antara matriks murni plasma penampang partikel pengemisi spektroskopi absolut atom/ion deterministik dengan badai populasi padat awan elektron dan rintangan fasa teoretis rapat kation konstan mutlak (*Stark effect*). Formasi resolusi fungsi difusi distorsinya melekat pada kurva distribusi ekuilibrium analitik probabilitas kaku fasa teoretis \textit{Lorentzian}, yang asimtot korelasinya terukur linier lurus dari fungsi absolut kepadatan mutlak variabilitas raksasa konstan fasa deterministik (\( n_e \)) riil \citep{Griem1997}:
+%     \begin{equation}
+%     \gamma_{Stark} \approx 2w \left( \frac{n_e}{10^{16}} \right).
+%     \end{equation}
+% \end{itemize}
 
-\subsection{Konvolusi Profil Voigt Secara Eksak (\textit{Faddeeva Function})}
+% \subsection{Konvolusi Profil Voigt Secara Eksak (\textit{Faddeeva Function})}
 
-Distorsi komprehensif profil garis emisi yang ditangkap spektrometer beroperasi pada resolusi peleburan simetris ekuilibrium deterministik hasil integrasi murni mutlak termodinamika Doppler-Gaussian (merajai fasa resolusi ekuivalen simpul sentral) berbaur riil deterministik menyerap luapan distorsi Lorentzian (menajamkan pudar rentangan ekor teoretik merambat jauh). Superposisi integrasi termodinamika optis riil ini bermanifestasi absolut mematuhi perumusan kaku asimtot fasa integral fungsional komputasi profil spektral model kaku mutlak \textbf{Voigt} \citep{Miziolek2006}:
-\begin{equation}
-V(\lambda; \gamma, \sigma) = \int_{-\infty}^{\infty} G(\lambda - \lambda') L(\lambda') \, d\lambda'. \label{eq:bab2_eq33}
-\end{equation}
-Kalkulasi resolusi murni numerik komputabilitas mutlak aproksimasi analitik interpelasi kaku ini mengandalkan turunan evaluasi presisi matematika asimtot deterministik representasi khusus rill ekuivalen resolusi kompleks teoretis fungsional \textit{Faddeeva} untuk memungkinkan perhitungan cepat yang senantiasa patuh pada hukum luasan kuantum mutakhir.
+% Distorsi komprehensif profil garis emisi yang ditangkap spektrometer beroperasi pada resolusi peleburan simetris ekuilibrium deterministik hasil integrasi murni mutlak termodinamika Doppler-Gaussian (merajai fasa resolusi ekuivalen simpul sentral) berbaur riil deterministik menyerap luapan distorsi Lorentzian (menajamkan pudar rentangan ekor teoretik merambat jauh). Superposisi integrasi termodinamika optis riil ini bermanifestasi absolut mematuhi perumusan kaku asimtot fasa integral fungsional komputasi profil spektral model kaku mutlak \textbf{Voigt} \citep{Miziolek2006}:
+% \begin{equation}
+% V(\lambda; \gamma, \sigma) = \int_{-\infty}^{\infty} G(\lambda - \lambda') L(\lambda') \, d\lambda'. \label{eq:bab2_eq33}
+% \end{equation}
+% Kalkulasi resolusi murni numerik komputabilitas mutlak aproksimasi analitik interpelasi kaku ini mengandalkan turunan evaluasi presisi matematika asimtot deterministik representasi khusus rill ekuivalen resolusi kompleks teoretis fungsional \textit{Faddeeva} untuk memungkinkan perhitungan cepat yang senantiasa patuh pada hukum luasan kuantum mutakhir.
 
-\section{Persamaan Transfer Radiatif (RTE) Deterministik}
+% \section{Persamaan Transfer Radiatif (RTE) Deterministik}
 
-\subsection{Koefisien Absorpsi Optik dan Hukum Kirchhoff untuk Radiasi Termal}
+% \subsection{Koefisien Absorpsi Optik dan Hukum Kirchhoff untuk Radiasi Termal}
 
-Dalam fluida terionisasi optik makroskopik padat densitas, partikel transien di garis rambatan fotometri deteksi secara absolut fisis tidak semata-mata menggerakkan laju emisi asimtot teoretis foton menyebar menjauh melainkan menyerap dan memperlemah ekuivalen energi pendaran melaluinya. Koefisien presisi penahanan penenggelaman fluktuasi foton optik diformulasikan termodinamik fungsional teoretis mutlak menjadi fungsi absorptivitas kaku murni (\( \kappa(\lambda) \)) deterministik fasa ekuivalen \citep{Rybicki1985}. Hubungan asimtot analitik radiasi termal murni mengaitkan fasa sinkronisasi pancaran eksitasi resolusional mutlak ekuivalen tingkat absorpsi, bermanifestasi absolut di bawah kendali matriks \textbf{Hukum Kirchhoff} konstan fungsional radiatif. Fungsi sumber pendaran fasa deterministik fungsional ekuilibrium riil sebaran ini ekuivalen persis konstan mematuhi pendaran identitas tubuh benda mutlak hitam sempurna (distribusi Planck logis teoretis): $S(\lambda) \equiv \varepsilon(\lambda)/\kappa(\lambda) = B(\lambda, T)$.
+% Dalam fluida terionisasi optik makroskopik padat densitas, partikel transien di garis rambatan fotometri deteksi secara absolut fisis tidak semata-mata menggerakkan laju emisi asimtot teoretis foton menyebar menjauh melainkan menyerap dan memperlemah ekuivalen energi pendaran melaluinya. Koefisien presisi penahanan penenggelaman fluktuasi foton optik diformulasikan termodinamik fungsional teoretis mutlak menjadi fungsi absorptivitas kaku murni (\( \kappa(\lambda) \)) deterministik fasa ekuivalen \citep{Rybicki1985}. Hubungan asimtot analitik radiasi termal murni mengaitkan fasa sinkronisasi pancaran eksitasi resolusional mutlak ekuivalen tingkat absorpsi, bermanifestasi absolut di bawah kendali matriks \textbf{Hukum Kirchhoff} konstan fungsional radiatif. Fungsi sumber pendaran fasa deterministik fungsional ekuilibrium riil sebaran ini ekuivalen persis konstan mematuhi pendaran identitas tubuh benda mutlak hitam sempurna (distribusi Planck logis teoretis): $S(\lambda) \equiv \varepsilon(\lambda)/\kappa(\lambda) = B(\lambda, T)$.
 
-\subsection{Solusi Analitik RTE 1-Dimensi pada Medium Homogen}
+% \subsection{Solusi Analitik RTE 1-Dimensi pada Medium Homogen}
 
-Kalkulasi penelusuran difraksi fluks radiansi absolut asimtot melintasi tebal matriks plasma ini tereduksi fungsional pada persamaan integrodiferensial kaku matriks murni penahanan laju spasial optik 1-dimensi deterministik pada rentang kordinat pandang sumbu linear observasi spektrometer (*Line-of-Sight*). Perubahan gradien fisis fluktuatif pendar deterministik asimtot (\( I_\lambda \)) sejauh fasa teoretis fungsional tebal \( s \) ditulis fungsional kaku \citep{favre_merlin_2025}:
-\begin{equation}
-\frac{dI_\lambda}{ds} = \varepsilon_\lambda - \kappa_\lambda I_\lambda \label{eq:RTE_diferensial}
-\end{equation}
-Ekstraksi perumusan integratif kalkulus absolut riil deterministiknya (asumsi opasitas resolusional konstan matriks seragam fasa parameter murni homogen batas plasma), ekuivalen mengekstrak perolehan hasil fungsi pengabur intensitas teoretis yang terlepas hingga spektrometer komputasi kaku mutakhir deterministik fungsional:
-\begin{equation}
-I(\lambda) = \frac{\varepsilon(\lambda)}{\kappa(\lambda)} \left[ 1 - \exp(-\kappa(\lambda)L) \right] \label{eq:RTE_single_step_homo}
-\end{equation}
-di mana ketebalan perambatan jarak mutlak \( L \) menjadi matriks penyumbat saturasi optik luaran analitik deterministik asimtot termofungsial murni eksponensial kaku (*optical depth* \(\tau = \kappa L\)).
+% Kalkulasi penelusuran difraksi fluks radiansi absolut asimtot melintasi tebal matriks plasma ini tereduksi fungsional pada persamaan integrodiferensial kaku matriks murni penahanan laju spasial optik 1-dimensi deterministik pada rentang kordinat pandang sumbu linear observasi spektrometer (*Line-of-Sight*). Perubahan gradien fisis fluktuatif pendar deterministik asimtot (\( I_\lambda \)) sejauh fasa teoretis fungsional tebal \( s \) ditulis fungsional kaku \citep{favre_merlin_2025}:
+% \begin{equation}
+% \frac{dI_\lambda}{ds} = \varepsilon_\lambda - \kappa_\lambda I_\lambda \label{eq:RTE_diferensial}
+% \end{equation}
+% Ekstraksi perumusan integratif kalkulus absolut riil deterministiknya (asumsi opasitas resolusional konstan matriks seragam fasa parameter murni homogen batas plasma), ekuivalen mengekstrak perolehan hasil fungsi pengabur intensitas teoretis yang terlepas hingga spektrometer komputasi kaku mutakhir deterministik fungsional:
+% \begin{equation}
+% I(\lambda) = \frac{\varepsilon(\lambda)}{\kappa(\lambda)} \left[ 1 - \exp(-\kappa(\lambda)L) \right] \label{eq:RTE_single_step_homo}
+% \end{equation}
+% di mana ketebalan perambatan jarak mutlak \( L \) menjadi matriks penyumbat saturasi optik luaran analitik deterministik asimtot termofungsial murni eksponensial kaku (*optical depth* \(\tau = \kappa L\)).
 
-\subsection{Dinamika \textit{Self-Absorption} dan Anomali Pembalikan Garis (\textit{Line Reversal})}
+% \subsection{Dinamika \textit{Self-Absorption} dan Anomali Pembalikan Garis (\textit{Line Reversal})}
 
-Jikalau plasma asimtot termodiferensiasi ini melahirkan batas luasan optik ketebalan yang terlampau menekan melampaui perisai fasa analitik serapan teoretis radikal (\( \kappa L \gg 1 \)), rill saturasi batas fluktuasi transien pengeluaran sinyal terperangkap jatuh di tengah kawah kurva eksponensial pelemahan (\textit{Self-Absorption} fisis merusak rasio). Kerusakan ekuivalen mutlak batas komputasi analitik termodinamika ini kian parah mengartikulasikan profil kawan distorsi luasan murni termodinamik, dengan pucuk puncak teoretis eksak radiasi menukik terhisap ke dalam secara drastis saat mengarungi sisa luaran fasa kulit berawan temperatur pendinginan esensial (anomali analitik teoretis pembalikan cekung konstan absolut garis spektrum murni atau \textit{Self-Reversal}).
+% Jikalau plasma asimtot termodiferensiasi ini melahirkan batas luasan optik ketebalan yang terlampau menekan melampaui perisai fasa analitik serapan teoretis radikal (\( \kappa L \gg 1 \)), rill saturasi batas fluktuasi transien pengeluaran sinyal terperangkap jatuh di tengah kawah kurva eksponensial pelemahan (\textit{Self-Absorption} fisis merusak rasio). Kerusakan ekuivalen mutlak batas komputasi analitik termodinamika ini kian parah mengartikulasikan profil kawan distorsi luasan murni termodinamik, dengan pucuk puncak teoretis eksak radiasi menukik terhisap ke dalam secara drastis saat mengarungi sisa luaran fasa kulit berawan temperatur pendinginan esensial (anomali analitik teoretis pembalikan cekung konstan absolut garis spektrum murni atau \textit{Self-Reversal}).
 
-\subsection{Model Geometri Multi-Zona (\textit{Core-Shell Plasma})}
+% \subsection{Model Geometri Multi-Zona (\textit{Core-Shell Plasma})}
 
-Modulasi kalkulasi numerik terpadu anomali *line-reversal* dapat digabungkan kembali dalam wujud deret komputasi matriks analitik pemisahan diskritisasi linier dua zona (*Two-Zone*), menyekat intervensi gradien menjadi Zona *Core* terik bereksitasi masif emisi (sumber dominan \( I_{\text{Core}} \)) didistribusikan diselubungi tebal oleh cangkang asimtot termodinamik penahan *Shell* pudar dingin (penyerap mutlak resolusional asimtot fasa serapan teoretis \(\kappa_{\text{Shell}}\)):
-\begin{equation}
-I_{\text{observasi}} = I_{\text{Core}} e^{-\kappa_{\text{Shell}} L_{\text{Shell}}} + \frac{\varepsilon_{\text{Shell}}}{\kappa_{\text{Shell}}} \left( 1 - e^{-\kappa_{\text{Shell}} L_{\text{Shell}}} \right).
-\end{equation}
-Evaluasi numerik persamaan pembanding mutlak di atas mempertahankan batas eksak logis fasa pemisahan kaku dari redaman diferensial eksponensial pendinginan resolusi asimtot absolut LIBS empiris spesifik tanpa perlu mensimulasikan turunan 3D secara komputasi rumit \citep{Thorne1999}.
+% Modulasi kalkulasi numerik terpadu anomali *line-reversal* dapat digabungkan kembali dalam wujud deret komputasi matriks analitik pemisahan diskritisasi linier dua zona (*Two-Zone*), menyekat intervensi gradien menjadi Zona *Core* terik bereksitasi masif emisi (sumber dominan \( I_{\text{Core}} \)) didistribusikan diselubungi tebal oleh cangkang asimtot termodinamik penahan *Shell* pudar dingin (penyerap mutlak resolusional asimtot fasa serapan teoretis \(\kappa_{\text{Shell}}\)):
+% \begin{equation}
+% I_{\text{observasi}} = I_{\text{Core}} e^{-\kappa_{\text{Shell}} L_{\text{Shell}}} + \frac{\varepsilon_{\text{Shell}}}{\kappa_{\text{Shell}}} \left( 1 - e^{-\kappa_{\text{Shell}} L_{\text{Shell}}} \right).
+% \end{equation}
+% Evaluasi numerik persamaan pembanding mutlak di atas mempertahankan batas eksak logis fasa pemisahan kaku dari redaman diferensial eksponensial pendinginan resolusi asimtot absolut LIBS empiris spesifik tanpa perlu mensimulasikan turunan 3D secara komputasi rumit \citep{Thorne1999}.
 
-\section{Metode Solusi Numerik dan Optimasi Invers Berbasis Fisika}
+% \section{Metode Solusi Numerik dan Optimasi Invers Berbasis Fisika}
 
-\subsection{Metode Newton-Raphson untuk Akar Persamaan Nonlinier}
+% \subsection{Metode Newton-Raphson untuk Akar Persamaan Nonlinier}
 
-\textbf{Aplikasi: Resolusi Fraksi Komposisi Plasma dari Persamaan Saha}
+% \textbf{Aplikasi: Resolusi Fraksi Komposisi Plasma dari Persamaan Saha}
 
-Kompilasi serentak derivatif deterministik parameter populasi matriks fungsi interelasi ionik ekuivalen deterministik (seperti \( n_e \), komposisi rasio unsur bebas asimtot deterministik, ekuilibrium batas kaku suhu \( T \)) dari matriks silang sistematis ekuasi perangkai sistem logik teoretik Saha-Boltzmann diekstrak pemecahannya melalui pendekatan kalkulatif algoritma metode penelusur presisi konvergensinya asimtot rill pemecah akar mutidimensional numerik logis \textbf{Newton-Raphson}. Untuk rentangan evaluasi teoretis fungsional matriks interaktif ekuasi kaku teoretik asimtot non-linear simulatif nol riil deterministik murni \( \mathbf{F}(\mathbf{x}) = 0 \):
-\begin{equation}
-\mathbf{x}_{k+1} = \mathbf{x}_k - \left[ \mathbf{J}(\mathbf{x}_k) \right]^{-1} \mathbf{F}(\mathbf{x}_k)
-\end{equation}
-Di mana matriks turunan ekuivalen sensitivitas termodinamika fungsional ekuasi kaku spesifik (*Jacobian matrix* \( \mathbf{J} \)) diinvers untuk mendeteksi penarikan kordinat turunan parsial akurasi mutlak limit logis ekuilibrium fasa fraksi proporsi komputasional tingkat penyiapan konvergensi keseimbangan resolusional.
+% Kompilasi serentak derivatif deterministik parameter populasi matriks fungsi interelasi ionik ekuivalen deterministik (seperti \( n_e \), komposisi rasio unsur bebas asimtot deterministik, ekuilibrium batas kaku suhu \( T \)) dari matriks silang sistematis ekuasi perangkai sistem logik teoretik Saha-Boltzmann diekstrak pemecahannya melalui pendekatan kalkulatif algoritma metode penelusur presisi konvergensinya asimtot rill pemecah akar mutidimensional numerik logis \textbf{Newton-Raphson}. Untuk rentangan evaluasi teoretis fungsional matriks interaktif ekuasi kaku teoretik asimtot non-linear simulatif nol riil deterministik murni \( \mathbf{F}(\mathbf{x}) = 0 \):
+% \begin{equation}
+% \mathbf{x}_{k+1} = \mathbf{x}_k - \left[ \mathbf{J}(\mathbf{x}_k) \right]^{-1} \mathbf{F}(\mathbf{x}_k)
+% \end{equation}
+% Di mana matriks turunan ekuivalen sensitivitas termodinamika fungsional ekuasi kaku spesifik (*Jacobian matrix* \( \mathbf{J} \)) diinvers untuk mendeteksi penarikan kordinat turunan parsial akurasi mutlak limit logis ekuilibrium fasa fraksi proporsi komputasional tingkat penyiapan konvergensi keseimbangan resolusional.
 
-\subsection{Pemodelan Maju (\textit{Forward Modeling}) vs. Masalah Invers (\textit{Inverse Problem})}
+% \subsection{Pemodelan Maju (\textit{Forward Modeling}) vs. Masalah Invers (\textit{Inverse Problem})}
 
-Pemodelan kognitif asimtot analitis kalkulabilitas sintetik murni termodinamika observasional lazim dioperasikan fungsional sebagai metode \textit{Forward Model} sejati (sintesis eksitasi luaran observasi tiruan spektrum komposit). Di sisi lain intervensi pengukuran termodinamika eksperimen secara hakikatnya ialah kalkulasi deduksi teoretik regresif terbalik absolut (\textit{Inverse Problem} resolusional kaku fungsional rasio analitik), dengan limit ambisi mengurai asimtot meretas batas pembanding data kurva fasa tertangkap ekuivalen objektif deteksi kembali untuk menguliti *blueprint* nilai fasa analitis sesungguhnya dari parameter logis penentu absolut asimtot perambatan riil teoretik deterministik Plasma seperti nilai laten \( T_e \) maupun perburuan fraksi mutlak murni \( n_e \).
+% Pemodelan kognitif asimtot analitis kalkulabilitas sintetik murni termodinamika observasional lazim dioperasikan fungsional sebagai metode \textit{Forward Model} sejati (sintesis eksitasi luaran observasi tiruan spektrum komposit). Di sisi lain intervensi pengukuran termodinamika eksperimen secara hakikatnya ialah kalkulasi deduksi teoretik regresif terbalik absolut (\textit{Inverse Problem} resolusional kaku fungsional rasio analitik), dengan limit ambisi mengurai asimtot meretas batas pembanding data kurva fasa tertangkap ekuivalen objektif deteksi kembali untuk menguliti *blueprint* nilai fasa analitis sesungguhnya dari parameter logis penentu absolut asimtot perambatan riil teoretik deterministik Plasma seperti nilai laten \( T_e \) maupun perburuan fraksi mutlak murni \( n_e \).
 
-\subsection{Algoritma Optimasi Nonlinier Levenberg-Marquardt}
+% \subsection{Algoritma Optimasi Nonlinier Levenberg-Marquardt}
 
-\textbf{Aplikasi: Penarikan Parameter Termodinamika (\(T_e\), \(n_e\)) dari Spektrum Eksperimental}
+% \textbf{Aplikasi: Penarikan Parameter Termodinamika (\(T_e\), \(n_e\)) dari Spektrum Eksperimental}
 
-Strategi analitik rekonstruksi fungsional komputasi iteratif penelusuran asimtot dari \textit{Inverse Problem} kalkulasi objektif matriks eksperimental ini memprioritaskan kalkulasi deterministik ekuilibrium paduan fasa \textit{Gradient Descent} kaku asimtotik mutlak bersama penajaman konvergensi matriks ekstrapolasi fungsi perumus *Gauss-Newton* ke dalam algoritma teoretis fungsional \textbf{Levenberg-Marquardt} (LM). Regulasi ekuivalen limit optimasinya dirumuskan kaku asimtot matematis deterministik:
-\begin{equation}
-\left[ \mathbf{J}^T \mathbf{J} + \lambda \, \text{diag}(\mathbf{J}^T \mathbf{J}) \right] \Delta \mathbf{p} = \mathbf{J}^T (\mathbf{y}_{\text{Eksperimen}} - \mathbf{y}_{\text{Model}})
-\end{equation}
-Resolusi deterministik LM ini berfungsi sangat krusial mengukur koreksi dan modifikasi gradien asimtot matriks kurva pembanding spesifikasi teoretik fungsional logis termodinamika spektroskopi secara absolut riil fisik untuk memeras presisi akar turunan mutlak ekuivalen resolusional \textit{fitting} rill regresif mutakhir deterministik parameter fungsional batas nyata \( T_e \) dan resolusi densitas matriks limit kaku mutlak teoretis \( n_e \).
+% Strategi analitik rekonstruksi fungsional komputasi iteratif penelusuran asimtot dari \textit{Inverse Problem} kalkulasi objektif matriks eksperimental ini memprioritaskan kalkulasi deterministik ekuilibrium paduan fasa \textit{Gradient Descent} kaku asimtotik mutlak bersama penajaman konvergensi matriks ekstrapolasi fungsi perumus *Gauss-Newton* ke dalam algoritma teoretis fungsional \textbf{Levenberg-Marquardt} (LM). Regulasi ekuivalen limit optimasinya dirumuskan kaku asimtot matematis deterministik:
+% \begin{equation}
+% \left[ \mathbf{J}^T \mathbf{J} + \lambda \, \text{diag}(\mathbf{J}^T \mathbf{J}) \right] \Delta \mathbf{p} = \mathbf{J}^T (\mathbf{y}_{\text{Eksperimen}} - \mathbf{y}_{\text{Model}})
+% \end{equation}
+% Resolusi deterministik LM ini berfungsi sangat krusial mengukur koreksi dan modifikasi gradien asimtot matriks kurva pembanding spesifikasi teoretik fungsional logis termodinamika spektroskopi secara absolut riil fisik untuk memeras presisi akar turunan mutlak ekuivalen resolusional \textit{fitting} rill regresif mutakhir deterministik parameter fungsional batas nyata \( T_e \) dan resolusi densitas matriks limit kaku mutlak teoretis \( n_e \).
 
-\section{Pendekatan \textit{Physics-Informed Machine Learning} (PIML)}
+% \section{Pendekatan \textit{Physics-Informed Machine Learning} (PIML)}
 
-\subsection{Keterbatasan Komputasi pada Problem Invers Nonlinier}
+% \subsection{Keterbatasan Komputasi pada Problem Invers Nonlinier}
 
-Prosedur pencarian pembalik matriks pencacahan iterasi inversi deterministik resolusi rill (khususnya inversi iteratif Levenberg-Marquardt teoretis asimtot fungsional di atas) pada fasa komputasi resolusi spektral teoretik rentang penuh ekuivalen multivariat panjang dihadapkan rill hambatan padat akumulasi fasa kalkulasi pembebanan \textit{Jacobian} ekuasi berantai. Kesulitan tersebut menghambat ekstraksi matriks mutlak fungsional kaku termodinamika \textit{real-time} secara absolut asimtotik iteratif menjadi rill merayap komputasional kalkulatif termundur melambat parah deterministik komputasional \textit{bottleneck}.
+% Prosedur pencarian pembalik matriks pencacahan iterasi inversi deterministik resolusi rill (khususnya inversi iteratif Levenberg-Marquardt teoretis asimtot fungsional di atas) pada fasa komputasi resolusi spektral teoretik rentang penuh ekuivalen multivariat panjang dihadapkan rill hambatan padat akumulasi fasa kalkulasi pembebanan \textit{Jacobian} ekuasi berantai. Kesulitan tersebut menghambat ekstraksi matriks mutlak fungsional kaku termodinamika \textit{real-time} secara absolut asimtotik iteratif menjadi rill merayap komputasional kalkulatif termundur melambat parah deterministik komputasional \textit{bottleneck}.
 
-\subsection{Formulasi \textit{Support Vector Regression} (SVR) dan Fungsi Kernel}
+% \subsection{Formulasi \textit{Support Vector Regression} (SVR) dan Fungsi Kernel}
 
-Menghadapi pelumpuhan durasi kelajuan ekuivalen rekursif pemecahan fasa konstan absolut mutlak matriks inversi tersebut, jalan pintas asimtot arsitektur \textit{Machine Learning} riil ekuivalen direngkuh via modul \textit{Support Vector Regression} (SVR). SVR bermanifestasi aproksimasi kalkulatif pergerakan matriks *hyperplane* memisahkan variansi resolusi kaku ekuivalen margin batas regresi linear logaris mutlak teoretik deterministik deterministik kaku murni menggunakan trik dimensi khusus perluasan vektor riil *Fungsi Kernel* (seperti ekuivalen asimtot fungsi analitik matriks murni \textit{Radial Basis Function}):
-\begin{equation}
-f(x) = \sum_{i=1}^n (\alpha_i - \alpha_i^*) K(\mathbf{x}_i, \mathbf{x}) + b
-\end{equation}
-Sistem regresif probabilistik ini memedulikan batas akomodasi limit rill aproksimasi teoretik fungsi luasan ambang kerugian \(\epsilon\)-insensitif statistik secara linear.
+% Menghadapi pelumpuhan durasi kelajuan ekuivalen rekursif pemecahan fasa konstan absolut mutlak matriks inversi tersebut, jalan pintas asimtot arsitektur \textit{Machine Learning} riil ekuivalen direngkuh via modul \textit{Support Vector Regression} (SVR). SVR bermanifestasi aproksimasi kalkulatif pergerakan matriks *hyperplane* memisahkan variansi resolusi kaku ekuivalen margin batas regresi linear logaris mutlak teoretik deterministik deterministik kaku murni menggunakan trik dimensi khusus perluasan vektor riil *Fungsi Kernel* (seperti ekuivalen asimtot fungsi analitik matriks murni \textit{Radial Basis Function}):
+% \begin{equation}
+% f(x) = \sum_{i=1}^n (\alpha_i - \alpha_i^*) K(\mathbf{x}_i, \mathbf{x}) + b
+% \end{equation}
+% Sistem regresif probabilistik ini memedulikan batas akomodasi limit rill aproksimasi teoretik fungsi luasan ambang kerugian \(\epsilon\)-insensitif statistik secara linear.
 
-\subsection{Pendekatan \textit{Physics-Informed}: Pelatihan SVR Menggunakan \textit{Ground-Truth} Termodinamika}
+% \subsection{Pendekatan \textit{Physics-Informed}: Pelatihan SVR Menggunakan \textit{Ground-Truth} Termodinamika}
 
-SVR reguler merupakan pencari kurva statistikal \textit{black-box} murni mutlak hampa tanpa korelasi peduli asas fundamental kekekalan deterministik termodinamika hukum perumus asimtot fisika. Untuk mensinergikan percepatannya, dalam riset ekuivalen kaku mutlak tesis observasional ini sistem murni dilarang berlatih bebas acak melompat buta, namun difokuskan terkurung terikat kuat absolut patuh hukum konsep \textbf{Physics-Informed Machine Learning}. Pelatihan limit riil kognitif SVR fasa dioperasikan dipatok secara khusus menggunakan asupan sumber matriks rill dataset (*Ground-Truth*) termodinamika luaran tiruan teoretik simulasi murni derivasi Saha-Boltzmann digabung rentang RTE deterministik asimtot fungsional analitis 1D fisis sejati (fasa presisi mutakhir absolut limit murni \textit{Forward Model} fasa numerik teoretik analitik fisika sebelumnya). 
+% SVR reguler merupakan pencari kurva statistikal \textit{black-box} murni mutlak hampa tanpa korelasi peduli asas fundamental kekekalan deterministik termodinamika hukum perumus asimtot fisika. Untuk mensinergikan percepatannya, dalam riset ekuivalen kaku mutlak tesis observasional ini sistem murni dilarang berlatih bebas acak melompat buta, namun difokuskan terkurung terikat kuat absolut patuh hukum konsep \textbf{Physics-Informed Machine Learning}. Pelatihan limit riil kognitif SVR fasa dioperasikan dipatok secara khusus menggunakan asupan sumber matriks rill dataset (*Ground-Truth*) termodinamika luaran tiruan teoretik simulasi murni derivasi Saha-Boltzmann digabung rentang RTE deterministik asimtot fungsional analitis 1D fisis sejati (fasa presisi mutakhir absolut limit murni \textit{Forward Model} fasa numerik teoretik analitik fisika sebelumnya). 
 
-Melalui kerangka fungsional fisis deterministik kaku murni matriks asimtot patuh mutlak (*Physics-Informed*), *Machine Learning* difungsikan presisi analitik rill rasional sebatas menjadi agen proksi kalkulator akselerator (\textit{surrogate}) mutakhir percepatan kurva fiksasi rill evaluatif statik. Hal ini memastikan probabilitas teoretik termodinamika matriks ekuilibrium prediksi rasio populasi asimtot limit fasa spesifik teoretis dan rasio parameter mutlak teoretis \(T_e, n_e\) yang dipecahkan asimtot regresi ini senantiasa tidak melanggar rambu deterministik riil termodinamika absolut \citep{tang_review_2024}.
+% Melalui kerangka fungsional fisis deterministik kaku murni matriks asimtot patuh mutlak (*Physics-Informed*), *Machine Learning* difungsikan presisi analitik rill rasional sebatas menjadi agen proksi kalkulator akselerator (\textit{surrogate}) mutakhir percepatan kurva fiksasi rill evaluatif statik. Hal ini memastikan probabilitas teoretik termodinamika matriks ekuilibrium prediksi rasio populasi asimtot limit fasa spesifik teoretis dan rasio parameter mutlak teoretis \(T_e, n_e\) yang dipecahkan asimtot regresi ini senantiasa tidak melanggar rambu deterministik riil termodinamika absolut \citep{tang_review_2024}.

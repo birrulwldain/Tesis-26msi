@@ -1,0 +1,30 @@
+%-------------------------------------------------------------------------------
+%                            BAB V
+%               		KESIMPULAN DAN SARAN
+%-------------------------------------------------------------------------------
+\chapter{KESIMPULAN DAN SARAN}
+
+\section{Kesimpulan}
+
+Penelitian ini berhasil mengembangkan dan memvalidasi sebuah metode analisis LIBS yang mengintegrasikan simulasi spektrum emisi sintetis dengan model \textit{Deep Learning Informer}, yang secara langsung menjawab tujuan dan rumusan masalah yang diajukan.
+
+Pertama, penelitian ini berhasil \textbf{mengembangkan simulasi spektrum emisi sintetis yang mampu mereplikasi kompleksitas spektral LIBS} . Validasi terhadap data referensi NIST ASD dan kemampuan model untuk meniru fenomena fisis seperti interferensi dan kesetimbangan Saha membuktikan bahwa spektrum sintetis dapat mereplikasi kompleksitas spektrum eksperimental, sehingga menjawab \textbf{Rumusan Masalah 1} . Fondasi data latih yang kokoh ini menjadi dasar untuk pengujian model \textit{deep learning}.
+
+Kedua, penelitian ini menunjukkan bahwa \textbf{model \textit{Deep Learning Informer} dapat dilatih secara efektif untuk mempelajari spektrum emisi LIBS} (Tujuan 2). Proses pelatihan yang stabil, seperti yang ditunjukkan oleh kurva pembelajaran , membuktikan bahwa model mampu menangkap struktur fisis dari data sintetis dan menjawab \textbf{Rumusan Masalah 2}.
+
+Ketiga, \textbf{sebuah metode analisis LIBS untuk deteksi cepat multi-elemen telah berhasil dikembangkan} dengan mengintegrasikan model Informer (Tujuan 3). Evaluasi komprehensif (Tujuan 4) menunjukkan bahwa arsitektur 2-layer mencapai kinerja optimal dengan F1-Score (Macro) sebesar \textbf{0.6445}. Efisiensi komputasi dari arsitektur Informer, terutama mekanisme \textit{ProbSparse Self-Attention}, juga memungkinkan pemrosesan spektrum resolusi tinggi secara efisien. Gabungan antara akurasi dan efisiensi ini secara tuntas menjawab \textbf{Rumusan Masalah 3} mengenai pengembangan metode deteksi yang cepat dan andal untuk spektrum emisi LIBS multi-elemen.
+
+Secara keseluruhan, keberhasilan model yang dilatih sepenuhnya pada data sintetis untuk melakukan identifikasi multi-elemen secara akurat memberikan bukti konsep yang kuat untuk sebuah paradigma analisis LIBS yang bebas kalibrasi. Penelitian ini menegaskan potensi besar pendekatan berbasis DL dengan data sintetis, membuka jalan bagi pengembangan metode analisis unsur yang lebih efisien, hemat biaya, dan dapat diakses secara luas di berbagai bidang.
+
+\section{Saran}
+Berdasarkan temuan dan keterbatasan yang telah diidentifikasi dalam penelitian ini, beberapa arah strategis untuk penelitian selanjutnya dapat direkomendasikan untuk membangun di atas fondasi yang telah diletakkan:
+\begin{enumerate}
+    \item \textbf{Validasi Lebih Lanjut dengan Data Spektral Eksperimental:} Meskipun model telah menunjukkan potensi aplikasinya melalui pengujian pada data eksperimental yang sudah ada, validasi yang lebih ekstensif menggunakan data spektral eksperimental dari beragam komposisi matriks tetap menjadi langkah krusial berikutnya. Pengujian terhadap data spektral eksperimental dengan beragam komposisi matriks akan secara langsung menguji ketahanan dan kemampuan generalisasi model dalam menghadapi efek matriks yang tidak terduga, yang merupakan salah satu keterbatasan utama dari pendekatan berbasis simulasi.
+    \item \textbf{Perluasan Database dan Kondisi Simulasi:} Untuk mengatasi keterbatasan cakupan elemen dan asumsi LTE, penelitian selanjutnya disarankan untuk:
+    \begin{itemize}
+        \item Memperluas dataset sintetis dengan menyertakan lebih banyak elemen, terutama elemen-elemen penting secara industri atau lingkungan yang belum tercakup.
+        \item Mengembangkan model simulasi yang lebih canggih dengan mempertimbangkan kondisi non-LTE, yang dapat meningkatkan realisme spektrum yang dihasilkan dan akurasi model pada fase plasma yang lebih dinamis.
+    \end{itemize}
+    \item \textbf{Pengembangan Analisis Kuantitatif:} Saat ini, model berfokus pada identifikasi kualitatif. Sebuah langkah maju yang signifikan adalah mengembangkan arsitektur yang mampu melakukan analisis kuantitatif untuk memprediksi konsentrasi absolut atau relatif dari setiap elemen. Ini akan secara drastis meningkatkan nilai praktis dari metode yang diusulkan.
+    \item \textbf{Eksplorasi Arsitektur dan Interpretabilitas:} Meskipun \textit{Informer} terbukti efisien, penelitian di masa depan dapat mengeksplorasi arsitektur alternatif seperti model hibrida (CNN-Transformer) yang mungkin lebih baik dalam menangkap fitur spektral lokal dan dependensi global. Selain itu, penerapan teknik interpretabilitas (misalnya, SHAP atau LIME) sangat direkomendasikan untuk membuka "kotak hitam" model, memberikan pemahaman fisis tentang fitur spektral apa yang menjadi dasar prediksi, dan pada akhirnya, meningkatkan kepercayaan terhadap metode ini.
+\end{enumerate}
