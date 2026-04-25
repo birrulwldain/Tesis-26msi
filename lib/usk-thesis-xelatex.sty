@@ -475,54 +475,51 @@
 }
 
 \renewcommand{\@makechapterhead}[1]{%
-  {\parindent \z@ \centering \normalfont
+  {\parindent \z@ \centering \normalfont \linespread{1}\selectfont
     \ifnum \c@secnumdepth >\m@ne
       \large\bfseries \MakeUppercase{\@chapapp}\space \thechapter
       \par\nobreak
-      \vskip -0.2cm
     \fi
     \interlinepenalty\@M
     \large\bfseries \MakeUppercase{#1}\par\nobreak
-    \vskip 5.25ex plus 1ex minus 0.5ex
+    \vskip 65pt % Jarak 3 x 1,5 spasi
   }
 }
 
 \renewcommand{\@makeschapterhead}[1]{%
-  {\parindent \z@ \centering \normalfont
+  {\parindent \z@ \centering \normalfont \linespread{1}\selectfont
     \interlinepenalty\@M
     \large\bfseries \MakeUppercase{#1}\par\nobreak
-    \vskip 5.25ex plus 1ex minus 0.5ex
+    \vskip 65pt % Jarak 3 x 1,5 spasi
   }
 }
 
 % Section - judul KAPITAL di halaman, normal di TOC
-% Spacing: dari paragraf ke section, dari section ke paragraf
+% Spacing: dari paragraf ke section (3 spasi), dari section ke paragraf (1.5 spasi)
 % Nilai positif pada spacing sebelum = paragraf setelah section AKAN ter-indent
 \renewcommand{\section}{%
   \@startsection{section}{1}{\z@}%
-    {3.5ex \@plus 1ex \@minus .2ex}% spacing sebelum section (POSITIF = indent paragraf setelah)
-    {0.5ex \@plus.2ex}% spacing setelah section
-    {\normalfont\normalsize\bfseries\MakeUppercase}
+    {4.5ex \@plus 1ex \@minus .2ex}% 3 spasi sebelum
+    {1pt \@plus .2ex}% 1.5 spasi setelah (otomatis ngikut baselineskip teks normal)
+    {\linespread{1}\selectfont\normalfont\normalsize\bfseries\MakeUppercase}
 }
 
 % Subsection (subjudul)
-% Spacing: 3 spasi sebelum (dari paragraf), 1.5 spasi setelah (ke paragraf)
-% Nilai positif = paragraf setelah subsection AKAN ter-indent
+% Spacing: 1.5 spasi sebelum (dari paragraf), 1.5 spasi setelah (ke paragraf)
 \renewcommand{\subsection}{%
   \@startsection{subsection}{2}{\z@}%
-    {3.5ex \@plus 1ex \@minus .2ex}% 3 spasi sebelum (POSITIF = indent paragraf setelah)
-    {0.5ex \@plus.2ex}% spacing setelah
-    {\normalfont\normalsize\bfseries}
+    {1.5ex \@plus 0.5ex \@minus .2ex}% 1.5 spasi sebelum
+    {1pt \@plus .2ex}% 1.5 spasi setelah
+    {\linespread{1}\selectfont\normalfont\normalsize\bfseries}
 }
 
 % Subsubsection (subsubjudul)
-% Spacing: 1.5 spasi sebelum (dari paragraf), 1.5 spasi setelah (ke paragraf)
-% Nilai positif = paragraf setelah subsubsection AKAN ter-indent
+% Spacing: 1.5 spasi sebelum, 1.5 spasi setelah
 \renewcommand{\subsubsection}{%
   \@startsection{subsubsection}{3}{\z@}%
-    {2ex \@plus 0.5ex \@minus .2ex}% 1.5 spasi sebelum (POSITIF = indent paragraf setelah)
-    {0.5ex \@plus.2ex}% 1.5 spasi setelah
-    {\normalfont\normalsize\bfseries}
+    {1.5ex \@plus 0.5ex \@minus .2ex}% 1.5 spasi sebelum
+    {1pt \@plus .2ex}% 1.5 spasi setelah
+    {\linespread{1}\selectfont\normalfont\normalsize\bfseries}
 }
 
 % Persamaan, gambar, tabel

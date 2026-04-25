@@ -1,641 +1,342 @@
+%-------------------------------------------------------------------------------
+%                            BAB III
+%                       METODE PENELITIAN
+%-------------------------------------------------------------------------------
+
 \chapter{METODE PENELITIAN}
+Pendekatan penelitian ini dirancang untuk menjawab permasalahan di atas melalui integrasi pemodelan fisika plasma, eksperimen LIBS, dan deep learning. Inti inovasinya terletak pada pemodelan eksplisit dekomposisi spektral. Encoder mempelajari representasi spektrum monoatomik yang dibangkitkan melalui forward model Saha–Boltzmann, sedangkan decoder menggunakan cross-attention untuk merekonstruksi spektrum poliatomik dan memproyeksikan fraksi konsentrasi multi-elemen secara simultan.
+
+\section{Tempat dan Waktu Penelitian}
+
+Penelitian ini dilaksanakan di Laboratorium Gelombang dan Optik, Departemen Fisika, Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Syiah Kuala. Laboratorium ini menyediakan infrastruktur instrumentasi \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) yang digunakan untuk akuisisi data spektrum eksperimental. Selain itu, sebagian proses komputasi intensif, khususnya pelatihan model \textit{deep learning}, dilaksanakan dengan memanfaatkan layanan komputasi awan \textit{Google Colaboratory Pro} yang menyediakan akses ke \textit{Graphics Processing Unit} (GPU) NVIDIA Tesla T4 dengan kapasitas VRAM hingga 16~GB.
+
+Pelaksanaan penelitian direncanakan berlangsung selama enam bulan, dari bulan Mei hingga Oktober 2026, yang mencakup seluruh tahapan mulai dari studi literatur hingga penyusunan laporan akhir. Rincian jadwal pelaksanaan penelitian untuk setiap fase utama disajikan pada Tabel~\ref{tab:jadwal_penelitian}.
+
+\begin{table}[H]
+  \centering
+  \caption{Jadwal Pelaksanaan Penelitian}
+  \label{tab:jadwal_penelitian}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{|c|p{4.2cm}|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{No} & \multirow{2}{*}{Nama Kegiatan} &
+      \multicolumn{12}{c|}{Tahun Pertama Bulan ke:} \\
+    \cline{3-14}
+    & & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+    \hline
+    1 & Pembangkitan spektrum sintetis
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & & & & & & & \\
+    \hline
+    2 & Pengumpulan dan preparasi sampel tanah, pengukuran LIBS
+      & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & & & & & & \\
+    \hline
+    3 & Desain, \textit{pre-training} pada data sintetis, \textit{fine-tuning} pada data eksperimental
+      & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ & & \\
+    \hline
+    4 & Analisis performa, perbandingan \textit{baseline}, interpretabilitas, penulisan tesis \& manuskrip jurnal
+      & & & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{Diagram Alir Penelitian}
+
+Secara keseluruhan, metodologi yang digunakan dalam penelitian ini mengikuti alur kerja dua-tahap (\textit{two-stage workflow}) yang terdiri dari fase \textit{offline} dan fase \textit{online}. Diagram alir pada Gambar~\ref{fig:diagram_alir} mengilustrasikan hubungan antar tahapan utama penelitian secara sistematis. Berikut adalah penjelasan ringkas dari setiap fase:
+
+\begin{enumerate}
+    \item \textbf{Fase 1 --- Generasi Data Sintetis (\textit{Offline}):} Pada fase ini, spektrum emisi sintetis dihasilkan menggunakan model maju (\textit{forward model}) berbasis distribusi Saha--Boltzmann dan profil Voigt. Setiap sampel sintetis menghasilkan pasangan data berupa spektrum monoatomik individual per elemen dan spektrum poliatomik campuran beserta vektor konsentrasi yang bersesuaian.
+
+    \item \textbf{Fase 2 --- Akuisisi Data Eksperimental:} Data spektrum LIBS eksperimental diperoleh dari pengukuran langsung pada 24 sampel tanah vulkanik Gunung Seulawah Agam. Data \textit{X-ray Fluorescence} (XRF) digunakan sebagai \textit{ground truth} konsentrasi unsur.
+
+    \item \textbf{Fase 3 --- Pelatihan Model:} Arsitektur CNN--Transformer \textit{encoder--decoder} dilatih melalui dua tahap: \textit{pre-training} pada dataset sintetis untuk mempelajari hubungan struktural mono--poliatomik, kemudian \textit{fine-tuning} pada data eksperimental dengan strategi adaptasi domain.
+
+    \item \textbf{Fase 4 --- Evaluasi dan Analisis:} Kinerja model dievaluasi menggunakan metrik kuantitatif (RMSE, $R^2$, MAPE) dan dibandingkan terhadap empat model \textit{baseline}. Analisis interpretabilitas dilakukan melalui visualisasi bobot \textit{cross-attention}.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/Diagram-Alir-Fix.png}
+    \caption{Diagram alir penelitian yang menunjukkan alur kerja dua-tahap: generasi data sintetis secara \textit{offline} dan pelatihan model secara \textit{online}.}
+    \label{fig:diagram_alir}
+\end{figure}
+
+\section{Prosedur Penelitian}
+
+Bagian ini menjelaskan secara rinci setiap komponen prosedural yang digunakan dalam penelitian, mulai dari generasi dataset sintetis, akuisisi data eksperimental, perancangan arsitektur model, strategi pelatihan, hingga protokol evaluasi.
+
+\subsection{Generasi Spektrum LIBS Sintetis}
+
+Dataset sintetis dalam penelitian ini dibangun menggunakan model maju (\textit{forward model}) yang mensimulasikan spektrum emisi plasma dalam kondisi \textit{Local Thermodynamic Equilibrium} (LTE). Pendekatan ini memungkinkan pembangunan dataset berskala besar dengan label konsentrasi yang presisi tanpa bergantung pada ketersediaan sampel eksperimental.
+
+Proses generasi spektrum sintetis terdiri dari tiga tahap utama. Pertama, untuk setiap sampel sintetis, parameter plasma berupa temperatur elektron ($T_e$) dan densitas elektron ($n_e$) dipilih secara acak dari distribusi seragam (\textit{uniform}) dalam rentang yang merepresentasikan kondisi plasma LIBS tipikal pada sampel geologi. Rentang parameter yang digunakan adalah $T_e \in [6{,}000, 15{,}000]$~K dan $n_e \in [10^{16}, 10^{17}]$~cm$^{-3}$.
+
+Kedua, untuk setiap pasangan parameter $(T_e, n_e)$, populasi tingkat energi eksitasi dihitung menggunakan Distribusi Boltzmann (Persamaan~\ref{eq:bab2_boltzmann}), sementara rasio ionisasi antar tingkatan ditentukan melalui Persamaan Saha (Persamaan~\ref{eq:bab2_saha}). Intensitas garis emisi kemudian dihitung berdasarkan koefisien emisi Einstein (Persamaan~\ref{eq:bab2_emiss}), dan setiap garis spektral diperlebar menggunakan profil Voigt yang merupakan konvolusi dari pelebaran Doppler (Persamaan~\ref{eq:bab2_doppler}) dan pelebaran Stark (Persamaan~\ref{eq:bab2_stark}). Seluruh data transisi atomik yang digunakan dalam simulasi diperoleh dari basis data \textit{NIST Atomic Spectra Database} (ASD) \citep{kramida_nist_2024}.
+
+Ketiga, spektrum monoatomik individual $S_{\mathrm{mono}}^{(z)}(\lambda)$ dihasilkan untuk masing-masing elemen $z$, kemudian spektrum poliatomik campuran $S_{\mathrm{poly}}(\lambda)$ disintesis sebagai superposisi tertimbang sesuai dengan Persamaan~\ref{eq:bab2_poly}. Dengan demikian, setiap sampel sintetis menghasilkan triplet data berupa: (i)~himpunan spektrum monoatomik individual, (ii)~spektrum poliatomik gabungan, dan (iii)~vektor konsentrasi $\mathbf{c} = [c_1, c_2, \ldots, c_Z]$.
+
+Simulasi difokuskan pada tujuh elemen mayor yang dominan pada sampel tanah vulkanik. Rentang komposisi yang digunakan untuk setiap elemen disajikan pada Tabel~\ref{tab:komposisi_elemen}.
+
+\begin{table}[H]
+  \centering
+  \caption{Rentang Komposisi Elemen untuk Generasi Spektrum Sintetis}
+  \label{tab:komposisi_elemen}
+  \small
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Elemen} & \textbf{Rentang (\% berat)} & \textbf{Mineral Representatif} \\
+    \midrule
+    Si & 40--60 & Silikat dominan \\
+    Al & 10--20 & Mineral feldspar \\
+    Fe & 5--15  & Oksida besi \\
+    Ca & 3--10  & Plagioklas/karbonat \\
+    Mg & 2--8   & Olivin/piroksen \\
+    Na & 1--5   & Feldspar alkali \\
+    K  & 1--5   & Feldspar kalium \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Secara keseluruhan, sebanyak 10.000 spektrum sintetis dihasilkan dengan resolusi spektral $\Delta\lambda = 0{,}02$~nm pada rentang panjang gelombang 200--900~nm, yang menghasilkan sekitar 35.000 kanal spektral per sampel. Parameter kunci untuk proses generasi data sintetis dirangkum pada Tabel~\ref{tab:param_sintetis}.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter Generasi Spektrum Sintetis}
+  \label{tab:param_sintetis}
+  \small
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
+    \midrule
+    $T_e$ & Rentang temperatur elektron & 6.000--15.000~K \\
+    $n_e$ & Rentang densitas elektron & $10^{16}$--$10^{17}$~cm$^{-3}$ \\
+    $\Delta\lambda$ & Resolusi spektral & 0,02~nm \\
+    Rentang $\lambda$ & Rentang panjang gelombang & 200--900~nm \\
+    Kanal spektral & Jumlah titik data per spektrum & $\sim$35.000 \\
+    $N_{\text{sampel}}$ & Total spektrum sintetis & 10.000 \\
+    Elemen & Jumlah elemen yang disimulasikan & 7 (mayor) \\
+    Metode sampling & Distribusi parameter plasma & Uniform random \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
-% \section{Waktu dan Lokasi Penelitian}
-% Penelitian ini dilaksanakan di Laboratorium Gelombang dan Optik, Departemen Fisika, Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Syiah Kuala. Pelaksanaan penelitian berlangsung dari bulan Mei hingga Oktober 2026, yang mencakup seluruh tahapan mulai dari studi literatur hingga penyusunan laporan akhir.
-
-% \section{Jadwal Pelaksanaan Penelitian}
-% Penelitian ini direncanakan berlangsung selama enam bulan. Tabel~\ref{tab:jadwal_penelitian} menunjukkan rincian jadwal pelaksanaan penelitian untuk setiap fase utamanya.
-
-% \begin{table}[H]
-%   \centering
-%   \caption{Jadwal Penelitian}
-%   \label{tab:jadwal_penelitian}
-%   \small
-%   \begin{tabularx}{\textwidth}{X *{6}{c}}
-%     \toprule
-%     \textbf{Fase Penelitian} & \multicolumn{6}{c}{\textbf{2026}} \\
-%     \cmidrule(lr){2-7}
-%     & \textbf{Mei} & \textbf{Jun} & \textbf{Jul} & \textbf{Ags} & \textbf{Sep} & \textbf{Okt} \\
-%     \midrule
-%     Studi Literatur dan Pembentukan Persamaan & \cellcolor{gray!20} & \cellcolor{gray!20} & & & & \\
-%     Perancangan Model Simulasi dan Dataset & & \cellcolor{gray!20} & \cellcolor{gray!20} & & & \\
-%     Pengembangan Model \textit{Informer} & & & \cellcolor{gray!20} & \cellcolor{gray!20} & & \\
-%     Validasi Hasil dan Analisis & & & & \cellcolor{gray!20} & \cellcolor{gray!20} & \\
-%     Penulisan Laporan Akhir & & & & & \cellcolor{gray!20} & \cellcolor{gray!20} \\
-%     \bottomrule
-%   \end{tabularx}
-% \end{table}
-
-% \section{Alat dan Bahan}
-% Penelitian ini memanfaatkan berbagai perangkat keras dan lunak, serta sumber data untuk mendukung keseluruhan proses penelitian.
-
-% \subsection{Perangkat Keras}
-% \begin{enumerate}
-%   \item \textbf{Laptop \textit{Apple MacBook Air M1 2020}}: Dilengkapi dengan prosesor \textit{Apple M1}, memori (RAM) sebesar 8 GB, dan penyimpanan \textit{SSD}. Perangkat ini digunakan untuk pengembangan kode lokal, analisis awal, dan penyusunan laporan.
-%   \item \textbf{\textit{Google Colaboratory Pro}}: Lingkungan komputasi awan yang menyediakan akses ke \textit{Graphics Processing Unit} (GPU) \textit{NVIDIA Tesla T4} atau yang setara dengan memori VRAM hingga 16 GB. Platform ini digunakan untuk pengembangan model \textit{Informer}.
-%   \item \textbf{Infrastruktur \textit{High Performance Computing} (HPC) Mahameru 4 BRIN}: Infrastruktur ini digunakan untuk simulasi spektrum emisi dan pelatihan model \textit{Informer} yang intensif secara komputasi. Spesifikasi utamanya meliputi:
-%   \begin{itemize}
-%     \item Klaster CPU: 92 \textit{compute node} dengan dual prosesor Xeon Gold (sekitar 32 \textit{core} per node) dan 256 GB RAM per node. Terdapat 1 \textit{high memory node} dengan 1.5 TB memori.
-%     \item Klaster GPU: Terkonsolidasi dari berbagai sumber daya GPU (misalnya, DGX A100, V100, P100).
-%     \item Penyimpanan: Total 4.5 PB, dengan \textit{Hi performance SSD}.
-%     \item Jaringan: InfiniBand HDR (100 Gbps per detik antar sistem).
-%     \item Sistem Penjadwalan Job: SLURM.
-%   \end{itemize}
-% \end{enumerate}
-
-% \subsection{Perangkat Lunak}
-% \begin{enumerate}
-%   \item \textbf{Sistem Operasi}:
-%   \begin{itemize}
-%     \item \textit{macOS Ventura 13.6}: Digunakan pada perangkat lokal.
-%     \item \textit{Ubuntu}: Digunakan dalam lingkungan \textit{Google Colaboratory}.
-%   \end{itemize}
-  
-%   \item \textbf{Bahasa Pemrograman dan Lingkungan Kerja}:
-%   \begin{itemize}
-%     \item Python 3.10: Bahasa pemrograman utama yang digunakan.
-%     \item \textit{Jupyter Notebook}: Digunakan untuk pengembangan kode interaktif.
-%   \end{itemize}
-  
-%   \item \textbf{Pustaka dan Kerangka Kerja Python}:
-%   \begin{itemize}
-%     \item \textit{NumPy} dan \textit{Pandas}: Untuk manipulasi dan analisis data numerik.
-%     \item \textit{h5py}: Untuk pengelolaan dataset dalam format HDF5.
-%     \item \textit{scikit-learn}: Untuk evaluasi model \textit{machine learning}.
-%     \item \textit{Matplotlib}: Untuk visualisasi data dan hasil analisis.
-%     \item \textit{PyTorch}: Kerangka kerja utama untuk pengembangan, pelatihan, dan evaluasi model \textit{Deep Learning}.
-%     \item \textit{TensorBoard}: Untuk pemantauan metrik pelatihan secara \textit{real-time}.
-%     \item \textit{itertools}: Modul standar Python untuk operasi iterasi.
-%   \end{itemize}
-% \end{enumerate}
-
-% \subsection{Sumber Data}
-% \begin{enumerate}
-% \item \textbf{\textit{NIST Atomic Spectra Database} (ASD)}: Basis data dari \textit{National Institute of Standards and Technology} (NIST) yang digunakan sebagai sumber parameter spektral atomik, seperti energi ionisasi (\(E_{xi}\)), energi keadaan (\(E_\text{k}\)) (\(E_\text{i}\)), bobot statistik (\(g_i\), \(g_k\)), dan probabilitas transisi (\(A_{ki}\)). Data diakses melalui antarmuka daring resmi NIST.
-% \end{enumerate}
-
-% \section{Prosedur Penelitian}
-% Penelitian ini mengadopsi prosedur sistematis yang mencakup studi literatur, perancangan model simulasi, dan pengembangan model \textit{Informer} untuk sistem prediksi spektrum LIBS. Diagram alur pada Gambar~\ref{diagram} mengilustrasikan tahapan utama penelitian ini.
-
-%     % \begin{figure}[H]
-%     %     \centering
-%     %     \includegraphics[width=1\textwidth]{images/Diagram.drawio.pdf}
-%     %     \caption{Diagram alur penelitian.}
-%     %     \label{diagram}
-%     % \end{figure}
-    
-% \begin{enumerate}
-%     \item \textbf{Studi Literatur} \\
-%     Studi literatur dilakukan untuk membentuk landasan teoretis yang kokoh bagi simulasi spektrum emisi atom dalam kondisi \textit{Local Thermodynamic Equilibrium} (LTE). Proses ini melibatkan analisis mendalam terhadap:
-%     \begin{enumerate}
-%       \item \textbf{Kalkulasi Intensitas Spektral}: Menggunakan distribusi Boltzmann untuk menghitung populasi tingkat energi sesuai persamaan \eqref{eq:bab2_eq11}.
-%       \item \textbf{Kalkulasi Rasio Ionisasi Plasma}: Menggunakan persamaan Saha untuk menentukan rasio antara atom terionisasi dan netral sesuai persamaan \eqref{eq:bab2_eq27}.
-%       \item \textbf{Profil Garis Spektral Gaussian}: Menggunakan pelebaran Doppler (Gaussian, \eqref{eq:bab2_eq30}) untuk memodelkan bentuk garis spektral secara akurat.
-%     \end{enumerate}
-%     Data transisi atom yang digunakan dalam simulasi divalidasi dengan merujuk pada basis data NIST ASD \citep{Kramida2023}.
-
-%     \item \textbf{Pemodelan Simulasi Spektrum Emisi Atom} \\
-%     Simulasi spektrum emisi atom dilaksanakan dalam kondisi LTE, dengan asumsi plasma memiliki distribusi energi termal yang seragam dan dikendalikan oleh suhu plasma (\(T\)) dan densitas elektron (\(n_e\)). Intensitas garis spektral ditentukan oleh probabilitas transisi dan populasi tingkat energi, sedangkan pelebaran garis dimodelkan menggunakan profil Gaussian.
-    
-%     % \begin{figure}[H]
-%     %     \centering
-%     %     \includegraphics[width=0.6\textwidth]{images/Simulasi.drawio.pdf}
-%     %     \caption{Diagram alur proses simulasi untuk menghasilkan dataset spektrum emisi.}
-%     %     \label{fig:flowchart-simulasi}
-%     % \end{figure}
-
-%     Secara matematis, simulasi menghitung intensitas relatif dan mengaplikasikan profil Gaussian:
-%     \begin{equation}
-%     I_{\text{rel}} = \frac{N g_k A_{ki} \exp\left(-\frac{E_k}{k_B T}\right)}{Z} \label{eq:bab3_eq1}
-%     \end{equation}
-%     \begin{equation}
-%     I(\lambda) = I_{\text{rel}} \cdot G(\lambda - \lambda_{ij}, \sigma) \label{eq:bab3_eq2}
-%     \end{equation}
-%     di mana \(I_{\text{rel}}\) adalah intensitas relatif, \(A_{ki}\) probabilitas transisi, \(Z\) fungsi partisi, dan \(G\) fungsi profil Gaussian. Hyperparameter untuk proses simulasi dirangkum pada Tabel~\ref{tab:hyperparameter}.
-
-%     \begin{table}[H]
-%       \centering
-%       \small
-%       \caption{Parameter Kunci untuk Perencanaan dan Simulasi Spektral}
-%       \label{tab:hyperparameter}
-%       \begin{tabular}{p{3cm} p{7cm} p{3cm}}
-%         \toprule
-%         \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
-%         \midrule
-%         \multicolumn{3}{l}{\textbf{Parameter Perencanaan (Algoritma~\ref{app:algo1})}} \\
-%         $N_{\text{total}}$ & Jumlah total resep/sampel yang akan dibuat. & 50,000 \\
-%         $k_{\text{range}}$ & Rentang jumlah elemen yang dipilih per resep. & [10, 17] \\
-%         $k_{\text{avg}}$ & Rata-rata elemen per resep untuk penyeimbangan. & 13.5 \\
-%         \midrule
-%         \multicolumn{3}{l}{\textbf{Parameter Fisika (Algoritma~\ref{app:algo2})}} \\
-%         $R_T$ & Rentang suhu plasma untuk pemilihan acak. & [5000, 15000] K \\
-%         $R_{n_e}$ & Rentang densitas elektron untuk pemilihan acak. & [$10^{16}$, $10^{18}$] cm$^{-3}$ \\
-%         \midrule
-%         \multicolumn{3}{l}{\textbf{Parameter Spektrum (Algoritma~\ref{app:algo2})}} \\
-%         Resolusi & Jumlah titik data dalam satu spektrum. & 4096 \\
-%         Rentang $\lambda$ & Rentang panjang gelombang spektrum. & [200, 900] nm \\
-%         $\sigma_{\text{Doppler}}$ & Lebar standar deviasi untuk pelebaran Doppler. & 0.1 nm \\
-%         $\sigma_{\text{instrumen}}$ & Lebar standar deviasi untuk konvolusi instrumental. & 0.1 nm \\
-%         \bottomrule
-%       \end{tabular}
-%     \end{table}
-
-%     Proses pemodelan simulasi ini terdiri dari dua algoritma utama yang dijelaskan di lampiran. Pertama, sebuah rencana kombinasi sampel yang seimbang dan beragam dibuat menggunakan \textbf{Algoritma~\ref{app:algo1}}. Kemudian, setiap resep dari rencana tersebut dieksekusi untuk menghasilkan spektrum emisi akhir menggunakan \textbf{Algoritma~\ref{app:algo2}}, yang mencakup seluruh proses fisika mulai dari kalkulasi rasio ionisasi, intensitas garis, hingga pelebaran spektral.
-
-%     \item \textbf{Struktur dan Pembagian Dataset} \\
-%     Setelah proses simulasi selesai, dihasilkan sebuah dataset komprehensif yang terdiri dari 50.000 sampel unik. Setiap sampel dalam dataset ini memiliki struktur pasangan yang terdiri dari:
-%     \begin{enumerate}
-%       \item \textbf{Fitur Input}: Sebuah array satu dimensi berisi 4096 titik data yang merepresentasikan intensitas spektrum emisi.
-%       \item \textbf{Label Target}: Sebuah vektor \textit{multi-hot encoded} yang menunjukkan keberadaan (nilai 1) atau ketiadaan (nilai 0) dari setiap 18 elemen yang diteliti.
-%     \end{enumerate}
-
-%     Untuk memastikan proses pelatihan dan evaluasi model yang objektif dan dapat diandalkan, dataset ini kemudian dibagi secara acak menjadi tiga himpunan data (\textit{dataset}) yang terpisah dan tidak tumpang-tindih, dengan proporsi sebagai berikut:
-%     \begin{itemize}
-%         \item \textbf{Set Pelatihan (\textit{Training Set})}: \textbf{70\%} dari total data (35.000 sampel). Himpunan data ini digunakan secara eksklusif untuk melatih model, yaitu untuk mempelajari pola dan menyesuaikan bobot internalnya.
-%         \item \textbf{Set Validasi (\textit{Validation Set})}: \textbf{15\%} dari total data (7.500 sampel). Himpunan data ini digunakan selama proses pelatihan untuk menyetel \textit{hyperparameter} model (seperti laju pembelajaran) dan untuk menerapkan mekanisme \textit{early stopping} guna mencegah \textit{overfitting}.
-%         \item \textbf{Set Uji (\textit{Test Set})}: \textbf{15\%} dari total data (7.500 sampel). Himpunan data ini sama sekali tidak terlihat oleh model selama proses pelatihan dan validasi. Set ini hanya digunakan satu kali pada tahap akhir untuk memberikan evaluasi kinerja yang final dan tidak bias terhadap kemampuan generalisasi model pada data baru.
-%     \end{itemize}
-%     Pembagian ini dilakukan menggunakan strategi \textit{stratified split} untuk memastikan bahwa proporsi kemunculan setiap elemen (terutama elemen minor) dijaga agar tetap seimbang di ketiga set data tersebut.
-
-%     \item \textbf{Perancangan dan Perbandingan Arsitektur Model Informer} \\
-%     % \begin{figure}[H]
-%     %     \centering
-%     %     \includegraphics[width=0.6\textwidth]{images/deepl.drawio.pdf}
-%     %     \caption{Diagram alur kerja proses \textit{deep learning} mulai dari persiapan data hingga evaluasi model.}
-%     %     \label{fig:flowchart-deeplearning}
-%     % \end{figure}
-    
-%     Tahap ini melibatkan perancangan, pelatihan, dan perbandingan dua varian arsitektur model \textit{Informer} untuk menentukan konfigurasi yang paling optimal. Varian utama yang diuji adalah jumlah lapisan \textit{encoder} (2-layer vs. 3-layer), sementara hyperparameter lainnya dijaga konsisten pada awalnya. Model ini memanfaatkan mekanisme \textit{ProbSparse Self-Attention} untuk menangani data sekuensial panjang secara efisien.
-
-%     \textbf{Arsitektur Model}:
-%     Konfigurasi arsitektur model \textit{Informer} yang diimplementasikan dirinci dalam Tabel~\ref{tab:hyperparameter_informer}, dengan arsitektur visual diilustrasikan pada Gambar~\ref{fig:informer_architecture}. Model ini menerima input spektrum emisi 1D, memproyeksikannya ke dimensi model, menambahkan \textit{Positional Encoding}, dan memprosesnya melalui beberapa lapisan \textit{encoder} sebelum menghasilkan prediksi multi-label.
-    
-%     \begin{table}[H]
-%       \centering
-%       \small
-%       \caption{Hyperparameter untuk Pelatihan Model Informer}
-%       \label{tab:hyperparameter_informer}
-%       \begin{tabular}{p{4cm} p{6cm} l}
-%         \toprule
-%         \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
-%         \midrule
-%         Dimensi model ($d_{\text{model}}$) & Dimensi internal model & 32 \\
-%         Jumlah kepala perhatian ($H$) & Jumlah kepala pada mekanisme \textit{multi-head attention} & 4 \\
-%         Jumlah lapisan enkoder ($L$) & Jumlah lapisan \textit{encoder} yang diuji untuk perbandingan & 2 dan 3 \\
-%         Dimensi \textit{feed-forward} ($d_{\text{ff}}$) & Dimensi lapisan \textit{feed-forward} dalam \textit{encoder} & 64 \\
-%         Faktor \textit{dropout} & Probabilitas \textit{dropout} untuk regularisasi & 0.4 \\
-%         Panjang sekuens ($L_x$) & Jumlah titik data dalam satu spektrum emisi & 4096 \\
-%         Faktor perhatian & Faktor \textit{sampling} untuk \textit{ProbSparse attention} & 5 \\
-%         Ukuran \textit{batch} & Jumlah sampel per iterasi pelatihan & 26 \\
-%         Jumlah \textit{epoch} & Jumlah maksimum \textit{epoch} pelatihan & 100 \\
-%         Laju pembelajaran & Laju pembelajaran awal untuk optimizer & $10^{-4}$ \\
-%         \textit{Weight decay} & Parameter regularisasi untuk optimizer AdamW & $10^{-5}$ \\
-%         Akumulasi gradien & Jumlah langkah untuk akumulasi gradien & 4 \\
-%         \textit{Patience} & Toleransi untuk \textit{early stopping} & 10 \\
-%         $\Delta F1$ & Peningkatan F1 minimum yang dianggap signifikan & 0.0001 \\
-%         \bottomrule
-%       \end{tabular}
-%     \end{table}
-
-%     \textbf{Proses Pelatihan}:\\
-%     Model dilatih dengan tujuan meminimalkan \textit{loss} dan memaksimalkan F1-Score pada data validasi. Untuk mencapai kinerja model yang optimal dan efisiensi komputasi, beberapa strategi pelatihan tingkat lanjut diterapkan:
-%     \begin{itemize}
-%         \item \textbf{Fungsi Kerugian (Loss Function)}: Digunakan \textbf{MultiLabelFocalLoss} dengan parameter $\gamma=2.0$. Fungsi ini dipilih secara spesifik untuk menangani potensi ketidakseimbangan distribusi elemen dalam dataset training. Bobot kelas (\textit{pos\_weight}) juga dihitung dari dataset training dan digunakan untuk memberikan pinalti yang lebih besar pada kesalahan klasifikasi kelas minoritas.
-%         \item \textbf{Optimizer dan Penjadwal}: Digunakan optimizer \textbf{AdamW} yang merupakan varian dari Adam dengan perbaikan pada mekanisme \textit{weight decay}. Laju pembelajaran diatur secara dinamis menggunakan \textbf{OneCycleLR scheduler}, yang secara bertahap menaikkan laju pembelajaran dari nilai awal ke nilai maksimum, kemudian menurunkannya. Strategi ini terbukti efektif dalam membantu model menghindari \textit{local minima} dan mencapai konvergensi yang lebih cepat.
-%         \item \textbf{Ukuran Batch Efektif dan Akumulasi Gradien}: Untuk menstabilkan gradien dan secara efektif melatih model dengan \textit{batch size} yang lebih besar dari yang dapat ditampung oleh memori GPU, diterapkan teknik \textbf{gradient accumulation}. Dengan ukuran \textit{batch} 25 dan 4 langkah akumulasi, \textit{effective batch size} sebesar 100 tercapai.
-%         \item \textbf{Mixed-Precision Training}: Proses pelatihan dipercepat secara signifikan dengan mengaktifkan teknik \textit{mixed-precision} melalui \texttt{torch.amp}. Hal ini mengurangi penggunaan memori GPU dan memanfaatkan Tensor Cores untuk kalkulasi yang lebih cepat menggunakan format bilangan presisi 16-bit (FP16).
-%         \item \textbf{Early Stopping dan Checkpointing}: Untuk mencegah \textit{overfitting}, mekanisme \textit{early stopping} diimplementasikan. Pelatihan akan berhenti secara otomatis jika F1-Score (Macro) pada set validasi tidak menunjukkan peningkatan yang signifikan (lebih dari 0.001) selama 6 \textit{epoch} berturut-turut. Model dengan F1-Score validasi terbaik akan disimpan (\textit{checkpointing}) selama proses pelatihan.
-%     \end{itemize}
-
-%     \textbf{Optimisasi Hyperparameter}:
-%     Pencarian \textit{hyperparameter} optimal untuk model Informer dilakukan secara sistematis menggunakan \textit{framework} optimisasi otomatis. Proses optimisasi dijalankan untuk mengeksplorasi ruang pencarian yang mencakup \texttt{\detokenize{d_model}}, \texttt{\detokenize{nhead}}, \texttt{\detokenize{num_encoder_layers}}, \texttt{\detokenize{dim_feedforward}}, \texttt{\detokenize{dropout}}, \texttt{\detokenize{learning_rate}}, dan \texttt{\detokenize{batch_size}}. Untuk efisiensi, studi ini juga memanfaatkan mekanisme \textit{pruning}, yang secara otomatis menghentikan \textit{trials} dengan kinerja di bawah median pada tahap awal. Konfigurasi \textit{hyperparameter} terbaik yang ditemukan melalui proses ini kemudian digunakan untuk pelatihan model final.
-
-%     \textbf{Evaluasi dan Penentuan Ambang Batas}:
-%     Metrik utama untuk menyimpan model terbaik adalah \textbf{F1-Score (Macro)} pada set validasi. Setelah proses pelatihan selesai, dilakukan tahap pasca-pemrosesan krusial yaitu \textbf{pencarian ambang batas prediksi optimal (\textit{optimal threshold})}. Karena keluaran model untuk setiap kelas adalah probabilitas (nilai antara 0 dan 1), penentuan ambang batas yang tepat sangat penting. Proses ini dilakukan dengan mengevaluasi F1-Score (Macro) pada set validasi untuk serangkaian nilai ambang batas (dari 0.1 hingga 0.9). Ambang batas yang menghasilkan F1-Score tertinggi kemudian ditetapkan sebagai ambang batas final dan digunakan untuk melakukan evaluasi akhir pada \textit{test set}.
-    
-%     % \begin{figure}[H]
-%     %     \centering
-%     %     \includegraphics[width=0.8\textwidth]{images/informer.pdf}
-%     %     \caption{Arsitektur model Informer yang digunakan dalam penelitian ini.}
-%     %     \label{fig:informer_architecture}
-%     % \end{figure}
-% \end{enumerate}
-
-
-% \chapter{METODOLOGI PENELITIAN}
-
-% \section{Waktu dan Tempat Penelitian}
-% Penelitian ini murni berbasis komputasi numerik dan pemodelan data. Seluruh eksekusi simulasi, komputasi matriks \textit{Collisional-Radiative} (CR), hingga pelatihan model \textit{Machine Learning} inversi dilakukan di Laboratorium Fisika Komputasi, Universitas Syiah Kuala.
-
-% \section{Perangkat Penelitian}
-% Perangkat keras (\textit{hardware}) yang digunakan dalam penelitian ini adalah workstation dengan spesifikasi \textit{processor} arsitektur \textit{multi-core} untuk mempercepat komputasi Matriks Jacobian. Perangkat lunak (\textit{software}) yang digunakan adalah ekosistem bahasa pemrograman Python (versi 3.x) dengan beberapa pustaka saintifik utama, yaitu:
-% \begin{enumerate}
-%     \item \textbf{SciPy}: Digunakan untuk penyelesaian \textit{stiff} ODE dan integrasi algoritma optimasi Levenberg-Marquardt.
-%     \item \textbf{Scikit-learn}: Digunakan untuk konstruksi \textit{Physics-Informed Support Vector Regression} (SVR) dan ekstraksi fitur utama.
-%     \item \textbf{NumPy \& Pandas}: Digunakan untuk manipulasi data spektral spektrum empiris dan data atomik dari basis data NIST.
-% \end{enumerate}
-
-% \section{Prosedur Penelitian}
-% Untuk mengekstraksi informasi kualitatif makroskopis dan parameter termodinamika mikroskopis dari spektrum \textit{Laser-Induced Breakdown Spectroscopy} (LIBS), penelitian ini dieksekusi melalui lima tahapan komputasi utama, yaitu:
-
-% \subsection{Akuisisi Data dan Kalibrasi Efisiensi Spektral}
-% Tahap awal dimulai dengan pembacaan spektrum empiris pada jendela waktu transien ($t \approx 1~\mu s$). Untuk mengatasi anomali redaman kuantum pada detektor optik, khususnya di area \textit{deep UV}, spektrum mentah dikalibrasi menggunakan Fungsi Respons Instrumen (IRF) sehingga intensitas absolut dapat dirumuskan sebagai:
-% \begin{equation}
-%     I_{eks}(\lambda) = I_{raw}(\lambda) \times \Psi_{IRF}(\lambda)
-% \end{equation}
-
-% \subsection{Analisis Kualitatif Berbasis \textit{Physics-Informed} SVR}
-% Sebagai penapis awal (makroskopis), ruang spektrum ditransformasikan ke dalam ekstraksi fitur fisika $\Phi(I)$. Algoritma SVR diterapkan secara eksklusif untuk identifikasi pola matriks sampel. Persamaan regresi untuk pengenalan kelas material ditulis dalam bentuk:
-% \begin{equation}
-%     \hat{y}_{kualitatif} = \sum_{i=1}^{N} \alpha_i K\left(\Phi(I_i), \Phi(I_{eks})\right) + b
-% \end{equation}
-% dengan $K$ melambangkan fungsi \textit{kernel} pemetaan ruang fitur tinggi.
-
-% \subsection{Konstruksi Mesin Termodinamika (\textit{Forward Model})}
-% Probabilitas transisi optik dimodelkan secara deterministik. Populasi diekstraksi menggunakan distribusi Saha-Boltzmann (asumsi pLTE), dan pelebaran spektral diselesaikan via konvolusi Voigt. Dinamika \textit{self-absorption} dieksekusi melalui Persamaan Transfer Radiatif (RTE) model Dua-Zona:
-% \begin{equation}
-%     I_{teori}(\lambda, X) = I_{core}(\lambda) e^{-\tau(\lambda)} + \frac{j_{shell}(\lambda)}{\kappa_{shell}(\lambda)} \left( 1 - e^{-\tau(\lambda)} \right)
-% \end{equation}
-% di mana $X$ adalah vektor ruang parameter $(T_{core}, T_{shell}, n_{e}, d_{shell})$.
-
-% \subsection{Penyelesaian \textit{Inverse Problem} via Levenberg-Marquardt}
-% Ekstraksi absolut $T_e$ dan $n_e$ dikerjakan melalui algoritma optimasi nonlinier Levenberg-Marquardt yang meminimalkan \textit{Residual Sum of Squares} (RSS). Pembaruan parameter $\Delta X$ dievaluasi eksak melalui iterasi Matriks Jacobian ($J$):
-% \begin{equation}
-%     \left[ J^T J + \gamma \text{diag}(J^T J) \right] \Delta X = J^T \left[ I_{eks} - I_{teori}(X) \right]
-% \end{equation}
-% dengan $\gamma$ merupakan faktor redaman dinamis antara metode \textit{Gradient Descent} dan \textit{Gauss-Newton}.
-
-% \subsection{Analisis Kuantitatif \textit{Calibration-Free} (CF-LIBS)}
-% Setelah konvergensi dicapai, efek opasitas dinetralisir secara matematis. Konsentrasi fraksional absolut ($C_s$) dari masing-masing elemen penyusun dihitung berdasarkan normalisasi total populasi:
-% \begin{equation}
-%     C_s = \frac{N_s^{total}}{\sum_{j} N_j^{total}}
-% \end{equation}
-
-% \section{Diagram Alir Penelitian}
-% Skema arsitektur jalur ganda (\textit{Dual-Track}) pada penelitian ini direpresentasikan dalam diagram alir komputasi pada Gambar \ref{fig:flowchart}.
-
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}[
-%     node distance=1.5cm and 2.5cm,
-%     box/.style={draw, rectangle, rounded corners, align=center, minimum width=3.5cm, minimum height=1cm, fill=blue!5},
-%     arrow/.style={-latex, thick}
-% ]
-
-% % Nodes
-% \node (data) [box, fill=green!10] {Data Spektrum\\LIBS Empiris};
-% \node (prep) [box, below=of data] {Prapemrosesan \&\\Kalibrasi IRF};
-
-% \node (split) [coordinate, below=0.7cm of prep] {};
-
-% \node (svr_feat) [box, left=of split, yshift=-1cm] {Ekstraksi Fitur Fisika\\$\Phi(I)$};
-% \node (svr_train) [box, below=of svr_feat] {Pelatihan SVR\\(Klasifikasi Pola)};
-% \node (svr_out) [box, fill=red!10, below=of svr_train] {Hasil: Klasifikasi\\Matriks Kualitatif};
-
-% \node (fw_model) [box, right=of split, yshift=-1cm] {\textit{Forward Model}\\Deterministik (RTE)};
-% \node (lm_inv) [box, below=of fw_model] {Optimasi Jacobian\\(Levenberg-Marquardt)};
-% \node (lm_out) [box, fill=red!10, below=of lm_inv] {Ekstraksi Parameter\\$T_e$, $n_e$, $\tau$};
-% \node (cf_libs) [box, fill=orange!10, below=of lm_out] {Kompensasi SA \&\\Analisis CF-LIBS};
-
-% % Arrows
-% \draw [arrow] (data) -- (prep);
-% \draw [thick] (prep) -- (split);
-
-% % Left branch
-% \draw [arrow] (split) -| (svr_feat);
-% \draw [arrow] (svr_feat) -- (svr_train);
-% \draw [arrow] (svr_train) -- (svr_out);
-
-% % Right branch
-% \draw [arrow] (split) -| (fw_model);
-% \draw [arrow] (fw_model) -- (lm_inv);
-% \draw [arrow] (lm_inv) -- (lm_out);
-% \draw [arrow] (lm_out) -- (cf_libs);
-
-% % Iteration loop LM
-% \draw [arrow, dashed] (lm_inv.east) -- ++(1,0) |- node[pos=0.25, right] {\small Iterasi $\Delta X$} (fw_model.east);
-
-% \end{tikzpicture}
-% \caption{Diagram alir arsitektur komputasi \textit{Dual-Track} CR-LIBS.}
-% \label{fig:flowchart}
-% \end{figure}
-
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}[
-%     node distance=1.5cm and 2.0cm,
-%     startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, align=center, draw=black, fill=red!10},
-%     io/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, align=center, draw=black, fill=blue!10},
-%     process/.style={rectangle, minimum width=4cm, minimum height=1cm, text centered, text width=4.5cm, align=center, draw=black, fill=orange!10},
-%     decision/.style={diamond, minimum width=3cm, minimum height=1cm, text centered, text width=2cm, align=center, draw=black, fill=green!10},
-%     arrow/.style={thick,->,>=stealth}
-% ]
-
-% % Node Utama (Tengah)
-% \node (start) [startstop] {Mulai};
-% \node (input) [io, below of=start, yshift=-0.2cm] {Input Data Spektrum\\LIBS Empiris};
-% \node (prep) [process, below of=input, yshift=-0.5cm] {Pre-processing data dan kalibrasi Fungsi Respons Instrumen (IRF)};
-
-% % Titik percabangan tak terlihat
-% \node (split) [coordinate, below of=prep, yshift=-0.5cm] {};
-
-% % Jalur Kiri (Kualitatif / SVR)
-% \node (feat) [process, left of=split, xshift=-2.5cm, yshift=-0.5cm] {Ekstraksi fitur fisika termodinamika};
-% \node (svr) [process, below of=feat, yshift=-0.5cm] {Klasifikasi menggunakan metode \textit{Support Vector Regression} (SVR)};
-% \node (eval_svr) [process, below of=svr, yshift=-0.5cm] {Evaluasi performa klasifikasi SVR};
-
-% % Jalur Kanan (Kuantitatif / Fisika)
-% \node (guess) [process, right of=split, xshift=2.5cm, yshift=-0.5cm] {Pemilihan \textit{initial guess} parameter ($T_e, n_e$)};
-% \node (rte) [process, below of=guess, yshift=-0.5cm] {Pemodelan spektrum menggunakan Persamaan Transfer Radiatif (RTE)};
-% \node (lm) [process, below of=rte, yshift=-0.5cm] {Optimasi menggunakan metode Levenberg-Marquardt};
-
-% % Node Penggabungan & Penyelesaian
-% \node (merge) [coordinate, below of=split, yshift=-5.5cm] {};
-% \node (cflibs) [process, below of=merge, yshift=0.5cm] {Kompensasi efek \textit{self-absorption} dan evaluasi CF-LIBS};
-% \node (stop) [startstop, below of=cflibs, yshift=-0.5cm] {Selesai};
-
-% % Menggambar Panah
-% \draw [arrow] (start) -- (input);
-% \draw [arrow] (input) -- (prep);
-% \draw [thick] (prep) -- (split);
-
-% % Panah Jalur Kiri
-% \draw [arrow] (split) -| (feat);
-% \draw [arrow] (feat) -- (svr);
-% \draw [arrow] (svr) -- (eval_svr);
-% \draw [thick] (eval_svr) |- (merge);
-
-% % Panah Jalur Kanan
-% \draw [arrow] (split) -| (guess);
-% \draw [arrow] (guess) -- (rte);
-% \draw [arrow] (rte) -- (lm);
-
-% % Iterasi LM kembali ke RTE
-% \draw [arrow, dashed] (lm.east) -- ++(0.7,0) |- node[pos=0.25, right] {\small Update Parameter} (rte.east);
-
-% \draw [thick] (lm) |- (merge);
-
-% % Panah Akhir
-% \draw [arrow] (merge) -- (cflibs);
-% \draw [arrow] (cflibs) -- (stop);
-
-% \end{tikzpicture}
-% \caption{Diagram alir penelitian menggunakan arsitektur \textit{Dual-Track} CR-LIBS.}
-% \label{fig:flowchart_tesis}
-% \end{figure}
-
-
-% \begin{figure}[htbp]
-% \centering
-% % Pastikan Anda telah menambahkan \usepackage{amsmath} dan \usepackage{tikz} di preamble
-% \begin{tikzpicture}[
-%     node distance=1.6cm and 3.5cm,
-%     startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=red!10, font=\small},
-%     io/.style={trapezium, trapezium left angle=75, trapezium right angle=105, minimum width=3.5cm, minimum height=0.8cm, text centered, text width=4cm, draw=black, fill=blue!10, font=\small},
-%     process/.style={rectangle, minimum width=5.5cm, minimum height=1cm, text centered, text width=6cm, draw=black, fill=orange!10, font=\small},
-%     decision/.style={diamond, aspect=2.5, minimum width=4cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=green!10, font=\small},
-%     arrow/.style={thick,->,>=stealth}
-% ]
-
-% % Node Utama (Tengah Atas)
-% \node (start) [startstop] {Mulai};
-% \node (input) [io, below of=start, yshift=-0.2cm] {Input Spektrum LIBS\\$I_{raw}(\lambda)$ pada $t \approx 1~\mu s$};
-% \node (prep) [process, below of=input, yshift=-0.4cm] {Kalibrasi Fungsi Respons Instrumen:\\ $I_{eks}(\lambda) = I_{raw}(\lambda) \times \Psi_{IRF}(\lambda)$};
-
-% % Titik percabangan 
-% \node (split) [coordinate, below of=prep, yshift=-0.5cm] {};
-
-% % ================= JALUR KIRI (SVR) =================
-% \node (feat) [process, left of=split, xshift=-3cm, yshift=-0.8cm] {Ekstraksi Fitur Termodinamika:\\ $\Phi(I_{eks}) = [\tau_{max}, \Delta\lambda_{Stark}, \dots]$};
-% \node (svr) [process, below of=feat, yshift=-0.6cm] {Regresi SVR \textit{Multi-Output}:\\ $\hat{y} = \sum_{i=1}^{N} \alpha_i K(\Phi_i, \Phi_{eks}) + b$};
-% \node (eval_svr) [process, below of=svr, yshift=-0.6cm] {Identifikasi Kelas Material\\ \& Evaluasi Kualitatif};
-
-% % ================= JALUR KANAN (FISIKA & LM) =================
-% \node (guess) [process, right of=split, xshift=3cm, yshift=-0.8cm] {\textit{Initial guess} parameter plasma:\\ $X_0 = [T_{core}, T_{shell}, n_e, d_{shell}]^T$};
-% \node (rte) [process, below of=guess, yshift=-0.6cm] {Evaluasi \textit{Forward Model} (RTE):\\ $I_{th}(X) = I_c e^{-\tau} + \frac{j_s}{\kappa_s}(1-e^{-\tau})$};
-% \node (jacob) [process, below of=rte, yshift=-0.7cm] {Eksekusi Matriks Jacobian:\\ $J_{i,j} = \frac{\partial I_{th}(\lambda_i)}{\partial X_j}$};
-% \node (lm) [process, below of=jacob, yshift=-0.7cm] {Pembaruan Levenberg-Marquardt:\\ $(J^T J + \gamma I) \Delta X = J^T (I_{eks} - I_{th})$\\ $X_{k+1} = X_k + \Delta X$};
-
-% % Keputusan Iterasi (Looping)
-% \node (decide) [decision, below of=lm, yshift=-1.0cm] {Konvergen?\\ $\| \Delta X \| \leq \epsilon$};
-
-% % ================= PENGGABUNGAN (BAWAH) =================
-% \node (merge) [coordinate, below of=decide, yshift=-0.8cm] {};
-% \node (cflibs) [process, below of=merge, yshift=0.3cm] {Netralisasi SA \& Kalkulasi CF-LIBS:\\ $C_s = \frac{N_s^{total}}{\sum_j N_j^{total}}$};
-% \node (stop) [startstop, below of=cflibs, yshift=-0.4cm] {Selesai};
-
-% % ================= MENGGAMBAR PANAH =================
-% \draw [arrow] (start) -- (input);
-% \draw [arrow] (input) -- (prep);
-% \draw [thick] (prep) -- (split);
-
-% % Panah Jalur Kiri
-% \draw [arrow] (split) -| (feat);
-% \draw [arrow] (feat) -- (svr);
-% \draw [arrow] (svr) -- (eval_svr);
-% \draw [thick] (eval_svr) |- (merge);
-
-% % Panah Jalur Kanan
-% \draw [arrow] (split) -| (guess);
-% \draw [arrow] (guess) -- (rte);
-% \draw [arrow] (rte) -- (jacob);
-% \draw [arrow] (jacob) -- (lm);
-% \draw [arrow] (lm) -- (decide);
-
-% % Panah Iterasi (Looping Levenberg-Marquardt)
-% \draw [arrow, dashed, color=red] (decide.east) -- ++(1.2,0) |- node[pos=0.25, right, text=red] {\textbf{Tidak}} (rte.east);
-
-% % Panah Lanjut
-% \draw [thick] (decide.south) -- node[pos=0.4, right] {\textbf{Ya}} (decide.south |- merge);
-% \draw [thick] (decide.south |- merge) -- (merge);
-
-% % Panah Akhir
-% \draw [arrow] (merge) -- (cflibs);
-% \draw [arrow] (cflibs) -- (stop);
-
-% \end{tikzpicture}
-% \caption{Diagram alir komputasi numerik \textit{Dual-Track} CR-LIBS. Jalur kanan merepresentasikan solusi inversi deterministik berbasis iterasi Jacobian (Levenberg-Marquardt).}
-% \label{fig:flowchart_tesis_math}
-% \end{figure}
-
-
-
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}[
-%     node distance=1.6cm and 3cm,
-%     startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=red!10, font=\small},
-%     io/.style={trapezium, trapezium left angle=75, trapezium right angle=105, minimum width=3.5cm, minimum height=0.8cm, text centered, text width=4.5cm, draw=black, fill=blue!10, font=\small},
-%     process/.style={rectangle, minimum width=4.5cm, minimum height=1cm, text centered, text width=5cm, draw=black, fill=orange!10, font=\small},
-%     decision/.style={diamond, aspect=2, minimum width=3cm, minimum height=1cm, text centered, text width=2.5cm, draw=black, fill=green!10, font=\small},
-%     arrow/.style={thick,->,>=stealth}
-% ]
-
-% % Node Utama (Tengah Atas)
-% \node (start) [startstop] {Mulai};
-% \node (input) [io, below of=start, yshift=-0.2cm] {Input Data Spektrum\\LIBS Empiris};
-% \node (prep) [process, below of=input, yshift=-0.3cm] {Prapemrosesan Data dan Kalibrasi Fungsi Respons Instrumen (IRF)};
-
-% % Titik percabangan 
-% \node (split) [coordinate, below of=prep, yshift=-0.5cm] {};
-
-% % ================= JALUR KIRI (KUALITATIF / SVR) =================
-% \node (feat) [process, left of=split, xshift=-2.5cm, yshift=-0.5cm] {Ekstraksi fitur termodinamika secara makroskopis};
-% \node (svr) [process, below of=feat, yshift=-0.5cm] {Klasifikasi pola menggunakan \textit{Support Vector Regression} (SVR)};
-% \node (eval_svr) [process, below of=svr, yshift=-0.5cm] {Identifikasi kelas material dan evaluasi akurasi kualitatif};
-
-% % ================= JALUR KANAN (KUANTITATIF / FISIKA) =================
-% \node (guess) [process, right of=split, xshift=2.5cm, yshift=-0.5cm] {Penentuan \textit{initial guess} parameter plasma ($T_e, n_e$)};
-% \node (rte) [process, below of=guess, yshift=-0.5cm] {Simulasi spektrum dengan \textit{Forward Model} Dua-Zona (RTE)};
-% \node (lm) [process, below of=rte, yshift=-0.4cm] {Optimasi inversi menggunakan metode Levenberg-Marquardt};
-
-% % Keputusan Iterasi (Looping)
-% \node (decide) [decision, below of=lm, yshift=-0.8cm] {Konvergen?};
-
-% % ================= PENGGABUNGAN (BAWAH) =================
-% \node (merge) [coordinate, below of=decide, yshift=-0.8cm] {};
-% \node (cflibs) [process, below of=merge, yshift=0.3cm] {Kompensasi efek \textit{self-absorption} dan analisis CF-LIBS};
-% \node (stop) [startstop, below of=cflibs, yshift=-0.4cm] {Selesai};
-
-% % ================= MENGGAMBAR PANAH =================
-% \draw [arrow] (start) -- (input);
-% \draw [arrow] (input) -- (prep);
-% \draw [thick] (prep) -- (split);
-
-% % Panah Jalur Kiri
-% \draw [arrow] (split) -| (feat);
-% \draw [arrow] (feat) -- (svr);
-% \draw [arrow] (svr) -- (eval_svr);
-% \draw [thick] (eval_svr) |- (merge);
-
-% % Panah Jalur Kanan
-% \draw [arrow] (split) -| (guess);
-% \draw [arrow] (guess) -- (rte);
-% \draw [arrow] (rte) -- (lm);
-% \draw [arrow] (lm) -- (decide);
-
-% % Panah Iterasi (Looping Levenberg-Marquardt)
-% \draw [arrow, dashed, color=red] (decide.east) -- ++(1.0,0) |- node[pos=0.25, right, text=red] {\textbf{Tidak}} (rte.east);
-
-% % Panah Lanjut
-% \draw [thick] (decide.south) -- node[pos=0.4, right] {\textbf{Ya}} (decide.south |- merge);
-% \draw [thick] (decide.south |- merge) -- (merge);
-
-% % Panah Akhir
-% \draw [arrow] (merge) -- (cflibs);
-% \draw [arrow] (cflibs) -- (stop);
-
-% \end{tikzpicture}
-% \caption{Diagram alir penelitian yang menunjukkan arsitektur \textit{Dual-Track} CR-LIBS. Jalur evaluasi terbagi menjadi klasifikasi kualitatif (kiri) dan ekstraksi parameter kuantitatif secara deterministik (kanan).}
-% \label{fig:flowchart_tesis_standar}
-% \end{figure}
-
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}[
-%     node distance=1.6cm and 3.5cm,
-%     startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=red!10, font=\small},
-%     io/.style={trapezium, trapezium left angle=75, trapezium right angle=105, minimum width=3.5cm, minimum height=0.8cm, text centered, text width=4.5cm, draw=black, fill=blue!10, font=\small},
-%     process/.style={rectangle, minimum width=4.5cm, minimum height=1cm, text centered, text width=5cm, draw=black, fill=orange!10, font=\small},
-%     decision/.style={diamond, aspect=2, minimum width=3cm, minimum height=1cm, text centered, text width=2.5cm, draw=black, fill=green!10, font=\small},
-%     arrow/.style={thick,->,>=stealth}
-% ]
-
-% % Node Utama (Tengah Atas)
-% \node (start) [startstop] {Mulai};
-% \node (input) [io, below of=start, yshift=-0.2cm] {Akuisisi Data Spektrum LIBS Empiris};
-% \node (prep) [process, below of=input, yshift=-0.3cm] {Prapemrosesan Data Spektral};
-
-% % Titik percabangan 
-% \node (split) [coordinate, below of=prep, yshift=-0.5cm] {};
-
-% % ================= JALUR KIRI (KUALITATIF / ML) =================
-% \node (feat) [process, left of=split, xshift=-2.5cm, yshift=-0.5cm] {Ekstraksi Fitur Makroskopis};
-% \node (ml) [process, below of=feat, yshift=-0.5cm] {Analisis Kualitatif (\textit{Machine Learning})};
-% \node (eval_ml) [process, below of=ml, yshift=-0.5cm] {Identifikasi Kelas Material};
-
-% % ================= JALUR KANAN (KUANTITATIF / FISIKA) =================
-% \node (fw) [process, right of=split, xshift=2.5cm, yshift=-0.5cm] {Pemodelan Fisika Deterministik (\textit{Forward Model})};
-% \node (inv) [process, below of=fw, yshift=-0.5cm] {Penyelesaian Masalah Invers (\textit{Inverse Problem})};
-
-% % Keputusan Iterasi (Looping)
-% \node (decide) [decision, below of=inv, yshift=-0.7cm] {Konvergen?};
-
-% % ================= PENGGABUNGAN (BAWAH) =================
-% \node (merge) [coordinate, below of=decide, yshift=-0.8cm] {};
-% \node (quant) [process, below of=merge, yshift=0.3cm] {Analisis Kuantitatif Akhir (CF-LIBS)};
-% \node (stop) [startstop, below of=quant, yshift=-0.4cm] {Selesai};
-
-% % ================= MENGGAMBAR PANAH =================
-% \draw [arrow] (start) -- (input);
-% \draw [arrow] (input) -- (prep);
-% \draw [thick] (prep) -- (split);
-
-% % Panah Jalur Kiri
-% \draw [arrow] (split) -| (feat);
-% \draw [arrow] (feat) -- (ml);
-% \draw [arrow] (ml) -- (eval_ml);
-% \draw [thick] (eval_ml) |- (merge);
-
-% % Panah Jalur Kanan
-% \draw [arrow] (split) -| (fw);
-% \draw [arrow] (fw) -- (inv);
-% \draw [arrow] (inv) -- (decide);
-
-% % Panah Iterasi (Looping Model Fisika)
-% \draw [arrow, dashed, color=red] (decide.east) -- ++(1.0,0) |- node[pos=0.25, right, text=red] {\textbf{Tidak}} (fw.east);
-
-% % Panah Lanjut
-% \draw [thick] (decide.south) -- node[pos=0.4, right] {\textbf{Ya}} (decide.south |- merge);
-% \draw [thick] (decide.south |- merge) -- (merge);
-
-% % Panah Akhir
-% \draw [arrow] (merge) -- (quant);
-% \draw [arrow] (quant) -- (stop);
-
-% \end{tikzpicture}
-% \caption{Diagram alir umum metodologi penelitian. Jalur analisis dibagi menjadi pendekatan kualitatif makroskopis (kiri) dan pemodelan fisik kuantitatif mikroskopis (kanan).}
-% \label{fig:flowchart_tesis_general}
-% \end{figure}
-
-
-% \begin{figure}[htbp]
-% \centering
-% \begin{tikzpicture}[
-%     node distance=1.6cm,
-%     startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=red!10, font=\small},
-%     io/.style={trapezium, trapezium left angle=75, trapezium right angle=105, minimum width=4cm, minimum height=0.8cm, text centered, text width=5cm, draw=black, fill=blue!10, font=\small},
-%     process/.style={rectangle, minimum width=6cm, minimum height=1cm, text centered, text width=6.5cm, draw=black, fill=orange!10, font=\small},
-%     decision/.style={diamond, aspect=2.5, minimum width=3.5cm, minimum height=1cm, text centered, text width=2.5cm, draw=black, fill=green!10, font=\small},
-%     arrow/.style={thick,->,>=stealth}
-% ]
-
-% % ================= DEFINISI NODE =================
-% \node (start) [startstop] {Mulai};
-% \node (input) [io, below of=start, yshift=-0.2cm] {Akuisisi Data Spektrum LIBS Empiris};
-% \node (prep) [process, below of=input, yshift=-0.2cm] {Prapemrosesan Data \& Kalibrasi Spektral};
-% \node (ml) [process, below of=prep, yshift=-0.2cm] {Analisis Kualitatif Awal (\textit{Machine Learning})\\sebagai Penentu Matriks Material};
-% \node (physics) [process, below of=ml, yshift=-0.2cm] {Eksekusi \textit{Forward Model} Deterministik \&\\Inversi Numerik (\textit{Inverse Problem})};
-% \node (decide) [decision, below of=physics, yshift=-0.6cm] {Konvergen?};
-% \node (cflibs) [process, below of=decide, yshift=-0.6cm] {Analisis Kuantitatif Akhir (CF-LIBS)};
-% \node (stop) [startstop, below of=cflibs, yshift=-0.3cm] {Selesai};
-
-% % ================= MENGGAMBAR PANAH =================
-% \draw [arrow] (start) -- (input);
-% \draw [arrow] (input) -- (prep);
-% \draw [arrow] (prep) -- (ml);
-% \draw [arrow] (ml) -- (physics);
-% \draw [arrow] (physics) -- (decide);
-
-% % Panah Looping (Iterasi Konvergensi)
-% % Menarik panah ke kanan, lalu ke atas kembali ke blok fisika
-% \draw [arrow, dashed, color=red] (decide.east) -- ++(1.5,0) |- node[pos=0.25, right, text=red] {\textbf{Tidak}} (physics.east);
-
-% % Panah Lanjut
-% \draw [arrow] (decide.south) -- node[pos=0.4, right] {\textbf{Ya}} (cflibs.north);
-% \draw [arrow] (cflibs) -- (stop);
-
-% \end{tikzpicture}
-% \caption{Diagram alir metodologi penelitian dengan arsitektur sekuensial. Pendekatan \textit{Machine Learning} digunakan sebagai prasyarat kualitatif sebelum ekstraksi parameter secara kuantitatif melalui model fisika deterministik.}
-% \label{fig:flowchart_tesis_linier}
-% \end{figure}
+\subsection{Akuisisi Data LIBS Eksperimental}
+
+Data eksperimental dalam penelitian ini diperoleh dari pengukuran LIBS pada sampel tanah vulkanik yang diambil dari kawasan Gunung Seulawah Agam, Kabupaten Aceh Besar, Provinsi Aceh, Indonesia. Pemilihan lokasi ini didasarkan pada karakteristik geologis tanah vulkanik yang memiliki komposisi multi-elemen kompleks dengan variasi matriks yang tinggi, sehingga merepresentasikan skenario analitik yang menantang untuk validasi model.
+
+Sebanyak 24 sampel tanah dikoleksi secara sistematis dari empat arah mata angin (Utara, Barat, Selatan, dan Timur) pada tiga tingkat kedalaman (0--20~cm, 20--40~cm, dan 40--60~cm). Setiap sampel dipreparasi dan diukur menggunakan sistem LIBS dengan parameter akuisisi yang dirangkum pada Tabel~\ref{tab:param_eksperimen}.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter Akuisisi Data LIBS Eksperimental}
+  \label{tab:param_eksperimen}
+  \small
+  \begin{tabular}{l l}
+    \toprule
+    \textbf{Parameter} & \textbf{Nilai} \\
+    \midrule
+    Sumber laser & Q-switched Nd:YAG \\
+    Panjang gelombang laser & 1064~nm \\
+    Energi pulsa & 114~mJ \\
+    \textit{Gate delay} & 0,5~$\mu$s \\
+    \textit{Gate width} & 0,5~$\mu$s \\
+    Spektrometer & Echelle \\
+    Detektor & \textit{Optical Multichannel Analyser} (OMA) \\
+    Jumlah tembakan per sampel & 3 (di-\textit{average}) \\
+    Rentang spektral & 200--900~nm \\
+    Jumlah sampel & 24 \\
+    Arah sampling & 4 (Utara, Barat, Selatan, Timur) \\
+    Kedalaman sampling & 3 level (0--20, 20--40, 40--60~cm) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Sebagai \textit{ground truth} untuk konsentrasi unsur, seluruh sampel juga dianalisis menggunakan metode \textit{X-ray Fluorescence} (XRF) yang menghasilkan data konsentrasi dalam satuan persentase berat (\% berat) untuk setiap elemen. Data XRF ini menjadi label target yang digunakan pada tahap \textit{fine-tuning} model.
+
+\subsection{Pra-pemrosesan Data}
+
+Sebelum digunakan sebagai masukan model, seluruh data spektral menjalani tahap pra-pemrosesan untuk memastikan konsistensi representasi dan mengurangi variabilitas yang tidak relevan secara analitik. Pra-pemrosesan diterapkan secara terpisah pada dataset sintetis dan dataset eksperimental dengan prosedur yang seragam.
+
+Langkah pertama adalah penghapusan \textit{continuum background} yang merupakan emisi latar berkesinambungan akibat radiasi \textit{Bremsstrahlung} dan rekombinasi plasma. Penghapusan ini dilakukan untuk mengisolasi sinyal garis emisi diskrit dari komponen kontinum yang tidak mengandung informasi komposisi unsur.
+
+Langkah kedua adalah normalisasi intensitas spektrum. Setiap spektrum dinormalisasi menggunakan metode normalisasi area (\textit{area normalization}), di mana intensitas pada setiap kanal dibagi dengan integral total area di bawah kurva spektrum. Prosedur ini memastikan bahwa variasi intensitas absolut akibat fluktuasi energi laser antar tembakan tidak memengaruhi representasi relatif garis emisi.
+
+Untuk dataset sintetis, pembagian data dilakukan dengan proporsi 80\% untuk pelatihan dan 20\% untuk pengujian. Pembagian ini dilakukan secara acak dengan \textit{random seed} yang ditetapkan untuk memastikan reprodusibilitas. Sementara itu, untuk dataset eksperimental yang berjumlah terbatas (24 sampel), strategi validasi silang \textit{k-fold cross-validation} dengan $k = 5$ diterapkan untuk memaksimalkan pemanfaatan data sekaligus memperoleh estimasi kinerja yang lebih andal secara statistik.
+
+\subsection{Arsitektur CNN--Transformer Encoder--Decoder}
+
+Arsitektur model yang diusulkan dalam penelitian ini dirancang secara spesifik untuk mengeksploitasi hubungan dekomposisi struktural antara spektrum monoatomik penyusun dan spektrum poliatomik campuran. Secara konseptual, arsitektur ini terdiri dari empat komponen utama: (i)~ekstraktor fitur CNN satu dimensi, (ii)~\textit{Transformer encoder} untuk representasi spektrum monoatomik, (iii)~\textit{Transformer decoder} dengan mekanisme \textit{cross-attention} untuk spektrum poliatomik, dan (iv)~kepala keluaran (\textit{output heads}) untuk prediksi konsentrasi dan rekonstruksi spektrum. Ilustrasi arsitektur secara lengkap disajikan pada Gambar~\ref{fig:arsitektur_model}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{images/Arsitektur-CNN-Trans.png}
+    \caption{Arsitektur CNN--Transformer \textit{encoder--decoder} yang diusulkan. Spektrum monoatomik individual diproses oleh \textit{encoder} untuk menghasilkan representasi elemen spesifik, sementara spektrum poliatomik campuran diproses oleh \textit{decoder} yang mengakses representasi \textit{encoder} melalui mekanisme \textit{cross-attention}.}
+    \label{fig:arsitektur_model}
+\end{figure}
+
+\subsubsection{Representasi Masukan}
+
+Model menerima dua jenis masukan yang berbeda secara struktural. Masukan pertama adalah himpunan spektrum monoatomik $\{S_{\mathrm{mono}}^{(1)}, S_{\mathrm{mono}}^{(2)}, \ldots, S_{\mathrm{mono}}^{(Z)}\}$ yang merepresentasikan emisi individual dari $Z$ elemen. Setiap spektrum monoatomik merupakan vektor satu dimensi dengan panjang yang sesuai dengan jumlah kanal spektral. Masukan kedua adalah spektrum poliatomik campuran $S_{\mathrm{poly}}$ yang merepresentasikan sinyal total yang teramati dari plasma multi-elemen.
+
+\subsubsection{Ekstraktor Fitur CNN Satu Dimensi}
+
+Sebelum memasuki blok \textit{Transformer}, setiap spektrum masukan --- baik monoatomik maupun poliatomik --- diproses terlebih dahulu oleh modul ekstraktor fitur berbasis \textit{Convolutional Neural Network} (CNN) satu dimensi. Modul ini bertugas menangkap pola-pola lokal pada spektrum, seperti profil puncak emisi, lebar garis, dan struktur multiplet yang berdekatan secara spasial pada sumbu panjang gelombang.
+
+Ekstraktor fitur CNN terdiri dari tiga lapisan konvolusi berturut-turut dengan ukuran \textit{kernel} yang menurun secara progresif, yaitu 7, 5, dan 3. Desain \textit{kernel} yang mengecil ini dimaksudkan agar lapisan awal menangkap fitur spektral berskala lebar (misalnya \textit{envelope} puncak), sementara lapisan berikutnya memperhalus ekstraksi ke fitur berskala lebih sempit (misalnya resolusi puncak individual). Jumlah filter pada ketiga lapisan adalah 64, 128, dan 128 secara berturut-turut. Setiap lapisan konvolusi diikuti oleh fungsi aktivasi \textit{Rectified Linear Unit} (ReLU) \citep{he_deep_2016} dan \textit{Batch Normalisation} \citep{ioffe_batch_2015} untuk menstabilkan distribusi aktivasi selama pelatihan.
+
+Modul CNN yang sama (\textit{shared weights}) digunakan untuk memproses seluruh spektrum monoatomik maupun spektrum poliatomik. Pendekatan \textit{weight sharing} ini memastikan bahwa representasi fitur yang dihasilkan berada dalam ruang laten yang konsisten, sehingga memungkinkan mekanisme \textit{cross-attention} pada tahap berikutnya untuk membandingkan representasi monoatomik dan poliatomik secara langsung.
+
+\subsubsection{Transformer Encoder}
+
+Keluaran dari ekstraktor fitur CNN untuk setiap spektrum monoatomik kemudian diproyeksikan ke dimensi model $d = 128$ dan ditambahkan dengan \textit{positional encoding} sinusoidal untuk menyandikan informasi posisi panjang gelombang. Sekuens yang telah diperkaya posisi ini kemudian diproses oleh blok \textit{Transformer encoder} yang terdiri dari $N_{\mathrm{enc}} = 4$ lapisan identik.
+
+Setiap lapisan \textit{encoder} mengimplementasikan mekanisme \textit{multi-head self-attention} dengan $h = 8$ kepala perhatian (Persamaan~\ref{eq:bab2_attention}), diikuti oleh jaringan \textit{feed-forward} posisional. Koneksi residual (\textit{skip connection}) dan normalisasi lapisan (\textit{layer normalisation}) diterapkan pada setiap sub-blok sesuai dengan arsitektur \textit{Transformer} standar \citep{vaswani_attention_2017}.
+
+Tugas utama \textit{encoder} adalah mempelajari representasi laten yang kaya dan spesifik untuk setiap elemen. Melalui mekanisme \textit{self-attention}, \textit{encoder} mampu menangkap dependensi jarak jauh (\textit{long-range dependencies}) antar puncak emisi dalam satu spektrum monoatomik --- misalnya korelasi antar garis multiplet dari tingkat ionisasi yang sama. Keluaran \textit{encoder} berupa matriks representasi $\mathbf{K}_{\mathrm{enc}}, \mathbf{V}_{\mathrm{enc}}$ yang menyimpan ``memori'' karakteristik spektral dari setiap elemen individual.
+
+\subsubsection{Transformer Decoder dengan Cross-Attention}
+
+Spektrum poliatomik campuran, setelah melalui ekstraktor fitur CNN yang sama, diproyeksikan dan ditambahkan \textit{positional encoding} dengan cara yang identik, kemudian diproses oleh blok \textit{Transformer decoder} yang terdiri dari $N_{\mathrm{dec}} = 4$ lapisan.
+
+Setiap lapisan \textit{decoder} mengandung tiga sub-blok: (i)~\textit{masked self-attention} untuk spektrum poliatomik, (ii)~\textit{cross-attention} yang menghubungkan representasi poliatomik dengan representasi monoatomik dari \textit{encoder}, dan (iii)~jaringan \textit{feed-forward}. Mekanisme \textit{cross-attention} merupakan inti konseptual dari arsitektur ini. Pada sub-blok ini, vektor \textit{query} $\mathbf{Q}_{\mathrm{dec}}$ berasal dari representasi spektrum poliatomik, sedangkan vektor \textit{key} $\mathbf{K}_{\mathrm{enc}}$ dan \textit{value} $\mathbf{V}_{\mathrm{enc}}$ berasal dari keluaran \textit{encoder} yang menyandikan spektrum monoatomik individual.
+
+Dengan konfigurasi ini, \textit{decoder} secara efektif ``menanyakan'' kepada representasi \textit{encoder}: seberapa besar kontribusi setiap elemen monoatomik terhadap sinyal poliatomik yang diamati pada setiap posisi panjang gelombang. Bobot \textit{cross-attention} yang dihasilkan merepresentasikan probabilitas kontribusi relatif masing-masing elemen, yang secara konseptual berkorespondensi dengan koefisien konsentrasi $c_z$ pada Persamaan~\ref{eq:bab2_poly}.
+
+\subsubsection{Kepala Keluaran (\textit{Output Heads})}
+
+Representasi akhir dari \textit{decoder} diteruskan ke tiga kepala keluaran yang beroperasi secara paralel:
+\begin{enumerate}
+    \item \textbf{Kepala Konsentrasi:} Memprediksi vektor konsentrasi $\hat{\mathbf{c}} = [\hat{c}_1, \hat{c}_2, \ldots, \hat{c}_Z]$ melalui lapisan linier yang diaktivasi oleh fungsi \textit{Softplus} untuk memastikan keluaran bernilai non-negatif.
+    \item \textbf{Kepala Rekonstruksi Spektrum:} Merekonstruksi spektrum poliatomik $\hat{S}_{\mathrm{poly}}$ melalui lapisan linier dengan aktivasi \textit{Sigmoid}, yang berfungsi sebagai regularisasi tambahan untuk memastikan konsistensi fisik model.
+    \item \textbf{Kepala Parameter Fisika:} Memprediksi parameter plasma ($\hat{T}_e$, $\hat{n}_e$) melalui lapisan linier dengan aktivasi \textit{Softplus}, sebagai keluaran tambahan yang memperkuat keterkaitan model dengan fondasi fisika plasma.
+\end{enumerate}
+
+Konfigurasi \textit{hyperparameter} arsitektur model secara lengkap disajikan pada Tabel~\ref{tab:hyperparameter_model}.
+
+\begin{table}[H]
+  \centering
+  \caption{Hyperparameter Arsitektur CNN--Transformer Encoder--Decoder}
+  \label{tab:hyperparameter_model}
+  \small
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
+    \midrule
+    \multicolumn{3}{l}{\textbf{Ekstraktor Fitur CNN}} \\
+    Jumlah lapisan konvolusi & Lapisan CNN 1D berturut-turut & 3 \\
+    Ukuran \textit{kernel} & Per lapisan & 7, 5, 3 \\
+    Jumlah filter & Per lapisan & 64, 128, 128 \\
+    \midrule
+    \multicolumn{3}{l}{\textbf{Transformer Encoder--Decoder}} \\
+    Dimensi model ($d$) & Dimensi representasi internal & 128 \\
+    Kepala perhatian ($h$) & Jumlah \textit{multi-head attention} & 8 \\
+    Lapisan \textit{encoder} ($N_{\mathrm{enc}}$) & Jumlah lapisan \textit{encoder} & 4 \\
+    Lapisan \textit{decoder} ($N_{\mathrm{dec}}$) & Jumlah lapisan \textit{decoder} & 4 \\
+    \textit{Dropout} & Probabilitas \textit{dropout} & 0,1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Strategi Pelatihan Model}
+
+Pelatihan model dilaksanakan melalui dua tahap sekuensial yang dirancang untuk memanfaatkan kelebihan masing-masing sumber data: dataset sintetis berskala besar untuk pembelajaran representasi struktural, dan dataset eksperimental untuk kalibrasi terhadap kondisi pengukuran nyata.
+
+\subsubsection{Tahap 1: \textit{Pre-training} pada Data Sintetis}
+
+Pada tahap pertama, model dilatih menggunakan seluruh 10.000 spektrum sintetis dengan tujuan mempelajari hubungan dekomposisi struktural antara spektrum monoatomik dan spektrum poliatomik. Fungsi kerugian (\textit{loss function}) yang diminimalkan selama \textit{pre-training} terdiri dari dua komponen:
+\begin{equation} \label{eq:bab3_loss}
+\mathcal{L} = \frac{1}{Z} \sum_{z=1}^{Z} \left(\hat{c}_z - c_z\right)^2 + \alpha \left\| S_{\mathrm{poly}} - \hat{S}_{\mathrm{poly}} \right\|^2,
+\end{equation}
+di mana komponen pertama adalah \textit{Mean Squared Error} (MSE) antara konsentrasi prediksi $\hat{c}_z$ dan konsentrasi target $c_z$ untuk seluruh $Z$ elemen, sedangkan komponen kedua adalah kerugian rekonstruksi spektrum yang dibobot oleh koefisien $\alpha = 0{,}1$. Komponen kedua berfungsi sebagai regularisasi yang memastikan bahwa representasi internal model tetap konsisten secara spektral --- artinya, model tidak hanya belajar memprediksi angka konsentrasi, tetapi juga memahami bagaimana konsentrasi tersebut tercermin dalam bentuk spektrum.
+
+Optimasi dilakukan menggunakan algoritma Adam \citep{kingma_adam_2015} dengan laju pembelajaran awal $\eta = 10^{-4}$. Penjadwalan laju pembelajaran mengikuti strategi \textit{cosine annealing} \citep{loshchilov_sgdr_2017} yang secara bertahap menurunkan laju pembelajaran mengikuti fungsi kosinus untuk memfasilitasi konvergensi yang lebih halus pada tahap akhir pelatihan. Ukuran \textit{batch} ditetapkan sebesar 32 sampel, dan pelatihan dijalankan hingga maksimum 200 \textit{epoch}.
+
+\subsubsection{Tahap 2: \textit{Fine-tuning} pada Data Eksperimental}
+
+Setelah \textit{pre-training} selesai, seluruh bobot model diinisialisasi dari \textit{checkpoint} terbaik tahap pertama, kemudian dilanjutkan dengan \textit{fine-tuning} pada 24 sampel eksperimental menggunakan strategi validasi silang $k$-\textit{fold} ($k = 5$). Pada tahap ini, laju pembelajaran diturunkan sebesar satu orde magnitudo menjadi $\eta = 10^{-5}$ untuk menghindari \textit{catastrophic forgetting} terhadap representasi struktural yang telah dipelajari selama \textit{pre-training}. Pelatihan \textit{fine-tuning} dijalankan hingga maksimum 50 \textit{epoch}.
+
+Label target pada tahap ini adalah konsentrasi unsur yang diperoleh dari analisis XRF. Fungsi kerugian yang sama (Persamaan~\ref{eq:bab3_loss}) digunakan, namun tanpa komponen rekonstruksi spektrum monoatomik karena spektrum monoatomik individual tidak tersedia dari pengukuran eksperimental. Tabel~\ref{tab:param_pelatihan} merangkum parameter pelatihan untuk kedua tahap.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter Pelatihan Model}
+  \label{tab:param_pelatihan}
+  \small
+  \begin{tabular}{l l l}
+    \toprule
+    \textbf{Parameter} & \textbf{\textit{Pre-training}} & \textbf{\textit{Fine-tuning}} \\
+    \midrule
+    Dataset & Sintetis (10.000) & Eksperimental (24) \\
+    Ukuran \textit{batch} & 32 & 32 \\
+    Jumlah \textit{epoch} & 200 & 50 \\
+    Laju pembelajaran ($\eta$) & $10^{-4}$ & $10^{-5}$ \\
+    Optimizer & Adam & Adam \\
+    Penjadwal & \textit{Cosine annealing} & \textit{Cosine annealing} \\
+    Bobot rekonstruksi ($\alpha$) & 0,1 & --- \\
+    Validasi & 80/20 split & 5-\textit{fold} CV \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Adaptasi Domain}
+
+Perbedaan karakteristik antara spektrum sintetis dan spektrum eksperimental --- yang meliputi efek instrumentasi, distorsi \textit{continuum background} residual, dan deviasi dari asumsi LTE ideal --- dapat menyebabkan penurunan kinerja model saat diterapkan pada data eksperimental (\textit{domain shift}). Untuk mengatasi permasalahan ini, strategi adaptasi domain (\textit{domain adaptation}) berbasis pelatihan adversarial diintegrasikan ke dalam arsitektur model.
+
+Secara spesifik, sebuah modul \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016} disisipkan antara keluaran \textit{encoder} dan sebuah klasifier domain tambahan. Klasifier domain bertugas membedakan apakah suatu spektrum berasal dari domain sintetis atau domain eksperimental. GRL bekerja dengan membalikkan arah gradien yang mengalir dari klasifier domain menuju \textit{encoder} selama proses \textit{backpropagation}. Dengan demikian, \textit{encoder} didorong untuk mengekstraksi fitur yang bersifat \textit{domain-invariant} --- yaitu representasi spektral yang informatif untuk prediksi konsentrasi namun tidak mengandung informasi tentang asal-usul domain data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{images/Domain-Adapt.png}
+    \caption{Ilustrasi mekanisme adaptasi domain menggunakan \textit{Gradient Reversal Layer} (GRL). Gradien dari klasifier domain dibalikkan sebelum mengalir ke \textit{encoder}, sehingga mendorong ekstraksi fitur yang tidak bergantung pada domain.}
+    \label{fig:domain_adaptation}
+\end{figure}
+
+Bobot GRL ditetapkan sebesar $\lambda = 0{,}1$ sesuai dengan nilai default yang direkomendasikan oleh \citet{ganin_domain_2016}. Fungsi kerugian total selama pelatihan dengan adaptasi domain menjadi:
+\begin{equation} \label{eq:bab3_loss_da}
+\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda \, \mathcal{L}_{\mathrm{domain}},
+\end{equation}
+di mana $\mathcal{L}_{\mathrm{prediksi}}$ adalah fungsi kerugian untuk prediksi konsentrasi (Persamaan~\ref{eq:bab3_loss}) dan $\mathcal{L}_{\mathrm{domain}}$ adalah \textit{cross-entropy} dari klasifier domain. Tanda negatif pada komponen domain mencerminkan efek pembalikan gradien oleh GRL.
+
+\subsection{Evaluasi Model dan \textit{Baseline}}
+
+Kinerja model yang diusulkan dievaluasi secara kuantitatif menggunakan tiga metrik kesalahan prediksi yang lazim digunakan dalam analisis regresi spektroskopi:
+
+\begin{enumerate}
+    \item \textbf{\textit{Root Mean Square Error} (RMSE):} Mengukur rata-rata deviasi absolut antara konsentrasi prediksi dan konsentrasi aktual, dihitung sebagai:
+    \begin{equation} \label{eq:bab3_rmse}
+    \mathrm{RMSE} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(\hat{c}_i - c_i\right)^2}.
+    \end{equation}
+
+    \item \textbf{Koefisien Determinasi ($R^2$):} Mengukur proporsi variansi data yang dapat dijelaskan oleh model, dengan nilai mendekati 1 mengindikasikan prediksi yang baik:
+    \begin{equation} \label{eq:bab3_r2}
+    R^2 = 1 - \frac{\sum_{i=1}^{N}(\hat{c}_i - c_i)^2}{\sum_{i=1}^{N}(c_i - \bar{c})^2}.
+    \end{equation}
+
+    \item \textbf{\textit{Mean Absolute Percentage Error} (MAPE):} Mengukur kesalahan relatif dalam persentase, yang berguna untuk membandingkan kinerja antar elemen dengan rentang konsentrasi yang berbeda:
+    \begin{equation} \label{eq:bab3_mape}
+    \mathrm{MAPE} = \frac{100\%}{N}\sum_{i=1}^{N}\left|\frac{\hat{c}_i - c_i}{c_i}\right|.
+    \end{equation}
+\end{enumerate}
+
+Seluruh metrik dihitung secara terpisah untuk setiap elemen agar dapat mengidentifikasi elemen mana yang lebih mudah atau lebih sulit diprediksi oleh model. Untuk memvalidasi keunggulan arsitektur yang diusulkan, kinerja model CNN--Transformer \textit{encoder--decoder} dibandingkan terhadap empat model \textit{baseline} berikut:
+
+\begin{enumerate}
+    \item \textbf{\textit{Partial Least Squares} (PLS) \citep{wold_pls_2001}:} Metode regresi multivariat linear yang telah banyak digunakan sebagai standar dalam analisis kuantitatif LIBS.
+    \item \textbf{CNN-\textit{only}:} Arsitektur yang hanya menggunakan ekstraktor fitur CNN dengan kepala linier untuk prediksi konsentrasi, tanpa komponen \textit{Transformer} maupun dekomposisi mono--poliatomik.
+    \item \textbf{\textit{Transformer-only}:} Arsitektur \textit{Transformer encoder} yang diterapkan langsung pada spektrum poliatomik mentah, tanpa CNN dan tanpa dekomposisi mono--poliatomik.
+    \item \textbf{Informer \citep{zhou_informer_2021}:} Arsitektur \textit{Transformer} dengan mekanisme \textit{ProbSparse self-attention} yang telah diadaptasi untuk analisis spektrum LIBS pada penelitian sebelumnya \citep{walidain_informer-based_2026}.
+\end{enumerate}
+
+Seluruh model \textit{baseline} dilatih dan dievaluasi menggunakan dataset serta protokol pelatihan yang identik untuk memastikan perbandingan yang adil (\textit{fair comparison}).
+
+\subsection{Analisis Interpretabilitas \textit{Cross-Attention}}
+
+Salah satu keunggulan konseptual dari arsitektur \textit{encoder--decoder} dengan \textit{cross-attention} adalah potensinya untuk menghasilkan prediksi yang dapat diinterpretasikan secara fisik. Berbeda dengan model \textit{black-box} konvensional yang hanya menghasilkan nilai konsentrasi tanpa penjelasan, bobot \textit{cross-attention} yang dihasilkan oleh \textit{decoder} dapat divisualisasikan untuk memahami bagaimana model ``mengatribusikan'' kontribusi setiap elemen monoatomik terhadap sinyal poliatomik yang diamati.
+
+Secara operasional, analisis interpretabilitas dilakukan melalui dua tahap. Pertama, matriks bobot \textit{cross-attention} diekstraksi dari lapisan \textit{decoder} untuk setiap sampel uji. Matriks ini memiliki dimensi yang menghubungkan posisi panjang gelombang pada spektrum poliatomik (baris) dengan representasi elemen monoatomik pada \textit{encoder} (kolom). Kedua, puncak-puncak bobot \textit{attention} yang tinggi diidentifikasi dan dikorelasikan dengan posisi garis emisi yang diketahui dari basis data NIST ASD \citep{kramida_nist_2024}. Jika bobot \textit{cross-attention} untuk elemen $z$ menunjukkan nilai tinggi pada posisi panjang gelombang yang bersesuaian dengan garis emisi elemen $z$ yang tercatat di NIST, maka hal ini mengindikasikan bahwa model telah mempelajari hubungan fisik yang bermakna antara garis emisi dan identitas elemen.
+
+Analisis ini diharapkan dapat memberikan validasi kualitatif bahwa arsitektur yang diusulkan tidak hanya menghasilkan prediksi konsentrasi yang akurat, tetapi juga melakukannya melalui mekanisme yang konsisten dengan prinsip fisika spektroskopi emisi. Hasil analisis \textit{cross-attention} akan disajikan dalam bentuk \textit{heatmap} yang menunjukkan distribusi bobot perhatian pada sumbu panjang gelombang untuk setiap elemen.
