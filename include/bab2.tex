@@ -1,111 +1,245 @@
 %-------------------------------------------------------------------------------
 %                            BAB II
-%               TINJAUAN PUSTAKA DAN DASAR TEORI
+%                       TINJAUAN KEPUSTAKAAN
 %-------------------------------------------------------------------------------
 
 \chapter{TINJAUAN KEPUSTAKAAN}
 
+% ======================================================================
+% 2.1 Tanah Vulkanik
+% ======================================================================
+\section{Karakteristik Geokimia Tanah Vulkanik}
+
+\subsection{Proses Pembentukan dan Karakteristik Tanah Vulkanik}
+% TODO: Isi dengan referensi primer tentang proses pembentukan tanah vulkanik
+%       dari material piroklastik/lava, proses pelapukan, alterasi mineral,
+%       serta sifat fisikokimia umum tanah hasil erupsi.
+
+\subsection{Mineralogi Tanah Vulkanik}
+% TODO: Isi dengan pembahasan mineral utama penyusun tanah vulkanik seperti
+%       feldspar, olivin, piroksen, kuarsa, dan oksida besi, beserta kaitannya
+%       dengan kandungan unsur mayor.
+
+\subsection{Unsur Mayor pada Tanah Vulkanik}
+% TODO: Isi dengan pembahasan unsur mayor (Si, Al, Fe, Ca, Mg, Na, K) yang
+%       dominan pada tanah vulkanik, rentang konsentrasi tipikal, dan mineral pembawanya.
+
+\subsection{Variabilitas Geokimia dan Faktor Lingkungan}
+% TODO: Isi dengan pembahasan variasi komposisi unsur akibat arah deposisi abu,
+%       kedalaman tanah, curah hujan, topografi, angin, dan proses pencucian unsur.
+
+\subsection{Karakteristik Spektral Material Vulkanik}
+% TODO: Isi dengan pembahasan karakteristik spektrum emisi LIBS pada material
+%       vulkanik, kemungkinan overlap garis emisi antar unsur, dan kompleksitas matriks spektral.
+
+\subsection{Peran Unsur terhadap Kesuburan dan Vulkanologi}
+% TODO: Isi dengan pembahasan peran unsur mayor terhadap kesuburan tanah,
+%       evaluasi lahan pertanian, serta relevansinya dalam pemantauan aktivitas
+%       vulkanik dan mitigasi bencana.
+
+
+% ======================================================================
+% 2.2 Laser-Induced Breakdown Spectroscopy (LIBS)
+% ======================================================================
 \section{Laser-Induced Breakdown Spectroscopy (LIBS)}
 
-\subsection{Prinsip Dasar dan Pembentukan Plasma}
+\subsection{Prinsip Dasar LIBS}
 
 \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) adalah teknik spektroskopi emisi atomik yang memanfaatkan interaksi destruktif antara pulsa laser berintensitas tinggi dengan permukaan material untuk menentukan komposisi unsur penyusunnya. Saat pulsa laser, yang umumnya berdurasi orde nanosekon, difokuskan pada area target, energi optik diserap secara masif oleh material melalui proses pemanasan, pelelehan, dan penguapan seketika. Proses ablasi ini menghasilkan awan uap berkerapatan tinggi yang secara cepat terus menyerap sisa energi laser yang datang melalui mekanisme penyerapan seperti \textit{Inverse Bremsstrahlung} dan efek multiphoton. Kondisi pemerangkapan energi ini memicu pemecahan dielektrik (\textit{dielectric breakdown}) dari gas di sekitarnya dan membentuk plasma mikro bersuhu amat tinggi yang kaya akan molekul, atom eksitasi, ion, serta elektron bebas \citep{legnaioli_laser-induced_2025}.
 
-Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setelah berhentinya pemaparan laser, plasma mulai mendingin yang secara bertahap mengurangi pendaran emisi radiasi hamburan (\textit{continuum background}). Di saat yang sama, atom dan ion di dalam plasma melepas surplus energinya kembali ke tingkat orbit dasar melalui pancaran spektrum optik sekunder. Spektrum yang diemisikan bersifat monokromatik dan khas serta meresepresentasikan letak struktur level energi (panjang gelombang emisi) beserta konsentrasi (intensitas puncak emisi) dari sebuah elemen. Kemampuan LIBS untuk menganalisis material secara \textit{in situ} dan minim \textit{sample preparation} menjadikan LIBS sangat unggul untuk observasi geokimia benda padat kompleks, khususnya sampel geologi bervariasi tinggi layaknya tanah vulkanik tempat fenomena efek matriks banyak terjadi \citep{sawyers_database_2025, hao_machine_2024}.
+\subsection{Pembentukan Plasma LIBS}
 
-\subsection{Keseimbangan Termodinamika Lokal (LTE) dan Kriteria McWhirter}
+Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setelah berhentinya pemaparan laser, plasma mulai mendingin yang secara bertahap mengurangi pendaran emisi radiasi hamburan (\textit{continuum background}). Di saat yang sama, atom dan ion di dalam plasma melepas surplus energinya kembali ke tingkat orbit dasar melalui pancaran spektrum optik sekunder. Kemampuan LIBS untuk menganalisis material secara \textit{in situ} dan minim \textit{sample preparation} menjadikan LIBS sangat unggul untuk observasi geokimia benda padat kompleks, khususnya sampel geologi bervariasi tinggi layaknya tanah vulkanik tempat fenomena efek matriks banyak terjadi \citep{sawyers_database_2025, hao_machine_2024}.
 
-Analisis kuantitatif dari emisi plasma LIBS yang mengandalkan pemodelan fisika analitik umumnya bersandar pada validitas asumsi Keseimbangan Termodinamika Lokal atau \textit{Local Thermodynamic Equilibrium} (LTE) \citep{cristoforetti_local_2010}. Karena plasma LIBS bersifat sangat transien dengan densitas dan dimensi geometeri spasial yang curam dari pusat (\textit{core}) hingga ke tepi luarnya, keadaan keseimbangan termodinamika secara utuh sangat mustahil untuk digapai. Namun dalam kondisi LTE, pada kompartemen elemen mikro (lokal) dan \textit{delay time} spesifik (sekitar skala $\mu$s), tumbukan inelastis antar elemen pengisi—terutama eksitasi lewat elektron—dipandang mengambil alih secara absolut atas transfer de-eksitasi energi radiatif spontan. Dalam kerangka asumsi ini, berbagai parameter fisis molekuler dan atomik cukup dipengaruhi penuh melalui parameter termodinamika makroskopik seperti Temperatur Elektron ($T_e$) tunggal tanpa terpengaruh oleh gradien medan.
+\subsection{Emisi Atomik dan Identifikasi Unsur}
+% TODO: Isi dengan pembahasan tentang mekanisme emisi atomik diskrit,
+%       identifikasi unsur berdasarkan panjang gelombang karakteristik,
+%       dan peran basis data NIST ASD dalam identifikasi garis emisi.
 
-Keabsahan transisi dominan untuk tetap bernaung pada pengaruh dominasi \textit{collision} dapat diverifikasi secara teoretis melalui pemenuhan kriteria matematis McWhirter \citep{bultel_mcwhirter_2025, cristoforetti_local_2010}. Kriteria ini menetapkan prasyarat minimum untuk kerapatan elektron plasma ($n_e$) pada ambang temperatur tertentu:
+\subsection{Local Thermodynamic Equilibrium (LTE)}
+
+Analisis kuantitatif dari emisi plasma LIBS yang mengandalkan pemodelan fisika analitik umumnya bersandar pada validitas asumsi Keseimbangan Termodinamika Lokal atau \textit{Local Thermodynamic Equilibrium} (LTE) \citep{cristoforetti_local_2010}. Karena plasma LIBS bersifat sangat transien dengan densitas dan dimensi geometri spasial yang curam dari pusat (\textit{core}) hingga ke tepi luarnya, keadaan keseimbangan termodinamika secara utuh sangat mustahil untuk digapai. Namun dalam kondisi LTE, pada kompartemen elemen mikro (lokal) dan \textit{delay time} spesifik (sekitar skala $\mu$s), tumbukan inelastis antar elemen pengisi---terutama eksitasi lewat elektron---dipandang mengambil alih secara dominan atas transfer de-eksitasi energi radiatif spontan. Dalam kerangka asumsi ini, berbagai parameter fisis molekuler dan atomik cukup didekati melalui parameter termodinamika makroskopik seperti temperatur elektron ($T_e$) tunggal \citep{cristoforetti_local_2010}.
+
+Keabsahan dominasi tumbukan tersebut dapat diverifikasi secara teoretis melalui pemenuhan kriteria McWhirter \citep{bultel_mcwhirter_2025, cristoforetti_local_2010}. Kriteria ini menetapkan prasyarat minimum untuk kerapatan elektron plasma ($n_e$) pada ambang temperatur tertentu:
 \begin{equation} \label{eq:bab2_mcwhirter}
 n_e \geq 1.6 \times 10^{12} \ T_e^{1/2} (\Delta E)^3 \, \text{cm}^{-3},
 \end{equation}
-dengan $\Delta E$ (dalam eV) merupakan selisih interval tingkat energi dari rentang transisi optik optik atom dominan terlebar dari sistem yang diteliti. Selama limit minimum McWhirter berhasil dipenuhi, tingkat keadaan fisis ionik dan distribusi spesies akan tetap menduduki relasi model kesetimbangan partisi statistikal secara penuh.
+dengan $\Delta E$ (dalam eV) merupakan selisih interval tingkat energi dari transisi optik atom dominan terlebar dari sistem yang diteliti.
 
-\section{Model Fisika Plasma untuk Sintesis Spektrum}
+% ======================================================================
+% 2.3 Spektrum Emisi Plasma LIBS
+% ======================================================================
+\section{Spektrum Emisi Plasma LIBS}
 
-\subsection{Persamaan Saha dan Distribusi Boltzmann}
+\subsection{Distribusi Boltzmann}
 
-Pada kondisi LTE, distribusi populasi probabilitas tingkat energi eksitasi atom dan keadaan ionisasi fraksional dapat diprediksi secara teoretis. Populasi keadaan \textit{excited} dalam sebuah tingkatan ionisasi terkodifikasi secara fisis melalui Distribusi Boltzmann \citep{fujimoto_plasma_2004}:
+Pada kondisi LTE, distribusi populasi tingkat energi eksitasi atom dalam sebuah tingkatan ionisasi dideskripsikan oleh Distribusi Boltzmann \citep{fujimoto_plasma_2004}:
 \begin{equation} \label{eq:bab2_boltzmann}
 n_i = \frac{n_z \, g_i \exp(-E_i / k_B T_e)}{Z_z(T_e)},
 \end{equation}
-di mana $n_i$ merupakan densitas populasi partikel pada level energi $i$, $n_z$ adalah total densitas partikel dari tingkatan ionisasi penyusun level energi $z$, $g_i$ mempresentasikan konstan bobot degenerasi probabilitas energi, $E_i$ melambangkan batas nilai ambang elektron energi \textit{excited}, $k_B$ menunjukkan tetapan partikel Boltzmann, dan fasa konstan penyebut $Z_z(T_e)$ yang berfungsi sebagai fasa perumusan \textit{Partition Function}.
+di mana $n_i$ merupakan densitas populasi partikel pada level energi $i$, $n_z$ adalah total densitas partikel dari tingkatan ionisasi $z$, $g_i$ adalah degenerasi statistik tingkat energi, $E_i$ adalah energi tingkat eksitasi, $k_B$ adalah konstanta Boltzmann, dan $Z_z(T_e)$ adalah fungsi partisi (\textit{partition function}).
 
-Selain mengatur distribusi dalam suatu orde ionisasi, suhu plasma ($T_e$) yang sama juga akan mengontrol keseimbangan jumlah populasi antar tingkatan ionisasi atom melalui serapan Persamaan Saha \citep{fujimoto_plasma_2004}:
+\subsection{Persamaan Saha}
+
+Temperatur plasma ($T_e$) yang sama juga mengontrol keseimbangan populasi antar tingkatan ionisasi atom melalui Persamaan Saha \citep{fujimoto_plasma_2004}:
 \begin{equation} \label{eq:bab2_saha}
 \frac{n_e \, n_{z+1}}{n_z} = 2\,\frac{Z_{z+1}(T_e)}{Z_z(T_e)} \left(\frac{2\pi m_e k_B T_e}{h^2}\right)^{3/2} \exp\!\left(-\frac{E_{\mathrm{ion},z}}{k_B T_e}\right),
 \end{equation}
-dengan $n_{z+1}$ merupakan keadaan kerapatan densitas partikel eksitasi yang lebih tinggi satu pangkat pengion (tingkat eksitasi tahap berikutnya), $m_e$ mewakili representasi bobot total konstanta serapan massa massa atomik fundamental, $h$ adalah tetapan universal konstanta konstanta Planck, dan $E_{\mathrm{ion},z}$ menyatakan besaran rasio muatan energi kinetik yang mutlak diperlukan untuk menarik paksa sebuah partikel ke tingkatan elektronika atom. Kedua persamaan integral deterministik ini menjadi jembatan terinti dalam sistem arsitektur \textit{Forward Model} untuk menjabarkan emisi kuantitatif populasi energi untuk kondisi rentang variabel suhu dan partikel spektral $T_e$ dan partikel $n_e$ mandiri.
+dengan $n_{z+1}$ merupakan densitas partikel pada tingkat ionisasi satu tingkat lebih tinggi, $m_e$ adalah massa elektron, $h$ adalah konstanta Planck, dan $E_{\mathrm{ion},z}$ adalah energi ionisasi. Kedua persamaan ini menjadi fondasi utama \textit{forward model} untuk menghitung emisi kuantitatif pada kondisi plasma dengan parameter $T_e$ dan $n_e$ tertentu.
 
-\subsection{Emisi Spontan dan Koefisien Einstein}
+\subsection{Koefisien Einstein}
 
-Populasi energi eksitasi yang terkuantisasi riil di ambang atas yang kemudian terlepas kembali secara eksponensial ke arah orbit elektron netral akan meradiasikan pancaran deterministik foton emisi bebas, yang kemudian akan ditakar linearitasnya oleh koefisien emisi fasa deterministik (\textit{spectral emission coefficient}) secara persis proporsi \citep{fujimoto_plasma_2004}:
+Populasi energi eksitasi yang kemudian meluruh ke tingkat energi yang lebih rendah akan meradiasikan foton emisi, yang intensitasnya ditakar oleh koefisien emisi spektral \citep{fujimoto_plasma_2004}:
 \begin{equation} \label{eq:bab2_emiss}
 j_\lambda = \frac{hc}{4\pi\lambda}\,A_{ki}\,n_k\,\phi_V(\lambda),
 \end{equation}
-Di mana formula ini menghubung-rekat deterministik parameter fundamental asimtot fisika $A_{ki}$, yang mewakili konstanta universal probabilitas transisi Koefisien Einstein tingkat pancar ekskresi untuk arah turunan tingkatan rasio deterministik ke-k menuju tahap fasa i yang lebih konstan. Representasi $n_k$ melambangkan agregasi fasa murni kepadatan level matriks atas (melalui ekuilibrium Saha-Boltzmann), sedangkan term intervensi mutakhir $\phi_V(\lambda)$ berkoordinasi mencampur merapat untuk mensintesis kontribusi penyebaran matriks konvolusi frekuensi riil kurva pudar profil pita pendar emisi fasa. 
+di mana $A_{ki}$ adalah koefisien Einstein yang merepresentasikan probabilitas transisi spontan dari tingkat energi atas $k$ ke tingkat bawah $i$, $n_k$ adalah densitas populasi tingkat atas (dihitung via distribusi Saha--Boltzmann), dan $\phi_V(\lambda)$ adalah profil garis emisi.
 
-\subsection{Profil Garis Spektral: Pelebaran Doppler, Stark, dan Profil Voigt}
+\subsection{Pelebaran Garis Spektral}
 
-Meskipun secara konseptual teori transisi kuantum meramalkan pelebaran konstan garis radiatif dengan lebar singular eksak (monokromatik murni tunggal mutlak), namun dalam pengukuran eksperimental fisik resolusional rentang emisi senantiasa menyebar mengembang menipis melebar pada domain $\lambda$. Anomali morfologi emisi mutlak menyebar ini didorong mutlak mutakhir utamanya oleh deviasi murni kinetik gas: pelebaran kecepatan arah Doppler termodinamik yang mengembang mendominasi puncak pelebaran puncak akibat dari \textit{thermal agitation} ekuilibrium \citep{griem_spectral_1974}:
+Dalam pengukuran eksperimental, garis emisi yang secara teori bersifat monokromatik selalu mengalami pelebaran pada domain panjang gelombang. Dua mekanisme pelebaran yang dominan pada plasma LIBS adalah pelebaran Doppler dan pelebaran Stark.
+
+Pelebaran Doppler disebabkan oleh pergerakan termal atom yang memancarkan foton, menghasilkan profil Gaussian dengan lebar \citep{griem_spectral_1974}:
 \begin{equation} \label{eq:bab2_doppler}
-\Delta\lambda_D = \lambda_{ki}\sqrt{\frac{8\ln 2\,k_B T_i}{m_k c^2}},
+\Delta\lambda_D = \lambda_{ki}\sqrt{\frac{8\ln 2\,k_B T_i}{m_k c^2}}.
 \end{equation}
-Sifat deviasi deterministik konstan kurva distribusi ini mematuhi probabilitas statistik \textit{Gaussian} yang ekuivalen persis eksponensial proporsional ekuivalen $T^{1/2}$. Selanjutnya faktor penyumbang fasa dispersi pelebaran pita mutakhir yang sama-sama berimbas dominan besar menyentuh luasan batas ambang mutlak radiasi molekuler murni pada kerapatan tinggi adalah pelebaran intervensi \textit{Stark Broadening} \citep{griem_spectral_1974}. Efek pelebaran pergeseran konstan perisai kelistrikan fasa ini disebabkan murni asimtot guncangan medan fasa interaktif serapan muatan interaksi kation analitis partikel reaktif berbenturan bersama gerombolan molekul populasi elektron. Skema anomali serapan asimtot pudar murni batas Lorentzian radiasi Stark ditakar sebagai ekuivalen:
+
+Pelebaran Stark disebabkan oleh interaksi medan listrik mikro dari partikel bermuatan di sekitar atom pemancar, menghasilkan profil Lorentzian dengan lebar \citep{griem_spectral_1974}:
 \begin{equation} \label{eq:bab2_stark}
 \Delta\lambda_S \approx 2\,\omega_{ki}(T_e)\,\frac{n_e}{n_{e,\mathrm{ref}}}.
 \end{equation}
 
-Perikatan matriks superposisi rill mutlak resolusional dari pelebaran kinetik kecepatan asimtot (Doppler--Gaussian fasa pelebur puncak) digabung dan serapan tabrakan (Stark--Lorentzian rentang perambatan ekor tepi fisis) berpaduan simetris mengasimilasikan fungsi utuh komputasi gabungan \textit{Voigt Profile} mutakhir resolusi ekuilibrium kaku deterministik terakomodir dalam fasa matematis $\phi_V(\lambda)$ fungsi Faddeeva \citep{griem_spectral_1974}. Konvolusi ini memastikan emisi sintetis mensimulasikan kurva penggabungan plasma yang presisi logis eksak.
+\subsection{Profil Voigt}
 
-\subsection{Dekomposisi Spektrum: Monoatomik dan Poliatomik}
+Dalam plasma LIBS, kedua mekanisme pelebaran di atas berlaku secara simultan. Superposisi dari profil Gaussian (Doppler) dan profil Lorentzian (Stark) menghasilkan profil gabungan yang dikenal sebagai Profil Voigt, yang dinyatakan melalui konvolusi keduanya dalam fungsi $\phi_V(\lambda)$ \citep{griem_spectral_1974}. Profil Voigt ini digunakan dalam term $\phi_V(\lambda)$ pada Persamaan~\ref{eq:bab2_emiss} untuk mensimulasikan bentuk garis emisi yang realistis.
 
-Dari kacamata fundamental fisika dekomposisi matriks radiasi termodinamika kaku, profil pendar total poliatomik kaku $S_{\text{poly}}(\lambda)$ yang dikoleksi via echelle spektrometer empiris senantiasa merepresentasikan murni gabungan asimtot kaku dari superposisi jumlahan emisi individual $S_{\text{mono}}^{(z)}(\lambda)$ per masing-masing partikel ekuivalen fasa $z$. Spektrum \textit{monoatomic} murni merangkum konstelasi puncak pendaran fasa individual elemen spesifik deterministik secara fungsional utuh dengan intensitas fraksional independen tergenerasi terikat absolut rasio $T_e, n_e$ deterministik plasma lokal termodinamik independen mutlak. 
+\subsection{Spektrum Monoatomik dan Poliatomik}
 
-Sedangkan sinyal pengamatan campuran kaku campuran poliatomik, mewakili hasil jumlah linier mutakhir probabilitas pengali luasan skala ekuivalen persentase konstan ekuivalen asimtotik deterministik luasan komposisi $c_z$:
+Dari perspektif fisika dekomposisi spektral, profil emisi total poliatomik $S_{\text{poly}}(\lambda)$ yang dikoleksi via spektrometer merupakan superposisi linier dari emisi individual $S_{\text{mono}}^{(z)}(\lambda)$ untuk setiap elemen $z$. Spektrum monoatomik merangkum konstelasi puncak emisi individual suatu elemen spesifik dengan intensitas yang ditentukan oleh parameter plasma $T_e$ dan $n_e$.
+
+Spektrum poliatomik campuran mewakili hasil jumlahan linier dari kontribusi setiap elemen yang dibobot oleh fraksi konsentrasi $c_z$:
 \begin{equation} \label{eq:bab2_poly}
 S_{\mathrm{poly}}(\lambda) = \sum_{z} c_z \, S_{\mathrm{mono}}^{(z)}(\lambda).
 \end{equation}
-Dekonstruksi konstan relasi logis ini kerap dipinggirkan di beragam regresi analitis konvensional konstan matriks yang lebih cenderung memeras rill variabel resolusi ini dalam satu bingkai agregat spektrum campur murni baur (\textit{Single Signal Evaluation}). Model dekomposisi eksplisit rasio superposisi di atas menjustifikasi konsep fungsional \textit{cross-reference} yang mendorong landasan kuat probabilitas komputasi kompas untuk mendeteksi fraksional $c_z$ dalam ruang representasi jaringan konvolusional \textit{Deep Learning}.
+Model dekomposisi eksplisit ini menjustifikasi konsep \textit{cross-attention} yang menghubungkan representasi spektrum monoatomik dengan observasi spektrum poliatomik dalam kerangka pembelajaran mendalam.
 
-\section{Pembelajaran Mendalam untuk Analisis Spektral}
+% ======================================================================
+% 2.4 Kuantifikasi Unsur pada LIBS
+% ======================================================================
+\section{Kuantifikasi Unsur pada LIBS}
 
-\subsection{Convolutional Neural Network (CNN) Satu Dimensi}
+\subsection{Calibration Curve}
+% TODO: Isi dengan penjelasan metode kalibrasi univariat/multivariat standar
+%       pada LIBS, termasuk keterbatasannya pada matriks kompleks.
 
-Penguasaan sistematis dari \textit{Deep Learning} mutakhir untuk penguraian anomali ruang fitur data spektroskopi bersekutu rapat via intervensi modul \textit{Convolutional Neural Network} murni berdimensi riil spesifik sekuensial linear (\textit{1-Dimensional CNN}) murni resolusional limit linearitas dimensi frekuensi ($\lambda$). CNN fungsional dirakit murni eksak dari lapisan jendela gerak resolusional parameter spasial untuk menangkap jejak \textit{local pattern} sinyal (sepadan mengunci titik profil anomali puncak luasan pendar konstan pelebaran Gauss/Voigt eksak secara linier) \citep{he_deep_2016}. 
+\subsection{Calibration-Free LIBS}
+% TODO: Isi dengan penjelasan metode CF-LIBS, asumsi yang mendasarinya,
+%       kelebihan dan keterbatasannya, serta hubungannya dengan asumsi LTE.
 
-Ekuivalensi proses pengunci fitur ini diaktivasi melalui fungsi parameter non-linear \textit{Rectified Linear Unit} mutakhir ekuilibrium rill dengan penstabil \textit{Batch Normalisation} rasio komputasi asimtot \citep{ioffe_batch_2015}. Berbeda dari intervensi model tradisional komparasi (\textit{Partial Least Squares} dsb) linear fiksasi kaku murni yang melingkupi dimensi ruang variabel regresi spektrum kompleks komputasi buta, CNN bertugas sebagai agen pengayak matriks ekstrasi pemisahan pendar emisi dan penyingkiran \textit{noise} rentang asimtot termal latar deterministik murni kontinum tanpa interpretasi anomali variabel independen berlebih konstan. 
+\subsection{X-ray Fluorescence (XRF) sebagai Data Referensi}
+% TODO: Isi dengan penjelasan singkat prinsip XRF dan justifikasi penggunaannya
+%       sebagai ground truth untuk validasi hasil kuantifikasi LIBS.
 
-\subsection{Arsitektur Transformer dan Mekanisme \textit{Self-Attention}}
+% ======================================================================
+% 2.5 Deep Learning untuk Analisis Spektrum
+% ======================================================================
+\section{Deep Learning untuk Analisis Spektrum}
 
-Kompleksitas hambatan ketergantungan matriks linier pengali rill anomali titik sekuens sebaran spektral rentang ultra panjang (hingga lebih $35,000+$ fasa kanal dimensi resolusi $\Delta\lambda$) membutuhkan lompatan resolusi mekanisme evaluatif mutakhir ekuilibrium dari blok model \textit{Transformer} \citep{vaswani_attention_2017}. Modul ini tidak lagi merawat matriks linear temporal seperti LSTM/RNN kaku murni, tetapi meramu fasa evaluasi interdependensi mutakhir simultan seluruh titik rentang konstan variabel kordinat secara serentak (mekanisme relasi \textit{Attention Mechanism}).
+\subsection{Convolutional Neural Network (CNN)}
 
-Mekanisme fasa murni evaluasi inter-koneksi variabel mutakhir dalam spektral diolah via relasi atensi \textit{Self-Attention} logis yang memetakan matriks serapan panggil pencari korelasi konstan ruang \textit{Query} ($\mathbf{Q}$), \textit{Key} ($\mathbf{K}$), evaluatif penyimpan matriks \textit{Value} ($\mathbf{V}$):
+\textit{Convolutional Neural Network} (CNN) satu dimensi merupakan arsitektur \textit{deep learning} yang efektif untuk ekstraksi fitur lokal dari data sekuensial seperti spektrum LIBS. CNN bekerja melalui operasi konvolusi menggunakan jendela geser (\textit{kernel}) pada sumbu panjang gelombang untuk menangkap pola-pola lokal sinyal, seperti profil puncak emisi dan pelebaran garis Voigt \citep{he_deep_2016}. Aktivasi non-linear melalui fungsi \textit{Rectified Linear Unit} (ReLU) dan stabilisasi distribusi aktivasi melalui \textit{Batch Normalisation} \citep{ioffe_batch_2015} diterapkan pada setiap lapisan konvolusi untuk meningkatkan kapabilitas representasi model.
+
+\subsection{Transformer}
+
+Kompleksitas dependensi spektral pada rentang panjang gelombang yang luas (hingga lebih dari 35.000 kanal) membutuhkan mekanisme yang mampu menangkap relasi antar titik spektral secara simultan. Arsitektur \textit{Transformer} \citep{vaswani_attention_2017} menjawab kebutuhan ini melalui mekanisme \textit{Self-Attention} yang memetakan hubungan antar posisi spektral menggunakan matriks \textit{Query} ($\mathbf{Q}$), \textit{Key} ($\mathbf{K}$), dan \textit{Value} ($\mathbf{V}$):
 \begin{equation} \label{eq:bab2_attention}
 \mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
 \end{equation}
-Skema pemecahan evaluasi mutakhir rill ruang atensi independen serapan konstan mutlak (\textit{Multi-Head Attention}) mengukuhkan kapabilitas \textit{encoder} merekonstruksi konektivitas fasa korelasi \textit{cross-wavelength} dari pancaran satu rentang elemen murni atom, sebagai intervensi kaku relasi fasa multiplet emisi asimtot eksak yang lahir mutakhir secara deterministik dari pelipatan ekuilibrium Boltzmann rentang atom tunggal.
+Skema \textit{Multi-Head Attention} memungkinkan model menangkap korelasi antar panjang gelombang dari berbagai subspace representasi secara paralel, sehingga mampu merekonstruksi konektivitas antar garis emisi dalam satu elemen, seperti relasi multiplet dari tingkat ionisasi yang sama.
 
-\subsection{Arsitektur Encoder--Decoder dengan \textit{Cross-Attention}}
+\subsection{Encoder--Decoder}
 
-Arsitektur ganda terpadu (\textit{Encoder-Decoder}) menduplikasikan matriks analitik pemisah fasa evaluatif dari sekuens luaran dan sekuens evaluasi input fungsional mutakhir murni. Pada fungsional blok \textit{Encoder}, sinyal masuk $S_{\text{mono}}^{(z)}$ elemen diregulasi dan distruktur sebagai koleksi penyimpan informasi individual (representasi memori spesifik elemen murni independen). Sementara itu blok asimilasi analitik \textit{Decoder} menelan masukan resolusi kurva rill campuran riil matriks asimtotik poliatomik rill ekuivalen mutakhir. 
+Arsitektur \textit{Encoder--Decoder} memisahkan proses representasi masukan dan proses dekoding keluaran secara modular. Pada konteks penelitian ini, blok \textit{Encoder} memproses spektrum monoatomik $S_{\text{mono}}^{(z)}$ untuk menghasilkan representasi memori spesifik elemen, sementara blok \textit{Decoder} memproses spektrum poliatomik campuran.
 
-Koneksi pemutus interpretasi fungsional rasio analitik superposisi elemen konsentrasi logis direkatkan mutakhir dari fungsi korelasi penyisipan khusus modul \textit{Cross-Attention}. Matriks blok decoder murni konstan meneruskan asimtot sebaran $\mathbf{Q}_{\text{dec}}$ spektrum poliatomik dan memecahkan teka-teki fasa probabilitas korelasi pencocokan asimtot interaktif ke target representatif referensi resolusi kaku $\mathbf{K}_{\text{enc}}, \mathbf{V}_{\text{enc}}$ blok korelasi bank individual dari matriks spektrum target dari \textit{Encoder}. Logika kompas korelasi resolusi komputasi \textit{Attention weights} yang tercetak ini memformulasikan probabilitas mutakhir sumbangsih elemen murni ke dalam ekuilibrium titik percampuran sinyal poliatomik, sekaligus mengekstraksi akurasi resolusi deterministik rill regresi kaku limit $c_z$ konsisten termodinamika. 
+\subsection{Cross-Attention}
 
-\subsection{Adaptasi Domain dan \textit{Gradient Reversal Layer}}
+Koneksi antara \textit{Encoder} dan \textit{Decoder} direkatkan melalui mekanisme \textit{Cross-Attention}. Pada mekanisme ini, blok \textit{Decoder} menghasilkan vektor $\mathbf{Q}_{\text{dec}}$ dari representasi spektrum poliatomik dan mencocokkannya dengan $\mathbf{K}_{\text{enc}}, \mathbf{V}_{\text{enc}}$ dari \textit{Encoder} yang menyimpan representasi spektrum monoatomik individual. Bobot \textit{cross-attention} yang dihasilkan merepresentasikan probabilitas kontribusi relatif setiap elemen monoatomik terhadap sinyal poliatomik campuran, sekaligus memungkinkan ekstraksi koefisien konsentrasi $c_z$ secara konsisten dengan prinsip dekomposisi spektral (Persamaan~\ref{eq:bab2_poly}).
 
-Model regresi yang dilatih absolut pada serapan luaran tiruan murni mutakhir (spektrum fungsional deterministik eksak ekuilibrium LTE \textit{Forward Model}) sangat rentan terhadap kemerosotan metrik rasio analitis konstan jika langsung dipaksa meramal parameter konstan data plasma observasional eksperimental nyata akibat adanya perpecahan korelasi anomali profil (\textit{Domain Shift}). Rentang perbedaan anomali termodinamika instrumen optik konstan, distorsi sisa \textit{continuum background}, deviasi fasa pergeseran anomali pLTE (penyerapan asimtot \textit{self-absorption}) mendorong fasa jarak jurang divergensi evaluatif yang tinggi mutakhir rasio batas fungsional logis. 
+\subsection{Domain Adaptation}
 
-Untuk mensinergikan pemetaan fasa dimensi \textit{Deep Learning} konvergen ini, resolusi model adaptasi (\textit{Domain Adaptation}) kaku dimasukkan menyisip mendidik representasi ekstraksi ruang \textit{Encoder} agar imun mutakhir kaku buta terhadap pengenalan sumber asal sintetik versus eksperimen presisi murni. Melalui mekanisme penempatan asimilasikan modul \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016}, evaluasi gradien mutakhir fasa error backpropagation dari fungsi pembeda matriks klasifier domain ditekan rill evaluatif arah terbalik secara adversial agresif riil murni rill, yang memaksa model jaringan ekuivalen mencari ekstraksi letak penamaan ciri (\textit{domain-invariant features}) spektral mutakhir atomik absolut yang paling mematuhi hukum fisis logaris keseimbangan fundamental asimtotik deterministik sejati tanpa bias artefak fasa tiruan observasional komputasi fungsional eksak sejati.
+Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhadap penurunan kinerja saat diterapkan pada data eksperimental nyata akibat adanya \textit{domain shift}. Perbedaan ini meliputi efek instrumentasi, distorsi \textit{continuum background} residual, dan deviasi dari asumsi LTE ideal. Untuk mengatasi permasalahan ini, mekanisme adaptasi domain (\textit{domain adaptation}) melalui \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016} diintegrasikan ke dalam arsitektur model. GRL bekerja dengan membalikkan arah gradien dari klasifier domain selama \textit{backpropagation}, sehingga mendorong \textit{encoder} untuk mengekstraksi fitur yang bersifat \textit{domain-invariant}---yaitu representasi spektral yang informatif untuk prediksi konsentrasi tanpa bias terhadap asal-usul domain data.
 
-\section{Penelitian Terkait}
+% ======================================================================
+% 2.6 Evaluasi dan Validasi Data/Model
+% ======================================================================
+\section{Evaluasi dan Validasi Data/Model}
 
-Pengembangan arsitektur analitis resolusional untuk prediksi besaran parameter rentang molekuler unsur penyusun spektral emisi observasi rill plasma telah menyusuri berbagai lanskap metodologi mutakhir evaluatif ekuivalensi. Arsitektur ekstraksi informasi fungsional termodinamika observasional deterministik berbasis murni konstan penyelesaian perumusan matriks fisika asimtot radiatif secara komprehensif dikembangkan dalam paket evaluatif presisi tinggi mutakhir seperti modul MERLIN \citep{favre_merlin_2025, favre_towards_2025}. Konsep fasa pemodelan ekuilibrium mutakhir \textit{Radiative Transfer Equation} (RTE) model ini dirajut eksak asimtot konsistensi analitik kaku murni, meskipun rill limit kendala hambatan komputasi rentangan waktu \textit{real-time} murni matriks konstan regresi limit mutakhir sangat mendominasi rentang rill limit waktu optimasi parameter mutlak $T_{e}$ dan konstan $n_e$ fasa ekuilibriumnya.
+\subsection{Signal-to-Noise Ratio (SNR)}
+% TODO: Isi dengan definisi SNR pada spektrum LIBS, cara perhitungannya,
+%       dan kriteria minimum untuk kualitas data spektral yang dapat diterima.
 
-Di sisi lain pendistribusian rentang anomali resolusional intervensi komputasi buta dari skema murni \textit{Machine Learning} (ML) rentang konvensional beserta modul rasio fasa ekuivalen \textit{Deep Learning} seperti CNN 1-Dimensi juga marak dilibatkan masif konstan mutakhir fungsional. Riset deterministik observasional menyoroti keunggulan ekuivalen fasa penaklukan ketidakseimbangan relasi anomali \textit{Matrix Effect} melalui modul \textit{Multi-variate} kaku buta resolusional rill konstan untuk pelacakan kuantitatif anomali fraksional rasio konsentrasi komputasi \citep{hao_machine_2024, wang_simulation_2024}. Sayangnya korelasi arsitektur regresi jaringan kognitif mutakhir konvensional ini mengeksploitasi anomali variabel fasa fungsional resolusional buta (beroperasi sangat murni logis hitam \textit{black-box} model sejati taktis konstan) dan sering murni buta dari kehendak rill konstan mematuhi landasan fondasi deterministik konstan hukum fisis mutakhir spektrum fasa. 
+\subsection{Peak Detection dan Kecocokan Garis Emisi}
+% TODO: Isi dengan penjelasan metode identifikasi puncak emisi pada spektrum,
+%       pencocokan terhadap basis data NIST ASD, dan kriteria kecocokan.
 
-Evolusi ke arah konstan matriks gabungan (\textit{Hybrid CNN-Transformer}) murni secara berkesinambungan terindikasi menyempurnakan batasan ekuivalensi resolusional fasa konstan limit asimtot pencitraan rentang spektrum rill kompleks. Penelitian komprehensif asimtot komputasi fungsional rasional oleh \citet{liu_remote_2026} menegaskan kemanjuran CNN menyerap anomali puncak distorsi lokal dipadu rentang evaluatif konstan blok \textit{Transformer} eksak mutakhir menarik fasa relasi titik \textit{remote-dependancies} $\lambda$ spektroskopi poliatomik kaku konstan untuk prediksi fasa komputasi jarak jauh mutlak elemen analitik baja resolusional murni. Adaptasi rentang konstan deterministik ekuivalen efisiensi mekanik fasa probabilitas *Sparse Attention* modul struktur analitis *Informer* pada observasi empiris geologi mutakhir kompleks juga divalidasi signifikan rentang efisiensi prediktifnya \citep{walidain_informer-based_2026, zhou_informer_2021}.  
+\subsection{Analisis Regresi Spektral}
 
-Meskipun model intervensi *Deep Learning* spektral konstan resolusional observasional fasa kognitif mutakhir tersebut mengungguli komputasi ekuivalen ML kaku terdahulu termodinamik, seluruh publikasi penelitian asimtot korelasi spektrum komputasi fungsional murni di atas mengukur evaluasi asimtot masukan matriks input sebagai rentang komposit gabungan campuran tunggal (*Single Signal Matrix Evaluation*). Tidak ada penelitian sebelumnya komputasi fungsional yang secara deterministik kognitif eksplisit memilah dan mengeksploitasi arsitektural asimtot relasi ekuilibrium fundamental fisika ke dalam matriks dekomposisi struktur fungsional spektrum murni elemental monoatomik individu dengan asimtot pengukur sintesis absolut kurva campuran observasional rasio komputasi akhir. Mengawinkan matriks rill relasi evaluatif mutakhir tersebut via *Cross-Attention Encoder-Decoder* dalam asimilasi termodinamika fisika ini merupakan letak pijakan *novelty* komputasi rasional deterministik penelitian ini mutakhir konstan absolut sejati.
+Validasi spektrum sintetis merupakan tahap penting untuk memastikan bahwa spektrum hasil simulasi tidak hanya sesuai secara visual, tetapi juga konsisten secara kuantitatif dengan prinsip fisika plasma dan data referensi atomik. Dalam penelitian ini, validasi spektrum sintetis dilakukan melalui analisis regresi spektral yang mencakup validasi posisi garis emisi dan validasi distribusi intensitas garis.
+
+Validasi posisi garis emisi dilakukan dengan membandingkan panjang gelombang hasil simulasi $\lambda_{\mathrm{sim}}$ terhadap panjang gelombang referensi dari \textit{NIST Atomic Spectra Database} (ASD), $\lambda_{\mathrm{NIST}}$. Hubungan keduanya dapat dianalisis melalui regresi linear:
+
+\begin{equation}
+\lambda_{\mathrm{sim}} = a\,\lambda_{\mathrm{NIST}} + b
+\end{equation}
+
+dengan nilai ideal $a \approx 1$ dan $b \approx 0$. Selain itu, galat posisi garis dapat dihitung menggunakan \textit{Root Mean Square Error} (RMSE):
+
+\begin{equation}
+\mathrm{RMSE}_{\lambda} =
+\sqrt{\frac{1}{N}\sum_{i=1}^{N}
+(\lambda_{\mathrm{sim},i}-\lambda_{\mathrm{NIST},i})^2}
+\end{equation}
+
+\subsection{Boltzmann Plot}
+
+Validasi distribusi intensitas dilakukan menggunakan metode \textit{Boltzmann plot}, yang didasarkan pada hubungan:
+
+\begin{equation}
+\ln\left(
+\frac{I\lambda}{g_k A_{ki}}
+\right)
+=
+-\frac{E_k}{k_B T_e}+C
+\end{equation}
+
+di mana $I$ adalah intensitas garis emisi, $\lambda$ adalah panjang gelombang, $g_k$ adalah degenerasi tingkat atas, $A_{ki}$ adalah probabilitas transisi Einstein, $E_k$ adalah energi tingkat atas, $k_B$ adalah konstanta Boltzmann, dan $T_e$ adalah temperatur elektron plasma. Melalui regresi linear terhadap $E_k$, nilai kemiringan kurva dapat digunakan untuk memperkirakan temperatur plasma, sedangkan koefisien determinasi ($R^2$) menunjukkan tingkat konsistensi distribusi intensitas terhadap asumsi \textit{Local Thermodynamic Equilibrium} (LTE).
+
+Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dapat dianalisis menggunakan korelasi Pearson atau regresi logaritmik untuk menilai apakah intensitas spektral meningkat secara konsisten terhadap probabilitas emisi atomik.
+
+\subsection{RMSE, MAE, MAPE, dan Koefisien Determinasi ($R^2$)}
+% TODO: Isi dengan definisi formal metrik evaluasi regresi (RMSE, MAE, MAPE, R^2),
+%       relevansinya dalam konteks evaluasi prediksi konsentrasi unsur,
+%       dan interpretasi nilai metrik dalam analisis kuantitatif LIBS.
+
+\subsection{Analisis Attention Map}
+% TODO: Isi dengan penjelasan tentang bagaimana bobot cross-attention dapat
+%       divisualisasikan dan diinterpretasikan sebagai indikator kontribusi
+%       setiap elemen monoatomik terhadap spektrum poliatomik,
+%       serta relevansinya untuk validasi fisik model.
+
+% ======================================================================
+% 2.7 Penelitian Terkait dan Posisi Penelitian
+% ======================================================================
+\section{Penelitian Terkait dan Posisi Penelitian}
+
+\subsection{Penelitian Berbasis Fisika Plasma}
+
+Pengembangan arsitektur analitis untuk prediksi parameter komposisi unsur dari spektrum emisi plasma telah menyusuri berbagai lanskap metodologi. Arsitektur berbasis pemodelan fisika radiatif secara komprehensif dikembangkan dalam paket komputasi MERLIN \citep{favre_merlin_2025, favre_towards_2025}. Konsep pemodelan \textit{Radiative Transfer Equation} (RTE) model ini memungkinkan rekonstruksi spektrum yang konsisten secara termodinamika, meskipun kendala komputasi yang tinggi masih membatasi penerapannya untuk analisis \textit{real-time}.
+
+\subsection{Penelitian Berbasis Machine Learning / Deep Learning}
+
+Di sisi lain, pendekatan \textit{Machine Learning} (ML) dan \textit{Deep Learning} semakin banyak diterapkan untuk analisis kuantitatif LIBS. Riset terdahulu menunjukkan keunggulan pendekatan berbasis data dalam mengatasi pengaruh \textit{matrix effect} melalui model multivariat untuk kuantifikasi konsentrasi unsur \citep{hao_machine_2024, wang_simulation_2024}. Evolusi ke arah arsitektur hibrid CNN--Transformer secara berkesinambungan menyempurnakan kapabilitas analisis spektrum. Penelitian oleh \citet{liu_remote_2026} menunjukkan efektivitas CNN untuk menangkap pola puncak lokal yang dipadukan dengan blok \textit{Transformer} untuk menangkap relasi \textit{long-range dependencies} antar panjang gelombang pada spektrum poliatomik. Adaptasi arsitektur Informer berbasis \textit{ProbSparse Attention} pada data geologi juga divalidasi signifikan \citep{walidain_informer-based_2026, zhou_informer_2021}.
+
+\subsection{Research Gap dan Kebaruan Penelitian}
+
+Meskipun model \textit{Deep Learning} spektral tersebut mengungguli pendekatan konvensional, seluruh penelitian sebelumnya memperlakukan spektrum masukan sebagai sinyal komposit tunggal (\textit{single signal evaluation}). Belum ditemukan penelitian yang secara eksplisit memanfaatkan arsitektur dekomposisi struktural yang memisahkan representasi spektrum monoatomik individual dari spektrum poliatomik campuran. Mengintegrasikan relasi dekomposisi fisika ini melalui mekanisme \textit{Cross-Attention Encoder--Decoder} merupakan posisi kebaruan (\textit{novelty}) yang diusung dalam penelitian ini.
