@@ -1,0 +1,32 @@
+\begin{table}[H]
+\centering
+\caption{Rekomendasi kombinasi augmentasi silang berdasarkan cosine similarity kerusakan.}
+\label{tab:aug_combinations}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Perturbation A} & \textbf{Perturbation B} & \textbf{Cosine Sim.} & \textbf{Recommendation} \\
+\midrule
+Poisson & Spike & 0.716 & \textbf{Highly Recommended} \\
+Spike & Shift & 0.781 & \textbf{Highly Recommended} \\
+Poisson & Baseline & 0.810 & \textbf{Highly Recommended} \\
+Shift & Baseline & 0.840 & \textbf{Highly Recommended} \\
+Gaussian & Poisson & 0.865 & Not Recommended \\
+Spike & Broadening & 0.872 & Not Recommended \\
+Broadening & Baseline & 0.880 & Not Recommended \\
+Gaussian & Shift & 0.914 & Not Recommended \\
+Gaussian & Baseline & 0.917 & Not Recommended \\
+Spike & Missing & 0.917 & Not Recommended \\
+Poisson & Missing & 0.934 & Not Recommended \\
+Spike & Baseline & 0.937 & Not Recommended \\
+Baseline & Missing & 0.948 & Not Recommended \\
+Poisson & Broadening & 0.957 & Not Recommended \\
+Gaussian & Spike & 0.961 & Not Recommended \\
+Shift & Missing & 0.961 & Not Recommended \\
+Gaussian & Broadening & 0.971 & Not Recommended \\
+Gaussian & Missing & 0.978 & Not Recommended \\
+Shift & Broadening & 0.984 & Not Recommended \\
+Broadening & Missing & 0.985 & Not Recommended \\
+Poisson & Shift & 0.994 & Not Recommended \\
+\bottomrule
+\end{tabular}
+\end{table}

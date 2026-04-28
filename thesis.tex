@@ -26,7 +26,7 @@
 % ============================================================================
 
 % PILIH MODE (ganti dengan: sempro, semhas, atau sidang)
-\def\thesismode{sempro}
+\def\thesismode{semhas}
 
 % ============================================================================
 % PATH SETUP
@@ -286,13 +286,13 @@
 \input{bab3}
 
 % BAB 4 (hanya untuk sidang)
-\ifnum\pdfstrcmp{\thesismode}{sidang}=0
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{bab4}
 \fi
 
 % BAB 5 (hanya untuk sidang)
-\ifnum\pdfstrcmp{\thesismode}{sidang}=0
+\ifnum\pdfstrcmp{\thesismode}{sempro}=0\else
 \clearpage
 \input{bab5}
 \fi
@@ -311,14 +311,14 @@
 % ============================================================================
 % APPENDIX
 % ============================================================================
-% \appendix
-% % Tambahkan "LAMPIRAN" ke TOC dengan format special (bold, indent, dots, halaman)
-% \clearpage
-% \specialchapterintoc
-% \addcontentsline{toc}{chapter}{LAMPIRAN}
-% % Nonaktifkan penambahan chapter lampiran ke TOC (hanya muncul di Daftar Lampiran)
-% \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
-% \input{lampiran}
+\appendix
+% Tambahkan "LAMPIRAN" ke TOC dengan format special (bold, indent, dots, halaman)
+\clearpage
+\specialchapterintoc
+\addcontentsline{toc}{chapter}{LAMPIRAN}
+% Nonaktifkan penambahan chapter lampiran ke TOC (hanya muncul di Daftar Lampiran)
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+\input{lampiran}
 
 \end{document}
 

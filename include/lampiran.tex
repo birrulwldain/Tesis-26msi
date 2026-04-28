@@ -1,141 +1,92 @@
-% LAMPIRAN
-% Setelah \appendix, chapter akan otomatis menggunakan huruf (A, B, C, dst)
+%===============================================================================
+%                                   LAMPIRAN
+%===============================================================================
 
-\chapter{Kode Program Python untuk Analisis Spektrum}
-\label{app:kode-python}
-\appendices{Kode Program Python untuk Analisis Spektrum}
+\appendix
 
-Berikut adalah contoh kode program Python yang digunakan untuk menganalisis spektrum plasma.
+\chapter{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
+\label{app:visualisasi-perturbasi}
+\appendices{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
 
-\begin{verbatim}
-import numpy as np
-import matplotlib.pyplot as plt
+Lampiran ini menyajikan visualisasi kualitatif dari berbagai jenis perturbasi yang digunakan dalam robustness benchmark Stage 1. Visualisasi ini bertujuan untuk menunjukkan bagaimana setiap gangguan memengaruhi bentuk spektrum, posisi puncak, serta hasil deteksi puncak pada pipeline interpretasi spektrum LIBS sintetis.
 
-def analyze_spectrum(wavelength, intensity):
-    """
-    Fungsi untuk menganalisis spektrum
-    """
-    peaks = find_peaks(intensity)
-    return peaks
+Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru menunjukkan spektrum yang telah diberi perturbasi (\textit{perturbed spectrum}), dan tanda silang merah menunjukkan puncak yang terdeteksi (\textit{detected peaks}).
 
-# Load data
-data = np.loadtxt('spectrum_data.txt')
-wavelength = data[:, 0]
-intensity = data[:, 1]
+%-------------------------------------------------------------------------------
+\section{Gaussian Noise}
+%-------------------------------------------------------------------------------
 
-# Analisis
-peaks = analyze_spectrum(wavelength, intensity)
-print(f"Ditemukan {len(peaks)} puncak spektrum")
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_gaussian.pdf}
+    \caption{Visualisasi efek Gaussian noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
+    \label{fig:appendix_gaussian}
+\end{figure}
 
-# Plot hasil
-plt.figure(figsize=(10, 6))
-plt.plot(wavelength, intensity)
-plt.xlabel('Panjang Gelombang (nm)')
-plt.ylabel('Intensitas (a.u.)')
-plt.title('Spektrum Plasma Hidrogen')
-plt.grid(True)
-plt.show()
-\end{verbatim}
+%-------------------------------------------------------------------------------
+\section{Poisson Noise}
+%-------------------------------------------------------------------------------
 
-\section{Penjelasan Kode}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_poisson.pdf}
+    \caption{Visualisasi efek Poisson noise akibat variasi jumlah foton terhadap spektrum LIBS sintetis.}
+    \label{fig:appendix_poisson}
+\end{figure}
 
-Program di atas melakukan analisis spektrum dengan langkah-langkah berikut:
-\begin{enumerate}
-    \item Membaca data spektrum dari file
-    \item Mencari puncak-puncak intensitas
-    \item Memvisualisasikan hasil dalam bentuk grafik
-\end{enumerate}
+%-------------------------------------------------------------------------------
+\section{Spike Noise}
+%-------------------------------------------------------------------------------
 
-\blindtext[2]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_spike.pdf}
+    \caption{Visualisasi efek spike noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
+    \label{fig:appendix_spike}
+\end{figure}
 
-\chapter{Data Hasil Pengukuran}
-\label{app:data-pengukuran}
-\appendices{Data Hasil Pengukuran}
+%-------------------------------------------------------------------------------
+\section{Wavelength Shift}
+%-------------------------------------------------------------------------------
 
-Berikut adalah tabel data hasil pengukuran spektrum plasma pada berbagai kondisi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_shift.pdf}
+    \caption{Visualisasi efek pergeseran panjang gelombang terhadap spektrum LIBS sintetis.}
+    \label{fig:appendix_shift}
+\end{figure}
 
-\section{Data Temperatur Plasma}
+%-------------------------------------------------------------------------------
+\section{Instrumental Broadening}
+%-------------------------------------------------------------------------------
 
-\begin{table}[h]
-\centering
-\caption{Hasil pengukuran temperatur plasma}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{No.} & \textbf{Tekanan (Torr)} & \textbf{Daya (W)} & \textbf{Temperatur (K)} \\ \hline
-1 & 0.5 & 100 & 8500 \\ \hline
-2 & 0.5 & 150 & 9200 \\ \hline
-3 & 0.5 & 200 & 10100 \\ \hline
-4 & 1.0 & 100 & 7800 \\ \hline
-5 & 1.0 & 150 & 8600 \\ \hline
-6 & 1.0 & 200 & 9500 \\ \hline
-7 & 1.5 & 100 & 7200 \\ \hline
-8 & 1.5 & 150 & 8100 \\ \hline
-9 & 1.5 & 200 & 9000 \\ \hline
-\end{tabular}
-\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_broadening.pdf}
+    \caption{Visualisasi efek instrumental broadening terhadap spektrum LIBS sintetis.}
+    \label{fig:appendix_broadening}
+\end{figure}
 
-\blindtext[2]
+%-------------------------------------------------------------------------------
+\section{Baseline Drift}
+%-------------------------------------------------------------------------------
 
-\section{Data Kerapatan Elektron}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_baseline.pdf}
+    \caption{Visualisasi efek baseline drift terhadap spektrum LIBS sintetis.}
+    \label{fig:appendix_baseline}
+\end{figure}
 
-\begin{table}[h]
-\centering
-\caption{Hasil pengukuran kerapatan elektron}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{No.} & \textbf{Tekanan (Torr)} & \textbf{Daya (W)} & \textbf{$n_e$ ($\times 10^{16}$ cm$^{-3}$)} \\ \hline
-1 & 0.5 & 100 & 2.3 \\ \hline
-2 & 0.5 & 150 & 3.1 \\ \hline
-3 & 0.5 & 200 & 4.2 \\ \hline
-4 & 1.0 & 100 & 3.5 \\ \hline
-5 & 1.0 & 150 & 4.8 \\ \hline
-6 & 1.0 & 200 & 6.1 \\ \hline
-7 & 1.5 & 100 & 4.2 \\ \hline
-8 & 1.5 & 150 & 5.6 \\ \hline
-9 & 1.5 & 200 & 7.3 \\ \hline
-\end{tabular}
-\end{table}
+%-------------------------------------------------------------------------------
+\section{Missing-Line Suppression}
+%-------------------------------------------------------------------------------
 
-\blindtext
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_missing.pdf}
+    \caption{Visualisasi efek missing-line suppression terhadap spektrum LIBS sintetis.}
+    \label{fig:appendix_missing}
+\end{figure}
 
-\chapter{Dokumentasi Peralatan}
-\label{app:dokumentasi}
-\appendices{Dokumentasi Peralatan}
-
-\section{Spesifikasi Spektrometer}
-
-Spektrometer yang digunakan dalam penelitian ini memiliki spesifikasi sebagai berikut:
-
-\begin{itemize}
-    \item \textbf{Model}: Ocean Optics HR4000
-    \item \textbf{Range panjang gelombang}: 200-1100 nm
-    \item \textbf{Resolusi optik}: 0.025 nm (FWHM)
-    \item \textbf{Detector}: Sony ILX511B CCD array (3648 pixels)
-    \item \textbf{Signal-to-noise ratio}: 250:1 (single acquisition)
-    \item \textbf{Integration time}: 1 ms - 65 seconds
-\end{itemize}
-
-\section{Diagram Setup Eksperimen}
-
-\blindtext[2]
-
-% Jika ada gambar, bisa ditambahkan seperti ini:
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=0.8\textwidth]{images/setup-eksperimen.pdf}
-% \caption{Diagram setup eksperimen}
-% \label{fig:setup-eksperimen}
-% \end{figure}
-
-\section{Prosedur Kalibrasi}
-
-\begin{enumerate}
-    \item Nyalakan spektrometer dan tunggu 30 menit untuk warm-up
-    \item Lakukan dark spectrum measurement
-    \item Gunakan lampu kalibrasi Mercury-Argon
-    \item Identifikasi minimal 5 garis kalibrasi
-    \item Lakukan polynomial fitting untuk kalibrasi panjang gelombang
-    \item Simpan file kalibrasi untuk digunakan pada pengukuran selanjutnya
-\end{enumerate}
-
-\blindtext[3]
+Secara visual, Gaussian noise dan spike noise menghasilkan peningkatan \textit{false peak} yang signifikan, baseline drift menggeser level intensitas global, broadening memperlebar dan menggabungkan puncak berdekatan, shift menggeser posisi spektral, missing-line suppression menghilangkan informasi garis tertentu, dan Poisson noise menunjukkan efek statistik akibat rendahnya jumlah foton.

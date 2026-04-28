@@ -6,19 +6,171 @@
 \chapter{HASIL DAN PEMBAHASAN}
 
 \section{Hasil Penelitian}
-\blindtext
 
-\subsection{Hasil Pengukuran}
-\blindtext
+Bab ini menyajikan hasil penelitian yang diperoleh dari pengembangan sistem MERLIN untuk simulasi spektrum LIBS sintetis, pembentukan dataset, pelatihan model awal, serta evaluasi robustness terhadap berbagai perturbasi ilmiah realistis. Evaluasi robustness dilakukan untuk mengukur kestabilan pipeline interpretasi spektrum terhadap gangguan instrumen dan lingkungan menggunakan tiga lapisan evaluasi utama, yaitu:
 
-\subsection{Hasil Analisis}
-\blindtext
+\begin{enumerate}
+    \item \textbf{Detection Layer}, diukur menggunakan \textit{Peak F1-score}, untuk menilai kemampuan sistem mendeteksi puncak spektral dengan mempertimbangkan \textit{false positive} dan \textit{false negative};
+    \item \textbf{Matching Layer}, diukur menggunakan \textit{Line F1-score}, untuk menilai ketepatan pencocokan garis atomik terhadap referensi;
+    \item \textbf{Fidelity Layer}, diukur menggunakan \textit{Pearson Correlation}, untuk menilai kesamaan bentuk spektrum secara global.
+\end{enumerate}
+
+\subsection{Hasil Simulasi Spektrum Sintetis}
+
+Simulasi spektrum sintetis dilakukan menggunakan model plasma berbasis fisika untuk menghasilkan spektrum poliatomik (\textit{polyatomic}) dan monoatomik (\textit{monoatomic}) dengan parameter plasma yang dapat dikontrol. Parameter yang dihasilkan meliputi temperatur elektron ($T_e$), densitas elektron ($N_e$), dan konsentrasi unsur target.
+
+\subsection{Hasil Pembentukan Dataset}
+
+Dataset dibentuk dari hasil simulasi dengan variasi parameter plasma, konsentrasi unsur, dan kondisi spektral. Dataset ini digunakan sebagai dasar untuk pelatihan model deep learning dan evaluasi robustness.
+
+\subsection{Hasil Evaluasi Robustness Stage 1}
+
+Evaluasi robustness tahap pertama dilakukan dengan memberikan perturbasi realistis terhadap spektrum sintetis. Ringkasan global dampak perturbasi terhadap tiga lapisan evaluasi ditunjukkan pada Gambar~\ref{fig:damage_heatmap}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{images/plots/damage_heatmap.png}
+    \caption{Global perturbation damage matrix terhadap tiga lapisan evaluasi.}
+    \label{fig:damage_heatmap}
+\end{figure}
+
+Berdasarkan Gambar~\ref{fig:damage_heatmap}, \textit{Spike noise} merupakan perturbasi paling destruktif pada seluruh lapisan, sedangkan \textit{Poisson noise} menunjukkan dampak paling kecil. \textit{Gaussian noise} dominan merusak proses deteksi dan pencocokan, sementara \textit{Baseline drift} paling memengaruhi fidelitas spektral.
+
+\subsubsection{Gaussian Noise}
+
+Gaussian noise menunjukkan penurunan bertahap pada seluruh metrik. Penurunan paling tajam terjadi pada \textit{Line F1-score}, menunjukkan bahwa noise menyebabkan kesalahan pencocokan garis atomik lebih cepat dibandingkan hilangnya puncak.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/gaussian.png}
+    \caption{Robustness terhadap Gaussian noise.}
+    \label{fig:gaussian}
+\end{figure}
+
+\subsubsection{Poisson Noise}
+
+Poisson noise memberikan dampak kecil terhadap sistem. Hal ini menunjukkan bahwa pipeline relatif stabil terhadap fluktuasi statistik jumlah foton pada rentang yang diuji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/poisson.png}
+    \caption{Robustness terhadap Poisson noise.}
+    \label{fig:poisson}
+\end{figure}
+
+\subsubsection{Spike Noise}
+
+Spike noise menghasilkan \textit{false peaks} yang sangat mengganggu tahap deteksi dan pencocokan. Meskipun demikian, fidelitas spektral global masih lebih tinggi dibanding dua lapisan lainnya karena amplop global spektrum masih relatif dipertahankan.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/spike.png}
+    \caption{Robustness terhadap spike noise.}
+    \label{fig:spike}
+\end{figure}
+
+\subsubsection{Wavelength Shift}
+
+Pergeseran panjang gelombang menunjukkan dampak kecil terhadap fidelitas spektral, namun menyebabkan ambigu pada pencocokan garis atomik.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/shift.png}
+    \caption{Robustness terhadap wavelength shift.}
+    \label{fig:shift}
+\end{figure}
+
+\subsubsection{Instrumental Broadening}
+
+Broadening menyebabkan penurunan pada \textit{Peak F1-score} akibat pelebaran dan penggabungan puncak. Pada tingkat sedang, broadening justru meningkatkan \textit{Line F1-score} karena smoothing mengurangi \textit{false split}, sebelum akhirnya menurun pada broadening ekstrem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/broadening.png}
+    \caption{Robustness terhadap instrumental broadening.}
+    \label{fig:broadening}
+\end{figure}
+
+\subsubsection{Baseline Drift}
+
+Baseline drift menyebabkan penurunan pada seluruh lapisan, terutama pada \textit{Pearson Correlation}. Drift linier kuat memberikan dampak terbesar, sedangkan drift kuadratik relatif lebih halus sehingga kerusakan sedikit berkurang.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/baseline.png}
+    \caption{Robustness terhadap baseline drift.}
+    \label{fig:baseline}
+\end{figure}
+
+\subsubsection{Missing-Line Suppression}
+
+Penghilangan garis spektral menurunkan kemampuan deteksi dan pencocokan secara bertahap seiring meningkatnya rasio garis yang dihilangkan.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\linewidth]{images/plots/missing.png}
+    \caption{Robustness terhadap missing-line suppression.}
+    \label{fig:missing}
+\end{figure}
 
 \section{Pembahasan}
-\blindtext
 
-\subsection{Interpretasi Hasil}
-\blindtext
+\subsection{Interpretasi Hasil Robustness}
+
+Hasil evaluasi menunjukkan bahwa setiap perturbasi memiliki mekanisme kegagalan yang berbeda.
+
+\begin{itemize}
+    \item \textbf{Gaussian noise}: merusak deteksi dan pencocokan secara simultan.
+    \item \textbf{Poisson noise}: memberikan dampak minor.
+    \item \textbf{Spike noise}: bersifat katastrofik pada seluruh lapisan.
+    \item \textbf{Shift}: menyebabkan ambigu pencocokan garis.
+    \item \textbf{Broadening}: dominan merusak tahap deteksi.
+    \item \textbf{Baseline drift}: dominan merusak fidelitas spektral.
+    \item \textbf{Missing-line}: berdampak moderat pada deteksi dan pencocokan.
+\end{itemize}
+
+\subsection{Implikasi terhadap Data Augmentation}
+
+Berdasarkan robustness benchmark, perturbasi yang direkomendasikan untuk augmentasi pelatihan model adalah:
+
+\begin{enumerate}
+    \item Gaussian noise;
+    \item Spike noise;
+    \item Instrumental broadening;
+    \item Baseline drift;
+    \item Missing-line suppression.
+\end{enumerate}
+
+Perturbasi tersebut dipilih karena merepresentasikan sumber gangguan realistis sekaligus memiliki dampak signifikan terhadap pipeline interpretasi spektrum.
 
 \subsection{Perbandingan dengan Penelitian Terdahulu}
-\blindtext
+
+Pendekatan evaluasi tiga lapisan pada penelitian ini memberikan interpretasi yang lebih komprehensif dibandingkan studi robustness LIBS sebelumnya yang umumnya hanya melaporkan akurasi akhir model. Dengan memisahkan sumber kegagalan menjadi tahap deteksi, pencocokan, dan fidelitas spektral, penyebab degradasi performa dapat diidentifikasi secara lebih sistematis.
+
+\subsection{Implikasi Hasil Robustness terhadap Strategi Augmentasi Dataset}
+
+Hasil evaluasi robustness pada Stage 1 tidak hanya memberikan gambaran mengenai sensitivitas pipeline interpretasi spektrum terhadap berbagai gangguan ilmiah realistis, tetapi juga menjadi dasar dalam merancang strategi augmentasi data sintetis pada tahap berikutnya. Setiap jenis perturbasi menunjukkan pola degradasi yang berbeda pada tiga lapisan evaluasi, yaitu deteksi puncak (\textit{peak detection}), pencocokan garis atomik (\textit{line matching}), dan fidelitas spektral (\textit{spectral fidelity}).
+
+Berdasarkan hasil benchmark, dapat diidentifikasi ambang keparahan (\textit{severity threshold}) untuk setiap perturbasi, yaitu tingkat gangguan di mana performa sistem mulai mengalami penurunan signifikan. Ambang ini digunakan untuk mendefinisikan rentang augmentasi realistis pada pembentukan dataset sintetis. Sebagai contoh, Gaussian noise menunjukkan penurunan tajam pada metrik deteksi dan pencocokan garis pada tingkat gangguan menengah hingga tinggi, sedangkan spike noise memberikan kerusakan signifikan bahkan pada tingkat gangguan rendah. Sebaliknya, Poisson noise relatif stabil sehingga dapat diberikan bobot augmentasi lebih rendah.
+
+Selain itu, skor kerusakan global (\textit{global damage score}) yang diperoleh dari matriks kerusakan digunakan untuk menentukan probabilitas sampling masing-masing perturbasi dalam proses augmentasi. Dengan pendekatan ini, distribusi augmentasi menjadi berbasis bukti ilmiah (\textit{evidence-based}) dan tidak diberikan secara seragam. Perturbasi dengan dampak lebih besar, seperti spike noise, Gaussian noise, dan baseline drift, diberikan probabilitas lebih tinggi dibandingkan perturbasi dengan dampak rendah seperti Poisson noise atau wavelength shift.
+
+Pada kondisi eksperimen nyata, spektrum LIBS umumnya mengalami lebih dari satu gangguan secara simultan. Oleh karena itu, dataset sintetis pada Stage 2 dirancang tidak hanya memuat perturbasi tunggal, tetapi juga kombinasi beberapa perturbasi dominan, misalnya Gaussian noise dengan baseline drift, broadening dengan wavelength shift, atau missing-line suppression dengan Gaussian noise. Pendekatan ini diharapkan menghasilkan data pelatihan yang lebih representatif terhadap kondisi eksperimen lapangan.
+
+Selanjutnya, hasil evaluasi ini juga membuka peluang penerapan strategi \textit{curriculum learning}, yaitu proses pelatihan model secara bertahap dimulai dari spektrum dengan gangguan ringan, kemudian meningkat ke gangguan menengah dan berat. Strategi ini diharapkan meningkatkan stabilitas pelatihan dan kemampuan generalisasi model terhadap data eksperimen.
+
+Dengan demikian, hasil robustness benchmark pada Stage 1 tidak hanya berfungsi sebagai evaluasi diagnostik terhadap kelemahan sistem, tetapi juga menjadi dasar ilmiah dalam perancangan strategi augmentasi dan pembentukan dataset sintetis pada Stage 2 untuk pengembangan model deep learning yang lebih robust.
+
+
+
+\subsection{Perumusan Kebijakan Augmentasi Dataset Berdasarkan Robustness Benchmark}
+
+Untuk memastikan bahwa proses augmentasi data sintetis dilakukan secara sistematis dan berbasis bukti ilmiah, hasil robustness benchmark pada Stage 1 digunakan untuk merumuskan kebijakan augmentasi (\textit{augmentation policy}) secara kuantitatif. Kebijakan ini mencakup tiga komponen utama, yaitu rentang keparahan perturbasi, bobot sampling perturbasi, dan kombinasi perturbasi yang saling melengkapi.
+
+Rentang keparahan perturbasi ditentukan berdasarkan titik penurunan metrik utama terhadap baseline. Dalam penelitian ini, tiga metrik utama digunakan sebagai indikator, yaitu \textit{Peak F1-score} untuk lapisan deteksi, \textit{Line F1-score} untuk lapisan pencocokan garis atomik, dan \textit{Pearson Correlation} untuk lapisan fidelitas spektral. Kategori \textit{safe} didefinisikan ketika nilai metrik masih berada di atas 90\% baseline, kategori \textit{moderate} ketika metrik berada pada rentang 70\%–90\% baseline, dan kategori \textit{hard} ketika metrik turun di bawah 70\% baseline.
+
+Bobot augmentasi dihitung berdasarkan nilai rata-rata kerusakan global (\textit{global mean damage}) dari setiap perturbasi. Dengan demikian, perturbasi yang secara empiris paling merusak pipeline interpretasi spektrum diberikan probabilitas sampling lebih tinggi pada pembentukan dataset sintetis.
+
+Selain itu, kombinasi perturbasi ditentukan berdasarkan analisis kesamaan vektor kerusakan antar perturbasi menggunakan \textit{cosine similarity}. Kombinasi diprioritaskan pada pasangan perturbasi dengan kesamaan rendah, karena mewakili mekanisme kegagalan yang saling melengkapi dan menghasilkan variasi data pelatihan yang lebih representatif.
+
+Dengan pendekatan ini, pembentukan dataset sintetis pada Stage 2 tidak dilakukan secara acak, melainkan berdasarkan hasil evaluasi robustness yang terukur secara kuantitatif.

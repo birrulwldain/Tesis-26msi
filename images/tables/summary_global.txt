@@ -1,0 +1,10 @@
+Global Average Performance Matrix (Unweighted vs Weighted by Physical Realism)
+
+Perturbation    Det_Unw    Det_Weighted    Mat_Unw    Mat_Weighted    Fid_Unw    Fid_Weighted   
+Gaussian        0.415      0.658           0.327      0.505           0.649      0.869          
+Poisson         0.937      0.970           0.743      0.744           0.993      0.998          
+Spike           0.149      0.149           0.136      0.136           0.423      0.423          
+Shift           0.929      0.948           0.797      0.776           0.987      0.994          
+Broadening      0.824      0.909           0.780      0.785           0.952      0.981          
+Baseline        0.806      0.826           0.565      0.583           0.571      0.706          
+Missing         0.791      0.862           0.639      0.665           0.871      0.906          
