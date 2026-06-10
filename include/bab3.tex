@@ -63,6 +63,24 @@ Seluruh proses komputasi dalam penelitian ini, meliputi generasi spektrum sintet
 
 Bahan penelitian dalam studi ini terdiri atas data sintetis dan sampel eksperimen. Data sintetis dibangkitkan secara komputasi menggunakan \textit{forward model} Saha--Boltzmann untuk menghasilkan 100.000 pasangan spektrum monoatomik--poliatomik beserta label konsentrasi unsur. Sementara itu, data eksperimen diperoleh dari 24 sampel tanah vulkanik yang dikoleksi dari kawasan Gunung Seulawah Agam, Kabupaten Aceh Besar, Provinsi Aceh. Sampel tersebut digunakan untuk proses \textit{fine-tuning}, validasi, dan evaluasi performa model terhadap kondisi nyata.
 
+
+
+% \begin{table}[h]
+% \centering
+% \caption{Wavelength, upper-level energy, upper-level degeneracy, and transition probability for the neutral Fe emission lines used in this study. Fitted $T_e = 6596 \pm 4398$~K, $R^2 = 0.8115$, $N = 6$.}
+% \begin{tabular}{ccccc}
+% \hline
+% Elements & Wavelength (nm) & Upper-level energy (eV) & Upper-level degeneracy & Transition probability (s$^{-1}$) \\
+% \hline
+% Fe I & 252.3 & 4.9129736 & 9 & 2.13E+08 \\
+% Fe I & 300.8 & 4.2305396 & 1 & 1.07E+08 \\
+% Fe I & 321.4 & 6.3060009 & 5 & 1.18E+08 \\
+% Fe I & 344.1 & 3.6025250 & 7 & 1.71E+07 \\
+% Fe I & 355.5 & 6.3192057 & 13 & 1.40E+08 \\
+% Fe I & 373.7 & 3.3682564 & 9 & 1.41E+07 \\
+% \hline
+% \end{tabular}
+% \end{table}
 % \section{Diagram Alir Penelitian}
 
 % Diagram alir penelitian pada Gambar~\ref{fig:diagram_alir} menggambarkan keseluruhan alur metodologi yang ditempuh untuk menjawab ketiga rumusan masalah dan mencapai tujuan penelitian. Metodologi beroperasi pada dua domain:
@@ -102,7 +120,7 @@ Tahap keempat merupakan proses evaluasi dan analisis model. Evaluasi dilakukan m
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{images/Diagram-Alir-Fix.png}
+    \includegraphics[width=0.99\textwidth]{images/Diagram-Alir-Fix.png}
     \caption{Diagram alir tahapan penelitian.}
     \label{fig:diagram_alir}
 \end{figure}
@@ -186,6 +204,8 @@ Tahap generasi spektrum sintetis dalam penelitian ini dilakukan untuk membangun 
   \end{tabular}
 \end{table}
 
+Sebagai studi pendahuluan sebelum pembentukan dataset pelatihan final, dilakukan evaluasi \textit{robustness benchmark} terhadap subset spektrum sintetis yang telah dibangkitkan untuk mengkarakterisasi dampak tujuh jenis perturbasi realistis terhadap integritas spektral, meliputi \textit{Gaussian noise}, \textit{Poisson noise}, \textit{spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, dan \textit{missing-line suppression}. Evaluasi ini dilakukan menggunakan tiga lapisan metrik, yaitu \textit{Peak F1-score} untuk lapisan deteksi, \textit{Line F1-score} untuk lapisan pencocokan garis, dan \textit{Pearson Correlation} untuk lapisan fidelitas spektral. Hasil evaluasi tersebut digunakan untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah (\textit{evidence-based augmentation policy}), di mana probabilitas sampling dan rentang keparahan setiap perturbasi ditentukan secara proporsional terhadap dampak empirisnya terhadap \textit{pipeline} interpretasi spektrum. Visualisasi kualitatif efek setiap jenis perturbasi terhadap profil spektrum sintetis disajikan pada Lampiran~\ref{app:visualisasi-perturbasi}.
+
 % ======================
 % Tahap 2 — Mendukung Tujuan 2
 % ======================
@@ -253,7 +273,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.65\textwidth]{images/Arsitektur-CNN-Trans.png}
+        \includegraphics[width=0.99\textwidth]{images/Arsitektur-CNN-Trans.png}
         \caption{Arsitektur CNN--Transformer \textit{encoder--decoder} yang diusulkan.}
         \label{fig:arsitektur_model}
     \end{figure}
@@ -338,7 +358,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.55\textwidth]{images/Domain-Adapt.png}
+        \includegraphics[width=0.99\textwidth]{images/Domain-Adapt.png}
         \caption{Ilustrasi mekanisme adaptasi domain menggunakan \textit{Gradient Reversal Layer} (GRL).}
         \label{fig:domain_adaptation}
     \end{figure}
