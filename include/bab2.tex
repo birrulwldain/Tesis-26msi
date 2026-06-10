@@ -64,9 +64,12 @@ Unsur mayor dalam tanah vulkanik berperan penting terhadap kesuburan tanah maupu
 Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setelah berhentinya pemaparan laser, plasma mulai mendingin yang secara bertahap mengurangi pendaran emisi radiasi hamburan (\textit{continuum background}). Di saat yang sama, atom dan ion di dalam plasma melepas surplus energinya kembali ke tingkat orbit dasar melalui pancaran spektrum optik sekunder. Kemampuan LIBS untuk menganalisis material secara \textit{in situ} dan minim \textit{sample preparation} menjadikan LIBS sangat unggul untuk observasi geokimia benda padat kompleks, khususnya sampel geologi bervariasi tinggi layaknya tanah vulkanik tempat fenomena efek matriks banyak terjadi \citep{sawyers_database_2025, hao_machine_2024}.
 
 \subsection{Emisi Atomik dan Identifikasi Unsur}
-% TODO: Isi dengan pembahasan tentang mekanisme emisi atomik diskrit,
-%       identifikasi unsur berdasarkan panjang gelombang karakteristik,
-%       dan peran basis data NIST ASD dalam identifikasi garis emisi.
+
+Saat plasma LIBS mencapai fase pendinginan pasca-ablasi, atom dan ion dalam keadaan tereksitasi mengalami transisi elektronik spontan menuju tingkat energi yang lebih rendah. Selisih energi antar dua tingkat tersebut dilepaskan dalam bentuk foton dengan panjang gelombang diskret \( \lambda_{ki} = hc / (E_k - E_i) \), di mana \( E_k \) dan \( E_i \) masing-masing merupakan energi tingkat atas dan bawah, \( h \) adalah konstanta Planck, dan \( c \) adalah kecepatan cahaya \citep{fujimoto_plasma_2004}. Probabilitas emisi spontan ini dikarakterisasi oleh koefisien Einstein \( A_{ki} \), dan seluruh garis emisi yang terbentuk secara bersamaan membentuk spektrum diskret yang terekam oleh spektrometer.
+
+Setiap unsur kimia memiliki konfigurasi tingkat energi elektronik yang unik, sehingga menghasilkan pola garis emisi pada panjang gelombang yang khas dan spesifik. Identifikasi unsur dilakukan melalui proses \textit{peak matching}, yaitu pencocokan posisi puncak pada spektrum terukur terhadap panjang gelombang referensi yang telah diketahui untuk setiap unsur \citep{legnaioli_laser-induced_2025}. Efek pelebaran garis akibat kondisi plasma---seperti pelebaran Doppler dan Stark---serta resolusi spektrometer berpengaruh terhadap keakuratan proses pencocokan tersebut, khususnya pada sampel poliatomik seperti tanah vulkanik yang menghasilkan spektrum padat dengan banyak garis yang berimpitan.
+
+\textit{NIST Atomic Spectra Database} (ASD) merupakan basis data referensi atomik utama yang digunakan secara luas dalam analisis LIBS, menyediakan lebih dari 180.000 garis spektral beserta parameter transisi yang divalidasi secara kritis untuk 99 unsur \citep{sawyers_database_2025}. Parameter yang tersedia mencakup panjang gelombang transisi \( \lambda_{ki} \), koefisien Einstein \( A_{ki} \), energi tingkat eksitasi \( E_k \), dan faktor degenerasi statistik \( g_k \). Dalam penelitian ini, data NIST ASD berfungsi sebagai referensi primer untuk konstruksi spektrum sintetis dan validasi posisi garis emisi pada \textit{forward model} berbasis LTE.
 
 \subsection{Local Thermodynamic Equilibrium (LTE)}
 
@@ -83,139 +86,6 @@ dengan $\Delta E$ (dalam eV) merupakan selisih interval tingkat energi dari tran
 % ======================================================================
 
 \section{Spektrum Emisi Plasma LIBS}
-
-\subsection{Distribusi Boltzmann}
-Dalam plasma LIBS, populasi atom pada tingkat energi tertentu bergantung pada suhu plasma. Dalam kesetimbangan termal lokal, distribusi Boltzmann menentukan probabilitas pada tingkat energi ke-\( i \), yaitu \( P_i \), sebagai:
-\begin{equation}
-P_i \propto g_i e^{-\frac{E_i}{k_B T}}, \label{eq:bab2_eq4}
-\end{equation}
-dimana \( g_i \) adalah faktor degenerasi, \( E_i \) adalah energi tingkat ke-\( i \), dan \( k_B = 8.617 \times 10^{-5} \, \text{eV / K} \) adalah konstanta Boltzmann. Kemudian, jika \( N \) adalah populasi atom, maka fraksi populasi relatif untuk tingkat energi ke-\( i \) adalah:
-\begin{equation}
-N_i = \frac{N g_i e^{-\frac{E_i}{k_B T}}}{Z}, \label{eq:boltzmann1}
-\end{equation}
-dan fungsi partisi \( Z \) didefinisikan sebagai:
-\begin{equation}
-Z = \sum_i g_i e^{-\frac{E_i}{k_B T}}, \label{eq:bab2_eq5}
-\end{equation}
-Fungsi partisi memastikan normalisasi sehingga \( \sum_i N_i = N \). Persamaan ini bergantung pada suhu \( T \) dan sifat atom seperti energi \( E_i \) dan degenerasi \( g_i \) yang dapat diakses dari NIST \citep{Pathria2011,Rybicki1985}.
-
-\subsection{Intensitas Garis Spektral}
-Intensitas garis spektral \( I_{ik} \) dihasilkan dari emisi spontan saat atom bertransisi dari tingkat energi atas \( E_k \) ke tingkat energi bawah \( E_i \) (\( E_i < E_k \)). Probabilitas emisi spontan per satuan waktu diberikan oleh \( A_{ki} \). Daya total yang dihasilkan adalah:
-\begin{equation}
-P_{k} = N_k A_{ki} h \nu_{ki}, \label{eq:bab2_eq6}
-\end{equation}
-Intensitas garis spektral \( I_{ik} \) dihasilkan dari emisi spontan saat atom bertransisi dari tingkat energi atas \( E_k \) ke tingkat energi bawah \( E_i \) (\( E_k > E_i \)). Energi foton yang dipancarkan diberikan oleh:
-\begin{equation}
-h \nu_{ik} = E_k - E_i, \label{eq:bab2_eq7}
-\end{equation}
-dimana \( \nu_{ik} = \frac{E_k - E_i}{h} \) adalah frekuensi foton, dan \( \lambda_{ik} = \frac{c}{\nu_{ik}} = \frac{h c}{E_k - E_i} \) adalah panjang gelombang terkait, dengan \( h \nu_{ik} = \frac{h c}{\lambda_{ik}} \) dan \( hc \approx 1239.84 \, \text{eV·nm} \). Probabilitas emisi spontan per satuan waktu ditentukan oleh koefisien Einstein \( A_{ik} \) \citep{Rybicki1985}. Daya total yang dihasilkan dari transisi ini adalah:
-\begin{equation}
-P_k = N_k A_{ik} h \nu_{ik}, \label{eq:bab2_eq8}
-\end{equation}
-dimana \( N_k \) adalah populasi atom pada tingkat energi \( E_k \), dihitung menggunakan distribusi Boltzmann [Persamaan~\eqref{eq:boltzmann1}]. Intensitas \( I_{ik} \), yaitu daya per satuan sudut ruang dalam sudut solider \( 4\pi \) steradian, diberikan oleh:
-\begin{equation}
-I_{ik} = \frac{P_k}{4\pi} = \frac{N_k A_{ik} h \nu_{ik}}{4\pi}. \label{eq:bab2_eq9}
-\end{equation}
-
-Dengan mensubstitusi \( N_k \) dari Persamaan~\eqref{eq:boltzmann1}, dimana \( g_k \) adalah faktor degenerasi tingkat \( E_k \), \( k_B = 8.617 \times 10^{-5} \, \text{eV/K} \) adalah konstanta Boltzmann, \( T \) adalah suhu plasma, dan \( Z \) adalah fungsi partisi [Persamaan~\eqref{eq:bab2_eq5}], intensitas menjadi:
-\begin{equation}
-I_{ik} = \frac{N g_k A_{ik} h \nu_{ik} e^{-\frac{E_k}{k_B T}}}{4\pi Z}. \label{eq:bab2_eq10}
-\end{equation}
-
-Dimana \( h \nu_{ik} \) dan \( 4\pi \) dapat diabaikan untuk perhitungan intensitas relatif yang dinormalisasi. Persamaan ini akan memfokuskan pada ketergantungan intensitas terhadap suhu plasma dan parameter spesifik transisi (\( g_k \), \( A_{ik} \), \( E_k \)). Dengan demikian, intensitas relatif dinyatakan sebagai:
-\begin{equation}
-I_{ik} \propto \frac{N g_k A_{ik} e^{-\frac{E_k}{k_B T}}}{Z}. \label{eq:bab2_eq11}
-\end{equation}
-
-dimana \( Z \) dihitung untuk setiap tingkat energi transisi. Persamaan ini digunakan untuk menghitung intensitas relatif pada setiap panjang gelombang \( \lambda_{ik} \), yang penting untuk memodelkan spektrum emisi \citep{Rybicki1985,Draine2011,Mason2015}.
-
-\subsection{Persamaan Saha untuk Populasi Ion}
-
-Persamaan Saha digunakan untuk menghitung rasio ionisasi \( \frac{n_{i+1} n_e}{n_i} \) berdasarkan suhu plasma \( T \), densitas elektron \( n_e \), dan energi ionisasi atom. Persamaan ini menggambarkan keseimbangan ionisasi:
-\[
-A_i \leftrightarrow A_i^+ + e^-.
-\]
-Untuk menurunkannya, kita mulai dengan fungsi partisi, yang merepresentasikan jumlah keadaan kuantum yang dapat diakses oleh partikel dalam kesetimbangan termal \citep{Pathria2011}.
-
-Fungsi partisi total untuk setiap partikel (atom netral \( A_i \), ion \( A_i^+ \), atau elektron \( e^- \)) terdiri dari komponen translasional dan internal. Fungsi partisi translasional dihitung secara umum untuk partikel bebas dengan massa \( m \) dalam volume \( V \):
-\begin{equation}
-Z_{\text{trans}} = \frac{1}{h^3} \int e^{-p^2/(2m k_B T)} \, d^3q \, d^3p, \label{eq:bab2_eq12}
-\end{equation}
-dimana \( h \) adalah konstanta Planck, \( k_B = 8.617 \times 10^{-5} \, \text{eV/K} \) adalah konstanta Boltzmann, dan \( T \) adalah suhu plasma. Faktor \( 1/h^3 \) menormalkan ruang fase untuk setiap keadaan kuantum. Integral over posisi menghasilkan:
-\begin{equation}
-\int d^3q = V. \label{eq:bab2_eq13}
-\end{equation}
-Integral over momentum, menggunakan koordinat bola dan substitusi \( u = p^2/(2m k_B T) \), adalah:
-\begin{equation}
-\int e^{-p^2/(2m k_B T)} \, d^3p = \left( 2\pi m k_B T \right)^{3/2}. \label{eq:bab2_eq14}
-\end{equation}
-Substitusi ke dalam Persamaan~\eqref{eq:bab2_eq12} menghasilkan:
-\begin{equation}
-Z_{\text{trans}} = V \left( \frac{2\pi m k_B T}{h^2} \right)^{3/2}. \label{eq:bab2_eq15}
-\end{equation}
-
-Untuk atom netral (\( A_i \)) dengan massa \( m_i \):
-\begin{equation}
-Z_{i,\text{trans}} = V \left( \frac{2\pi m_i k_B T}{h^2} \right)^{3/2}. \label{eq:bab2_eq16}
-\end{equation}
-Untuk ion (\( A_i^+ \)) dengan massa \( m_{i+1} \approx m_i \):
-\begin{equation}
-Z_{i+1,\text{trans}} = V \left( \frac{2\pi m_{i+1} k_B T}{h^2} \right)^{3/2}. \label{eq:bab2_eq17}
-\end{equation}
-Fungsi partisi internal mencakup keadaan energi elektronik:
-\begin{equation}
-Z_{\text{int}} = \sum_m g_m e^{-E_m/(k_B T)}, \label{eq:bab2_eq18}
-\end{equation}
-dimana \( g_m \) adalah faktor degenerasi keadaan dengan energi \( E_m \). Pada suhu LIBS (10.000–30.000 K), hanya keadaan dasar yang dominan, sehingga fungsi partisi internal untuk atom netral dan ion masing-masing adalah:
-\[
-Z_{i,\text{int}} \approx g_i, \quad Z_{i+1,\text{int}} \approx g_{i+1},
-\]
-dimana \( g_i \) dan \( g_{i+1} \) adalah degenerasi keadaan dasar. Fungsi partisi total untuk atom netral dan ion adalah:
-\begin{equation}
-Z_i = Z_{i,\text{int}} Z_{i,\text{trans}} = g_i \left( \frac{2\pi m_i k_B T}{h^2} \right)^{3/2} V, \quad Z_{i+1} = g_{i+1} \left( \frac{2\pi m_{i+1} k_B T}{h^2} \right)^{3/2} V. \label{eq:bab2_eq19}
-\end{equation}
-
-Untuk elektron, yang merupakan fermion dengan spin-1/2, fungsi partisi harus mempertimbangkan statistik Fermi-Dirac:
-\begin{equation}
-f(E) = \frac{1}{e^{(E - \mu)/(k_B T)} + 1}, \label{eq:bab2_eq20}
-\end{equation}
-dimana \( \mu \) adalah potensial kimia. Dalam plasma LIBS pada suhu 10.000–30.000 K, densitas elektron rendah, sehingga plasma bersifat non-degenerasi (\( e^{(E - \mu)/(k_B T)} \gg 1 \)). Pada batas ini, distribusi Fermi-Dirac mendekati distribusi Maxwell-Boltzmann:
-\begin{equation}
-f(E) \approx e^{-(E - \mu)/(k_B T)}, \label{eq:bab2_eq21}
-\end{equation}
-memungkinkan pendekatan klasik untuk menghitung fungsi partisi translasional elektron \citep{Pathria2011}. Dengan massa elektron \( m_e \), fungsi partisi translasional elektron adalah:
-\begin{equation}
-Z_{e,\text{trans}} = V \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2}, \label{eq:bab2_eq22}
-\end{equation}
-sesuai dengan Persamaan~\eqref{eq:bab2_eq15}. Elektron memiliki dua keadaan spin (\( m_s = \pm 1/2 \)), memberikan faktor degenerasi spin \( g_e = 2 \). Oleh karena itu, fungsi partisi total untuk elektron adalah:
-\begin{equation}
-Z_e = g_e Z_{e,\text{trans}} = 2 \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} V. \label{eq:bab2_eq23}
-\end{equation}
-
-Untuk menurunkan persamaan Saha, kita mempertimbangkan keseimbangan termal reaksi ionisasi \( A_i \leftrightarrow A_i^+ + e^- \). Rasio densitas dalam kesetimbangan termal diberikan oleh:
-\begin{equation}
-\frac{n_{i+1} n_e}{n_i} = \frac{Z_{i+1} Z_e}{Z_i} e^{-\frac{E_{xi}}{k_B T}}, \label{eq:bab2_eq24}
-\end{equation}
-dimana \( E_{xi} \) adalah energi ionisasi atom, diperoleh dari database NIST. Substitusi fungsi partisi dari Persamaan~\eqref{eq:bab2_eq19} dan~\eqref{eq:bab2_eq23}:
-\begin{equation}
-\frac{n_{i+1} n_e}{n_i} = \frac{g_{i+1} \left( \frac{2\pi m_{i+1} k_B T}{h^2} \right)^{3/2} V \cdot 2 \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} V}{g_i \left( \frac{2\pi m_i k_B T}{h^2} \right)^{3/2} V} e^{-\frac{E_{xi}}{k_B T}}. \label{eq:bab2_eq25}
-\end{equation}
-Karena \( m_i \approx m_{i+1} \), faktor massa dan volume membatalkan, sehingga:
-\begin{equation}
-\frac{n_{i+1} n_e}{n_i} = \frac{2 g_{i+1}}{g_i} \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} e^{-\frac{E_{xi}}{k_B T}}. \label{eq:bab2_eq26}
-\end{equation}
-Dengan \( Z_{i,\text{int}} = g_i \) dan \( Z_{i+1,\text{int}} = g_{i+1} \), persamaan Saha dapat ditulis sebagai:
-\begin{equation}
-\frac{n_{i+1}}{n_i} = \frac{\frac{N_{i+1}}{V}} {\frac{N_{i}}{V}}= \frac{N_{i+1}} {N_{i}} = \frac{2Z_{i+1,\text{int}}}{N_eZ_{i,\text{int}}} \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} e^{-\frac{E_{xi}}{k_B T}}. \label{eq:bab2_eq27}
-\end{equation}
-
-Persamaan ini kemudian digunakan untuk menghitung rasio ionisasi dengan memasukkan suhu plasma \( T \), densitas elektron \( n_e \), dan energi ionisasi \( E_{xi} \). Konstanta-konstanta memiliki asal-usul fisik: faktor 2 dari degenerasi spin elektron, \( Z_{i+1,\text{int}}/Z_{i,\text{int}} \) dari rasio degenerasi keadaan dasar, \( \left( \frac{2\pi m_e k_B T}{h^2} \right)^{3/2} \) dari densitas keadaan translasional elektron, dan \( e^{-\frac{E_{xi}}{k_B T}} \) dari probabilitas ionisasi. Persamaan Saha berlaku untuk plasma non-degenerasi dalam LIBS, tetapi memerlukan modifikasi untuk plasma padat, seperti dalam kondisi ekstrem \citep{Chandrasekhar1939}.
-
-Untuk memastikan plasma berada dalam kondisi LTE, kriteria McWhirter menetapkan batas minimum densitas elektron untuk LTE sebagai \citep{McWhirter1965}:
-\begin{equation}
-n_e \geq 1.6 \times 10^{12} T^{1/2} \Delta E^3 \, \text{cm}^{-3}, \label{eq:bab2_eq28}
-\end{equation}
-dimana \( T \) adalah suhu dalam eV dan \( \Delta E \) adalah perbedaan energi antar level dalam eV. Kondisi ini memvalidasi asumsi distribusi Boltzmann, yang mendasari interpretasi data spektral temporal.
 
 \subsection{Distribusi Boltzmann}
 
@@ -276,16 +146,28 @@ Model dekomposisi eksplisit ini menjustifikasi konsep \textit{cross-attention} y
 \section{Kuantifikasi Unsur pada LIBS}
 
 \subsection{Calibration Curve}
-% TODO: Isi dengan penjelasan metode kalibrasi univariat/multivariat standar
-%       pada LIBS, termasuk keterbatasannya pada matriks kompleks.
+
+Pendekatan kuantifikasi unsur yang paling mendasar dalam LIBS adalah \textit{calibration curve} (kurva kalibrasi), yaitu model regresi yang menghubungkan intensitas garis emisi karakteristik suatu unsur dengan konsentrasinya dalam sampel. Pada metode univariat, satu garis emisi dipilih sebagai representatif untuk satu unsur, dan kurva kalibrasi dibangun menggunakan serangkaian sampel standar dengan konsentrasi yang diketahui. Hubungan antara intensitas $I$ dan konsentrasi $c$ umumnya diasumsikan linier:
+%
+\begin{equation}
+    I = a \cdot c + b,
+\end{equation}
+%
+dengan $a$ dan $b$ merupakan koefisien regresi yang ditentukan secara empiris. Metode ini mudah diimplementasikan, namun akurasinya sangat bergantung pada konsistensi kondisi plasma antar pengukuran.
+
+Keterbatasan utama pendekatan univariat adalah kerentanannya terhadap \textit{matrix effect}, yaitu pengaruh variasi komposisi matriks sampel terhadap intensitas emisi selain dari konsentrasi unsur yang dianalisis \citep{safi_multivariate_2018, lu_calibration_2019}. Pada matriks kompleks seperti tanah vulkanik dengan multi-elemen yang berinteraksi, kurva kalibrasi univariat seringkali menunjukkan linearitas yang buruk \citep{gomez_matrix_2018}. Untuk mengatasi hal ini, pendekatan multivariat seperti \textit{Partial Least Squares Regression} (PLSR) mengeksploitasi seluruh informasi spektral untuk membangun model kalibrasi yang lebih robust terhadap variasi matriks \citep{zhang_partial_2020}. Meski demikian, metode berbasis kalibrasi tetap memerlukan sampel standar referensi yang representatif, yang merupakan tantangan tersendiri untuk material geologi dengan variasi komposisi tinggi.
 
 \subsection{Calibration-Free LIBS}
-% TODO: Isi dengan penjelasan metode CF-LIBS, asumsi yang mendasarinya,
-%       kelebihan dan keterbatasannya, serta hubungannya dengan asumsi LTE.
+
+\textit{Calibration-Free LIBS} (CF-LIBS) merupakan pendekatan kuantifikasi unsur yang bertujuan menghilangkan ketergantungan terhadap sampel standar kalibrasi eksternal, dengan memanfaatkan persamaan fisika plasma secara langsung \citep{cristoforetti_local_2010}. Dalam CF-LIBS, konsentrasi unsur diturunkan dari hubungan Saha--Boltzmann (Persamaan~\ref{eq:bab2_saha} dan~\ref{eq:bab2_boltzmann}) setelah mengestimasi parameter plasma $T_e$ dan $n_e$ dari spektrum emisi yang terukur. Langkah sentral dalam prosedur ini adalah konstruksi \textit{Boltzmann plot} untuk menentukan $T_e$, sedangkan $n_e$ diestimasi dari pelebaran Stark garis spektral tertentu.
+
+Meski menawarkan keunggulan analitik yang signifikan, akurasi CF-LIBS masih dibatasi oleh beberapa faktor. Pertama, validitas asumsi LTE harus dipenuhi, yang diverifikasi melalui kriteria McWhirter (Persamaan~\ref{eq:bab2_mcwhirter}). Kedua, efek \textit{self-absorption} pada garis emisi yang kuat dapat mendistorsi intensitas terukur sehingga mengganggu estimasi $T_e$ dan $n_e$ \citep{yang_self-absorption_2020}. Ketiga, penentuan $T_e$ dan $n_e$ yang tidak akurat merupakan sumber utama ketidakpastian dalam CF-LIBS \citep{zeng_accurate_2023}. Untuk mengatasi masalah ini, sejumlah modifikasi telah diusulkan, antara lain metode \textit{one-point calibration} (OPC) yang mengkoreksi ketidakpastian parameter spektroskopik secara empiris \citep{borduchi_one-point_2019}. Favre et al.\ \citep{favre_towards_2025} mengintegrasikan pendekatan CF-LIBS dengan \textit{machine learning} melalui kode transfer radiatif MERLIN untuk mencapai kuantifikasi real-time tanpa memerlukan keahlian interpretasi manual. Namun demikian, kompleksitas komputasi model fisika plasma yang tinggi masih membatasi penerapannya untuk analisis cepat di lapangan, sehingga mendorong eksplorasi pendekatan pembelajaran mendalam sebagai alternatif yang lebih efisien.
 
 \subsection{X-ray Fluorescence (XRF) sebagai Data Referensi}
-% TODO: Isi dengan penjelasan singkat prinsip XRF dan justifikasi penggunaannya
-%       sebagai ground truth untuk validasi hasil kuantifikasi LIBS.
+
+\textit{X-ray Fluorescence} (XRF) merupakan teknik analitik non-destruktif yang mengukur komposisi unsur berdasarkan emisi sinar-X karakteristik yang dipancarkan oleh atom setelah dieksitasi oleh sumber sinar-X primer. Prinsip kerja XRF didasarkan pada efek fotolistrik, di mana foton berenergi tinggi mengeksitasi elektron dari kulit dalam atom, dan foton karakteristik yang dipancarkan saat pengisian kembali kekosongan elektron tersebut memiliki energi yang khas bagi setiap unsur.
+
+Dalam konteks validasi LIBS, XRF telah lama digunakan sebagai metode referensi standar untuk analisis geokimia tanah dan batuan. Teknik \textit{Wavelength Dispersive XRF} (WDXRF) dengan preparasi \textit{fused glass disk} mampu menganalisis unsur mayor dalam sampel geologi dengan akurasi tinggi, ditunjukkan oleh koefisien determinasi $R^2 > 0{,}998$ untuk unsur seperti SiO$_2$, Al$_2$O$_3$, dan CaO \citep{yamasaki_major_2023}. Perangkat \textit{portable XRF} (pXRF) juga telah terbukti efektif untuk analisis \textit{in situ} di lapangan, meskipun akurasinya dipengaruhi oleh faktor heterogenitas sampel, kadar air, dan bahan organik \citep{ravansari_portable_2019}. Dalam penelitian ini, data konsentrasi unsur dari XRF digunakan sebagai \textit{ground truth} untuk pelatihan model dan evaluasi performa kuantifikasi LIBS pada sampel tanah vulkanik Seulawah Agam, konsisten dengan pendekatan yang digunakan dalam berbagai studi analisis geokimia LIBS terdahulu \citep{khumaeni_analysis_2025, idris_geochemistry_2022}.
 
 % ======================================================================
 % 2.5 Deep Learning untuk Analisis Spektrum
@@ -304,6 +186,17 @@ Kompleksitas dependensi spektral pada rentang panjang gelombang yang luas (hingg
 \mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
 \end{equation}
 Skema \textit{Multi-Head Attention} memungkinkan model menangkap korelasi antar panjang gelombang dari berbagai subspace representasi secara paralel, sehingga mampu merekonstruksi konektivitas antar garis emisi dalam satu elemen, seperti relasi multiplet dari tingkat ionisasi yang sama.
+
+\subsection{Informer}
+
+Kompleksitas mekanisme \textit{self-attention} konvensional yang berskala \( O(n^2) \) terhadap panjang urutan menjadi hambatan signifikan ketika spektrum LIBS yang memiliki puluhan ribu titik data diproses sebagai urutan panjang. \textit{Informer} \citep{zhou_informer_2021} merupakan varian arsitektur \textit{Transformer} yang mengatasi hambatan ini dengan mengurangi kompleksitas menjadi \( O(n \ln n) \) melalui tiga inovasi utama: \textit{ProbSparse self-attention}, \textit{self-attention distilling}, dan \textit{generative-style decoder}.
+
+\textit{ProbSparse self-attention} memanfaatkan sifat sparsitas distribusi skor \textit{attention}, di mana hanya sebagian kecil pasangan \textit{query-key} yang berkontribusi dominan pada representasi akhir. Mekanisme ini memilih \( u = O(\ln L_Q) \) \textit{query} paling informatif berdasarkan divergensi Kullback-Leibler terhadap distribusi seragam, kemudian menghitung bobot \textit{attention} hanya untuk subset \( \overline{\mathbf{Q}} \in \mathbb{R}^{u \times d_k} \) tersebut:
+\begin{equation} \label{eq:bab2_probsparse}
+\mathcal{A}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{Softmax}\!\left(\frac{\overline{\mathbf{Q}}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
+\end{equation}
+
+\textit{Self-attention distilling} mengurangi dimensi temporal representasi fitur secara bertahap antar lapisan \textit{encoder} melalui konvolusi satu dimensi dan \textit{max-pooling}, sehingga kompleksitas memori berskala \( O(n \ln n) \) alih-alih \( O(n^2) \). Kombinasi kedua inovasi ini menjadikan \textit{Informer} efisien untuk pemrosesan spektrum berdimensi tinggi, dan efektivitasnya pada analisis spektrum geologi berbasis LIBS telah divalidasi dalam penelitian terdahulu \citep{walidain_informer-based_2026}.
 
 \subsection{Encoder--Decoder}
 
@@ -324,12 +217,22 @@ Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhad
 \section{Evaluasi dan Validasi Data/Model}
 
 \subsection{Signal-to-Noise Ratio (SNR)}
-% TODO: Isi dengan definisi SNR pada spektrum LIBS, cara perhitungannya,
-%       dan kriteria minimum untuk kualitas data spektral yang dapat diterima.
+
+\textit{Signal-to-Noise Ratio} (SNR) merupakan metrik fundamental dalam evaluasi kualitas spektrum LIBS, yang mengkuantifikasi kemampuan sistem untuk membedakan sinyal emisi unsur dari derau latar belakang (\textit{background noise}). SNR didefinisikan sebagai rasio intensitas puncak emisi terhadap standar deviasi dari sinyal derau di sekitar puncak tersebut:
+%
+\begin{equation} \label{eq:bab2_snr}
+    \text{SNR} = \frac{I_{\text{peak}} - I_{\text{bg}}}{\sigma_{\text{bg}}},
+\end{equation}
+%
+dengan $I_{\text{peak}}$ adalah intensitas puncak, $I_{\text{bg}}$ adalah intensitas rata-rata latar belakang, dan $\sigma_{\text{bg}}$ adalah standar deviasi latar belakang pada rentang panjang gelombang di sekitar puncak. Nilai SNR yang tinggi mengindikasikan spektrum dengan kualitas analitik yang baik dan batas deteksi (\textit{limit of detection}/LOD) yang rendah.
+
+Dalam konteks akuisisi data LIBS eksperimental, SNR dipengaruhi oleh sejumlah faktor instrumental dan fisis, meliputi energi pulsa laser, \textit{gate delay} dan \textit{gate width} detektor, serta kondisi plasma yang terbentuk. Berbagai strategi peningkatan SNR telah dikembangkan, di antaranya penggunaan medan magnet untuk mengkonfine plasma dan metode \textit{nanoparticle-enhanced LIBS} (NELIBS) yang memanfaatkan efek plasmonik untuk memperkuat emisi \citep{khan_magnetic_2022}. Selain itu, metode pengolahan sinyal seperti \textit{wavelet denoising} terbukti efektif untuk meningkatkan SNR pada spektrum berdimensi tinggi \citep{guerrini_optimization_2025}. Dalam penelitian ini, nilai SNR $\geq 10$ ditetapkan sebagai kriteria minimum kualitas spektrum eksperimen yang dapat digunakan untuk pelatihan model.
 
 \subsection{Peak Detection dan Kecocokan Garis Emisi}
-% TODO: Isi dengan penjelasan metode identifikasi puncak emisi pada spektrum,
-%       pencocokan terhadap basis data NIST ASD, dan kriteria kecocokan.
+
+Deteksi puncak emisi (\textit{peak detection}) dan pencocokan garis (\textit{line matching}) merupakan tahap praproses kritis dalam analisis kuantitatif LIBS. Deteksi puncak bertujuan mengidentifikasi posisi dan intensitas garis emisi yang signifikan dari spektrum terukur di antara derau dan kontinum latar. Algoritma deteksi puncak yang umum digunakan meliputi metode ambang batas berbasis SNR lokal, turunan pertama atau kedua dari spektrum, serta metode berbasis \textit{Sparse Bayesian Learning} \citep{zhu_residual_2025}.
+
+Setelah puncak terdeteksi, pencocokan dengan \textit{NIST Atomic Spectra Database} (ASD) dilakukan untuk mengidentifikasi unsur penyusunnya. Kecocokan garis emisi dinilai berdasarkan selisih posisi panjang gelombang antara hasil pengukuran dan referensi NIST ($|\lambda_{\text{obs}} - \lambda_{\text{NIST}}|$), dengan mempertimbangkan lebar garis akibat pelebaran Doppler dan Stark. Komplikasi utama dalam proses ini adalah fenomena \textit{spectral overlap}, yaitu tumpang-tindih garis emisi dari unsur yang berbeda pada posisi panjang gelombang yang berdekatan, yang umum terjadi pada spektrum poliatomik tanah vulkanik yang mengandung banyak elemen \citep{legnaioli_laser-induced_2025}. Identifikasi unsur yang akurat menjadi landasan utama baik untuk validasi \textit{forward model} maupun interpretabilitas prediksi model pembelajaran mendalam melalui korelasi bobot \textit{cross-attention} dengan posisi garis emisi NIST ASD.
 
 \subsection{Analisis Regresi Spektral}
 
@@ -366,15 +269,18 @@ di mana $I$ adalah intensitas garis emisi, $\lambda$ adalah panjang gelombang, $
 Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dapat dianalisis menggunakan korelasi Pearson atau regresi logaritmik untuk menilai apakah intensitas spektral meningkat secara konsisten terhadap probabilitas emisi atomik.
 
 \subsection{RMSE, MAE, MAPE, dan Koefisien Determinasi ($R^2$)}
-% TODO: Isi dengan definisi formal metrik evaluasi regresi (RMSE, MAE, MAPE, R^2),
-%       relevansinya dalam konteks evaluasi prediksi konsentrasi unsur,
-%       dan interpretasi nilai metrik dalam analisis kuantitatif LIBS.
+
+Evaluasi kinerja kuantitatif model regresi dalam penelitian ini menggunakan empat metrik standar yang umum diterapkan dalam analisis spektroskopi berbasis pembelajaran mesin \citep{chicco_coefficient_2021}. \textit{Root Mean Square Error} (RMSE) memberikan bobot lebih besar terhadap kesalahan prediksi yang besar (\textit{outlier-sensitive}), sehingga sensitif terhadap penyimpangan ekstrem konsentrasi yang mungkin timbul akibat heterogenitas matriks vulkanik. \textit{Mean Absolute Error} (MAE) mengukur rata-rata kesalahan absolut tanpa pembobotan kuadrat, sehingga lebih robust terhadap \textit{outlier}. \textit{Mean Absolute Percentage Error} (MAPE) mengekspresikan kesalahan dalam persentase relatif terhadap nilai referensi, memungkinkan perbandingan akurasi antar unsur yang memiliki rentang konsentrasi berbeda. Keempat metrik tersebut didefinisikan secara formal pada Bab~III.
+
+Koefisien determinasi $R^2$ mengukur proporsi variasi konsentrasi yang berhasil dijelaskan oleh model, dengan nilai ideal $R^2 = 1$ yang mengindikasikan kesesuaian sempurna antara prediksi dan referensi \citep{chicco_coefficient_2021, jaradat_evaluation_2025}. Dalam penelitian ini, target performa model ditetapkan pada $R^2 \geq 0{,}90$ dan RMSE dalam batas kesalahan analitik yang dapat diterima, sebagaimana dirangkum pada tabel parameter model di Bab~III.
 
 \subsection{Analisis Attention Map}
-% TODO: Isi dengan penjelasan tentang bagaimana bobot cross-attention dapat
-%       divisualisasikan dan diinterpretasikan sebagai indikator kontribusi
-%       setiap elemen monoatomik terhadap spektrum poliatomik,
-%       serta relevansinya untuk validasi fisik model.
+
+Analisis \textit{attention map} merupakan pendekatan interpretabilitas yang memanfaatkan bobot perhatian (\textit{attention weights}) yang dihasilkan oleh mekanisme \textit{self-attention} dan \textit{cross-attention} dalam arsitektur Transformer untuk memahami proses pengambilan keputusan model. Secara konseptual, bobot perhatian merepresentasikan seberapa besar model memfokuskan perhatiannya pada posisi tertentu dalam urutan masukan ketika menghasilkan representasi pada posisi keluaran tertentu \citep{vaswani_attention_2017}.
+
+Visualisasi langsung bobot \textit{attention} telah terbukti memberikan wawasan interpretatif yang bermakna dalam berbagai domain analisis sinyal spektral. Namun demikian, \citet{chefer_transformer_2021} menunjukkan bahwa visualisasi bobot \textit{attention} langsung seringkali tidak cukup untuk merepresentasikan relevansi sesungguhnya dari suatu posisi masukan terhadap keputusan model, dan menyarankan pendekatan propagasi relevansi berbasis dekomposisi Taylor yang lebih akurat.
+
+Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum monoatomik terhadap rekonstruksi spektrum poliatomik. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang poliatomik dengan representasi elemen monoatomik pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}).
 
 % ======================================================================
 % 2.7 Penelitian Terkait dan Posisi Penelitian
