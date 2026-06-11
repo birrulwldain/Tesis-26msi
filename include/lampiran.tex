@@ -8,9 +8,9 @@
 \label{app:visualisasi-perturbasi}
 \appendices{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
 
-Lampiran ini menyajikan visualisasi kualitatif dari berbagai jenis perturbasi yang digunakan dalam robustness benchmark Stage 1. Visualisasi ini bertujuan untuk menunjukkan bagaimana setiap gangguan memengaruhi bentuk spektrum, posisi puncak, serta hasil deteksi puncak pada pipeline interpretasi spektrum LIBS sintetis.
+Lampiran ini menyajikan visualisasi kualitatif dari berbagai jenis perturbasi yang disimulasikan pada spektrum LIBS sintetis. Visualisasi ini bertujuan untuk mengilustrasikan secara langsung pengaruh setiap jenis gangguan instrumen maupun lingkungan terhadap profil spektral.
 
-Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru menunjukkan spektrum yang telah diberi perturbasi (\textit{perturbed spectrum}), dan tanda silang merah menunjukkan puncak yang terdeteksi (\textit{detected peaks}).
+Pada setiap gambar visualisasi berikut, garis abu-abu merepresentasikan spektrum asli (\textit{original spectrum}) tanpa gangguan, garis biru menunjukkan spektrum setelah dikenai perturbasi (\textit{perturbed spectrum}), dan tanda silang merah menandakan posisi puncak emisi yang berhasil terdeteksi (\textit{detected peaks}) oleh algoritma deteksi dasar.
 
 %-------------------------------------------------------------------------------
 \section{Gaussian Noise}
@@ -30,7 +30,7 @@ Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_poisson.pdf}
-    \caption{Visualisasi efek Poisson noise akibat variasi jumlah foton terhadap spektrum LIBS sintetis.}
+    \caption{Visualisasi efek Poisson noise akibat variasi statistik jumlah foton terhadap spektrum LIBS sintetis.}
     \label{fig:appendix_poisson}
 \end{figure}
 
@@ -52,7 +52,7 @@ Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_shift.pdf}
-    \caption{Visualisasi efek pergeseran panjang gelombang terhadap spektrum LIBS sintetis.}
+    \caption{Visualisasi efek pergeseran panjang gelombang (\textit{wavelength shift}) terhadap spektrum LIBS sintetis.}
     \label{fig:appendix_shift}
 \end{figure}
 
@@ -63,7 +63,7 @@ Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_broadening.pdf}
-    \caption{Visualisasi efek instrumental broadening terhadap spektrum LIBS sintetis.}
+    \caption{Visualisasi efek pelebaran instrumen (\textit{instrumental broadening}) terhadap spektrum LIBS sintetis.}
     \label{fig:appendix_broadening}
 \end{figure}
 
@@ -74,7 +74,7 @@ Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_baseline.pdf}
-    \caption{Visualisasi efek baseline drift terhadap spektrum LIBS sintetis.}
+    \caption{Visualisasi efek simpangan garis dasar (\textit{baseline drift}) terhadap spektrum LIBS sintetis.}
     \label{fig:appendix_baseline}
 \end{figure}
 
@@ -85,8 +85,8 @@ Garis abu-abu menunjukkan spektrum asli (\textit{original spectrum}), garis biru
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_missing.pdf}
-    \caption{Visualisasi efek missing-line suppression terhadap spektrum LIBS sintetis.}
+    \caption{Visualisasi efek penghilangan garis spektral (\textit{missing-line suppression}) terhadap spektrum LIBS sintetis.}
     \label{fig:appendix_missing}
 \end{figure}
 
-Secara visual, Gaussian noise dan spike noise menghasilkan peningkatan \textit{false peak} yang signifikan, baseline drift menggeser level intensitas global, broadening memperlebar dan menggabungkan puncak berdekatan, shift menggeser posisi spektral, missing-line suppression menghilangkan informasi garis tertentu, dan Poisson noise menunjukkan efek statistik akibat rendahnya jumlah foton.
+Secara keseluruhan, visualisasi efek perturbasi di atas digunakan sebagai studi pendahuluan dalam rancangan penelitian ini guna memvalidasi tingkat realisme gangguan yang disimulasikan. Pemahaman komprehensif terkait mekanisme degradasi spektrum oleh setiap jenis noise ini akan menjadi landasan utama dalam mengevaluasi tingkat ketahanan (\textit{robustness benchmark}) algoritma deteksi, serta untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah pada penelitian utama.

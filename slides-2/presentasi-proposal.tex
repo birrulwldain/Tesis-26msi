@@ -33,9 +33,9 @@
 
 % ----- Metadata -----
 \title[CNN--Transformer LIBS]{%
-  Spectral Reconstruction in\\ Laser-Induced Breakdown Spectroscopy\\
-  Using a CNN--Transformer Encoder--Decoder:\\
-  Application to Volcanic Soil}
+  PENGEMBANGAN MODEL CNN–TRANSFORMER \\
+BERBASIS FISIKA UNTUK ANALISIS\\
+KUANTITATIF LIBS PADA TANAH VULKANIK}
 
 \subtitle{Seminar Proposal Tesis}
 
@@ -211,7 +211,7 @@
     \node[flowbox, below=of m1] (i1) {\textbf{Insight}\\[0.5em] \footnotesize Sukses visualisasi \textit{self-absorption} optik tebal \& \textit{line broadening}.};
     \node[gapbox, left=of i1] (g1) {\textbf{Gap}\\[0.5em] \footnotesize Eksklusif menyelesaikan \textbf{forward problem}, belum mampu \textbf{inverse}.};
     
-    \node[impbox, below=0.3cm of g1.south west, anchor=north west] (imp1) {Implikasi Tesis: Butuh \textit{ML surrogate} untuk iterasi \textit{inverse} mereduksi beban analitik.};
+    \node[impbox, below=0.3cm of g1.south west, anchor=north west] (imp1) {Implikasi Tesis: Butuh \textit{Machine Learning} untuk iterasi \textit{inverse} mereduksi beban analitik.};
     
     \draw[arrow] (p1) -- (m1);
     \draw[arrow] (m1) -- (i1);
@@ -456,40 +456,30 @@
 \section{Methodology}
 
 \begin{frame}{Proposed Framework Overview}
-  \centering
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.56\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{fig-p/diagram-konseptual.png}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      {\scriptsize
+      \textbf{Why encoder--decoder?}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item Spektrum poliatom = \emph{komposisi} spektrum monoatom.
+        \item \textit{Cross-attention} decoder mempelajari aturan komposisi.
+        \item CNN: pola lokal; Transformer: dependensi global.
+      \end{itemize}
 
-  \tikzset{
-    box/.style={rectangle, rounded corners, draw=black, fill=gray!10,
-      text width=3.8cm, align=center, minimum height=1.5cm, font=\sffamily},
-    arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
-  }
-  \resizebox{0.95\linewidth}{!}{
-  \begin{tikzpicture}[node distance=1.1cm and 1.5cm]
-    \node[box] (phys) {\textbf{Data Sintetis}\\Saha--Boltzmann (LTE)\\Transisi NIST ASD};
-    \node[box, right=of phys] (model) {\textbf{CNN--Transformer}\\Encoder--Decoder\\Cross-attention};
-    \node[box, right=of model] (pred) {\textbf{Prediksi}\\Konsentrasi unsur\\Tanah vulkanik};
-    \draw[arrow] (phys.east)--(model.west);
-    \draw[arrow] (model.east)--(pred.west);
-  \end{tikzpicture}
-  }
-
-  \vspace{0.3em}
-  {\small
-  \textbf{Why encoder--decoder?}
-  \begin{itemize}\setlength{\itemsep}{2pt}
-    \item Spektrum poliatom merupakan \emph{komposisi} dari spektrum monoatom.
-    \item \textit{Cross-attention} memungkinkan decoder mempelajari aturan komposisi.
-    \item CNN menangkap pola garis lokal; Transformer menangkap dependensi jarak jauh.
-  \end{itemize}
-
-  \vspace{0.2em}
-  \textbf{Kerangka kerja (3 langkah):}
-  \begin{enumerate}\setlength{\itemsep}{2pt}
-    \item Membangkitkan spektrum sintetis mono \& poliatom (berbasis fisika).
-    \item Melatih CNN--Transformer Encoder--Decoder dengan \textit{cross-attention}.
-    \item Memvalidasi pada spektrum LIBS eksperimental tanah vulkanik.
-  \end{enumerate}
-  }
+      \vspace{0.3em}
+      \textbf{Kerangka kerja (3 langkah):}
+      \begin{enumerate}\setlength{\itemsep}{1pt}
+        \item Bangkitkan spektrum sintetis mono \& poliatom (LTE).
+        \item Latih CNN--Transformer Encoder--Decoder + \textit{cross-attention}.
+        \item Validasi pada LIBS tanah vulkanik Aceh.
+      \end{enumerate}
+      }
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % =============================================================
@@ -616,52 +606,58 @@
 \section{Dataset \& Evaluation}
 
 \begin{frame}{Sumber Data}
-  \centering
-
-  \tikzset{
-    box/.style={rectangle, rounded corners, draw=black!40, fill=gray!10,
-                minimum width=2.6cm, minimum height=0.65cm,
-                align=center, font=\small\sffamily},
-    arr/.style={-{Stealth[length=5pt]}, thick, black!60}
-  }
-  \begin{tikzpicture}[node distance=0.4cm and 0.7cm]
-    \node[box] (sim) {Simulasi\\Fisika};
-    \node[box, right=of sim] (syn) {Spektrum\\Sintetis};
-    \node[box, right=of syn] (pre) {Pre-training};
-    \node[box, right=of pre] (ft) {Fine-tuning};
-    \node[box, below=0.4cm of ft] (exp) {LIBS\\Eksperimental};
-
-    \draw[arr] (sim) -- (syn);
-    \draw[arr] (syn) -- (pre);
-    \draw[arr] (pre) -- (ft);
-    \draw[arr] (exp) -- (ft);
-  \end{tikzpicture}
-
-  \vspace{0.4em}
-
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
-      {\small
-      \textbf{Spektrum Sintetis}
-      \begin{itemize}\setlength{\itemsep}{2pt}
-        \item Populasi Saha--Boltzmann pada kondisi LTE.
-        \item Transisi atomik dari NIST ASD.
-        \item $T$: 5000--15000\,K; $n_e$: $10^{16}$--$10^{18}$\,cm$^{-3}$.
-        \item Spektrum mono \& poliatom terpisah.
-        \item Digunakan untuk \textit{pre-training}.
-      \end{itemize}
-      }
+    \begin{column}{0.30\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=0.55\textheight,keepaspectratio]{fig-p/LIBS.png}\\[2pt]
+      {\scriptsize\textit{Setup eksperimen LIBS,\\Lab Fisika USK}}
     \end{column}
-    \begin{column}{0.48\textwidth}
-      {\small
-      \textbf{Spektrum Eksperimental}
-      \begin{itemize}\setlength{\itemsep}{2pt}
-        \item LIBS pada sampel tanah vulkanik (wilayah Aceh).
-        \item Kondisi laboratorium terkontrol.
-        \item Referensi: XRF / ICP-OES sebagai \textit{ground truth}.
-        \item Digunakan untuk \textit{fine-tuning} \& evaluasi akhir.
-      \end{itemize}
+    \begin{column}{0.67\textwidth}
+      \centering
+      \tikzset{
+        box/.style={rectangle, rounded corners, draw=black!40, fill=gray!10,
+                    minimum width=2.0cm, minimum height=0.55cm,
+                    align=center, font=\scriptsize\sffamily},
+        arr/.style={-{Stealth[length=4pt]}, thick, black!60}
       }
+      \begin{tikzpicture}[node distance=0.25cm and 0.45cm]
+        \node[box] (sim) {Simulasi\\Fisika};
+        \node[box, right=of sim] (syn) {Spektrum\\Sintetis};
+        \node[box, right=of syn] (pre) {Pre-training};
+        \node[box, below=0.45cm of pre] (ft) {Fine-tuning};
+        \node[box, left=of ft] (exp) {LIBS\\Eksperimental};
+        \draw[arr] (sim) -- (syn);
+        \draw[arr] (syn) -- (pre);
+        \draw[arr] (pre) -- (ft);
+        \draw[arr] (exp) -- (ft);
+      \end{tikzpicture}
+
+      \vspace{0.2em}
+      \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+          {\footnotesize
+          \textbf{Spektrum Sintetis}
+          \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Saha--Boltzmann (LTE).
+            \item Transisi atomik NIST ASD.
+            \item $T$: 5000--15\,000\,K.
+            \item $n_e$: $10^{16}$--$10^{18}$\,cm$^{-3}$.
+            \item \textit{Pre-training} model.
+          \end{itemize}
+          }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+          {\footnotesize
+          \textbf{Spektrum Eksperimental}
+          \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Tanah vulkanik Aceh.
+            \item Kondisi lab terkontrol.
+            \item Referensi: XRF/ICP-OES.
+            \item \textit{Fine-tuning} \& evaluasi.
+          \end{itemize}
+          }
+        \end{column}
+      \end{columns}
     \end{column}
   \end{columns}
 \end{frame}

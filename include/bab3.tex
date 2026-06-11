@@ -338,7 +338,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
     \hline
     Dataset & Sintetis (100.000) & Eksperimental (24) \\
     \hline
-    Ukuran \textit{batch} & 32 & 32 \\
+    Ukuran \textit{batch} & 32 & 8 \\
     \hline
     Jumlah \textit{epoch} & 200 & 50 \\
     \hline
@@ -413,7 +413,7 @@ Data yang diperoleh pada setiap tahapan penelitian dianalisis sesuai dengan kara
 
     \item Proses pengembangan model dianalisis melalui pemantauan kurva fungsi kerugian (\textit{loss}) pada data pelatihan dan validasi selama tahap \textit{pre-training} maupun \textit{fine-tuning}. Analisis ini bertujuan untuk menilai kestabilan proses optimasi, mendeteksi gejala \textit{overfitting}, serta mengevaluasi peningkatan performa model pada dataset eksperimen setelah proses \textit{fine-tuning}. Tahap ini dinyatakan berhasil apabila perubahan \textit{validation loss} selama 10 \textit{epoch} terakhir kurang dari atau sama dengan 5\%, selisih antara \textit{training loss} dan \textit{validation loss} kurang dari 10\%, serta nilai RMSE setelah \textit{fine-tuning} lebih kecil dibandingkan nilai RMSE pada tahap \textit{pre-training}.
 
-    \item Evaluasi akhir model dilakukan menggunakan metrik regresi kuantitatif, yaitu \textit{Root Mean Square Error} (RMSE), \textit{Mean Absolute Error} (MAE), \textit{Mean Absolute Percentage Error} (MAPE), dan koefisien determinasi ($R^2$), yang dihitung untuk setiap unsur. Nilai performa model dibandingkan terhadap empat model \textit{baseline} untuk memvalidasi keunggulan pendekatan yang diusulkan. Tahap ini dinyatakan berhasil apabila model mencapai nilai $R^2 \geq 0{,}90$ dan RMSE berada dalam batas kesalahan analitik yang dapat diterima. Apabila target performa tersebut tercapai, analisis lanjutan dilakukan menggunakan visualisasi bobot \textit{cross-attention} untuk mengevaluasi apakah model mempelajari hubungan yang konsisten dengan prinsip fisika spektroskopi emisi.
+    \item Evaluasi akhir model dilakukan menggunakan metrik regresi kuantitatif, yaitu \textit{Root Mean Square Error} (RMSE), \textit{Mean Absolute Error} (MAE), \textit{Mean Absolute Percentage Error} (MAPE), dan koefisien determinasi ($R^2$), yang dihitung untuk setiap unsur. Nilai performa model dibandingkan terhadap empat model \textit{baseline} untuk memvalidasi keunggulan pendekatan yang diusulkan. Tahap ini dinyatakan berhasil apabila model mencapai nilai $R^2 \geq 0{,}95$ dan MAPE $< 10\%$. Apabila target performa tersebut tercapai, analisis lanjutan dilakukan menggunakan visualisasi bobot \textit{cross-attention} untuk mengevaluasi apakah model mempelajari hubungan yang konsisten dengan prinsip fisika spektroskopi emisi.
 \end{enumerate}
 
 \begin{table}[htbp]
@@ -443,7 +443,7 @@ $\Delta \mathcal{L}_{10\ \text{epoch}} \leq 5\%$, selisih \textit{train--val los
 4 &
 Prediksi model dan data referensi XRF &
 Perhitungan RMSE, MAE, MAPE, $R^2$, dan analisis \textit{cross-attention} &
-$R^2 \geq 0{,}90$, RMSE dalam batas kesalahan analitik yang dapat diterima \\
+$R^2 \geq 0{,}95$, MAPE $< 10\%$ \\
 \hline
 \end{tabularx}
 \end{table}
