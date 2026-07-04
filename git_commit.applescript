@@ -1,0 +1,1 @@
+do shell script "rm -f /Users/birrulwldain/Projects/Tesis-26msi/.git/HEAD.lock && cd /Users/birrulwldain/Projects/Tesis-26msi && git add include/bab1.tex include/bab2.tex && git commit -m 'fix: akurasi klaim Favre/MERLIN & nuance McWhirter berdasarkan cross-check PDF'"

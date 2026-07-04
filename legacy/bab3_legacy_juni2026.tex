@@ -1,0 +1,447 @@
+%-------------------------------------------------------------------------------
+%                            BAB III
+%                       METODE PENELITIAN
+%-------------------------------------------------------------------------------
+
+\chapter{METODE PENELITIAN}
+
+Bab ini menguraikan metodologi penelitian yang dirancang untuk menjawab ketiga rumusan masalah dan mencapai tujuan penelitian sebagaimana ditetapkan pada Bab~I. Inti permasalahan yang diangkat adalah bagaimana memodelkan hubungan komposisional antara spektrum monoatomik dan poliatomik, merancang arsitektur \textit{deep learning} yang sesuai, serta mengevaluasi kinerjanya pada sampel tanah vulkanik. Untuk menjawab permasalahan tersebut, penelitian ini mengintegrasikan pemodelan fisika plasma dengan arsitektur CNN--Transformer \textit{encoder--decoder} melalui empat tahapan prosedural yang saling terkait.
+
+Tahap pertama menjawab Tujuan~1 dengan membangkitkan dataset sintetis berpasangan (monoatomik--poliatomik) berbasis \textit{forward model} Saha--Boltzmann. Tahap kedua mendukung Tujuan~2 dengan mengakuisisi data LIBS eksperimental dari sampel tanah vulkanik Gunung Seulawah Agam beserta \textit{ground truth} konsentrasi XRF. Tahap ketiga menjawab Tujuan~2 secara langsung melalui perancangan arsitektur, strategi pelatihan dua-tahap, dan mekanisme adaptasi domain. Tahap keempat menjawab Tujuan~3 dengan mengevaluasi kinerja model menggunakan metrik kuantitatif terhadap empat model \textit{baseline} serta menganalisis interpretabilitas prediksi melalui visualisasi bobot \textit{cross-attention}. Secara keseluruhan, keempat tahapan beroperasi pada dua domain metodologis: domain \textit{offline} (simulasi komputasional) dan domain \textit{online} (eksperimen laboratorium, pelatihan model, dan validasi).
+
+\section{Tempat dan Waktu Penelitian}
+Penelitian ini dilaksanakan di Laboratorium Gelombang dan Optik, Departemen Fisika, Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Syiah Kuala. Laboratorium ini menyediakan infrastruktur instrumentasi \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) yang digunakan untuk akuisisi data spektrum eksperimental. Selain itu, proses komputasi intensif untuk pembangkitan dataset sintetis berskala besar, pelatihan model \textit{deep learning}, dan evaluasi model, dilaksanakan menggunakan fasilitas komputasi berkinerja tinggi (\textit{High Performance Computing}/HPC) Mahameru 4 yang dikelola oleh Badan Riset dan Inovasi Nasional (BRIN). Pelaksanaan penelitian berlangsung dari bulan Januari hingga Desember 2026, yang mencakup seluruh tahapan mulai dari studi literatur hingga penyusunan laporan akhir.
+
+\section{Jadwal Pelaksanaan Penelitian}
+Pelaksanaan penelitian direncanakan berlangsung selama 12 bulan. Rincian jadwal pelaksanaan penelitian untuk setiap fase utama disajikan pada Tabel~\ref{tab:jadwal_penelitian}.
+
+\begin{table}[H]
+  \centering
+  \caption{Jadwal Pelaksanaan Penelitian}
+  \label{tab:jadwal_penelitian}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{|c|p{4.2cm}|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{No} & \multirow{2}{*}{Nama Kegiatan} &
+      \multicolumn{12}{c|}{Tahun Pertama Bulan ke:} \\
+    \cline{3-14}
+    & & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+    \hline
+    1 & Pembangkitan spektrum sintetis
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & & & & & & & \\
+    \hline
+    2 & Pengumpulan dan preparasi sampel tanah, pengukuran LIBS
+      & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & & & & & & \\
+    \hline
+    3 & Desain, \textit{pre-training} pada data sintetis, \textit{fine-tuning} pada data eksperimental
+      & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ & & \\
+    \hline
+    4 & Analisis performa, perbandingan \textit{baseline}, interpretabilitas, penulisan tesis \& manuskrip jurnal
+      & & & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$
+      & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\section{Alat dan Bahan Penelitian}
+
+Pelaksanaan penelitian ini memerlukan perangkat eksperimen untuk akuisisi data spektrum, perangkat komputasi untuk simulasi numerik dan pelatihan model \textit{deep learning}, serta bahan penelitian berupa sampel tanah vulkanik dan dataset sintetis. Rincian alat dan bahan yang digunakan dalam penelitian ini diuraikan sebagai berikut.
+
+\subsection{Alat Eksperimen}
+
+Perangkat eksperimen utama yang digunakan dalam penelitian ini adalah sistem \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) yang tersedia di Laboratorium Gelombang dan Optik, Departemen Fisika, Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Syiah Kuala. Sistem LIBS tersebut terdiri atas laser Q-switched Nd:YAG dengan panjang gelombang 1064~nm dan energi pulsa maksimum 114~mJ, spektrometer \textit{Echelle} yang dipadukan dengan detektor \textit{Optical Multichannel Analyzer} (OMA), serta seperangkat sistem optik untuk memfokuskan laser dan mengumpulkan cahaya emisi plasma. Selain itu, instrumen \textit{X-ray Fluorescence} (XRF) digunakan untuk mengukur konsentrasi unsur secara independen sebagai data referensi (\textit{ground truth}).
+
+\subsection{Alat Komputasi}
+
+Seluruh proses komputasi dalam penelitian ini, meliputi generasi spektrum sintetis, implementasi arsitektur model, pelatihan, dan evaluasi model, dilakukan menggunakan bahasa pemrograman Python~3.10 dengan \textit{framework} PyTorch~2.0. Basis data \textit{NIST Atomic Spectra Database} (ASD) \citep{kramida_nist_2024} digunakan sebagai sumber parameter atomik dan transisi spektral dalam simulasi spektrum. Proses komputasi intensif dilaksanakan menggunakan fasilitas komputasi berkinerja tinggi (\textit{High Performance Computing}/HPC) Mahameru 4 yang dikelola oleh Badan Riset dan Inovasi Nasional (BRIN), yang menyediakan sumber daya CPU dan GPU untuk mendukung simulasi numerik serta pelatihan model \textit{deep learning}.
+
+\subsection{Bahan Penelitian}
+
+Bahan penelitian dalam studi ini terdiri atas data sintetis dan sampel eksperimen. Data sintetis dibangkitkan secara komputasi menggunakan \textit{forward model} Saha--Boltzmann untuk menghasilkan 100.000 pasangan spektrum monoatomik--poliatomik beserta label konsentrasi unsur. Sementara itu, data eksperimen diperoleh dari 24 sampel tanah vulkanik yang dikoleksi dari kawasan Gunung Seulawah Agam, Kabupaten Aceh Besar, Provinsi Aceh. Sampel tersebut digunakan untuk proses \textit{fine-tuning}, validasi, dan evaluasi performa model terhadap kondisi nyata.
+
+
+
+% \begin{table}[h]
+% \centering
+% \caption{Wavelength, upper-level energy, upper-level degeneracy, and transition probability for the neutral Fe emission lines used in this study. Fitted $T_e = 6596 \pm 4398$~K, $R^2 = 0.8115$, $N = 6$.}
+% \begin{tabular}{ccccc}
+% \hline
+% Elements & Wavelength (nm) & Upper-level energy (eV) & Upper-level degeneracy & Transition probability (s$^{-1}$) \\
+% \hline
+% Fe I & 252.3 & 4.9129736 & 9 & 2.13E+08 \\
+% Fe I & 300.8 & 4.2305396 & 1 & 1.07E+08 \\
+% Fe I & 321.4 & 6.3060009 & 5 & 1.18E+08 \\
+% Fe I & 344.1 & 3.6025250 & 7 & 1.71E+07 \\
+% Fe I & 355.5 & 6.3192057 & 13 & 1.40E+08 \\
+% Fe I & 373.7 & 3.3682564 & 9 & 1.41E+07 \\
+% \hline
+% \end{tabular}
+% \end{table}
+% \section{Diagram Alir Penelitian}
+
+% Diagram alir penelitian pada Gambar~\ref{fig:diagram_alir} menggambarkan keseluruhan alur metodologi yang ditempuh untuk menjawab ketiga rumusan masalah dan mencapai tujuan penelitian. Metodologi beroperasi pada dua domain:
+
+% \begin{enumerate}
+%     \item \textbf{Domain \textit{Offline}:} Pemodelan komputasional berbasis fisika plasma untuk membangun dataset pelatihan sintetis berskala besar --- menjawab Tujuan~1.
+%     \item \textbf{Domain \textit{Online}:} Akuisisi data eksperimen, pengembangan model, pelatihan, dan validasi --- menjawab Tujuan~2 dan~3.
+% \end{enumerate}
+
+% Secara operasional, kedua domain dijabarkan menjadi empat tahapan:
+
+% \begin{enumerate}
+%     \item \textbf{Tahap 1 --- Simulasi Spektrum LIBS Sintetis} (\textit{Offline}): Membangkitkan 100.000 pasangan spektrum monoatomik dan poliatomik beserta label konsentrasi menggunakan \textit{forward model} Saha--Boltzmann \textbf{[Tujuan~1]}.
+%     \item \textbf{Tahap 2 --- Akuisisi dan Pra-pemrosesan Data Eksperimen} (\textit{Online}): Pengumpulan spektrum LIBS dari 24 sampel tanah vulkanik Gunung Seulawah Agam dan validasi konsentrasi via XRF \textbf{[mendukung Tujuan~2]}.
+%     \item \textbf{Tahap 3 --- Pengembangan dan Pelatihan Model CNN--Transformer} (\textit{Online}): Perancangan arsitektur \textit{encoder--decoder}, \textit{pre-training} pada data sintetis, \textit{fine-tuning} pada data eksperimen, dan adaptasi domain \textbf{[Tujuan~2]}.
+%     \item \textbf{Tahap 4 --- Evaluasi, Validasi, dan Interpretabilitas} (\textit{Online}): Pengujian kinerja model menggunakan RMSE, $R^2$, MAPE terhadap empat \textit{baseline} dan analisis bobot \textit{cross-attention} \textbf{[Tujuan~3]}.
+% \end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.85\textwidth]{images/Diagram-Alir-Fix.png}
+%     \caption{Diagram alir penelitian yang memperlihatkan integrasi domain \textit{offline} (generasi data sintetis, Tujuan~1) dan domain \textit{online} (eksperimen, pelatihan, evaluasi; Tujuan~2 dan~3) ke dalam empat tahapan operasional.}
+%     \label{fig:diagram_alir}
+% \end{figure}
+
+\section{Diagram Alir Penelitian}
+
+Diagram alir penelitian pada Gambar~\ref{fig:diagram_alir} menggambarkan keseluruhan tahapan metodologi yang dilakukan dalam penelitian ini, mulai dari pembangkitan data sintetis berbasis model fisika plasma hingga evaluasi performa model pada data eksperimen. Secara umum, metodologi penelitian ini disusun ke dalam empat tahapan utama yang saling berkaitan.
+
+Tahap pertama merupakan proses generasi spektrum LIBS sintetis menggunakan \textit{forward model} berbasis persamaan Saha--Boltzmann dan parameter atomik dari \textit{NIST Atomic Spectra Database}. Pada tahap ini dibangkitkan pasangan spektrum monoatomik dan poliatomik beserta label konsentrasi unsur yang digunakan sebagai data pelatihan awal model.
+
+Tahap kedua merupakan proses akuisisi dan pra-pemrosesan data eksperimen. Data spektrum LIBS diperoleh dari 24 sampel tanah vulkanik Gunung Seulawah Agam, sedangkan data referensi konsentrasi unsur diperoleh melalui pengukuran menggunakan instrumen \textit{X-ray Fluorescence} (XRF). Data eksperimen yang diperoleh selanjutnya melalui proses pra-pemrosesan sebelum digunakan pada tahap pelatihan lanjutan dan evaluasi.
+
+Tahap ketiga merupakan proses pengembangan dan pelatihan model berbasis arsitektur CNN--Transformer \textit{encoder--decoder}. Pada tahap ini dilakukan \textit{pre-training} menggunakan data sintetis, kemudian dilanjutkan dengan \textit{fine-tuning} menggunakan data eksperimen untuk meningkatkan kemampuan generalisasi model terhadap kondisi nyata.
+
+Tahap keempat merupakan proses evaluasi dan analisis model. Evaluasi dilakukan menggunakan beberapa metrik kuantitatif, seperti \textit{Root Mean Square Error} (RMSE), koefisien determinasi ($R^2$), dan \textit{Mean Absolute Percentage Error} (MAPE), serta dibandingkan terhadap beberapa model \textit{baseline}. Selain itu, dilakukan analisis interpretabilitas menggunakan visualisasi bobot \textit{cross-attention} untuk memahami kontribusi hubungan antara spektrum monoatomik dan poliatomik dalam proses prediksi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.99\textwidth]{images/Diagram-Alir-Fix.png}
+    \caption{Diagram alir tahapan penelitian.}
+    \label{fig:diagram_alir}
+\end{figure}
+
+\section{Prosedur Penelitian}
+
+Bagian ini menguraikan secara rinci keempat tahapan prosedur penelitian. Setiap tahapan dirancang untuk menjawab rumusan masalah tertentu dan menghasilkan keluaran spesifik yang menjadi masukan bagi tahapan berikutnya, sehingga membentuk alur kerja yang koheren dari pembangkitan data hingga validasi model.
+
+% ======================
+% Tahap 1 — Menjawab Tujuan 1
+% ======================
+\subsection{Tahap 1: Generasi Spektrum LIBS Sintetis}
+
+Tahap generasi spektrum sintetis dalam penelitian ini dilakukan untuk membangun dataset pelatihan awal berbasis model fisika plasma yang merepresentasikan hubungan antara spektrum monoatomik dan spektrum poliatomik. Dataset ini digunakan sebagai dasar untuk proses \textit{pre-training} model \textit{deep learning}. Proses generasi spektrum sintetis dilakukan melalui beberapa langkah sebagai berikut:
+
+\begin{enumerate}
+    \item Penentuan parameter plasma dilakukan dengan membangkitkan nilai temperatur elektron ($T_e$), densitas elektron ($n_e$), dan fraksi konsentrasi unsur secara acak dalam rentang tertentu untuk menghasilkan variasi kondisi plasma yang realistis. Seluruh data transisi atomik, seperti panjang gelombang emisi, probabilitas transisi, dan energi tingkat atom, diperoleh dari basis data \textit{NIST Atomic Spectra Database} (ASD) \citep{kramida_nist_2024}.
+
+    \item Intensitas emisi untuk setiap garis spektral dihitung menggunakan model berbasis distribusi Saha--Boltzmann yang telah diuraikan pada Bab~II. Populasi tingkat energi atom dan ion dihitung berdasarkan temperatur plasma, sedangkan intensitas garis spektral dihitung menggunakan koefisien emisi Einstein sesuai Persamaan~\ref{eq:bab2_emiss}.
+
+    \item Setiap garis spektral yang dihasilkan selanjutnya diperlebar menggunakan profil Voigt, yaitu konvolusi antara pelebaran Gaussian akibat efek Doppler dan pelebaran Lorentzian akibat efek Stark. Pelebaran Doppler dihitung menggunakan Persamaan~\ref{eq:bab2_doppler}, sedangkan pelebaran Stark dihitung menggunakan Persamaan~\ref{eq:bab2_stark}.
+
+    \item Spektrum monoatomik individual $S_{\mathrm{mono}}^{(z)}(\lambda)$ dibangkitkan untuk masing-masing elemen $z$. Selanjutnya, spektrum poliatomik campuran $S_{\mathrm{poly}}(\lambda)$ dibentuk melalui superposisi tertimbang dari seluruh spektrum monoatomik berdasarkan fraksi konsentrasi unsur sesuai Persamaan~\ref{eq:bab2_poly}.
+
+    \item Setiap sampel sintetis direpresentasikan sebagai triplet data yang terdiri atas himpunan spektrum monoatomik individual, spektrum poliatomik gabungan, dan vektor konsentrasi unsur $\mathbf{c} = [c_1, c_2, \ldots, c_Z]$.
+
+    \item Simulasi difokuskan pada tujuh elemen mayor yang dominan pada sampel tanah vulkanik, yaitu silikon (Si), aluminium (Al), besi (Fe), kalsium (Ca), magnesium (Mg), natrium (Na), dan kalium (K). Rentang komposisi yang digunakan untuk masing-masing elemen disajikan pada Tabel~\ref{tab:komposisi_elemen}. Secara keseluruhan, sebanyak 100.000 spektrum sintetis dihasilkan dengan resolusi spektral $\Delta\lambda = 0{,}02$~nm pada rentang panjang gelombang 200--900~nm, sehingga menghasilkan sekitar 35.000 kanal spektral per sampel. Parameter utama dalam proses generasi data sintetis dirangkum pada Tabel~\ref{tab:param_sintetis}.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Rentang Komposisi Elemen untuk Generasi Spektrum Sintetis}
+  \label{tab:komposisi_elemen}
+  \small
+  \begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Elemen} & \textbf{Rentang (\% berat)} & \textbf{Mineral Representatif} \\
+    \hline
+    Si & 40--60 & Silikat dominan \\
+    \hline
+    Al & 10--20 & Mineral feldspar \\
+    \hline
+    Fe & 5--15  & Oksida besi \\
+    \hline
+    Ca & 3--10  & Plagioklas/karbonat \\
+    \hline
+    Mg & 2--8   & Olivin/piroksen \\
+    \hline
+    Na & 1--5   & Feldspar alkali \\
+    \hline
+    K  & 1--5   & Feldspar kalium \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter Generasi Spektrum Sintetis}
+  \label{tab:param_sintetis}
+  \small
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
+    \hline
+    $T_e$ & Rentang temperatur elektron & 6.000--15.000~K \\
+    \hline
+    $n_e$ & Rentang densitas elektron & $10^{16}$--$10^{17}$~cm$^{-3}$ \\
+    \hline
+    $\Delta\lambda$ & Resolusi spektral & 0,02~nm \\
+    \hline
+    Rentang $\lambda$ & Rentang panjang gelombang & 200--900~nm \\
+    \hline
+    Kanal spektral & Jumlah titik data per spektrum & $\sim$35.000 \\
+    \hline
+    $N_{\text{sampel}}$ & Total spektrum sintetis & 100.000 \\
+    \hline
+    Elemen & Jumlah elemen yang disimulasikan & 7 (mayor) \\
+    \hline
+    Metode sampling & Distribusi parameter plasma & \textit{Uniform random} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+% ======================
+% Tahap 2 — Mendukung Tujuan 2
+% ======================
+\subsection{Tahap 2: Akuisisi Data LIBS Eksperimen}
+Tahap ini mendukung Tujuan Penelitian~2 dengan menyediakan data eksperimental nyata untuk proses \textit{fine-tuning} dan validasi model. Data LIBS yang diperoleh dari sampel tanah vulkanik merepresentasikan kondisi pengukuran aktual yang mengandung efek instrumentasi, variasi matriks, dan ketidaksempurnaan kondisi \textit{Local Thermodynamic Equilibrium} (LTE) yang tidak dapat dimodelkan sepenuhnya secara sintetis. Konsentrasi unsur yang diukur menggunakan metode \textit{X-ray Fluorescence} (XRF) digunakan sebagai \textit{ground truth} pada proses pelatihan terawasi dan evaluasi model. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
+
+\begin{enumerate}
+    \item Sampel tanah vulkanik dikoleksi dari kawasan Gunung Seulawah Agam, Kabupaten Aceh Besar, Provinsi Aceh, Indonesia. Pemilihan lokasi ini didasarkan pada karakteristik geologis tanah vulkanik yang memiliki komposisi multi-elemen kompleks dengan variasi matriks yang tinggi, sehingga merepresentasikan skenario analitik yang menantang untuk validasi model.
+
+    \item Sebanyak 24 sampel tanah diambil secara sistematis dari empat arah mata angin, yaitu Utara, Barat, Selatan, dan Timur, pada tiga tingkat kedalaman, yaitu 0--20~cm, 20--40~cm, dan 40--60~cm. Strategi pengambilan sampel ini bertujuan untuk merepresentasikan variasi spasial dan vertikal komposisi unsur pada tanah vulkanik.
+
+    \item Seluruh sampel dipreparasi dan diukur menggunakan sistem \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) di Laboratorium Gelombang dan Optik, Departemen Fisika, Universitas Syiah Kuala. Parameter akuisisi data LIBS eksperimental dirangkum pada Tabel~\ref{tab:param_eksperimen}.
+
+    \item Sebagai data referensi konsentrasi unsur, seluruh sampel juga dianalisis menggunakan metode \textit{X-ray Fluorescence} (XRF), yang menghasilkan data konsentrasi unsur dalam satuan persentase berat (\% berat). Data ini digunakan sebagai label target pada tahap \textit{fine-tuning} model.
+
+    \item Data spektral yang diperoleh selanjutnya melalui tahap pra-pemrosesan untuk menjamin konsistensi representasi dan mereduksi variabilitas yang tidak relevan secara analitik. Tahap pertama dalam pra-pemrosesan adalah koreksi \textit{continuum background}, yaitu penghapusan emisi latar berkesinambungan yang berasal dari radiasi \textit{Bremsstrahlung} dan rekombinasi elektron--ion dalam plasma.
+
+    \item Setelah koreksi latar dilakukan, intensitas spektrum dinormalisasi menggunakan metode normalisasi area (\textit{area normalization}), yaitu dengan membagi intensitas pada setiap kanal spektral terhadap total luas area di bawah kurva spektrum. Langkah ini bertujuan untuk meminimalkan pengaruh fluktuasi energi laser antar tembakan sehingga model dapat berfokus pada pola relatif garis emisi.
+
+    \item Dataset sintetis yang telah dibangkitkan pada Tahap~1 dipartisi dengan proporsi 80\% untuk pelatihan dan 20\% untuk pengujian menggunakan \textit{random seed} tetap untuk menjamin reprodusibilitas. Sementara itu, dataset eksperimental yang berjumlah terbatas dievaluasi menggunakan strategi validasi silang \textit{k-fold cross-validation} dengan $k = 5$ untuk memaksimalkan pemanfaatan data dan memperoleh estimasi kinerja yang lebih andal secara statistik.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter Akuisisi Data LIBS Eksperimental}
+  \label{tab:param_eksperimen}
+  \small
+  \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    \textbf{Parameter} & \textbf{Nilai} \\
+    \hline
+    Sumber laser & Q-switched Nd:YAG \\
+    \hline
+    Panjang gelombang laser & 1064~nm \\
+    \hline
+    Energi pulsa & 114~mJ \\
+    \hline
+    \textit{Gate delay} & 0,5~$\mu$s \\
+    \hline
+    \textit{Gate width} & 0,5~$\mu$s \\
+    \hline
+    Spektrometer & Echelle \\
+    \hline
+    Detektor & \textit{Optical Multichannel Analyzer} (OMA) \\
+    \hline
+    Jumlah tembakan per sampel & 3 (di-\textit{average}) \\
+    \hline
+    Rentang spektral & 200--900~nm \\
+    \hline
+    Jumlah sampel & 24 \\
+    \hline
+    Arah sampling & 4 (Utara, Barat, Selatan, Timur) \\
+    \hline
+    Kedalaman sampling & 3 level (0--20, 20--40, 40--60~cm) \\
+    \hline
+  \end{tabularx}
+\end{table}
+
+\subsection{Tahap 3: Pengembangan dan Pelatihan Model CNN--Transformer}
+
+Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CNN--Transformer \textit{encoder--decoder} yang mampu mengekstraksi fitur lokal dan memodelkan dependensi global pada spektrum LIBS. Arsitektur yang diusulkan mengeksploitasi fakta fisika bahwa spektrum poliatomik merupakan superposisi tertimbang dari spektrum monoatomik penyusunnya sebagaimana dinyatakan pada Persamaan~\ref{eq:bab2_poly}. Dengan demikian, \textit{encoder} dirancang untuk memproses representasi spektrum monoatomik individual, sedangkan \textit{decoder} memanfaatkan mekanisme \textit{cross-attention} untuk mempelajari hubungan kontribusi unsur terhadap spektrum campuran. Pelatihan model dilakukan secara dua tahap, yaitu \textit{pre-training} menggunakan data sintetis hasil Tahap~1 untuk mempelajari representasi struktural, kemudian dilanjutkan dengan \textit{fine-tuning} menggunakan data eksperimen hasil Tahap~2. Untuk mengurangi perbedaan distribusi antara kedua domain data tersebut, mekanisme adaptasi domain juga diintegrasikan dalam proses pelatihan. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
+
+\begin{enumerate}
+    \item Arsitektur model dirancang terdiri atas empat komponen utama, yaitu ekstraktor fitur berbasis \textit{Convolutional Neural Network} (CNN) satu dimensi, \textit{Transformer encoder}, \textit{Transformer decoder} dengan mekanisme \textit{cross-attention}, serta kepala keluaran untuk prediksi konsentrasi dan rekonstruksi spektrum. Ilustrasi arsitektur model secara lengkap disajikan pada Gambar~\ref{fig:arsitektur_model}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.99\textwidth]{images/Arsitektur-CNN-Trans.png}
+        \caption{Arsitektur CNN--Transformer \textit{encoder--decoder} yang diusulkan.}
+        \label{fig:arsitektur_model}
+    \end{figure}
+
+    \item Model menerima dua jenis masukan, yaitu himpunan spektrum monoatomik $\{S_{\mathrm{mono}}^{(1)}, S_{\mathrm{mono}}^{(2)}, \ldots, S_{\mathrm{mono}}^{(Z)}\}$ yang merepresentasikan emisi individual dari setiap elemen, serta spektrum poliatomik campuran $S_{\mathrm{poly}}$ yang merepresentasikan sinyal total plasma multi-elemen.
+
+    \item Setiap spektrum masukan diproses terlebih dahulu oleh modul CNN satu dimensi untuk mengekstraksi fitur lokal seperti posisi puncak emisi, lebar garis, dan struktur multiplet. Modul CNN terdiri atas tiga lapisan konvolusi berturut-turut dengan ukuran \textit{kernel} yang menurun secara progresif, sehingga lapisan awal menangkap fitur spektral berskala lebar dan lapisan berikutnya menangkap fitur yang lebih sempit. Modul CNN yang sama digunakan untuk memproses seluruh spektrum monoatomik maupun poliatomik agar representasi fitur berada pada ruang laten yang konsisten.
+
+    \item Keluaran dari CNN untuk setiap spektrum monoatomik diproyeksikan ke dimensi model dan diproses oleh blok \textit{Transformer encoder}. Mekanisme \textit{self-attention} memungkinkan model menangkap dependensi jarak jauh antar garis spektral dalam satu elemen, sehingga menghasilkan representasi laten yang kaya untuk masing-masing unsur.
+
+    \item Spektrum poliatomik yang telah diproses CNN diproyeksikan dan dimasukkan ke dalam blok \textit{Transformer decoder}. Pada tahap ini, mekanisme \textit{cross-attention} menghubungkan representasi spektrum campuran dengan representasi spektrum monoatomik dari \textit{encoder}, sehingga model dapat mempelajari kontribusi relatif setiap unsur terhadap sinyal total yang diamati.
+
+    \item Representasi akhir dari \textit{decoder} diteruskan ke kepala keluaran (\textit{output heads}) yang bekerja secara paralel untuk memprediksi konsentrasi unsur, merekonstruksi spektrum poliatomik, dan memperkirakan parameter plasma sebagai keluaran tambahan yang memperkuat keterkaitan model dengan fisika plasma.
+
+    \item Konfigurasi \textit{hyperparameter} arsitektur model, seperti jumlah lapisan CNN, jumlah lapisan \textit{encoder--decoder}, jumlah kepala perhatian, dan probabilitas \textit{dropout}, dirangkum pada Tabel~\ref{tab:hyperparameter_model}.
+
+  \begin{table}[H]
+  \centering
+  \caption{Hyperparameter Arsitektur CNN--Transformer Encoder--Decoder}
+  \label{tab:hyperparameter_model}
+  \small
+  \begin{tabular}{|l|l|c|}
+    \hline
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
+    \hline
+    Jumlah lapisan CNN & Lapisan konvolusi 1D & 3 \\
+    \hline
+    Ukuran \textit{kernel} & Per lapisan & 7, 5, 3 \\
+    \hline
+    Jumlah filter & Per lapisan & 64, 128, 128 \\
+    \hline
+    Dimensi model ($d$) & Dimensi representasi internal & 128 \\
+    \hline
+    Kepala perhatian ($h$) & Jumlah \textit{multi-head attention} & 8 \\
+    \hline
+    Lapisan \textit{encoder} ($N_{\mathrm{enc}}$) & Jumlah lapisan & 4 \\
+    \hline
+    Lapisan \textit{decoder} ($N_{\mathrm{dec}}$) & Jumlah lapisan & 4 \\
+    \hline
+    \textit{Dropout} & Probabilitas \textit{dropout} & 0,1 \\
+    \hline
+  \end{tabular}
+\end{table}
+    \item Pelatihan model dilakukan melalui dua tahap sekuensial. Pada tahap pertama, model menjalani \textit{pre-training} menggunakan 100.000 spektrum sintetis untuk mempelajari hubungan struktural antara spektrum monoatomik dan poliatomik. Fungsi kerugian yang digunakan menggabungkan kesalahan prediksi konsentrasi dan kesalahan rekonstruksi spektrum sebagaimana dinyatakan pada Persamaan~\ref{eq:bab3_loss}.
+
+\begin{equation} \label{eq:bab3_loss}
+\mathcal{L} = \frac{1}{Z} \sum_{z=1}^{Z} \left(\hat{c}_z - c_z\right)^2 + \alpha \left\| S_{\mathrm{poly}} - \hat{S}_{\mathrm{poly}} \right\|^2
+\end{equation}
+
+    \item Setelah \textit{pre-training}, model menjalani \textit{fine-tuning} menggunakan 24 sampel eksperimen dengan label target konsentrasi unsur dari XRF. Pada tahap ini digunakan laju pembelajaran yang lebih kecil untuk mempertahankan representasi yang telah dipelajari sebelumnya.
+
+    \item Parameter pelatihan model pada tahap \textit{pre-training} dan \textit{fine-tuning}, seperti ukuran \textit{batch}, jumlah \textit{epoch}, optimizer, dan strategi validasi, dirangkum pada Tabel~\ref{tab:param_pelatihan}.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter Pelatihan Model}
+  \label{tab:param_pelatihan}
+  \small
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Parameter} & \textbf{\textit{Pre-training}} & \textbf{\textit{Fine-tuning}} \\
+    \hline
+    Dataset & Sintetis (100.000) & Eksperimental (24) \\
+    \hline
+    Ukuran \textit{batch} & 32 & 32 \\
+    \hline
+    Jumlah \textit{epoch} & 200 & 50 \\
+    \hline
+    Laju pembelajaran ($\eta$) & $10^{-4}$ & $10^{-5}$ \\
+    \hline
+    Optimizer & Adam & Adam \\
+    \hline
+    Penjadwal & \textit{Cosine annealing} & \textit{Cosine annealing} \\
+    \hline
+    Bobot rekonstruksi ($\alpha$) & 0,1 & --- \\
+    \hline
+    Validasi & 80/20 split & 5-\textit{fold} CV \\
+    \hline
+  \end{tabular}
+\end{table}
+    \item Untuk mengatasi perbedaan distribusi antara spektrum sintetis dan spektrum eksperimen (\textit{domain shift}), strategi adaptasi domain berbasis \textit{Gradient Reversal Layer} (GRL) diterapkan. Modul ini mendorong \textit{encoder} untuk menghasilkan representasi fitur yang bersifat \textit{domain-invariant}, sehingga model lebih robust saat diterapkan pada data eksperimen.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.99\textwidth]{images/Domain-Adapt.png}
+        \caption{Ilustrasi mekanisme adaptasi domain menggunakan \textit{Gradient Reversal Layer} (GRL).}
+        \label{fig:domain_adaptation}
+    \end{figure}
+
+    \item Dengan adaptasi domain, fungsi kerugian total selama pelatihan menjadi kombinasi antara kerugian prediksi dan kerugian klasifikasi domain sebagaimana dinyatakan pada Persamaan~\ref{eq:bab3_loss_da}.
+
+\begin{equation} \label{eq:bab3_loss_da}
+\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda \, \mathcal{L}_{\mathrm{domain}}
+\end{equation}
+\end{enumerate}
+% ======================
+% Tahap 4 — Menjawab Tujuan 3
+% ======================
+\subsection{Tahap 4: Evaluasi, Validasi, dan Interpretabilitas Model}
+
+Tahap akhir ini dirancang untuk menjawab Tujuan Penelitian~3, yaitu mengevaluasi performa model yang diusulkan terhadap beberapa model pembanding pada sampel tanah vulkanik Aceh, sekaligus menguji hipotesis sentral penelitian. Hipotesis yang diuji adalah bahwa pemodelan struktur generatif spektrum LIBS, di mana spektrum poliatomik direkonstruksi dari komponen monoatomik, mampu meningkatkan akurasi sekaligus interpretabilitas kuantifikasi unsur dibandingkan pendekatan konvensional yang memperlakukan spektrum sebagai sinyal komposit tunggal. Evaluasi dilakukan melalui analisis kuantitatif menggunakan metrik regresi standar, serta analisis kualitatif melalui interpretabilitas bobot \textit{cross-attention}. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
+
+\begin{enumerate}
+    \item Kinerja model dievaluasi secara kuantitatif menggunakan tiga metrik utama yang umum digunakan dalam analisis regresi spektroskopi, yaitu \textit{Root Mean Square Error} (RMSE), koefisien determinasi ($R^2$), dan \textit{Mean Absolute Percentage Error} (MAPE).
+
+\begin{equation} \label{eq:bab3_rmse}
+\mathrm{RMSE} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(\hat{c}_i - c_i\right)^2}
+\end{equation}
+
+\begin{equation} \label{eq:bab3_r2}
+R^2 = 1 - \frac{\sum_{i=1}^{N}(\hat{c}_i - c_i)^2}{\sum_{i=1}^{N}(c_i - \bar{c})^2}
+\end{equation}
+
+\begin{equation} \label{eq:bab3_mape}
+\mathrm{MAPE} = \frac{100\%}{N}\sum_{i=1}^{N}\left|\frac{\hat{c}_i - c_i}{c_i}\right|
+\end{equation}
+
+    \item Seluruh metrik evaluasi dihitung secara terpisah untuk setiap elemen agar dapat mengidentifikasi unsur yang lebih mudah maupun lebih sulit diprediksi oleh model.
+
+    \item Untuk memvalidasi keunggulan arsitektur yang diusulkan, hasil model CNN--Transformer \textit{encoder--decoder} dibandingkan dengan empat model \textit{baseline}, yaitu \textit{Partial Least Squares} (PLS) \citep{wold_pls_2001}, model CNN-\textit{only}, model \textit{Transformer-only}, dan arsitektur Informer \citep{zhou_informer_2021, walidain_informer-based_2026}. Seluruh model pembanding dilatih dan dievaluasi menggunakan dataset serta protokol pelatihan yang identik untuk menjaga keadilan perbandingan.
+
+    \item Selain evaluasi kuantitatif, analisis interpretabilitas dilakukan untuk memahami mekanisme prediksi model. Analisis ini memanfaatkan bobot \textit{cross-attention} yang dihasilkan oleh \textit{Transformer decoder}, yang secara konseptual merepresentasikan kontribusi relatif setiap spektrum monoatomik terhadap spektrum poliatomik yang diamati.
+
+    \item Matriks bobot \textit{cross-attention} diekstraksi dari lapisan \textit{decoder} untuk setiap sampel uji. Matriks ini menghubungkan posisi panjang gelombang pada spektrum poliatomik dengan representasi elemen monoatomik pada \textit{encoder}.
+
+    \item Puncak-puncak bobot \textit{attention} yang tinggi kemudian diidentifikasi dan dikorelasikan dengan posisi garis emisi yang diketahui dari basis data \textit{NIST Atomic Spectra Database} (ASD) \citep{kramida_nist_2024}. Korelasi ini digunakan untuk menilai apakah model mempelajari hubungan fisik yang bermakna antara garis emisi dan identitas unsur.
+
+    \item Hasil analisis interpretabilitas disajikan dalam bentuk \textit{heatmap} distribusi bobot perhatian terhadap panjang gelombang untuk setiap elemen. Visualisasi ini diharapkan memberikan validasi kualitatif bahwa model tidak hanya akurat secara numerik, tetapi juga konsisten dengan prinsip fisika spektroskopi emisi.
+\end{enumerate}
+
+\section{Analisis Data}
+Data yang diperoleh pada setiap tahapan penelitian dianalisis sesuai dengan karakteristik data, tujuan penelitian, serta indikator capaian yang telah ditetapkan pada diagram alir penelitian. Analisis data dilakukan untuk menilai keberhasilan proses simulasi spektrum sintetis, kualitas data eksperimen, kestabilan pengembangan model, serta performa akhir model dalam kuantifikasi unsur. Secara umum, analisis data dalam penelitian ini dikelompokkan ke dalam empat tahapan sebagai berikut:
+\begin{enumerate}
+    \item Data hasil simulasi spektrum sintetis dianalisis untuk memastikan bahwa spektrum yang dihasilkan konsisten secara fisik dengan teori emisi plasma. Analisis dilakukan dengan membandingkan posisi garis emisi hasil simulasi terhadap garis referensi dari basis data \textit{NIST Atomic Spectra Database} (ASD) melalui regresi linear dan perhitungan \textit{Root Mean Square Error} (RMSE) posisi garis. Distribusi intensitas relatif antar garis dianalisis menggunakan metode \textit{Boltzmann plot} untuk mengevaluasi konsistensi terhadap parameter plasma dan asumsi \textit{Local Thermodynamic Equilibrium} (LTE). Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dianalisis untuk menilai kesesuaian distribusi intensitas terhadap data atomik. Tahap ini dinyatakan berhasil apabila diperoleh $R^2_{\lambda} \geq 0{,}95$, $\mathrm{RMSE}_{\lambda} \leq 0{,}05$~nm, dan $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$.
+
+    \item Data eksperimen LIBS dianalisis untuk menilai kualitas akuisisi spektrum sebelum digunakan pada tahap pelatihan model. Analisis meliputi perhitungan \textit{Signal-to-Noise Ratio} (SNR) untuk setiap spektrum, evaluasi kestabilan intensitas antar tembakan laser, serta identifikasi unsur target berdasarkan kecocokan garis emisi terhadap data referensi. Data konsentrasi unsur hasil pengukuran \textit{X-ray Fluorescence} (XRF) dianalisis secara deskriptif untuk memperoleh rentang variasi konsentrasi unsur pada sampel tanah vulkanik. Tahap ini dinyatakan berhasil apabila spektrum memiliki nilai $\mathrm{SNR} \geq 10$ dan korelasi hasil LIBS terhadap data XRF mencapai $R^2 \geq 0{,}80$.
+
+    \item Proses pengembangan model dianalisis melalui pemantauan kurva fungsi kerugian (\textit{loss}) pada data pelatihan dan validasi selama tahap \textit{pre-training} maupun \textit{fine-tuning}. Analisis ini bertujuan untuk menilai kestabilan proses optimasi, mendeteksi gejala \textit{overfitting}, serta mengevaluasi peningkatan performa model pada dataset eksperimen setelah proses \textit{fine-tuning}. Tahap ini dinyatakan berhasil apabila perubahan \textit{validation loss} selama 10 \textit{epoch} terakhir kurang dari atau sama dengan 5\%, selisih antara \textit{training loss} dan \textit{validation loss} kurang dari 10\%, serta nilai RMSE setelah \textit{fine-tuning} lebih kecil dibandingkan nilai RMSE pada tahap \textit{pre-training}.
+
+    \item Evaluasi akhir model dilakukan menggunakan metrik regresi kuantitatif, yaitu \textit{Root Mean Square Error} (RMSE), \textit{Mean Absolute Error} (MAE), \textit{Mean Absolute Percentage Error} (MAPE), dan koefisien determinasi ($R^2$), yang dihitung untuk setiap unsur. Nilai performa model dibandingkan terhadap empat model \textit{baseline} untuk memvalidasi keunggulan pendekatan yang diusulkan. Tahap ini dinyatakan berhasil apabila model mencapai nilai $R^2 \geq 0{,}90$ dan RMSE berada dalam batas kesalahan analitik yang dapat diterima. Apabila target performa tersebut tercapai, analisis lanjutan dilakukan menggunakan visualisasi bobot \textit{cross-attention} untuk mengevaluasi apakah model mempelajari hubungan yang konsisten dengan prinsip fisika spektroskopi emisi.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Ringkasan Analisis Data dan Indikator Keberhasilan Penelitian}
+\label{tab:analisis_data}
+\small
+\begin{tabularx}{\textwidth}{|c|X|X|X|}
+\hline
+\textbf{Tahap} & \textbf{Data yang Dianalisis} & \textbf{Metode Analisis} & \textbf{Indikator Keberhasilan} \\
+\hline
+1 &
+Spektrum sintetis LIBS monoatomik dan poliatomik &
+Regresi posisi garis terhadap NIST, RMSE panjang gelombang, \textit{Boltzmann plot}, korelasi $A_{ki}$ vs intensitas &
+$R^2_{\lambda} \geq 0{,}95$, $\mathrm{RMSE}_{\lambda} \leq 0{,}05$~nm, $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$ \\
+\hline
+2 &
+Spektrum LIBS eksperimen dan data XRF &
+Perhitungan SNR, identifikasi unsur, statistik deskriptif XRF, korelasi LIBS--XRF &
+$\mathrm{SNR} \geq 10$, korelasi LIBS--XRF $R^2 \geq 0{,}80$ \\
+\hline
+3 &
+Kurva \textit{training loss} dan \textit{validation loss} &
+Analisis konvergensi, deteksi \textit{overfitting}, evaluasi peningkatan performa &
+$\Delta \mathcal{L}_{10\ \text{epoch}} \leq 5\%$, selisih \textit{train--val loss} ${<}10\%$, RMSE \textit{fine-tuning} $<$ RMSE \textit{pre-training} \\
+\hline
+4 &
+Prediksi model dan data referensi XRF &
+Perhitungan RMSE, MAE, MAPE, $R^2$, dan analisis \textit{cross-attention} &
+$R^2 \geq 0{,}90$, RMSE dalam batas kesalahan analitik yang dapat diterima \\
+\hline
+\end{tabularx}
+\end{table}

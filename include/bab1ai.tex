@@ -1,0 +1,47 @@
+%-------------------------------------------------------------------------------
+%                            BAB I  (VERSI MAGISTER KECERDASAN BUATAN / MKA)
+%                          PENDAHULUAN
+%-------------------------------------------------------------------------------
+% CATATAN: Berkas ini adalah ADAPTASI bab1.tex untuk program Magister
+% Kecerdasan Buatan. Berkas asli (bab1.tex) TIDAK diubah. Pusat gravitasi
+% narasi digeser dari "kuantifikasi unsur tanah vulkanik" (kontribusi fisika)
+% menjadi "pemisahan sumber spektral yang interpretable via cross-attention"
+% (kontribusi AI). LIBS tanah vulkanik diposisikan sebagai studi kasus.
+%-------------------------------------------------------------------------------
+
+\chapter{PENDAHULUAN}
+
+\section{Latar Belakang}
+
+Salah satu tantangan mendasar dalam pembelajaran mesin adalah mengurai (\textit{disentangle}) sinyal observasi yang merupakan campuran terbobot dari beberapa sumber laten, sembari menjaga agar representasi yang dipelajari tetap dapat ditafsirkan (\textit{interpretable}). Persoalan ini dikenal luas sebagai \textit{source separation} atau \textit{spectral unmixing}, dan menjadi krusial pada data berdimensi tinggi seperti citra hiperspektral dan spektrum emisi atomik \citep{palsson_hyperspectral_2018, ghosh_hyperspectral_2022}.
+
+Pendekatan modern menggunakan \textit{autoencoder} dan jaringan berbasis \textit{attention} untuk mempelajari pemisahan ini secara langsung dari data, namun dua keterbatasan tetap menonjol. Pertama, model cenderung memperlakukan observasi sebagai sinyal komposit tunggal dan melakukan regresi langsung tanpa menanamkan struktur generatif data sebagai \textit{prior}. Kedua, klaim interpretabilitas yang dilekatkan pada bobot \textit{attention} jarang dapat diverifikasi terhadap kebenaran objektif eksternal, sehingga keandalannya masih diperdebatkan \citep{jain_attention_2019, wiegreffe_attention_2019, bibal_attention_2022}.
+
+Penelitian ini mengangkat \textit{Laser-Induced Breakdown Spectroscopy} (LIBS) pada tanah vulkanik sebagai studi kasus yang ideal untuk menyerang kedua keterbatasan tersebut secara bersamaan. LIBS adalah teknik spektroskopi emisi atomik yang menghasilkan spektrum berdimensi tinggi (puluhan ribu kanal) di mana, secara fisika, spektrum campuran (campuran) merupakan superposisi linier terbobot konsentrasi dari spektrum unsur penyusunnya (unsur tunggal) \citep{legnaioli_laser-induced_2025, sawyers_database_2025}. Struktur generatif yang eksplisit ini---jarang tersedia pada domain pembelajaran mesin lain---menjadikan LIBS sebagai \textit{testbed} langka: ia menyediakan model pembangkit data yang diketahui untuk dijadikan \textit{inductive bias} arsitektural, sekaligus basis data atomik referensi (\textit{NIST Atomic Spectra Database}) yang dapat berfungsi sebagai \textit{oracle} objektif untuk menguji kesetiaan (\textit{faithfulness}) bobot \textit{attention}.
+
+Pendekatan kuantifikasi LIBS yang ada---mulai dari kalibrasi univariat, multivariat (PLSR), hingga \textit{Calibration-Free} LIBS yang bersandar pada asumsi fisika \textit{Local Thermodynamic Equilibrium} (LTE)---menghadapi kendala efek matriks, \textit{spectral overlap}, dan sensitivitas terhadap kondisi plasma \citep{zhang_improving_2025, hao_machine_2024, cristoforetti_local_2010}.
+
+Pendekatan \textit{deep learning} mutakhir, baik CNN untuk fitur lokal maupun Transformer untuk dependensi global, telah menunjukkan peningkatan performa \citep{liu_remote_2026}. Favre et al.\ \citep{favre_towards_2025} memanfaatkan CNN pada basis data simulasi berskala besar untuk kuantifikasi \textit{real-time}, Wang et al.\ \citep{wang_simulation_2024} menghibridisasi wavelet dengan Transformer--CNN, dan Liu et al.\ \citep{liu_remote_2026} menerapkan CNN--Transformer untuk \textit{remote LIBS}. Namun model-model tersebut tetap meregresikan spektrum komposit secara langsung dan tidak menanamkan struktur dekomposisi sumber ke dalam arsitektur.
+
+Mekanisme \textit{cross-attention} encoder--decoder \citep{vaswani_attention_2017} secara alami dapat memetakan persoalan tersebut. \textit{Query} dari spektrum campuran dicocokkan terhadap \textit{key--value} representasi sumber individual, sehingga bobot \textit{attention} dapat ditafsirkan sebagai koefisien pencampuran (\textit{mixing coefficients}) yang---tidak seperti domain lain---dapat divalidasi langsung terhadap posisi garis emisi NIST.
+
+Berdasarkan hal tersebut, celah riset yang dijembatani penelitian ini bersifat metodologis pada ranah kecerdasan buatan, bukan semata aplikatif pada ranah spektroskopi. Belum ada arsitektur \textit{deep learning} yang sekaligus (a) menanamkan struktur pemisahan sumber linier sebagai \textit{prior} arsitektural pada level desain encoder--decoder---bukan sekadar suku regularisasi pada fungsi kerugian sebagaimana lazim pada \textit{physics-informed neural networks} \citep{karniadakis_physics-informed_2021, raissi_physics-informed_2019}---dan (b) memvalidasi kesetiaan bobot \textit{cross-attention} terhadap \textit{ground truth} fisik yang objektif. LIBS tanah vulkanik dipilih karena heterogenitas multi-elemennya yang ekstrem menjadikannya kasus uji yang menantang sekaligus terkontrol untuk klaim metodologis tersebut.
+
+\section{Rumusan Masalah}
+Berdasarkan latar belakang yang telah diuraikan, rumusan masalah dalam penelitian ini dirumuskan sebagai berikut: bagaimana memformulasikan persoalan kuantifikasi unsur LIBS sebagai \textit{supervised spectral source separation} sehingga struktur generatif data dapat ditanamkan sebagai \textit{inductive bias} arsitektural; bagaimana merancang arsitektur CNN--Transformer \textit{encoder--decoder} ber-\textit{cross-attention} yang mengekstraksi fitur lokal sekaligus memodelkan dependensi global pada spektrum berdimensi tinggi; serta bagaimana mengukur kontribusi tiap komponen arsitektur dan kesetiaan (\textit{faithfulness}) bobot \textit{cross-attention}-nya terhadap \textit{ground truth} fisik secara kuantitatif.
+
+Penelitian ini dibatasi pada pengembangan dan evaluasi arsitektur \textit{deep learning}; representasi spektrum unsur tunggal--campuran dibangkitkan dari \textit{forward model} fisika plasma sebagai data berlabel sempurna, dan diuji pada data eksperimen tanah vulkanik dengan referensi XRF, tanpa membahas perancangan instrumen maupun sistem akuisisi LIBS.
+
+\section{Tujuan Penelitian}
+Berdasarkan rumusan masalah yang telah diuraikan, penelitian ini bertujuan mengembangkan arsitektur \textit{deep learning} yang menanamkan struktur pemisahan sumber spektral sebagai \textit{inductive bias} dan menghasilkan bobot \textit{attention} yang dapat diverifikasi secara objektif, dengan kuantifikasi unsur LIBS sebagai studi kasus. Secara khusus, tujuan penelitian dirumuskan sebagai berikut:
+\begin{enumerate}
+    \item Memformulasikan dan membangkitkan representasi pasangan sumber--campuran (unsur tunggal--campuran) berbasis \textit{forward model} fisika plasma sebagai data pelatihan berlabel.
+    \item Mengembangkan arsitektur CNN--Transformer \textit{encoder--decoder} ber-\textit{cross-attention} yang menanamkan struktur dekomposisi linier sebagai \textit{prior} arsitektural.
+    \item Mengevaluasi kontribusi tiap komponen arsitektur (melalui \textit{ablation study}), performa terhadap \textit{baseline}, serta kesetiaan bobot \textit{cross-attention} terhadap garis referensi NIST, pada sampel tanah vulkanik Aceh.
+\end{enumerate}
+
+\section{Hipotesis}
+Hipotesis sentral penelitian ini adalah bahwa penanaman struktur generatif spektrum LIBS sebagai \textit{inductive bias} arsitektural---di mana spektrum campuran direkonstruksi dari komponen sumbernya melalui \textit{cross-attention}---menghasilkan dua efek yang dapat diukur secara terpisah: (i) bobot \textit{attention} yang lebih setia (\textit{faithful}) terhadap struktur pembangkit data, terverifikasi melalui korelasinya dengan posisi garis emisi NIST; dan (ii) peningkatan akurasi regresi konsentrasi dibandingkan arsitektur tanpa \textit{prior} tersebut, terbukti melalui \textit{ablation study} terkendali. Pengujian hipotesis ditopang oleh strategi \textit{pre-training} pada data sintetis berbasis fisika dan \textit{fine-tuning} pada data eksperimen, dengan validasi referensi XRF pada sampel tanah vulkanik Aceh.
+
+\section{Manfaat Penelitian}
+Penelitian ini diharapkan memberikan kontribusi metodologis pada bidang kecerdasan buatan, khususnya pada (i) perancangan \textit{inductive bias} berbasis struktur generatif data pada arsitektur encoder--decoder, sebagai alternatif level-arsitektur terhadap pendekatan level-kerugian pada \textit{physics-informed machine learning} \citep{karniadakis_physics-informed_2021}; dan (ii) evaluasi kesetiaan \textit{attention} terhadap \textit{oracle} objektif, yang berkontribusi pada perdebatan interpretabilitas \textit{attention} \citep{jain_attention_2019, wiegreffe_attention_2019, bibal_attention_2022}. Secara praktis, pendekatan yang diusulkan menghasilkan metode kuantifikasi geokimia LIBS yang lebih akurat, cepat, dan dapat diinterpretasikan untuk aplikasi mitigasi bencana, evaluasi kesuburan lahan, dan karakterisasi material geologi, serta menjadi rujukan bagi pengembangan metode spektroskopi berbasis kecerdasan buatan pada penelitian selanjutnya \citep{idris_geochemistry_2022, manelski_libs_2024}.

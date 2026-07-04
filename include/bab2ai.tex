@@ -1,0 +1,116 @@
+%-------------------------------------------------------------------------------
+%                            BAB II  (VERSI MAGISTER KECERDASAN BUATAN / MKA)
+%                       TINJAUAN KEPUSTAKAAN
+%-------------------------------------------------------------------------------
+% CATATAN: Adaptasi bab2.tex untuk program Magister Kecerdasan Buatan.
+% Berkas asli (bab2.tex) TIDAK diubah. Pergeseran porsi:
+%   - Geokimia + LIBS + fisika plasma DIKOMPRES menjadi satu seksi ringkas
+%     "Domain dan Forward Model" (cukup untuk menjustifikasi inductive bias).
+%   - Sisi AI DIPERLUAS: spectral source separation/unmixing, debat
+%     interpretabilitas attention, taksonomi domain adaptation (sim-to-real),
+%     physics-informed ML (level-arsitektur vs level-kerugian), efficient
+%     attention, dan set/permutation-invariant encoding.
+% Label persamaan diberi prefiks "bab2ai_" agar tidak bentrok dengan bab2.tex.
+%-------------------------------------------------------------------------------
+
+\chapter{TINJAUAN KEPUSTAKAAN}
+
+% ======================================================================
+% 2.1 Domain dan Forward Model (KOMPRES dari §2.1-§2.3 versi Fisika)
+% ======================================================================
+\section{Domain Studi Kasus dan Model Pembangkit Data}
+
+Bagian ini meringkas latar fisis yang \emph{minimal namun cukup} untuk menjustifikasi \textit{inductive bias} arsitektural yang diusulkan; pembahasan geokimia dan instrumentasi yang lebih rinci berada di luar fokus tesis kecerdasan buatan ini.
+
+\subsection{Karakteristik Spektrum LIBS sebagai Sinyal Campuran}
+\textit{Laser-Induced Breakdown Spectroscopy} (LIBS) menghasilkan plasma mikro dari interaksi pulsa laser dengan permukaan material; saat plasma mendingin, atom dan ion tereksitasi memancarkan foton pada panjang gelombang diskret yang khas bagi tiap unsur \citep{legnaioli_laser-induced_2025, sawyers_database_2025}. Tanah vulkanik dipilih sebagai studi kasus karena komposisi multi-elemennya (Si, Al, Fe, Ca, Mg, Na, K) menghasilkan \textit{spectral overlap} parah dan efek matriks yang kuat---unsur transisi seperti Fe menyumbang ribuan garis emisi rapat---sehingga merepresentasikan skenario pemisahan sumber yang menantang sekaligus terkontrol \citep{harmon_laser-induced_2019, fabre_advances_2020, manelski_libs_2024}. Kompleksitas inilah, bukan aspek geokimianya, yang relevan bagi perancangan arsitektur.
+
+\subsection{Forward Model Saha--Boltzmann sebagai Sumber Data Berlabel}
+
+Pada kondisi \textit{Local Thermodynamic Equilibrium} (LTE) \citep{cristoforetti_local_2010}, populasi tingkat energi mengikuti distribusi Boltzmann
+\begin{equation} \label{eq:bab2ai_boltzmann}
+n_i = \frac{n_z \, g_i \exp(-E_i / k_B T_e)}{Z_z(T_e)},
+\end{equation}
+sedangkan keseimbangan antar tingkat ionisasi diatur Persamaan Saha
+\begin{equation} \label{eq:bab2ai_saha}
+\frac{n_e \, n_{z+1}}{n_z} = 2\,\frac{Z_{z+1}(T_e)}{Z_z(T_e)} \left(\frac{2\pi m_e k_B T_e}{h^2}\right)^{3/2} \exp\!\left(-\frac{E_{\mathrm{ion},z}}{k_B T_e}\right),
+\end{equation}
+dengan parameter atomik ($\lambda_{ki}, A_{ki}, E_k, g_k$) bersumber dari \textit{NIST Atomic Spectra Database} \citep{sawyers_database_2025}. Intensitas emisi tiap garis dihitung melalui koefisien emisi
+\begin{equation} \label{eq:bab2ai_emiss}
+j_\lambda = \frac{hc}{4\pi\lambda}\,A_{ki}\,n_k\,\phi_V(\lambda),
+\end{equation}
+dengan $\phi_V(\lambda)$ profil Voigt, yaitu konvolusi pelebaran Doppler (Gaussian)
+\begin{equation} \label{eq:bab2ai_doppler}
+\Delta\lambda_D = \lambda_{ki}\sqrt{\frac{8\ln 2\,k_B T_i}{m_k c^2}}
+\end{equation}
+dan pelebaran Stark (Lorentzian)
+\begin{equation} \label{eq:bab2ai_stark}
+\Delta\lambda_S \approx 2\,\omega_{ki}(T_e)\,\frac{n_e}{n_{e,\mathrm{ref}}} .
+\end{equation}
+
+Dari sudut pandang kecerdasan buatan, \textit{forward model} ini berperan sebagai \emph{generator data berlabel sempurna} yang tak terbatas dan terkendali. Sifat tersebut memungkinkan \textit{pre-training} berskala besar, \textit{ablation} terkontrol, dan evaluasi \textit{robustness} yang tak mungkin dilakukan hanya dengan data lapangan terbatas \citep{favre_towards_2025}.
+
+\subsection{Struktur Generatif: Dekomposisi Linier Sumber--Campuran}
+Inti yang menjadikan LIBS \textit{testbed} bernilai bagi penelitian ini adalah struktur generatifnya yang eksplisit: spektrum campuran (campuran) $S_{\mathrm{poly}}(\lambda)$ merupakan superposisi linier terbobot konsentrasi $c_z$ dari spektrum sumber (unsur tunggal) $S_{\mathrm{mono}}^{(z)}(\lambda)$ tiap unsur $z$:
+\begin{equation} \label{eq:bab2ai_poly}
+S_{\mathrm{poly}}(\lambda) = \sum_{z} c_z \, S_{\mathrm{mono}}^{(z)}(\lambda).
+\end{equation}
+Persamaan~\ref{eq:bab2ai_poly} adalah \textit{linear mixing model} (LMM) yang identik bentuknya dengan model yang melandasi \textit{spectral unmixing} pada citra hiperspektral \citep{palsson_hyperspectral_2018, ghosh_hyperspectral_2022}. Inilah jembatan konseptual yang memungkinkan persoalan kuantifikasi LIBS diformulasikan ulang sebagai persoalan pemisahan sumber pada ranah kecerdasan buatan, dan menjadi \textit{prior} struktural yang ditanamkan ke arsitektur (§2.4).
+
+% ======================================================================
+% 2.2 Pemisahan Sumber Spektral (BARU, sisi AI)
+% ======================================================================
+\section{Pemisahan Sumber dan \textit{Spectral Unmixing} Berbasis Pembelajaran}
+
+Persoalan menguraikan sinyal campuran menjadi sumber-sumber penyusunnya beserta proporsinya merupakan problem klasik pembelajaran mesin. Pada \textit{spectral unmixing}, pendekatan berbasis \textit{autoencoder} mendominasi: struktur \textit{linear mixing model} secara implisit memberikan kendala arsitektural pada jaringan, sehingga \textit{decoder} berperan sebagai pustaka \textit{endmember} dan aktivasi laten sebagai \textit{abundance} \citep{palsson_hyperspectral_2018}. Ghosh et al.\ \citep{ghosh_hyperspectral_2022} memperluas paradigma ini dengan menggabungkan \textit{convolutional autoencoder} dan Transformer, memanfaatkan \textit{attention} untuk menangkap dependensi nonlokal antar pita spektral---arsitektur yang secara struktural paralel dengan yang diusulkan pada penelitian ini.
+
+Perbedaan kunci penelitian ini terhadap literatur \textit{unmixing} klasik bersifat metodologis: sebagian besar metode \textit{unmixing} bersifat \emph{blind} (tanpa label \textit{abundance}) dan tidak memiliki \textit{ground truth} untuk memverifikasi sumber yang dipulihkan. Sebaliknya, kerangka LIBS dengan \textit{forward model} (Persamaan~\ref{eq:bab2ai_poly}) menyediakan label konsentrasi sempurna sekaligus pustaka sumber unsur tunggal yang diketahui, memungkinkan \textit{supervised source separation} dengan verifikasi eksternal yang objektif---kondisi yang langka pada domain \textit{unmixing} lain.
+
+% ======================================================================
+% 2.3 Kuantifikasi Klasik (RINGKAS, sebagai baseline)
+% ======================================================================
+\section{Metode Kuantifikasi Klasik sebagai \textit{Baseline}}
+
+Sebagai pembanding, metode kuantifikasi LIBS konvensional dirangkum singkat. Kalibrasi univariat ($I = a c + b$) rentan terhadap efek matriks, sehingga pendekatan multivariat seperti \textit{Partial Least Squares Regression} (PLSR) mengeksploitasi seluruh spektrum untuk ketahanan yang lebih baik \citep{safi_multivariate_2018, zhang_partial_2020, wold_pls_2001}. \textit{Calibration-Free} LIBS (CF-LIBS) menurunkan konsentrasi langsung dari fisika plasma melalui \textit{Boltzmann plot} dan pelebaran Stark, namun akurasinya dibatasi validitas LTE, \textit{self-absorption}, dan ketidakpastian estimasi $T_e$/$n_e$ \citep{cristoforetti_local_2010, yang_self-absorption_2020, zeng_accurate_2023}. Favre et al.\ \citep{favre_towards_2025} menggabungkan \textit{forward model} dengan CNN untuk kuantifikasi \textit{real-time}, namun tetap meregresikan spektrum komposit secara langsung. Data referensi kebenaran (\textit{ground truth}) konsentrasi pada penelitian ini diperoleh dari \textit{X-ray Fluorescence} (XRF), metode standar analisis geokimia non-destruktif \citep{yamasaki_major_2023, ravansari_portable_2019}. Keempat pendekatan (PLS, CNN-\textit{only}, Transformer-\textit{only}, Informer) digunakan sebagai \textit{baseline} eksternal pada Bab~III.
+
+% ======================================================================
+% 2.4 Arsitektur Deep Learning (DIPERLUAS, inti AI)
+% ======================================================================
+\section{Arsitektur \textit{Deep Learning} untuk Spektrum Berdimensi Tinggi}
+
+\subsection{\textit{Convolutional Neural Network} (CNN) 1D}
+CNN satu dimensi efektif mengekstraksi fitur lokal dari spektrum---posisi puncak, lebar garis, struktur multiplet---melalui konvolusi \textit{kernel} geser pada sumbu panjang gelombang, dengan aktivasi ReLU dan \textit{Batch Normalisation} untuk stabilitas \citep{he_deep_2016, ioffe_batch_2015}. Dalam arsitektur yang diusulkan, CNN berperan sebagai \textit{tokenizer} spektral yang memproyeksikan spektrum mentah ke ruang laten sebelum pemodelan dependensi global.
+
+\subsection{Transformer dan Mekanisme \textit{Self-Attention}}
+Transformer \citep{vaswani_attention_2017} memodelkan relasi antar posisi spektral melalui
+\begin{equation} \label{eq:bab2ai_attention}
+\mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
+\end{equation}
+\textit{Multi-Head Attention} memungkinkan model menangkap korelasi antar panjang gelombang dari berbagai subruang representasi secara paralel, sehingga mampu merekonstruksi konektivitas antar garis emisi satu unsur (mis.\ relasi multiplet dari tingkat ionisasi yang sama).
+
+\subsection{Efisiensi \textit{Attention} pada Urutan Panjang}
+Kompleksitas \textit{self-attention} konvensional yang $O(n^2)$ menjadi hambatan pada spektrum LIBS dengan $\sim$35.000 kanal. \textit{Informer} \citep{zhou_informer_2021} mereduksi kompleksitas menjadi $O(n \ln n)$ dengan mengeksploitasi \textit{sparsity} distribusi bobot \textit{attention} pada spektrum nyata, dan efektivitasnya pada spektrum geologi telah divalidasi \citep{walidain_informer-based_2026}. Pemilihan mekanisme \textit{attention} yang efisien karenanya bukan asumsi, melainkan keputusan desain yang harus dibandingkan secara eksplisit terhadap alternatif (Bab~III menjadikan Informer salah satu \textit{baseline}).
+
+\subsection{Arsitektur \textit{Encoder--Decoder} dan \textit{Cross-Attention} sebagai \textit{Inductive Bias}}
+Arsitektur \textit{Encoder--Decoder} memisahkan representasi masukan dari dekoding keluaran secara modular. Kontribusi metodologis penelitian ini adalah memetakan struktur generatif Persamaan~\ref{eq:bab2ai_poly} langsung ke topologi jaringan: \textit{encoder} memproses \emph{himpunan} spektrum sumber unsur tunggal $S_{\mathrm{mono}}^{(z)}$ menjadi memori spesifik-unsur, dan \textit{decoder} memproses spektrum campuran. Koneksi keduanya melalui \textit{Cross-Attention}, di mana \textit{query} $\mathbf{Q}_{\mathrm{dec}}$ dari spektrum campuran dicocokkan terhadap $\mathbf{K}_{\mathrm{enc}}, \mathbf{V}_{\mathrm{enc}}$ dari sumber, sehingga bobot \textit{cross-attention} dapat ditafsirkan sebagai \emph{koefisien pencampuran} $c_z$---konsisten dengan dekomposisi linier. Dengan demikian fisika ditanamkan pada \emph{level arsitektur}, berbeda dari paradigma \textit{physics-informed neural networks} yang umumnya menanam fisika pada \emph{suku fungsi kerugian} \citep{karniadakis_physics-informed_2021, raissi_physics-informed_2019}. Karena \textit{encoder} memproses himpunan sumber yang \emph{tak berurutan}, desain yang invarian terhadap permutasi relevan, sebagaimana diformalkan pada kerangka \textit{Deep Sets} \citep{zaheer_deep_2017}.
+
+\subsection{Interpretabilitas \textit{Attention} dan Debat Kesetiaan (\textit{Faithfulness})}
+Penafsiran bobot \textit{attention} sebagai penjelasan model masih diperdebatkan. Jain dan Wallace \citep{jain_attention_2019} berargumen bobot \textit{attention} tidak konsisten dengan ukuran kepentingan fitur lain dan dapat diganti tanpa mengubah prediksi, sehingga "bukan penjelasan". Wiegreffe dan Pinter \citep{wiegreffe_attention_2019} membantah bahwa kesimpulan tersebut bergantung pada definisi penjelasan dan mengusulkan uji diagnostik yang lebih ketat. Bibal et al.\ \citep{bibal_attention_2022} merangkum bahwa \textit{attention} dapat menjadi penjelasan pada kondisi tertentu, terutama bila tersedia acuan eksternal untuk memverifikasinya. Keterbatasan utama seluruh debat ini adalah \emph{ketiadaan \textit{ground truth} objektif} tentang apa yang "seharusnya" di-\textit{attend}. Penelitian ini memanfaatkan keunikan domain LIBS: posisi garis emisi NIST menyediakan \textit{oracle} fisik objektif, sehingga kesetiaan bobot \textit{cross-attention} dapat diukur secara kuantitatif---sebuah kontribusi langsung pada perdebatan ini.
+
+\subsection{Adaptasi Domain dan Transfer \textit{Sim-to-Real}}
+Model yang dilatih pada data sintetis (\textit{forward model} LTE) mengalami penurunan kinerja pada data eksperimen akibat \textit{domain shift}: efek instrumentasi, \textit{continuum background} residual, dan deviasi dari LTE ideal. Adaptasi domain adversarial menjawab hal ini; \textit{Domain-Adversarial Training} via \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016} membalik gradien klasifier domain agar \textit{encoder} menghasilkan fitur \textit{domain-invariant}. Alternatif lain mencakup \textit{Adversarial Discriminative Domain Adaptation} (ADDA) yang memisahkan \textit{encoder} sumber dan target \citep{tzeng_adversarial_2017}. Pemilihan GRL pada penelitian ini didasarkan pada kompatibilitasnya dengan pelatihan \textit{end-to-end} satu tahap; perbandingan eksplisit terhadap kondisi tanpa GRL menjadi bagian \textit{ablation} (Bab~III). Kerangka \textit{sim-to-real}---\textit{pre-training} pada simulasi fisika lalu \textit{fine-tuning} pada data nyata terbatas---merupakan strategi \textit{low-resource learning} yang berdiri sendiri sebagai kontribusi.
+
+% ======================================================================
+% 2.5 Evaluasi dan Metrik (DIPERLUAS dengan faithfulness)
+% ======================================================================
+\section{Evaluasi Model dan Metrik Kesetiaan}
+
+\subsection{Metrik Regresi dan Kualitas Spektrum}
+Performa kuantifikasi dievaluasi dengan RMSE, $R^2$, dan MAPE per unsur. Kualitas spektrum eksperimen dinilai melalui \textit{Signal-to-Noise Ratio}
+\begin{equation} \label{eq:bab2ai_snr}
+    \mathrm{SNR} = \frac{I_{\text{peak}} - I_{\text{bg}}}{\sigma_{\text{bg}}},
+\end{equation}
+dengan ambang $\mathrm{SNR} \geq 10$ sebagai kriteria kelayakan \citep{khan_magnetic_2022, guerrini_optimization_2025}.
+
+\subsection{Validasi Posisi Garis terhadap NIST sebagai \textit{Oracle}}
+Deteksi puncak dan pencocokan garis terhadap \textit{NIST ASD} menyediakan acuan posisi $\lambda_{\mathrm{NIST}}$ yang objektif \citep{legnaioli_laser-induced_2025}. Selain memvalidasi \textit{forward model}, acuan ini berfungsi sebagai \textit{ground truth} untuk menilai apakah bobot \textit{cross-attention} memang terkonsentrasi pada garis emisi unsur yang benar---menjembatani evaluasi numerik dengan evaluasi kesetiaan interpretabilitas (lihat §2.4.5). Robustness terhadap perturbasi realistis (\textit{Gaussian/Poisson/spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, \textit{missing-line suppression}) dievaluasi secara sistematis sebagai uji ketahanan model terhadap \textit{distribution shift}.

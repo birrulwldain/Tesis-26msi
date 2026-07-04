@@ -1,0 +1,197 @@
+%-------------------------------------------------------------------------------
+%                            BAB III  (VERSI MAGISTER KECERDASAN BUATAN / MKA)
+%                       METODE PENELITIAN
+%-------------------------------------------------------------------------------
+% CATATAN: Adaptasi bab3.tex untuk program Magister Kecerdasan Buatan.
+% Berkas asli (bab3.tex) TIDAK diubah. Penekanan digeser dari "membuktikan
+% akurasi akhir" menjadi "membuktikan klaim AI". Tambahan utama:
+%   (1) ABLATION STUDY internal terstruktur (Tabel ablation).
+%   (2) METRIK KESETIAAN (faithfulness) cross-attention vs NIST yang kuantitatif.
+%   (3) RIGOR STATISTIK: multiple seeds, uji signifikansi, confidence interval.
+%   (4) Penanganan KEBOCORAN DATA pada skema cross-validation.
+% Persamaan dari bab2ai dirujuk via label "eq:bab2ai_*".
+%-------------------------------------------------------------------------------
+
+\chapter{METODE PENELITIAN}
+
+Bab ini menguraikan metodologi yang dirancang untuk menjawab ketiga rumusan masalah Bab~I. Berbeda dari desain eksperimen yang hanya menargetkan akurasi akhir, desain pada bab ini secara eksplisit dirancang untuk \emph{membuktikan klaim metodologis kecerdasan buatan}: bahwa (i) penanaman struktur dekomposisi sumber sebagai \textit{inductive bias} arsitektural meningkatkan akurasi (dibuktikan via \textit{ablation}), dan (ii) bobot \textit{cross-attention} yang dihasilkan setia terhadap \textit{ground truth} fisik (dibuktikan via metrik kesetiaan). Metodologi disusun dalam empat tahap: pembangkitan data sumber--campuran (Tujuan~1), akuisisi data eksperimen (mendukung Tujuan~2), perancangan dan pelatihan arsitektur (Tujuan~2), serta evaluasi yang mencakup \textit{ablation}, perbandingan \textit{baseline}, dan analisis kesetiaan (Tujuan~3).
+
+\section{Tempat dan Waktu Penelitian}
+Penelitian dilaksanakan di Laboratorium Gelombang dan Optik, Departemen Fisika, FMIPA, Universitas Syiah Kuala (akuisisi LIBS), dengan komputasi intensif pada fasilitas \textit{High Performance Computing} (HPC) Mahameru 4, BRIN. Pelaksanaan berlangsung Januari--Desember 2026.
+
+\section{Alat dan Bahan Penelitian}
+Akuisisi spektrum menggunakan sistem LIBS dengan laser Q-switched Nd:YAG (1064~nm, energi pulsa maksimum 114~mJ), spektrometer \textit{Echelle} berdetektor \textit{Optical Multichannel Analyzer} (OMA), serta instrumen XRF untuk konsentrasi referensi. Seluruh komputasi menggunakan Python~3.10 dan PyTorch~2.0; parameter atomik bersumber dari \textit{NIST Atomic Spectra Database} (ASD) \citep{kramida_nist_2024}. Bahan penelitian terdiri atas data sintetis (100.000 pasangan spektrum unsur tunggal--campuran berbasis \textit{forward model} Saha--Boltzmann) dan 24 sampel tanah vulkanik Gunung Seulawah Agam, Aceh Besar.
+
+\section{Prosedur Penelitian}
+
+% ======================
+% Tahap 1 — Tujuan 1
+% ======================
+\subsection{Tahap 1: Pembangkitan Data Sumber--Campuran Berlabel}
+Tahap ini membangun dataset pelatihan berbasis fisika yang merepresentasikan dekomposisi sumber (Persamaan~\ref{eq:bab2ai_poly}). Langkahnya: (1) membangkitkan $T_e$, $n_e$, dan fraksi konsentrasi secara acak pada rentang Tabel~\ref{tab:ai_param_sintetis}, dengan parameter atomik dari NIST ASD; (2) menghitung intensitas garis via koefisien emisi (Persamaan~\ref{eq:bab2ai_emiss}) berbasis populasi Saha--Boltzmann; (3) melebarkan tiap garis dengan profil Voigt (konvolusi Persamaan~\ref{eq:bab2ai_doppler} dan~\ref{eq:bab2ai_stark}); (4) membangkitkan spektrum sumber unsur tunggal $S_{\mathrm{mono}}^{(z)}$ tiap unsur, lalu spektrum campuran $S_{\mathrm{poly}}$ via superposisi terbobot (Persamaan~\ref{eq:bab2ai_poly}); (5) menyimpan tiap sampel sebagai triplet $\{$himpunan unsur tunggal, campuran, vektor konsentrasi $\mathbf{c}\}$. Simulasi mencakup tujuh unsur mayor (Si, Al, Fe, Ca, Mg, Na, K) pada resolusi $\Delta\lambda = 0{,}02$~nm, rentang 200--900~nm ($\sim$35.000 kanal), total 100.000 spektrum.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Parameter Pembangkitan Data Sintetis}
+  \label{tab:ai_param_sintetis}
+  \small
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\
+    \hline
+    $T_e$ & Rentang temperatur elektron & 6.000--15.000~K \\ \hline
+    $n_e$ & Rentang densitas elektron & $10^{16}$--$10^{17}$~cm$^{-3}$ \\ \hline
+    $\Delta\lambda$ & Resolusi spektral & 0,02~nm \\ \hline
+    Rentang $\lambda$ & Rentang panjang gelombang & 200--900~nm \\ \hline
+    Kanal & Titik data per spektrum & $\sim$35.000 \\ \hline
+    $N_{\text{sampel}}$ & Total spektrum sintetis & 100.000 \\ \hline
+    Elemen & Jumlah unsur disimulasikan & 7 (mayor) \\ \hline
+    Sampling & Distribusi parameter plasma & \textit{Uniform random} \\ \hline
+  \end{tabular}
+\end{table}
+
+Sebelum pelatihan final, dilakukan \textit{robustness benchmark} terhadap subset sintetis untuk mengukur dampak tujuh perturbasi realistis (\textit{Gaussian/Poisson/spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, \textit{missing-line suppression}) menggunakan \textit{Peak F1}, \textit{Line F1}, dan \textit{Pearson correlation}. Hasilnya diposisikan sebagai \emph{evaluasi ketahanan model terhadap \textit{distribution shift}} sekaligus dasar kebijakan augmentasi berbasis bukti.
+
+% ======================
+% Tahap 2 — Tujuan 2
+% ======================
+\subsection{Tahap 2: Akuisisi Data Eksperimen dan Pencegahan Kebocoran}
+Sebanyak 24 sampel dikoleksi dari empat arah mata angin (Utara, Barat, Selatan, Timur) pada tiga kedalaman (0--20, 20--40, 40--60~cm) di Gunung Seulawah Agam, diukur dengan LIBS, dan dianalisis XRF sebagai \textit{ground truth} konsentrasi (\% berat). Pra-pemrosesan meliputi koreksi \textit{continuum background} dan normalisasi area untuk meredam fluktuasi energi laser antar tembakan.
+
+\paragraph{Pencegahan kebocoran data.} Karena ke-24 sampel berasal dari satu lokasi dan saling berkorelasi secara spasial (4 arah $\times$ 3 kedalaman), pemisahan data dilakukan secara \emph{per-lokasi-titik} (\textit{grouped split}), bukan acak per-spektrum, untuk mencegah \textit{data leakage} di mana spektrum dari titik yang sama muncul di pelatihan dan pengujian sekaligus. Dataset sintetis dipartisi 80/20 dengan \textit{random seed} tetap; dataset eksperimen dievaluasi dengan \textit{grouped k-fold cross-validation} ($k=5$). Pembagian eksplisit ini menjadikan estimasi performa konservatif dan dapat dipertahankan di hadapan penguji.
+
+% ======================
+% Tahap 3 — Tujuan 2
+% ======================
+\subsection{Tahap 3: Perancangan dan Pelatihan Arsitektur}
+Arsitektur terdiri atas empat komponen: ekstraktor fitur CNN 1D, \textit{Transformer encoder}, \textit{Transformer decoder} ber-\textit{cross-attention}, dan kepala keluaran ganda (prediksi konsentrasi + rekonstruksi spektrum + estimasi parameter plasma sebagai \textit{auxiliary task}). \textit{Encoder} memproses himpunan spektrum sumber unsur tunggal $\{S_{\mathrm{mono}}^{(1)},\ldots,S_{\mathrm{mono}}^{(Z)}\}$; \textit{decoder} memproses spektrum campuran $S_{\mathrm{poly}}$ dan, melalui \textit{cross-attention}, mempelajari kontribusi relatif tiap sumber. CNN yang sama (berbagi bobot) memproses seluruh masukan agar berada pada ruang laten konsisten; \textit{hyperparameter} dirangkum pada Tabel~\ref{tab:ai_hyperparameter}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.99\textwidth]{images/Arsitektur-CNN-Trans.png}
+    \caption{Arsitektur CNN--Transformer \textit{encoder--decoder} ber-\textit{cross-attention} yang diusulkan.}
+    \label{fig:ai_arsitektur_model}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{\textit{Hyperparameter} Arsitektur CNN--Transformer Encoder--Decoder}
+  \label{tab:ai_hyperparameter}
+  \small
+  \begin{tabular}{|l|l|c|}
+    \hline
+    \textbf{Parameter} & \textbf{Deskripsi} & \textbf{Nilai} \\ \hline
+    Lapisan CNN & Konvolusi 1D & 3 \\ \hline
+    Ukuran \textit{kernel} & Per lapisan & 7, 5, 3 \\ \hline
+    Jumlah filter & Per lapisan & 64, 128, 128 \\ \hline
+    Dimensi model ($d$) & Representasi internal & 128 \\ \hline
+    Kepala perhatian ($h$) & \textit{Multi-head attention} & 8 \\ \hline
+    Lapisan \textit{encoder} ($N_{\mathrm{enc}}$) & Jumlah lapisan & 4 \\ \hline
+    Lapisan \textit{decoder} ($N_{\mathrm{dec}}$) & Jumlah lapisan & 4 \\ \hline
+    \textit{Dropout} & Probabilitas & 0,1 \\ \hline
+  \end{tabular}
+\end{table}
+
+Pelatihan dua tahap: \textit{pre-training} pada 100.000 spektrum sintetis dengan kerugian gabungan prediksi konsentrasi dan rekonstruksi spektrum,
+\begin{equation} \label{eq:bab3ai_loss}
+\mathcal{L} = \frac{1}{Z} \sum_{z=1}^{Z} \left(\hat{c}_z - c_z\right)^2 + \alpha \left\| S_{\mathrm{poly}} - \hat{S}_{\mathrm{poly}} \right\|^2 ,
+\end{equation}
+dilanjutkan \textit{fine-tuning} pada 24 sampel eksperimen dengan laju pembelajaran lebih kecil. Untuk mengatasi \textit{domain shift}, \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016} mendorong fitur \textit{domain-invariant}, sehingga kerugian total menjadi
+\begin{equation} \label{eq:bab3ai_loss_da}
+\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda \, \mathcal{L}_{\mathrm{domain}} .
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.99\textwidth]{images/Domain-Adapt.png}
+    \caption{Adaptasi domain \textit{sim-to-real} menggunakan \textit{Gradient Reversal Layer} (GRL).}
+    \label{fig:ai_domain_adaptation}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Parameter Pelatihan Model}
+  \label{tab:ai_param_pelatihan}
+  \small
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Parameter} & \textbf{\textit{Pre-training}} & \textbf{\textit{Fine-tuning}} \\ \hline
+    Dataset & Sintetis (100.000) & Eksperimental (24) \\ \hline
+    Ukuran \textit{batch} & 32 & 8 \\ \hline
+    \textit{Epoch} & 200 & 50 \\ \hline
+    Laju pembelajaran ($\eta$) & $10^{-4}$ & $10^{-5}$ \\ \hline
+    Optimizer & Adam & Adam \\ \hline
+    Penjadwal & \textit{Cosine annealing} & \textit{Cosine annealing} \\ \hline
+    Bobot rekonstruksi ($\alpha$) & 0,1 & --- \\ \hline
+    Validasi & 80/20 split & \textit{grouped} 5-\textit{fold} CV \\ \hline
+    \textit{Random seeds} & 5 (independen) & 5 (independen) \\ \hline
+  \end{tabular}
+\end{table}
+
+\paragraph{Reprodusibilitas.} Seluruh konfigurasi dijalankan pada \textbf{lima \textit{random seed} independen} agar variabilitas inisialisasi dan optimasi dapat dikuantifikasi---praktik yang menjadi syarat untuk klaim superioritas yang sahih, bukan sekadar satu \textit{seed} beruntung.
+
+% ======================
+% Tahap 4 — Tujuan 3
+% ======================
+\subsection{Tahap 4: Evaluasi, \textit{Ablation}, dan Analisis Kesetiaan}
+Tahap ini menguji kedua bagian hipotesis sentral secara terpisah.
+
+\subsubsection{4.1 Evaluasi Kuantitatif dan Perbandingan \textit{Baseline}}
+Performa diukur per unsur dengan RMSE, $R^2$, dan MAPE:
+\begin{equation} \label{eq:bab3ai_rmse}
+\mathrm{RMSE} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(\hat{c}_i - c_i\right)^2}, \quad
+R^2 = 1 - \frac{\sum_i(\hat{c}_i - c_i)^2}{\sum_i(c_i - \bar{c})^2}, \quad
+\mathrm{MAPE} = \frac{100\%}{N}\sum_{i=1}^{N}\left|\frac{\hat{c}_i - c_i}{c_i}\right| .
+\end{equation}
+Model dibandingkan terhadap empat \textit{baseline} eksternal: PLS \citep{wold_pls_2001}, CNN-\textit{only}, Transformer-\textit{only}, dan Informer \citep{zhou_informer_2021, walidain_informer-based_2026}, dengan protokol pelatihan identik.
+
+\paragraph{Uji signifikansi statistik.} Karena $n=24$ kecil, keunggulan terhadap \textit{baseline} diuji dengan \textit{paired test} (Wilcoxon \textit{signed-rank} antar \textit{fold}/\textit{seed}) dan dilaporkan dengan \textit{confidence interval} 95\%, bukan sekadar selisih rata-rata. Klaim "lebih unggul" hanya dipertahankan bila signifikan secara statistik.
+
+\subsubsection{4.2 \textit{Ablation Study} Komponen Internal}
+Untuk membuktikan bahwa peningkatan akurasi berasal dari \emph{mekanisme} yang diusulkan dan bukan sekadar kapasitas model, dilakukan \textit{ablation} terkendali dengan mematikan satu komponen pada satu waktu (Tabel~\ref{tab:ai_ablation}). Tanpa \textit{ablation} ini, klaim peran \textit{cross-attention} hanya bersifat korelasional.
+
+\begin{table}[H]
+  \centering
+  \caption{Rancangan \textit{Ablation Study} terhadap Arsitektur yang Diusulkan}
+  \label{tab:ai_ablation}
+  \small
+  \begin{tabularx}{\textwidth}{|l|X|X|}
+    \hline
+    \textbf{Varian} & \textbf{Komponen dimatikan} & \textbf{Klaim AI yang diuji} \\ \hline
+    A0 (penuh) & --- (model lengkap) & Acuan \\ \hline
+    A1 & \textit{Cross-attention} diganti konkatenasi & Peran \textit{prior} dekomposisi sumber \\ \hline
+    A2 & Rekonstruksi dimatikan ($\alpha=0$ pada Pers.~\ref{eq:bab3ai_loss}) & Peran kepala rekonstruksi generatif \\ \hline
+    A3 & GRL dimatikan ($\lambda=0$ pada Pers.~\ref{eq:bab3ai_loss_da}) & Kontribusi adaptasi domain \textit{sim-to-real} \\ \hline
+    A4 & Tanpa \textit{pre-training} sintetis (latih langsung pada 24 sampel) & Nilai \textit{forward-model pre-training} \\ \hline
+    A5 & \textit{Auxiliary head} parameter plasma dimatikan & Peran \textit{multi-task regularization} \\ \hline
+  \end{tabularx}
+\end{table}
+
+\subsubsection{4.3 Metrik Kesetiaan (\textit{Faithfulness}) \textit{Cross-Attention}}
+Bagian kedua hipotesis---bahwa bobot \textit{cross-attention} setia terhadap struktur pembangkit data---diuji secara \emph{kuantitatif}, bukan sekadar inspeksi visual \textit{heatmap}. Matriks bobot \textit{cross-attention} diekstraksi per sampel uji, lalu posisi puncak bobotnya dibandingkan terhadap garis emisi unsur terkait pada \textit{NIST ASD} \citep{kramida_nist_2024} sebagai \textit{oracle} objektif. Tiga metrik didefinisikan:
+\begin{enumerate}
+    \item \textit{Attention-to-line precision/recall}: proporsi puncak \textit{attention} (di atas ambang) yang jatuh dalam jendela $\pm\delta\lambda$ dari garis NIST unsur target, dan sebaliknya.
+    \item \textit{Attention mass on true lines}: fraksi total massa \textit{attention} yang terkonsentrasi pada kanal garis benar dibanding total spektrum.
+    \item Korelasi peringkat antara bobot \textit{cross-attention} per unsur dan intensitas garis teoretis (Persamaan~\ref{eq:bab2ai_emiss}).
+\end{enumerate}
+Ketiganya dibandingkan terhadap \textit{baseline} acak (\textit{uniform attention}) dan, bila memungkinkan, antar-\textit{seed}, mengikuti semangat uji diagnostik kesetiaan \textit{attention} \citep{wiegreffe_attention_2019, bibal_attention_2022}. Inilah kontribusi yang membedakan penelitian ini dari studi interpretabilitas \textit{attention} pada umumnya yang tidak memiliki \textit{ground truth} objektif \citep{jain_attention_2019}.
+
+\section{Indikator Keberhasilan}
+Penelitian dinyatakan berhasil bila: spektrum sintetis konsisten dengan NIST ($R^2_\lambda \geq 0{,}95$, $\mathrm{RMSE}_\lambda \leq 0{,}05$~nm, $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$); data eksperimen layak ($\mathrm{SNR} \geq 10$, korelasi LIBS--XRF $R^2 \geq 0{,}80$); model mencapai $R^2 \geq 0{,}95$ dan MAPE $<10\%$; \emph{dan} keunggulan terhadap \textit{baseline} signifikan secara statistik; \emph{serta} \textit{ablation} menunjukkan penurunan performa yang bermakna saat \textit{cross-attention}/\textit{pre-training} dimatikan, dan metrik kesetiaan \textit{cross-attention} secara signifikan melampaui \textit{baseline} acak. Ringkasan disajikan pada Tabel~\ref{tab:ai_analisis_data}.
+
+\begin{table}[htbp]
+\centering
+\caption{Ringkasan Analisis Data dan Indikator Keberhasilan}
+\label{tab:ai_analisis_data}
+\small
+\begin{tabularx}{\textwidth}{|c|X|X|X|}
+\hline
+\textbf{Tahap} & \textbf{Data} & \textbf{Metode} & \textbf{Indikator} \\ \hline
+1 & Spektrum sintetis unsur tunggal/campuran & Regresi posisi garis vs NIST, \textit{Boltzmann plot}, robustness benchmark & $R^2_\lambda \geq 0{,}95$, $\mathrm{RMSE}_\lambda \leq 0{,}05$~nm \\ \hline
+2 & Spektrum eksperimen + XRF & SNR, identifikasi unsur, korelasi LIBS--XRF, \textit{grouped split} & $\mathrm{SNR}\geq 10$, $R^2 \geq 0{,}80$ \\ \hline
+3 & Kurva \textit{loss} (5 seed) & Konvergensi, deteksi \textit{overfitting}, variansi antar-seed & $\Delta\mathcal{L}_{10} \leq 5\%$, selisih \textit{train--val} ${<}10\%$ \\ \hline
+4a & Prediksi vs XRF + \textit{baseline} & RMSE/$R^2$/MAPE, uji Wilcoxon, CI 95\% & $R^2 \geq 0{,}95$, MAPE ${<}10\%$, unggul signifikan \\ \hline
+4b & Varian \textit{ablation} A1--A5 & Selisih performa vs A0 & Penurunan bermakna saat komponen dimatikan \\ \hline
+4c & Bobot \textit{cross-attention} vs NIST & Precision/recall, \textit{attention mass}, korelasi peringkat & Melampaui \textit{baseline} acak signifikan \\ \hline
+\end{tabularx}
+\end{table}
