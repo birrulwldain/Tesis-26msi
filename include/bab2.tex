@@ -5,32 +5,17 @@
 
 \chapter{TINJAUAN KEPUSTAKAAN}
 
-% === CONSENSUS ANALYSIS §2.1 ===
-% Perspektif 1 (Geokimiawan): Penjelasan mineralogi sudah benar secara umum (feldspar->Al/Na/K; olivin-piroksen->Mg/Fe/Ca), tetapi (i) tidak ada data konsentrasi konkret untuk tanah vulkanik Indonesia padahal khumaeni_analysis_2025 (Merapi, 24 lokasi, validasi XRF) menyediakannya; (ii) klaim proses pembentukan dan sifat fisikokimia (porositas, KTK, mineral amorf) tidak bersitasi; (iii) tipe magma andesitik (khas busur Sunda, termasuk Seulawah Agam) belum dihubungkan ke komposisi unsur yang disimulasikan.
-% Perspektif 2 (Praktisi LIBS): Hubungan geokimia->tantangan pengukuran masih satu kalimat generik di akhir 2.1.3. Belum ada: (i) penjelasan KUANTITATIF mengapa matriks vulkanik lebih sulit daripada logam -- Fe/Ca/(Si) menyumbang ribuan garis sementara matriks logam (mis. Eurofer97, Favre et al.) berdominasi satu unsur dengan komposisi terkontrol; (ii) bukti bahwa tipe matriks/fisik target menggeser kondisi plasma -- Manelski et al. 2024 melaporkan n_e ~1,4x lebih tinggi pada tanah daripada batuan dan sebaran T_e ~2000 K antar komposisi; (iii) implikasi pada estimasi T_e dan n_e untuk CF-LIBS.
-% Perspektif 3 (Sintetis/Final): Struktur final: 2.1.1 dipecah dua paragraf (pembentukan; sifat fisikokimia+footprint); 2.1.2 ditambah paragraf data Indonesia (Merapi/Aceh) dan kalimat penghubung ke rentang simulasi Tabel komposisi Bab III dengan justifikasi "tipikal andesitik-riolitik tropis"; 2.1.3 dipecah dua paragraf (heterogenitas; implikasi analitik); 2.1.4 tetap satu ide; 2.1.5 baru berisi tiga paragraf (overlap multi-elemen vs matriks logam; efek matriks geologi pada T_e/n_e; jarak analitik menuju encoder--decoder + adaptasi domain). Setiap klaim ditelusurkan ke sitasi yang tersedia; klaim tanpa sumber ditandai % [PERLU SITASI].
-% ================================
-
 \section{Karakteristik Geokimia Tanah Vulkanik}
-
-\subsection{Proses Pembentukan dan Karakteristik Umum Tanah Vulkanik}
-
-% [IDE POKOK]: Tanah vulkanik terbentuk dari pelapukan material erupsi yang dikendalikan oleh faktor lingkungan.
-Tanah vulkanik merupakan tanah yang terbentuk dari hasil pelapukan material vulkanik seperti abu, tuf, material piroklastik, dan lava melalui proses alterasi fisik maupun kimia seiring waktu. Laju dan arah proses pembentukan ini dikendalikan oleh faktor-faktor pembentuk tanah, yaitu material induk, iklim (curah hujan dan suhu), topografi, organisme, dan waktu, sehingga profil tanah yang dihasilkan merefleksikan sejarah erupsi sekaligus kondisi iklim setempat \citep{certini_crucial_2022}.
-
-% [IDE POKOK]: Sifat fisikokimia khas tanah vulkanik menghasilkan komposisi multi-elemen yang membentuk jejak geokimia multivariat.
-Secara fisikokimia, tanah vulkanik memiliki karakteristik yang khas, seperti porositas tinggi, kapasitas retensi air yang baik, kapasitas tukar kation (muatan variabel) yang relatif besar, serta kandungan mineral amorf (alofan, imogolit, ferihidrit) dan fase aluminosilikat yang dominan \citep{nanzyo_unique_2003}. Karakteristik tersebut berpadu dengan kandungan multi-elemen yang kompleks---mencakup unsur mayor pembentuk kerangka silikat hingga unsur jejak---sehingga material vulkanik membentuk \textit{geochemical footprint} yang bersifat multivariat \citep{harmon_laser-induced_2019, khumaeni_analysis_2025}. Implikasinya, karakterisasi geokimia tanah vulkanik menuntut teknik analitik yang mampu menangkap banyak unsur secara simultan, bukan pengukuran satu unsur tunggal.
 
 \subsection{Mineralogi dan Unsur Mayor pada Tanah Vulkanik}
 
-% [IDE POKOK]: Komposisi unsur mayor tanah vulkanik ditentukan oleh mineral primer pembawanya yang bergantung pada jenis magma asal.
-Karakteristik geokimia tanah vulkanik sangat dipengaruhi oleh komposisi mineral primer penyusunnya. Mineral yang umum dijumpai meliputi feldspar, plagioklas, olivin, piroksen, kuarsa, serta oksida besi; feldspar umumnya menjadi pembawa unsur Al, Na, dan K, olivin dan piroksen berasosiasi dengan Mg, Fe, dan Ca, kuarsa mendominasi kandungan Si, sementara oksida besi berkontribusi terhadap kandungan Fe. Oleh karena itu, unsur mayor yang dominan pada tanah vulkanik umumnya adalah Si, Al, Fe, Ca, Mg, Na, dan K, dengan proporsi yang dipengaruhi oleh jenis magma asal---basaltik, andesitik, maupun riolitik---yang menentukan dominasi mineral primer penyusunnya \citep{khumaeni_analysis_2025}. Beberapa mineral silikat dapat memiliki komposisi unsur serupa namun struktur kristal berbeda, sehingga meningkatkan kompleksitas interpretasi geokimia \citep{fabre_advances_2020}.
+Tanah vulkanik terbentuk dari pelapukan material vulkanik (abu, tuf, piroklastik, lava) yang dikendalikan oleh faktor pembentuk tanah, material induk, iklim, topografi, organisme, dan waktu, sehingga profilnya merefleksikan sejarah erupsi sekaligus kondisi iklim setempat \citep{certini_crucial_2022}. Secara fisikokimia, tanah ini memiliki porositas tinggi, kapasitas tukar kation besar, serta kandungan mineral amorf dan fase aluminosilikat yang dominan \citep{nanzyo_unique_2003}, berpadu dengan kandungan multi-elemen kompleks, dari unsur mayor pembentuk kerangka silikat hingga unsur jejak, yang membentuk \textit{geochemical footprint} multivariat \citep{harmon_laser-induced_2019, khumaeni_analysis_2025}. Implikasinya, karakterisasi geokimia tanah vulkanik menuntut teknik analitik yang mampu menangkap banyak unsur secara simultan, bukan pengukuran satu unsur tunggal.
 
-% [IDE POKOK]: Studi tanah vulkanik Indonesia mengonfirmasi dominasi unsur mayor silikatik yang sama dengan yang dianalisis dalam tesis ini.
+Karakteristik geokimia tanah vulkanik sangat dipengaruhi oleh komposisi mineral primer penyusunnya. Mineral yang umum dijumpai meliputi feldspar, plagioklas, olivin, piroksen, kuarsa, serta oksida besi; feldspar umumnya menjadi pembawa unsur Al, Na, dan K, olivin dan piroksen berasosiasi dengan Mg, Fe, dan Ca, kuarsa mendominasi kandungan Si, sementara oksida besi berkontribusi terhadap kandungan Fe. Oleh karena itu, unsur mayor yang dominan pada tanah vulkanik umumnya adalah Si, Al, Fe, Ca, Mg, Na, dan K, dengan proporsi yang dipengaruhi oleh jenis magma asal, basaltik, andesitik, maupun riolitik, yang menentukan dominasi mineral primer penyusunnya \citep{khumaeni_analysis_2025}. Beberapa mineral silikat dapat memiliki komposisi unsur serupa namun struktur kristal berbeda, sehingga meningkatkan kompleksitas interpretasi geokimia \citep{fabre_advances_2020}.
+
 Komposisi unsur mayor tersebut terkonfirmasi pada tanah vulkanik Indonesia. Analisis LIBS \textit{calibration-free} terhadap 24 lokasi sampel tanah vulkanik Gunung Merapi, Jawa Tengah, menunjukkan unsur mayor berupa Si, Ca, Fe, Al, dan K, serta oksida makronutrien termasuk CaO dan MgO, dengan validasi yang berkesesuaian dengan pengukuran XRF konvensional \citep{khumaeni_analysis_2025}. Analisis sifat fisikokimia Andisol pada abu vulkanik Pulau Jawa juga melaporkan kehadiran Na sebagai konstituen mineral plagioklas primer (albit) yang terdeteksi bersama unsur silikatik lainnya \citep{ranst_andisols_2002}. Dengan demikian, ketujuh unsur yang dianalisis dalam penelitian ini (Si, Al, Fe, Ca, Mg, Na, K) merepresentasikan konstituen utama yang terdokumentasi pada tanah vulkanik Indonesia.
 
-% [IDE POKOK]: Rentang konsentrasi simulasi pada Bab III didasarkan pada komposisi tipikal tanah vulkanik andesitik--riolitik tropis.
-Mengingat data konsentrasi terpublikasi yang spesifik untuk tanah vulkanik Seulawah Agam belum tersedia, rentang komposisi yang digunakan dalam pembangkitan spektrum sintetis pada penelitian ini (Tabel~\ref{tab:komposisi_elemen}: Si 40--60\%, Al 10--20\%, Fe 5--15\%, Ca 3--10\%, Mg 2--8\%, Na 1--5\%, dan K 1--5\% berat) didasarkan pada komposisi tipikal tanah vulkanik andesitik--riolitik tropis \citep{khumaeni_analysis_2025, ranst_andisols_2002}. Rentang yang sengaja dibuat lebar ini dimaksudkan agar distribusi data pelatihan sintetis mencakup variabilitas komposisi yang mungkin dijumpai pada sampel eksperimental, sehingga model tidak terlatih pada domain komposisi yang terlalu sempit.
+Mengingat data konsentrasi terpublikasi yang spesifik untuk tanah vulkanik Seulawah Agam belum tersedia, rentang komposisi yang digunakan dalam pembangkitan spektrum sintetis pada penelitian ini (Tabel~\ref{tab:komposisi_elemen}: Si 40-60\%, Al 10-20\%, Fe 5-15\%, Ca 3-10\%, Mg 2-8\%, Na 1-5\%, dan K 1-5\% berat) didasarkan pada komposisi tipikal tanah vulkanik andesitik-riolitik tropis \citep{khumaeni_analysis_2025, ranst_andisols_2002}. Rentang yang sengaja dibuat lebar ini dimaksudkan agar distribusi data pelatihan sintetis mencakup variabilitas komposisi yang mungkin dijumpai pada sampel eksperimental, sehingga model tidak terlatih pada domain komposisi yang terlalu sempit. Perlu dicatat bahwa rentang per unsur tersebut bersifat independen sehingga jumlah batas atasnya dapat melebihi 100\% berat; pada pembangkitan data sintetis di Bab~III, kombinasi fraksi konsentrasi dikonstrain ke simpleks ($\sum_z c_z = 1$) agar setiap sampel sintetis memenuhi ketertutupan massa (\textit{mass closure}).
 
 \begin{table}[htbp]
 \centering
@@ -58,29 +43,20 @@ No & Unsur & Mineral Pembawa Dominan & Peran Geokimia / Agronomi \\
 \end{tabular}
 \end{table}
 
-\subsection{Variabilitas Geokimia dan Implikasi Analitik}
-
-% [IDE POKOK]: Distribusi unsur tanah vulkanik heterogen secara lateral dan vertikal akibat proses deposisi dan pelapukan.
-Distribusi unsur dalam tanah vulkanik bersifat heterogen baik secara lateral maupun vertikal. Variasi lateral dipengaruhi oleh perbedaan komposisi abu induk dan gradien iklim antar lokasi yang mengontrol intensitas pencucian (\textit{leaching}), sebagaimana teramati pada rangkaian tanah vulkanik di Pulau Jawa \citep{ranst_andisols_2002}, sedangkan variasi vertikal dipengaruhi oleh kedalaman tanah, infiltrasi air, proses pencucian unsur, dan tingkat pelapukan mineral antar horizon \citep{arifin_characteristics_2022}; curah hujan yang tinggi di wilayah tropis turut mempercepat alterasi mineral primer menjadi mineral sekunder \citep{arifin_characteristics_2022}. Heterogenitas ukuran butir dan distribusi fase mineral menambah variasi geokimia hingga pada skala mikro maupun makro \citep{fabre_advances_2020}.
-
-% [IDE POKOK]: Heterogenitas geokimia tersebut berimplikasi langsung pada kompleksitas pengukuran LIBS.
-Heterogenitas tersebut berimplikasi langsung terhadap pengukuran LIBS. Karena LIBS mencuplik volume material yang sangat kecil pada setiap titik ablasi, variasi komposisi antar titik menyebabkan persoalan representativitas analisis titik, sementara kehadiran banyak unsur secara simultan meningkatkan kemungkinan \textit{spectral overlap} dan \textit{matrix effect} \citep{harmon_laser-induced_2019, fabre_advances_2020}. Konsekuensi analitik dari ketiga persoalan ini terhadap matriks tanah vulkanik secara khusus diuraikan pada Subbab~2.1.5.
-
-\subsection{Peran Unsur terhadap Kesuburan dan Vulkanologi}
-
-% [IDE POKOK]: Unsur mayor tanah vulkanik berperan ganda sebagai penentu kesuburan tanah dan penanda proses vulkanologi.
-Unsur mayor dalam tanah vulkanik berperan penting terhadap kesuburan tanah maupun interpretasi proses geokimia vulkanik. Unsur K, Ca, dan Mg berperan sebagai nutrien makro yang mendukung pertumbuhan tanaman \citep{nanzyo_unique_2003}, Fe dan Al memengaruhi sifat kimia tanah seperti tingginya kapasitas retensi (adsorpsi) fosfat oleh mineral amorf serta keasaman tanah \citep{nanzyo_unique_2003, fauziah_competitive_2022}, sedangkan Si berkontribusi terhadap struktur mineral tanah dan ketahanan tanaman tertentu; dalam konteks vulkanologi, distribusi unsur yang sama dapat digunakan untuk mengevaluasi proses alterasi hidrotermal, deposisi material erupsi, maupun evolusi geokimia pasca-erupsi \citep{khumaeni_analysis_2025}. Peran ganda inilah yang menjadikan kuantifikasi akurat ketujuh unsur mayor bernilai praktis, baik untuk penilaian kesuburan lahan di sekitar Seulawah Agam maupun untuk pemantauan geokimia gunung api.
-
 \subsection{Tantangan Analitik LIBS pada Matriks Tanah Vulkanik}
 
-% [IDE POKOK]: Heterogenitas multi-elemen tanah vulkanik menyebabkan spectral overlap yang jauh lebih parah dibandingkan matriks logam yang homogen.
-Tantangan pertama pada analisis LIBS tanah vulkanik adalah heterogenitas multi-elemen yang menghasilkan tumpang-tindih spektral parah. Ketujuh unsur mayor hadir bersamaan dalam satu plasma, dan unsur transisi seperti Fe menyumbang ribuan garis emisi yang rapat di wilayah ultraviolet--tampak, sehingga garis-garis analitik unsur minor mudah terinterferensi \citep{fabre_advances_2020, harmon_laser-induced_2019}. Kondisi ini berbeda secara mendasar dari matriks logam rekayasa seperti baja Eurofer97 yang digunakan dalam validasi MERLIN \citep{favre_merlin_2025}: pada matriks logam, komposisi didominasi satu unsur dasar dengan kadar paduan yang terkontrol dan tersertifikasi, sedangkan pada tanah vulkanik tidak ada unsur tunggal yang mendominasi spektrum secara terprediksi dan komposisinya bervariasi antar titik pengukuran (Subbab~2.1.3).
+Tantangan pertama pada analisis LIBS tanah vulkanik adalah heterogenitas multi-elemen yang menghasilkan tumpang-tindih spektral parah. Distribusi unsur dalam tanah vulkanik bersifat heterogen baik secara lateral (dipengaruhi komposisi abu induk dan gradien iklim antar lokasi \citep{ranst_andisols_2002}) maupun vertikal (dipengaruhi kedalaman tanah, infiltrasi air, dan pelapukan mineral antar horizon \citep{arifin_characteristics_2022}), dengan heterogenitas ukuran butir menambah variasi hingga skala mikro \citep{fabre_advances_2020}. Karena LIBS mencuplik volume material yang sangat kecil pada setiap titik ablasi, heterogenitas ini menyebabkan persoalan representativitas analisis titik, sementara kehadiran ketujuh unsur mayor secara simultan dalam satu plasma, dengan unsur transisi seperti Fe menyumbang ribuan garis emisi yang rapat di wilayah ultraviolet-tampak, meningkatkan kemungkinan \textit{spectral overlap} dan \textit{matrix effect} \citep{harmon_laser-induced_2019, fabre_advances_2020}. Kerumitan ini bukan sekadar prediksi teoretis: pada 65 sampel tanah permukaan, spektrum LIBS didominasi garis emisi Al, Ca, Fe, dan Mg yang saling bertumpuk sedemikian rupa sehingga kapabilitas kuantitatif LIBS pada matriks tanah dinyatakan meragukan \citep{essington_soil_2009}, dan kepadatan garis Fe serupa telah didokumentasikan langsung pada sampel tanah Banda Aceh yang berdekatan secara geografis dengan lokasi penelitian ini \citep{idris_study_2017}. Kontras kerumitan spektral akibat kehadiran unsur logam-transisi diperlihatkan pada Gambar~\ref{fig:bab2_mineral_complexity}: mineral bermatriks sederhana seperti mika menghasilkan spektrum yang relatif jarang puncaknya, sedangkan mineral yang kaya unsur logam-transisi seperti pirit menghasilkan hutan garis emisi yang rapat di sepanjang rentang 200-950~nm \citep{mezoued_analysis_2025}. Kondisi ini berbeda secara mendasar dari matriks logam rekayasa seperti baja Eurofer97 yang digunakan dalam validasi MERLIN \citep{favre_merlin_2025}, yang komposisinya didominasi satu unsur dasar dengan kadar paduan terkontrol dan tersertifikasi.
 
-% [IDE POKOK]: Variasi matriks geologi menggeser kondisi plasma (T_e, n_e) antar pengukuran sehingga mengganggu prosedur estimasi parameter CF-LIBS.
-Tantangan kedua adalah efek matriks geologi terhadap kondisi plasma. Bukti empiris dari pengukuran LIBS SuperCam di Mars menunjukkan bahwa sifat fisik target geologi memengaruhi parameter plasma: densitas elektron terukur sekitar 1,4 kali lebih tinggi pada target tanah (\textit{soil/regolith}) dibandingkan batuan, dan temperatur plasma tampak tersebar pada rentang sekitar 2.000~K antar komposisi sampel yang berbeda (basalt, trakit, gabro) \citep{manelski_libs_2024}. Karena prosedur CF-LIBS menurunkan konsentrasi dari estimasi $T_e$ (via \textit{Boltzmann plot}) dan $n_e$ (via pelebaran Stark), pergeseran kondisi plasma yang dipicu variasi matriks ini merambat langsung menjadi ketidakpastian kuantifikasi; pada tanah vulkanik yang komposisi mineral primernya bervariasi antar titik (Subbab~2.1.3), kondisi plasma antar pengukuran menjadi sulit dikontrol dan diasumsikan seragam.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/bab2/mezoued2025_fig1_mineral_spectra_complexity.png}
+    \caption{Spektrum LIBS mika (jarang) dan pirit (padat garis emisi) sebagai ilustrasi kerumitan spektral akibat kandungan logam-transisi (diadaptasi dari \citet{mezoued_analysis_2025}, CC~BY).}
+    \label{fig:bab2_mineral_complexity}
+\end{figure}
 
-% [IDE POKOK]: Kedua tantangan tersebut memotivasi pendekatan tesis ini: dekomposisi spektral berbasis fisika dalam arsitektur encoder--decoder dengan adaptasi domain.
-Kedua tantangan tersebut menggariskan jarak analitik yang hendak dijembatani oleh penelitian ini. Alih-alih meregresikan spektrum komposit secara langsung ke konsentrasi---pendekatan yang rentan terhadap \textit{spectral overlap} dan pergeseran kondisi plasma---penelitian ini membangkitkan pasangan spektrum monoatomik--poliatomik dari model fisika Saha--Boltzmann pada rentang $T_e$ dan $n_e$ yang lebar (Tabel~\ref{tab:param_sintetis}), lalu melatih arsitektur \textit{encoder--decoder} ber-\textit{cross-attention} untuk mencocokkan spektrum campuran terhadap referensi monoatomik per unsur sesuai Persamaan~\ref{eq:bab2_poly}. Kesenjangan antara data sintetis ideal dan spektrum eksperimental nyata---yang memuat efek instrumentasi serta deviasi dari asumsi LTE---selanjutnya dijembatani melalui mekanisme adaptasi domain \citep{ganin_domain_2016} sebagaimana diuraikan pada Subbab~2.5.6. Dengan demikian, karakteristik geokimia yang menjadikan tanah vulkanik menantang bagi LIBS konvensional justru menjadi dasar perancangan arsitektur yang diusulkan.
+Tantangan kedua adalah efek matriks geologi terhadap kondisi plasma. Bukti empiris dari pengukuran LIBS SuperCam di Mars menunjukkan bahwa sifat fisik target geologi memengaruhi parameter plasma: densitas elektron terukur sekitar 1,4 kali lebih tinggi pada target tanah (\textit{soil/regolith}) dibandingkan batuan, dan temperatur plasma tampak tersebar pada rentang sekitar 2.000~K antar komposisi sampel yang berbeda (basalt, trakit, gabro) \citep{manelski_libs_2024}. Karena prosedur CF-LIBS menurunkan konsentrasi dari estimasi $T_e$ (via \textit{Boltzmann plot}) dan $n_e$ (via pelebaran Stark), pergeseran kondisi plasma yang dipicu variasi matriks ini merambat langsung menjadi ketidakpastian kuantifikasi; pada tanah vulkanik yang komposisi mineral primernya bervariasi antar titik, kondisi plasma antar pengukuran menjadi sulit dikontrol dan diasumsikan seragam.
+
+Kedua tantangan tersebut menggariskan jarak analitik yang hendak dijembatani oleh penelitian ini. Alih-alih meregresikan spektrum komposit secara langsung ke konsentrasi, pendekatan yang rentan terhadap \textit{spectral overlap} dan pergeseran kondisi plasma, penelitian ini membangkitkan pasangan spektrum unsur tunggal-campuran dari model fisika Saha-Boltzmann pada rentang $T_e$ dan $n_e$ yang lebar (Tabel~\ref{tab:param_sintetis}), lalu melatih arsitektur \textit{encoder-decoder} ber-\textit{cross-attention} untuk mencocokkan spektrum campuran terhadap referensi unsur tunggal per unsur sesuai Persamaan~\ref{eq:bab2_poly}. Kesenjangan antara data sintetis ideal dan spektrum eksperimental nyata, yang memuat efek instrumentasi serta deviasi dari asumsi LTE, selanjutnya dijembatani melalui mekanisme adaptasi domain \citep{ganin_domain_2016} sebagaimana diuraikan pada Subbab~2.5.6. Dengan demikian, karakteristik geokimia yang menjadikan tanah vulkanik menantang bagi LIBS konvensional justru menjadi dasar perancangan arsitektur yang diusulkan.
 
 % ======================================================================
 % 2.2 Laser-Induced Breakdown Spectroscopy (LIBS)
@@ -90,7 +66,54 @@ Kedua tantangan tersebut menggariskan jarak analitik yang hendak dijembatani ole
 
 \subsection{Prinsip Dasar LIBS}
 
-\textit{Laser-Induced Breakdown Spectroscopy} (LIBS) adalah teknik spektroskopi emisi atomik yang memanfaatkan interaksi destruktif antara pulsa laser berintensitas tinggi dengan permukaan material untuk menentukan komposisi unsur penyusunnya. Saat pulsa laser, yang umumnya berdurasi orde nanosekon, difokuskan pada area target, energi optik diserap secara masif oleh material melalui proses pemanasan, pelelehan, dan penguapan seketika. Proses ablasi ini menghasilkan awan uap berkerapatan tinggi yang secara cepat terus menyerap sisa energi laser yang datang melalui mekanisme penyerapan seperti \textit{Inverse Bremsstrahlung} dan efek multiphoton. Kondisi pemerangkapan energi ini memicu pemecahan dielektrik (\textit{dielectric breakdown}) dari gas di sekitarnya dan membentuk plasma mikro bersuhu amat tinggi yang kaya akan molekul, atom eksitasi, ion, serta elektron bebas \citep{legnaioli_laser-induced_2025}.
+\textit{Laser-Induced Breakdown Spectroscopy} (LIBS) adalah teknik spektroskopi emisi atomik yang memanfaatkan interaksi destruktif antara pulsa laser berintensitas tinggi dengan permukaan material untuk menentukan komposisi unsur penyusunnya. Saat pulsa laser, yang umumnya berdurasi orde nanosekon, difokuskan pada area target, energi optik diserap secara masif oleh material melalui proses pemanasan, pelelehan, dan penguapan seketika, membentuk plasma mikro bersuhu amat tinggi yang kaya akan atom tereksitasi, ion, serta elektron bebas \citep{legnaioli_laser-induced_2025}. Skema umum sistem LIBS, yang terdiri dari sumber laser berdenyut, optik pemfokus, ruang ablasi, dan spektrometer, diperlihatkan pada Gambar~\ref{fig:bab2_libs_setup}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\textwidth]{images/bab2/favre2025_fig7_libs_setup.png}
+    \caption{Skema eksperimen LIBS pada rig validasi \textit{Eurofer97} beratmosfer Ar terkontrol, berbeda dari setup atmosfer terbuka penelitian ini (diadaptasi dari \citet{favre_merlin_2025}, CC~BY).}
+    \label{fig:bab2_libs_setup}
+\end{figure}
+
+Sebagai pembanding terhadap skema umum tersebut, Gambar~\ref{fig:bab2_libs_setup_tesis} memperlihatkan skema setup eksperimen yang digunakan pada penelitian ini, yang perincian instrumennya diuraikan pada Subbab~3.3.1.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font=\footnotesize,
+      alat/.style={draw, thick, align=center, minimum height=0.8cm},
+      panah/.style={-stealth}]
+      % laser
+      \node[alat, minimum width=3.2cm] (laser) at (0.6,4.6) {Laser Nd:YAG\\ (1064~nm; 114~mJ)};
+      % berkas laser dan cermin
+      \draw[panah, very thick] (laser.east) -- (4.35,4.6);
+      \draw[thick] (4.3,4.35) -- (4.8,4.85);
+      \node[above, inner sep=2pt] at (4.55,4.9) {cermin};
+      % lensa fokus
+      \draw[panah, very thick] (4.55,4.4) -- (4.55,3.15);
+      \draw[thick] (4.55,3.0) ellipse (0.5 and 0.12);
+      \node[right] at (5.15,3.0) {lensa fokus};
+      % berkas terfokus
+      \draw[very thick] (4.1,2.95) -- (4.55,1.65);
+      \draw[very thick] (5.0,2.95) -- (4.55,1.65);
+      % plasma
+      \foreach \a in {0,45,...,315} \draw[thick] (4.55,1.65) -- +(\a:0.22);
+      \node[left] at (4.15,1.95) {plasma};
+      % sampel
+      \draw[fill=black!15] (3.55,1.05) rectangle (5.55,1.5);
+      \node[below] at (4.55,1.0) {sampel tanah vulkanik};
+      % catatan atmosfer terbuka
+      \node[align=center] at (1.4,2.1) {atmosfer terbuka\\ (tanpa ruang sampel\\ bergas terkontrol)};
+      % pengumpulan emisi
+      \draw[dashed, panah] (4.9,1.85) -- node[above, sloped] {emisi plasma} (7.3,2.6);
+      \node[alat, minimum width=3.0cm] (spec) at (9.2,2.6) {Spektrometer\\ \textit{Echelle}};
+      \node[alat, minimum width=3.0cm] (oma) at (9.2,1.2) {Detektor OMA};
+      \node[alat, minimum width=3.0cm] (pc) at (9.2,-0.1) {Komputer};
+      \draw[panah] (spec) -- (oma);
+      \draw[panah] (oma) -- (pc);
+    \end{tikzpicture}
+    \caption{Skema setup eksperimen LIBS penelitian ini: Nd:YAG 1064~nm/114~mJ pada atmosfer terbuka, tanpa ruang argon terkontrol seperti Gambar~\ref{fig:bab2_libs_setup}.}
+    \label{fig:bab2_libs_setup_tesis}
+\end{figure}
 
 \subsection{Pembentukan Plasma LIBS}
 
@@ -99,7 +122,7 @@ Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setela
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/bab2/wang2024_fig2_timeresolved.png}
-    \caption{Spektrum emisi plasma Cu pada waktu tunda 5, 10, dan 15~$\mu$s; intensitas garis emisi meluruh seiring pendinginan plasma pasca-ablasi (diadaptasi dari \citet{wang_simulation_2024}, lisensi CC~BY).}
+    \caption{Spektrum emisi plasma Cu pada waktu tunda 5, 10, dan 15~$\mu$s (diadaptasi dari \citet{wang_simulation_2024}, CC~BY).}
     \label{fig:bab2_timeresolved}
 \end{figure}
 
@@ -107,13 +130,13 @@ Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setela
 
 Saat plasma LIBS mencapai fase pendinginan pasca-ablasi, atom dan ion dalam keadaan tereksitasi mengalami transisi elektronik spontan menuju tingkat energi yang lebih rendah. Selisih energi antar dua tingkat tersebut dilepaskan dalam bentuk foton dengan panjang gelombang diskret \( \lambda_{ki} = hc / (E_k - E_i) \), di mana \( E_k \) dan \( E_i \) masing-masing merupakan energi tingkat atas dan bawah, \( h \) adalah konstanta Planck, dan \( c \) adalah kecepatan cahaya \citep{fujimoto_plasma_2004}. Probabilitas emisi spontan ini dikarakterisasi oleh koefisien Einstein \( A_{ki} \), dan seluruh garis emisi yang terbentuk secara bersamaan membentuk spektrum diskret yang terekam oleh spektrometer.
 
-Setiap unsur kimia memiliki konfigurasi tingkat energi elektronik yang unik, sehingga menghasilkan pola garis emisi pada panjang gelombang yang khas dan spesifik. Identifikasi unsur dilakukan melalui proses \textit{peak matching}, yaitu pencocokan posisi puncak pada spektrum terukur terhadap panjang gelombang referensi yang telah diketahui untuk setiap unsur \citep{legnaioli_laser-induced_2025}. Efek pelebaran garis akibat kondisi plasma---seperti pelebaran Doppler dan Stark---serta resolusi spektrometer berpengaruh terhadap keakuratan proses pencocokan tersebut, khususnya pada sampel poliatomik seperti tanah vulkanik yang menghasilkan spektrum padat dengan banyak garis yang berimpitan.
+Setiap unsur kimia memiliki konfigurasi tingkat energi elektronik yang unik, sehingga menghasilkan pola garis emisi pada panjang gelombang yang khas dan spesifik. Identifikasi unsur dilakukan melalui proses \textit{peak matching}, yaitu pencocokan posisi puncak pada spektrum terukur terhadap panjang gelombang referensi yang telah diketahui untuk setiap unsur \citep{legnaioli_laser-induced_2025}. Efek pelebaran garis akibat kondisi plasma, seperti pelebaran Doppler dan Stark, serta resolusi spektrometer berpengaruh terhadap keakuratan proses pencocokan tersebut, khususnya pada sampel multi-unsur seperti tanah vulkanik yang menghasilkan spektrum padat dengan banyak garis yang berimpitan.
 
 \textit{NIST Atomic Spectra Database} (ASD) merupakan basis data referensi atomik utama yang digunakan secara luas dalam analisis LIBS, menyediakan lebih dari 180.000 garis spektral beserta parameter transisi yang divalidasi secara kritis untuk 99 unsur \citep{sawyers_database_2025}. Parameter yang tersedia mencakup panjang gelombang transisi \( \lambda_{ki} \), koefisien Einstein \( A_{ki} \), energi tingkat eksitasi \( E_k \), dan faktor degenerasi statistik \( g_k \). Dalam penelitian ini, data NIST ASD berfungsi sebagai referensi primer untuk konstruksi spektrum sintetis dan validasi posisi garis emisi pada \textit{forward model} berbasis LTE.
 
 \subsection{Local Thermodynamic Equilibrium (LTE)}
 
-Analisis kuantitatif dari emisi plasma LIBS yang mengandalkan pemodelan fisika analitik umumnya bersandar pada validitas asumsi Keseimbangan Termodinamika Lokal atau \textit{Local Thermodynamic Equilibrium} (LTE) \citep{cristoforetti_local_2010}. Karena plasma LIBS bersifat sangat transien dengan densitas dan dimensi geometri spasial yang curam dari pusat (\textit{core}) hingga ke tepi luarnya, keadaan keseimbangan termodinamika secara utuh sangat mustahil untuk digapai. Namun dalam kondisi LTE, pada kompartemen elemen mikro (lokal) dan \textit{delay time} spesifik (sekitar skala $\mu$s), tumbukan inelastis antar elemen pengisi---terutama eksitasi lewat elektron---dipandang mengambil alih secara dominan atas transfer de-eksitasi energi radiatif spontan. Dalam kerangka asumsi ini, berbagai parameter fisis molekuler dan atomik cukup didekati melalui parameter termodinamika makroskopik seperti temperatur elektron ($T_e$) tunggal \citep{cristoforetti_local_2010}.
+Analisis kuantitatif dari emisi plasma LIBS yang mengandalkan pemodelan fisika analitik umumnya bersandar pada validitas asumsi Keseimbangan Termodinamika Lokal atau \textit{Local Thermodynamic Equilibrium} (LTE) \citep{cristoforetti_local_2010}. Karena plasma LIBS bersifat sangat transien dengan densitas dan dimensi geometri spasial yang curam dari pusat (\textit{core}) hingga ke tepi luarnya, keadaan keseimbangan termodinamika secara utuh sangat mustahil untuk digapai. Namun dalam kondisi LTE, pada kompartemen elemen mikro (lokal) dan \textit{delay time} spesifik (sekitar skala $\mu$s), tumbukan inelastis antar elemen pengisi, terutama eksitasi lewat elektron, dipandang mengambil alih secara dominan atas transfer de-eksitasi energi radiatif spontan. Dalam kerangka asumsi ini, berbagai parameter fisis molekuler dan atomik cukup didekati melalui parameter termodinamika makroskopik seperti temperatur elektron ($T_e$) tunggal \citep{cristoforetti_local_2010}.
 
 Keabsahan dominasi tumbukan tersebut dapat diverifikasi secara teoretis melalui kriteria McWhirter \citep{bultel_mcwhirter_2025, cristoforetti_local_2010}. Kriteria ini menetapkan \textit{syarat perlu} (namun tidak cukup) bagi kerapatan elektron plasma ($n_e$) pada ambang temperatur tertentu, dan harus dilengkapi dengan verifikasi kondisi stasionaritas dan homogenitas plasma \citep{cristoforetti_local_2010}:
 \begin{equation} \label{eq:bab2_mcwhirter}
@@ -124,7 +147,7 @@ dengan $\Delta E$ (dalam eV) merupakan selisih interval tingkat energi dari tran
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/bab2/manelski2024_fig8_te_ne_delay.png}
-    \caption{Penurunan temperatur plasma (biru, sumbu kiri) dan densitas elektron $N_e$ (merah, sumbu kanan) terhadap waktu tunda pada eksperimen LIBS terselesaikan-waktu, yang menentukan jendela temporal validitas asumsi LTE. Data diukur pada kondisi atmosfer Mars ($\sim$610~Pa); nilai absolut parameter berbeda pada tekanan atmosfer bumi, namun perilaku peluruhannya berlaku umum (diadaptasi dari \citet{manelski_libs_2024}).}
+    \caption{Peluruhan $T_e$ dan $n_e$ terhadap waktu tunda pada atmosfer Mars (diadaptasi dari \citet{manelski_libs_2024}).}
     \label{fig:bab2_te_ne_delay}
 \end{figure}
 
@@ -156,7 +179,7 @@ Populasi energi eksitasi yang kemudian meluruh ke tingkat energi yang lebih rend
 \begin{equation} \label{eq:bab2_emiss}
 j_\lambda = \frac{hc}{4\pi\lambda}\,A_{ki}\,n_k\,\phi_V(\lambda),
 \end{equation}
-di mana $A_{ki}$ adalah koefisien Einstein yang merepresentasikan probabilitas transisi spontan dari tingkat energi atas $k$ ke tingkat bawah $i$, $n_k$ adalah densitas populasi tingkat atas (dihitung via distribusi Saha--Boltzmann), dan $\phi_V(\lambda)$ adalah profil garis emisi.
+di mana $A_{ki}$ adalah koefisien Einstein yang merepresentasikan probabilitas transisi spontan dari tingkat energi atas $k$ ke tingkat bawah $i$, $n_k$ adalah densitas populasi tingkat atas (dihitung via distribusi Saha-Boltzmann), dan $\phi_V(\lambda)$ adalah profil garis emisi.
 
 \subsection{Pelebaran Garis Spektral}
 
@@ -176,15 +199,24 @@ Pelebaran Stark disebabkan oleh interaksi medan listrik mikro dari partikel berm
 
 Dalam plasma LIBS, kedua mekanisme pelebaran di atas berlaku secara simultan. Superposisi dari profil Gaussian (Doppler) dan profil Lorentzian (Stark) menghasilkan profil gabungan yang dikenal sebagai Profil Voigt, yang dinyatakan melalui konvolusi keduanya dalam fungsi $\phi_V(\lambda)$ \citep{griem_spectral_1974}. Profil Voigt ini digunakan dalam term $\phi_V(\lambda)$ pada Persamaan~\ref{eq:bab2_emiss} untuk mensimulasikan bentuk garis emisi yang realistis.
 
-\subsection{Spektrum Monoatomik dan Poliatomik}
+\subsection{Spektrum Unsur Tunggal dan Campuran}
 
-Dari perspektif fisika dekomposisi spektral, profil emisi total poliatomik $S_{\text{poly}}(\lambda)$ yang dikoleksi via spektrometer merupakan superposisi linier dari emisi individual $S_{\text{mono}}^{(z)}(\lambda)$ untuk setiap elemen $z$. Spektrum monoatomik merangkum konstelasi puncak emisi individual suatu elemen spesifik dengan intensitas yang ditentukan oleh parameter plasma $T_e$ dan $n_e$.
+Dari perspektif fisika dekomposisi spektral, profil emisi total campuran (\textit{mixture spectrum}) $S_{\mathrm{campuran}}(\lambda)$ yang dikoleksi via spektrometer merupakan superposisi linier dari emisi individual unsur tunggal (\textit{single-element spectrum}) $S_{\mathrm{tunggal}}^{(z)}(\lambda)$ untuk setiap elemen $z$. Spektrum unsur tunggal merangkum konstelasi puncak emisi individual suatu elemen spesifik dengan intensitas yang ditentukan oleh parameter plasma $T_e$ dan $n_e$.
 
-Spektrum poliatomik campuran mewakili hasil jumlahan linier dari kontribusi setiap elemen yang dibobot oleh fraksi konsentrasi $c_z$:
+Spektrum campuran mewakili hasil jumlahan linier dari kontribusi setiap elemen yang dibobot oleh fraksi konsentrasi $c_z$:
 \begin{equation} \label{eq:bab2_poly}
-S_{\mathrm{poly}}(\lambda) = \sum_{z} c_z \, S_{\mathrm{mono}}^{(z)}(\lambda).
+S_{\mathrm{campuran}}(\lambda) = \sum_{z} c_z \, S_{\mathrm{tunggal}}^{(z)}(\lambda).
 \end{equation}
-Model dekomposisi eksplisit ini menjustifikasi konsep \textit{cross-attention} yang menghubungkan representasi spektrum monoatomik dengan observasi spektrum poliatomik dalam kerangka pembelajaran mendalam.
+Persamaan~\ref{eq:bab2_poly} merupakan bentuk \textit{linear mixing model} (LMM) yang telah diterapkan pada data LIBS, antara lain pada spektrum ChemCam/Mars \citep{konstantinidis_application_2019} dan pada analisis komposisi tanah melalui \textit{spectral unmixing} \citep{wang_novel_2014}; kedua studi tersebut memperlakukan spektrum sampel sebagai kombinasi linier sinyal referensi per unsur yang koefisiennya diestimasi melalui regresi. Model dekomposisi eksplisit ini menjustifikasi konsep \textit{cross-attention} yang menghubungkan representasi spektrum unsur tunggal dengan observasi spektrum campuran dalam kerangka pembelajaran mendalam. Perlu ditegaskan bahwa linearitas superposisi pada Persamaan~\ref{eq:bab2_poly} berlaku di bawah asumsi plasma \textit{optically thin} dan LTE dengan parameter plasma bersama ($T_e$, $n_e$) untuk seluruh unsur dalam plasma yang sama. Pada kondisi \textit{self-absorption} parsial, intensitas garis emisi yang kuat menyimpang dari proporsionalitas linier tersebut, dan model \textit{deep learning} yang diusulkan diharapkan mempelajari koreksi residual terhadap penyimpangan linearitas ini dari data (Subbab~2.4.2).
+
+Validitas model dekomposisi pada Persamaan~\ref{eq:bab2_poly} telah ditunjukkan pada pemodelan fisika radiatif berbasis paket komputasi MERLIN, sebuah kode transfer radiatif tergeneralisasi yang mensimulasikan emisi campuran multi-unsur arbitrer pada kondisi LTE dengan konsistensi termodinamika terjamin melalui integrasi \textit{Radiative Transfer Equation} (RTE) \citep{favre_merlin_2025}. Kemampuan rekonstruksi MERLIN pada data eksperimental baja Eurofer97 diperlihatkan pada Gambar~\ref{fig:bab2_merlin_spectra}: spektrum simulasi menyamai spektrum eksperimental pada jendela yang didominasi garis-garis Fe, dengan konsistensi terjaga pada beberapa waktu tunda berbeda, mengonfirmasi bahwa basis data sintetis berbasis fisika representatif terhadap fenomena \textit{self-absorption} dan pelebaran Stark sehingga layak digunakan sebagai data pelatihan model pembelajaran mesin.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{images/bab2/favre2025_fig16_spectra_expvsmerlin.png}
+    \caption{Perbandingan spektrum eksperimental dan simulasi MERLIN baja Eurofer97 (diadaptasi dari \citet{favre_merlin_2025}, CC~BY).}
+    \label{fig:bab2_merlin_spectra}
+\end{figure}
 
 % ======================================================================
 % 2.4 Kuantifikasi Unsur pada LIBS
@@ -206,9 +238,9 @@ Keterbatasan utama pendekatan univariat adalah kerentanannya terhadap \textit{ma
 
 \subsection{Calibration-Free LIBS}
 
-\textit{Calibration-Free LIBS} (CF-LIBS) merupakan pendekatan kuantifikasi unsur yang bertujuan menghilangkan ketergantungan terhadap sampel standar kalibrasi eksternal, dengan memanfaatkan persamaan fisika plasma secara langsung \citep{cristoforetti_local_2010}. Dalam CF-LIBS, konsentrasi unsur diturunkan dari hubungan Saha--Boltzmann (Persamaan~\ref{eq:bab2_saha} dan~\ref{eq:bab2_boltzmann}) setelah mengestimasi parameter plasma $T_e$ dan $n_e$ dari spektrum emisi yang terukur. Langkah sentral dalam prosedur ini adalah konstruksi \textit{Boltzmann plot} untuk menentukan $T_e$, sedangkan $n_e$ diestimasi dari pelebaran Stark garis spektral tertentu.
+\textit{Calibration-Free LIBS} (CF-LIBS) merupakan pendekatan kuantifikasi unsur yang bertujuan menghilangkan ketergantungan terhadap sampel standar kalibrasi eksternal, dengan memanfaatkan persamaan fisika plasma secara langsung \citep{cristoforetti_local_2010}. Dalam CF-LIBS, konsentrasi unsur diturunkan dari hubungan Saha-Boltzmann (Persamaan~\ref{eq:bab2_saha} dan~\ref{eq:bab2_boltzmann}) setelah mengestimasi parameter plasma $T_e$ dan $n_e$ dari spektrum emisi yang terukur. Langkah sentral dalam prosedur ini adalah konstruksi \textit{Boltzmann plot} untuk menentukan $T_e$, sedangkan $n_e$ diestimasi dari pelebaran Stark garis spektral tertentu.
 
-Meski menawarkan keunggulan analitik yang signifikan, akurasi CF-LIBS masih dibatasi oleh beberapa faktor. Pertama, validitas asumsi LTE harus dipenuhi, yang diverifikasi melalui kriteria McWhirter (Persamaan~\ref{eq:bab2_mcwhirter}). Kedua, efek \textit{self-absorption} pada garis emisi yang kuat dapat mendistorsi intensitas terukur sehingga mengganggu estimasi $T_e$ dan $n_e$ \citep{yang_self-absorption_2020}. Ketiga, penentuan $T_e$ dan $n_e$ yang tidak akurat merupakan sumber utama ketidakpastian dalam CF-LIBS \citep{zeng_accurate_2023}. Untuk mengatasi masalah ini, sejumlah modifikasi telah diusulkan, antara lain metode \textit{one-point calibration} (OPC) yang mengkoreksi ketidakpastian parameter spektroskopik secara empiris \citep{borduchi_one-point_2019}. Favre et al.\ \citep{favre_towards_2025} mengintegrasikan kode transfer radiatif MERLIN dengan jaringan CNN residual untuk mencapai kuantifikasi CF-LIBS secara \textit{real-time} ($>$10~Hz) tanpa memerlukan keahlian interpretasi spektral manual, dengan validasi pada sampel baja Eurofer97. Meskipun pendekatan ini menjawab hambatan kecepatan komputasi, implementasinya mensyaratkan infrastruktur basis data atomik yang kompleks dan validasinya belum mencakup matriks geologi vulkanik dengan \textit{spectral overlap} tinggi, sehingga mendorong eksplorasi arsitektur pembelajaran mendalam yang lebih dapat digeneralisasikan.
+Meski menawarkan keunggulan analitik yang signifikan, akurasi CF-LIBS dibatasi oleh tiga faktor utama: validitas asumsi LTE yang harus diverifikasi melalui kriteria McWhirter (Persamaan~\ref{eq:bab2_mcwhirter}), efek \textit{self-absorption} pada garis emisi kuat yang mendistorsi intensitas terukur sehingga mengganggu estimasi $T_e$ dan $n_e$ \citep{yang_self-absorption_2020}, serta penentuan $T_e$ dan $n_e$ yang tidak akurat sebagai sumber utama ketidakpastian \citep{zeng_accurate_2023}. Sejumlah modifikasi telah diusulkan untuk mengatasinya, antara lain metode \textit{one-point calibration} (OPC) \citep{borduchi_one-point_2019} serta integrasi kode transfer radiatif MERLIN dengan jaringan CNN residual yang mencapai kuantifikasi CF-LIBS \textit{real-time} ($>$10~Hz) pada sampel baja Eurofer97 \citep{favre_towards_2025}. Namun, pendekatan terakhir mensyaratkan infrastruktur basis data atomik yang kompleks dan validasinya belum mencakup matriks geologi vulkanik dengan \textit{spectral overlap} tinggi, sehingga mendorong eksplorasi arsitektur pembelajaran mendalam yang lebih dapat digeneralisasikan.
 
 \subsection{X-ray Fluorescence (XRF) sebagai Data Referensi}
 
@@ -234,28 +266,149 @@ Kompleksitas dependensi spektral pada rentang panjang gelombang yang luas (hingg
 \end{equation}
 Skema \textit{Multi-Head Attention} memungkinkan model menangkap korelasi antar panjang gelombang dari berbagai subspace representasi secara paralel, sehingga mampu merekonstruksi konektivitas antar garis emisi dalam satu elemen, seperti relasi multiplet dari tingkat ionisasi yang sama.
 
+Contoh penerapan arsitektur hibrid CNN-Transformer pada LIBS adalah TransCNN-LIBS \citep{liu_remote_2026}, yang memadukan lapisan CNN untuk ekstraksi fitur puncak lokal dengan blok \textit{Transformer} ber-\textit{multi-head self-attention} untuk menangkap dependensi global antar panjang gelombang, didahului prapemrosesan \textit{wavelet transform} (Coif5), sebagaimana diperlihatkan pada Gambar~\ref{fig:bab2_transcnn}. Arsitektur ini menerapkan \textit{self-attention} hanya pada satu spektrum komposit tanpa struktur \textit{encoder-decoder} maupun dekomposisi eksplisit per unsur.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.99\textwidth]{images/bab2/liu2026_fig3_transcnn.png}
+    \caption{Kerangka model TransCNN-LIBS tanpa dekomposisi per unsur (diadaptasi dari \citet{liu_remote_2026}, CC~BY).}
+    \label{fig:bab2_transcnn}
+\end{figure}
+
 \subsection{Informer}
 
-Kompleksitas mekanisme \textit{self-attention} konvensional yang berskala \( O(n^2) \) terhadap panjang urutan menjadi hambatan signifikan ketika spektrum LIBS yang memiliki puluhan ribu titik data diproses sebagai urutan panjang. \textit{Informer} \citep{zhou_informer_2021} merupakan varian arsitektur \textit{Transformer} yang mengatasi hambatan ini dengan mengurangi kompleksitas komputasi dan memori menjadi \( O(n \ln n) \). Reduksi ini dimungkinkan oleh fakta bahwa distribusi bobot \textit{attention} pada spektrum nyata bersifat \textit{sparse}---hanya sebagian kecil pasangan posisi spektral yang memiliki korelasi dominan---sehingga perhitungan perhatian cukup dilakukan pada subset posisi paling informatif tanpa kehilangan informasi spektral yang signifikan. Pendekatan ini menjadikan \textit{Informer} efisien untuk pemrosesan spektrum berdimensi tinggi seperti LIBS, dan efektivitasnya pada analisis spektrum geologi telah divalidasi dalam penelitian terdahulu \citep{walidain_informer-based_2026}; struktur \textit{encoder} Informer yang digunakan pada penelitian tersebut diperlihatkan pada Gambar~\ref{fig:bab2_informer}.
+Kompleksitas mekanisme \textit{self-attention} konvensional yang berskala \( O(n^2) \) terhadap panjang urutan menjadi hambatan signifikan ketika spektrum LIBS yang memiliki puluhan ribu titik data diproses sebagai urutan panjang. \textit{Informer} \citep{zhou_informer_2021} merupakan varian arsitektur \textit{Transformer} yang mengatasi hambatan ini dengan mengurangi kompleksitas komputasi dan memori menjadi \( O(n \ln n) \). Reduksi ini dimungkinkan oleh fakta bahwa distribusi bobot \textit{attention} pada spektrum nyata bersifat \textit{sparse}, hanya sebagian kecil pasangan posisi spektral yang memiliki korelasi dominan, sehingga perhitungan perhatian cukup dilakukan pada subset posisi paling informatif tanpa kehilangan informasi spektral yang signifikan. Pendekatan ini menjadikan \textit{Informer} efisien untuk pemrosesan spektrum berdimensi tinggi seperti LIBS, dan efektivitasnya telah divalidasi pada spektrum LIBS matriks herbal dalam penelitian terdahulu \citep{walidain_informer-based_2026}; struktur \textit{encoder} Informer yang digunakan pada penelitian tersebut diperlihatkan pada Gambar~\ref{fig:bab2_informer}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{images/bab2/walidain2026_fig1_informer.png}
-    \caption{Arsitektur \textit{encoder} Informer dengan \textit{ProbSparse self-attention} untuk klasifikasi multi-label spektrum LIBS 4.096 kanal \citep{walidain_informer-based_2026}.}
+    \caption{Arsitektur \textit{encoder} Informer dengan \textit{ProbSparse self-attention} \citep{walidain_informer-based_2026}.}
     \label{fig:bab2_informer}
 \end{figure}
 
-\subsection{Encoder--Decoder}
+\subsection{Encoder-Decoder}
 
-Arsitektur \textit{Encoder--Decoder} memisahkan proses representasi masukan dan proses dekoding keluaran secara modular. Pada konteks penelitian ini, blok \textit{Encoder} memproses spektrum monoatomik $S_{\text{mono}}^{(z)}$ untuk menghasilkan representasi memori spesifik elemen, sementara blok \textit{Decoder} memproses spektrum poliatomik campuran.
+Arsitektur \textit{Encoder-Decoder} memisahkan proses representasi masukan dan proses dekoding keluaran secara modular. Pada konteks penelitian ini, blok \textit{Encoder} memproses spektrum unsur tunggal $S_{\mathrm{tunggal}}^{(z)}$ untuk menghasilkan representasi memori spesifik elemen, sementara blok \textit{Decoder} memproses spektrum campuran.
 
 \subsection{Cross-Attention}
 
-Koneksi antara \textit{Encoder} dan \textit{Decoder} direkatkan melalui mekanisme \textit{Cross-Attention}. Pada mekanisme ini, blok \textit{Decoder} menghasilkan vektor $\mathbf{Q}_{\text{dec}}$ dari representasi spektrum poliatomik dan mencocokkannya dengan $\mathbf{K}_{\text{enc}}, \mathbf{V}_{\text{enc}}$ dari \textit{Encoder} yang menyimpan representasi spektrum monoatomik individual. Bobot \textit{cross-attention} yang dihasilkan merepresentasikan probabilitas kontribusi relatif setiap elemen monoatomik terhadap sinyal poliatomik campuran, sekaligus memungkinkan ekstraksi koefisien konsentrasi $c_z$ secara konsisten dengan prinsip dekomposisi spektral (Persamaan~\ref{eq:bab2_poly}).
+Koneksi antara \textit{Encoder} dan \textit{Decoder} direkatkan melalui mekanisme \textit{Cross-Attention}. Pada mekanisme ini, blok \textit{Decoder} menghasilkan vektor $\mathbf{Q}_{\text{dec}}$ dari representasi spektrum campuran dan mencocokkannya dengan $\mathbf{K}_{\text{enc}}, \mathbf{V}_{\text{enc}}$ dari \textit{Encoder} yang menyimpan representasi spektrum unsur tunggal individual. Secara formal, operasi ini merupakan bentuk khusus dari Persamaan~\ref{eq:bab2_attention} dengan \textit{query} bersumber dari \textit{decoder} sementara pasangan \textit{key-value} bersumber dari \textit{encoder}:
+\begin{equation} \label{eq:bab2_crossattention}
+\mathrm{CrossAttention}(\mathbf{Q}_{\text{dec}},\mathbf{K}_{\text{enc}},\mathbf{V}_{\text{enc}}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}_{\text{dec}}\mathbf{K}_{\text{enc}}^{\top}}{\sqrt{d_k}}\right)\mathbf{V}_{\text{enc}}.
+\end{equation}
+Bobot \textit{cross-attention} hasil operasi \textit{softmax} pada Persamaan~\ref{eq:bab2_crossattention} merepresentasikan probabilitas kontribusi relatif setiap unsur tunggal terhadap sinyal campuran, sekaligus memungkinkan ekstraksi koefisien konsentrasi $c_z$ secara konsisten dengan prinsip dekomposisi spektral (Persamaan~\ref{eq:bab2_poly}); mekanisme ini diilustrasikan secara konseptual pada Gambar~\ref{fig:bab2_crossattention_konsep}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font=\footnotesize,
+      elem/.style={draw, minimum width=1.0cm, minimum height=0.5cm, inner sep=1pt},
+      blok/.style={draw, thick, align=center, minimum height=0.9cm},
+      panah/.style={-stealth}]
+      % kiri: tujuh spektrum unsur tunggal
+      \node[elem] (e1) at (0,4.8) {Si};
+      \node[elem] (e2) at (0,4.0) {Al};
+      \node[elem] (e3) at (0,3.2) {Fe};
+      \node[elem] (e4) at (0,2.4) {Ca};
+      \node[elem] (e5) at (0,1.6) {Mg};
+      \node[elem] (e6) at (0,0.8) {Na};
+      \node[elem] (e7) at (0,0.0) {K};
+      \node[align=center] at (0,5.5) {$S_{\mathrm{tunggal}}^{(z)}(\lambda)$};
+      % encoder
+      \node[blok, minimum width=2.2cm] (enc) at (3.0,2.4) {\textit{Encoder}};
+      \foreach \i in {1,...,7} \draw[panah] (e\i) -- (enc);
+      % kanan atas: spektrum campuran dan decoder
+      \node[blok, minimum width=3.0cm] (mix) at (8.6,5.2) {Spektrum campuran\\ $S_{\mathrm{campuran}}(\lambda)$};
+      \node[blok, minimum width=2.2cm] (dec) at (8.6,3.8) {\textit{Decoder}};
+      \draw[panah] (mix) -- (dec);
+      % cross-attention
+      \node[blok, minimum width=5.0cm] (ca) at (8.6,2.0)
+        {\textit{Cross-Attention}\\ $\mathrm{softmax}\!\left(\mathbf{Q}_{\text{dec}}\mathbf{K}_{\text{enc}}^{\top}/\sqrt{d_k}\right)\mathbf{V}_{\text{enc}}$};
+      \draw[panah] (dec) -- node[right] {$\mathbf{Q}_{\text{dec}}$} (ca);
+      \draw[panah] (enc.east) -- node[above] {$\mathbf{K}_{\text{enc}},\ \mathbf{V}_{\text{enc}}$} (ca.west);
+      % keluaran: diagram batang c_z
+      \draw[panah] (ca.south) -- node[right, align=left] {bobot \textit{attention}\\ sebagai proksi $c_z$} (8.6,-0.5);
+      \begin{scope}[shift={(6.4,-2.4)}]
+        \draw[-stealth] (0,0) -- (0,1.7) node[left] {$c_z$};
+        \draw[-stealth] (0,0) -- (4.4,0);
+        \foreach \x/\h/\l in {0.3/1.30/Si, 0.85/0.75/Al, 1.4/0.55/Fe, 1.95/0.40/Ca, 2.5/0.30/Mg, 3.05/0.22/Na, 3.6/0.18/K}{
+          \draw[fill=black!25] (\x,0) rectangle +(0.4,\h);
+          \node[below] at (\x+0.2,0) {\l};
+        }
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Diagram konseptual \textit{cross-attention}: bobot \textit{attention} sebagai proksi konsentrasi $c_z$ (tinggi batang ilustratif).}
+    \label{fig:bab2_crossattention_konsep}
+\end{figure}
+
+Mekanisme \textit{cross-attention} ini secara konseptual berbeda dari pendekatan \textit{spectral unmixing} klasik berbasis \textit{linear mixing model} (LMM) \citep{keshava_spectral_2002, konstantinidis_application_2019}, yang mengestimasi koefisien kelimpahan $\hat{c}_z$ melalui solver linier eksplisit (regresi atau \textit{non-negative least squares}) terhadap pustaka \textit{endmember}. Alih-alih solver linier terpisah, mekanisme \textit{cross-attention} mencocokkan spektrum campuran (\textit{query}) terhadap referensi spektrum unsur tunggal (\textit{key-value}) secara langsung di dalam arsitektur jaringan, sehingga koefisien $c_z$ muncul sebagai bobot \textit{attention} yang dapat diinterpretasi tanpa langkah solver terpisah, sebagaimana diilustrasikan pada Gambar~\ref{fig:bab2_lmm_vs_ca}.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{0.98\textwidth}{!}{%
+    \begin{tikzpicture}[font=\footnotesize,
+      kotak/.style={draw, align=center, minimum height=0.75cm},
+      panah/.style={-stealth}]
+      % (a) unmixing klasik
+      \node at (1.9,4.5) {\textbf{(a) \textit{Unmixing} klasik (LMM)}};
+      \node[kotak, minimum width=2.7cm] (em) at (0.6,3.4) {\textit{Endmember}\\ $S^{(1)},\dots,S^{(m)}$};
+      \node[kotak, minimum width=2.7cm] (mx1) at (0.6,2.2) {Spektrum campuran};
+      \node[kotak, minimum width=2.3cm] (solver) at (3.9,2.8) {Solver linier\\ (regresi/NNLS)};
+      \draw[panah] (em) -- (solver);
+      \draw[panah] (mx1) -- (solver);
+      \node[kotak, minimum width=2.3cm] (out1) at (3.9,1.2) {koefisien\\ kelimpahan $\hat{c}_z$};
+      \draw[panah] (solver) -- (out1);
+      % pembatas
+      \draw[dashed] (5.8,0.5) -- (5.8,4.8);
+      % (b) pendekatan penelitian ini
+      \node at (10.4,4.5) {\textbf{(b) Pendekatan penelitian ini}};
+      \node[kotak, minimum width=2.9cm] (mono) at (7.6,3.4) {7 spektrum\\ unsur tunggal};
+      \node[kotak, minimum width=2.9cm] (mx2) at (7.6,2.2) {Spektrum campuran};
+      \node[kotak, minimum width=1.9cm] (enc2) at (10.4,3.4) {\textit{Encoder}};
+      \node[kotak, minimum width=1.9cm] (dec2) at (10.4,2.2) {\textit{Decoder}};
+      \draw[panah] (mono) -- (enc2);
+      \draw[panah] (mx2) -- (dec2);
+      \node[kotak, minimum width=2.6cm] (ca2) at (13.2,2.8) {\textit{Cross-}\\ \textit{Attention}};
+      \draw[panah] (enc2) -- node[above, sloped] {$\mathbf{K},\mathbf{V}$} (ca2);
+      \draw[panah] (dec2) -- node[below, sloped] {$\mathbf{Q}$} (ca2);
+      \node[kotak, minimum width=2.6cm] (out2) at (13.2,1.2) {bobot \textit{attention}\\ $\approx c_z$};
+      \draw[panah] (ca2) -- (out2);
+    \end{tikzpicture}}
+    \caption{Perbandingan \textit{spectral unmixing} klasik \citep{keshava_spectral_2002, konstantinidis_application_2019} terhadap pendekatan \textit{cross-attention} penelitian ini.}
+    \label{fig:bab2_lmm_vs_ca}
+\end{figure}
 
 \subsection{Domain Adaptation}
 
-Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhadap penurunan kinerja saat diterapkan pada data eksperimental nyata akibat adanya \textit{domain shift}. Perbedaan ini meliputi efek instrumentasi, distorsi \textit{continuum background} residual, dan deviasi dari asumsi LTE ideal. Untuk mengatasi permasalahan ini, mekanisme adaptasi domain (\textit{domain adaptation}) melalui \textit{Gradient Reversal Layer} (GRL) \citep{ganin_domain_2016} diintegrasikan ke dalam arsitektur model. GRL bekerja dengan membalikkan arah gradien dari klasifier domain selama \textit{backpropagation}, sehingga mendorong \textit{encoder} untuk mengekstraksi fitur yang bersifat \textit{domain-invariant}---yaitu representasi spektral yang informatif untuk prediksi konsentrasi tanpa bias terhadap asal-usul domain data.
+Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhadap penurunan kinerja saat diterapkan pada data eksperimental nyata akibat adanya \textit{domain shift}. Perbedaan ini meliputi efek instrumentasi, distorsi \textit{continuum background} residual, dan deviasi dari asumsi LTE ideal. Untuk mengatasi permasalahan ini, mekanisme adaptasi domain (\textit{domain adaptation}) melalui \textit{Gradient Reversal Layer} (GRL) \citep{ganin_unsupervised_2015, ganin_domain_2016} diintegrasikan ke dalam arsitektur model. Istilah dan mekanisme GRL pertama kali diperkenalkan oleh \citet{ganin_unsupervised_2015}, kemudian diperluas dengan eksperimen tambahan pada \citet{ganin_domain_2016}. GRL bekerja dengan membalikkan arah gradien dari klasifier domain selama \textit{backpropagation}, sehingga mendorong \textit{encoder} untuk mengekstraksi fitur yang bersifat \textit{domain-invariant}, yaitu representasi spektral yang informatif untuk prediksi konsentrasi tanpa bias terhadap asal-usul domain data. Mekanisme serupa telah diterapkan langsung pada data LIBS oleh \citet{shi_batch_2025}, yang menamai arsitekturnya \textit{Gradient Reversal Adversarial Network} (GRAN) untuk mengoreksi \textit{batch effect} antar-sesi pengukuran pada fusi spektral LIBS-FTIR, menunjukkan bahwa pendekatan berbasis pembalikan gradien bukan teknik yang diadopsi mentah dari bidang lain, melainkan sudah memiliki preseden langsung dalam konteks LIBS.
+
+Permasalahan \textit{domain shift} sintetis-eksperimental telah menjadi perhatian pada penelitian LIBS terkait, khususnya untuk klasifikasi tanah \citep{huang_adaptive_2024, he_semisupervised_2026} maupun kuantifikasi komposisi logam \citep{srivastava_quantitative_2022}, yang menegaskan relevansi permasalahan ini pada domain penelitian serupa. Pendekatan yang digunakan pada literatur tersebut umumnya terbagi dua kelompok: (i) transfer learning berbasis \textit{fine-tuning} dan \textit{self-training/pseudo-labeling} \citep{huang_adaptive_2024, he_semisupervised_2026}, yang mengandalkan model sumber untuk menghasilkan label semu pada domain target sehingga rentan terhadap kesalahan akumulatif ketika \textit{domain gap} besar; dan (ii) pendekatan adversarial berbasis GRL/\textit{Domain-Adversarial Neural Network} \citep{srivastava_quantitative_2022, rehman_deep_2022}, yang tidak memerlukan label pada domain target maupun \textit{pseudo-labeling} karena penyelarasan domain dilakukan langsung pada ruang fitur. Mengingat besarnya \textit{domain gap} antara spektrum sintetis LTE murni dan spektrum eksperimental tanah vulkanik serta terbatasnya jumlah sampel eksperimen (24 sampel), penelitian ini memilih pendekatan GRL agar tidak bergantung pada akurasi \textit{pseudo-label} dari model sumber yang berpotensi belum andal pada domain target.
+
+Tabel~\ref{tab:perbandingan_penelitian} merangkum karakteristik arsitektural beberapa pendekatan \textit{deep learning} yang telah diterapkan pada analisis kuantitatif LIBS, mencakup ada-tidaknya mekanisme \textit{cross-attention} (CA), struktur \textit{encoder-decoder} penuh (ED), dan dekomposisi eksplisit spektrum campuran menjadi komponen unsur tunggal per unsur (DM).
+
+\begin{table}[htbp]
+\centering
+\caption{Ringkasan Karakteristik Arsitektural pada Penelitian LIBS Berbasis \textit{Machine Learning}/\textit{Deep Learning}}
+\label{tab:perbandingan_penelitian}
+\footnotesize
+\begin{tabular}{|p{2.1cm}|p{2.2cm}|c|c|c|p{2.1cm}|p{3.1cm}|}
+\hline
+Penelitian & Arsitektur & CA\textsuperscript{a} & ED\textsuperscript{b} & DM\textsuperscript{c} & Domain Data & Keterbatasan Utama \\
+\hline
+\citet{liu_remote_2026} & Hibrid Transformer-CNN (TransCNN-LIBS) dengan \textit{wavelet} Coif5 & Tidak & Tidak & Tidak & Baja (eksperimental; 40 sampel, jarak 10~m) & Hanya \textit{self-attention} pada sinyal komposit; perlu pelatihan ulang untuk matriks berbeda; MRE tertinggi pada unsur ber-SNR rendah (S) \\
+\hline
+\citet{walidain_informer-based_2026} & Informer (\textit{encoder}, \textit{ProbSparse self-attention}) & Tidak & Tidak & Tidak & Herbal (pelatihan sintetis LTE; uji eksperimental) & Kualitatif (multi-label); F1 makro 0,64; C, N, O, dan Fe di bawah ambang deteksi \\
+\hline
+\citet{favre_towards_2025} & CNN residual + lapisan \textit{dense} & Tidak & Tidak & Tidak & Campuran 9 unsur logam (sintetis MERLIN; validasi Eurofer97 \citep{favre_merlin_2025}) & Tanpa mekanisme \textit{attention}; sensitivitas bergantung jendela spektral; terikat asumsi LTE dan akurasi data Stark \\
+\hline
+\citet{wang_simulation_2024} & ML klasik (DT, SVM, GPR, NN) & Tidak & Tidak & Tidak & Cu (eksperimental, terselesaikan-waktu) & Memprediksi temperatur plasma, bukan konsentrasi multi-unsur; bukan \textit{deep learning} spektral \\
+\hline
+Penelitian ini & CNN-Transformer \textit{Encoder-Decoder} & Ya & Ya & Ya & Tanah vulkanik (sintetis LTE; validasi XRF) & Terikat asumsi LTE pada pembangkitan data sintetis \\
+\hline
+\multicolumn{7}{l}{\textsuperscript{a}\,\textit{Cross-Attention}; \textsuperscript{b}\,\textit{Encoder-Decoder}; \textsuperscript{c}\,Dekomposisi Unsur Tunggal/Campuran.}
+\end{tabular}
+\end{table}
+
+Sebagaimana terlihat pada tabel, tidak satu pun penelitian pembanding yang mengimplementasikan ketiga komponen (CA, ED, DM) secara simultan; kombinasi tersebut yang menjadi ciri arsitektural yang diusulkan pada penelitian ini, dengan detail dibahas pada Bab~III.
 
 % ======================================================================
 % 2.6 Evaluasi dan Validasi Data/Model
@@ -273,18 +426,18 @@ Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhad
 %
 dengan $I_{\text{peak}}$ adalah intensitas puncak, $I_{\text{bg}}$ adalah intensitas rata-rata latar belakang, dan $\sigma_{\text{bg}}$ adalah standar deviasi latar belakang pada rentang panjang gelombang di sekitar puncak. Nilai SNR yang tinggi mengindikasikan spektrum dengan kualitas analitik yang baik dan batas deteksi (\textit{limit of detection}/LOD) yang rendah.
 
-Dalam konteks akuisisi data LIBS eksperimental, SNR dipengaruhi oleh sejumlah faktor instrumental dan fisis, meliputi energi pulsa laser, \textit{gate delay} dan \textit{gate width} detektor, serta kondisi plasma yang terbentuk. Berbagai strategi peningkatan SNR telah dikembangkan, di antaranya penggunaan medan magnet untuk mengkonfine plasma dan metode \textit{nanoparticle-enhanced LIBS} (NELIBS) yang memanfaatkan efek plasmonik untuk memperkuat emisi \citep{khan_magnetic_2022}. Selain itu, metode pengolahan sinyal seperti \textit{wavelet denoising} terbukti efektif untuk meningkatkan SNR pada spektrum berdimensi tinggi \citep{guerrini_optimization_2025}. Dalam penelitian ini, nilai SNR $\geq 10$ ditetapkan sebagai kriteria minimum kualitas spektrum eksperimen yang dapat digunakan untuk pelatihan model.
+Dalam akuisisi data LIBS eksperimental, SNR dipengaruhi oleh faktor instrumental dan fisis seperti energi pulsa laser, \textit{gate delay} dan \textit{gate width} detektor, serta kondisi plasma yang terbentuk; berbagai strategi peningkatan SNR telah dikembangkan, baik pada tingkat perangkat keras \citep{khan_magnetic_2022} maupun pengolahan sinyal seperti \textit{wavelet denoising} \citep{guerrini_optimization_2025}. Dalam penelitian ini, nilai SNR $\geq 10$ ditetapkan sebagai kriteria minimum kualitas spektrum eksperimen yang dapat digunakan untuk pelatihan model.
 
 \subsection{Peak Detection dan Kecocokan Garis Emisi}
 
 Deteksi puncak emisi (\textit{peak detection}) dan pencocokan garis (\textit{line matching}) merupakan tahap praproses kritis dalam analisis kuantitatif LIBS. Deteksi puncak bertujuan mengidentifikasi posisi dan intensitas garis emisi yang signifikan dari spektrum terukur di antara derau dan kontinum latar. Algoritma deteksi puncak yang umum digunakan meliputi metode ambang batas berbasis SNR lokal, turunan pertama atau kedua dari spektrum, serta metode berbasis \textit{Sparse Bayesian Learning} \citep{zhu_residual_2025}.
 
-Setelah puncak terdeteksi, pencocokan dengan \textit{NIST Atomic Spectra Database} (ASD) dilakukan untuk mengidentifikasi unsur penyusunnya. Kecocokan garis emisi dinilai berdasarkan selisih posisi panjang gelombang antara hasil pengukuran dan referensi NIST ($|\lambda_{\text{obs}} - \lambda_{\text{NIST}}|$), dengan mempertimbangkan lebar garis akibat pelebaran Doppler dan Stark. Komplikasi utama dalam proses ini adalah fenomena \textit{spectral overlap}, yaitu tumpang-tindih garis emisi dari unsur yang berbeda pada posisi panjang gelombang yang berdekatan, yang umum terjadi pada spektrum poliatomik tanah vulkanik yang mengandung banyak elemen \citep{legnaioli_laser-induced_2025}. Identifikasi unsur yang akurat menjadi landasan utama baik untuk validasi \textit{forward model} maupun interpretabilitas prediksi model pembelajaran mendalam melalui korelasi bobot \textit{cross-attention} dengan posisi garis emisi NIST ASD; contoh hasil pencocokan puncak terhadap garis referensi NIST pada spektrum eksperimental ditunjukkan pada Gambar~\ref{fig:bab2_peakmatch}.
+Setelah puncak terdeteksi, pencocokan dengan \textit{NIST Atomic Spectra Database} (ASD) dilakukan untuk mengidentifikasi unsur penyusunnya. Kecocokan garis emisi dinilai berdasarkan selisih posisi panjang gelombang antara hasil pengukuran dan referensi NIST ($|\lambda_{\text{obs}} - \lambda_{\text{NIST}}|$), dengan mempertimbangkan lebar garis akibat pelebaran Doppler dan Stark. Komplikasi utama dalam proses ini adalah fenomena \textit{spectral overlap}, yaitu tumpang-tindih garis emisi dari unsur yang berbeda pada posisi panjang gelombang yang berdekatan, yang umum terjadi pada spektrum campuran tanah vulkanik yang mengandung banyak elemen \citep{legnaioli_laser-induced_2025}. Identifikasi unsur yang akurat menjadi landasan utama baik untuk validasi \textit{forward model} maupun interpretabilitas prediksi model pembelajaran mendalam melalui korelasi bobot \textit{cross-attention} dengan posisi garis emisi NIST ASD; contoh hasil pencocokan puncak terhadap garis referensi NIST pada spektrum eksperimental ditunjukkan pada Gambar~\ref{fig:bab2_peakmatch}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{images/bab2/walidain2026_fig2_peakmatch.png}
-    \caption{Contoh identifikasi puncak emisi tervalidasi NIST ASD pada spektrum LIBS eksperimental: (a) garis Mg pada 279,5 dan 280,3~nm; (b) doublet Na pada 589,0 dan 589,6~nm \citep{walidain_informer-based_2026}.}
+    \caption{Identifikasi puncak emisi tervalidasi NIST ASD pada spektrum LIBS herbal (bukan tanah vulkanik) \citep{walidain_informer-based_2026}.}
     \label{fig:bab2_peakmatch}
 \end{figure} Dalam praktiknya, kemampuan deteksi puncak dan pencocokan garis dipengaruhi oleh berbagai gangguan instrumen dan lingkungan yang bersifat realistis, meliputi \textit{Gaussian noise}, \textit{Poisson noise}, \textit{spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, dan \textit{missing-line suppression}; ilustrasi kualitatif pengaruh masing-masing perturbasi tersebut terhadap profil spektrum LIBS sintetis disajikan pada Lampiran~\ref{app:visualisasi-perturbasi}.
 
@@ -323,7 +476,7 @@ di mana $I$ adalah intensitas garis emisi, $\lambda$ adalah panjang gelombang, $
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/bab2/wang2024_fig4_boltzmann.png}
-    \caption{Contoh \textit{Boltzmann plot} pada empat waktu tunda (a)~5, (b)~10, (c)~13, dan (d)~15~$\mu$s; kemiringan garis regresi memberikan estimasi $T_e$. Dalam praktiknya, keandalan estimasi meningkat dengan jumlah garis emisi yang lebih banyak dalam regresi (diadaptasi dari \citet{wang_simulation_2024}, lisensi CC~BY).}
+    \caption{Contoh \textit{Boltzmann plot} pada empat waktu tunda untuk estimasi $T_e$ (diadaptasi dari \citet{wang_simulation_2024}, CC~BY).}
     \label{fig:bab2_boltzmannplot}
 \end{figure}
 
@@ -341,85 +494,4 @@ Analisis \textit{attention map} merupakan pendekatan interpretabilitas yang mema
 
 Visualisasi langsung bobot \textit{attention} telah terbukti memberikan wawasan interpretatif yang bermakna dalam berbagai domain analisis sinyal spektral. Namun demikian, \citet{chefer_transformer_2021} menunjukkan bahwa visualisasi bobot \textit{attention} langsung seringkali tidak cukup untuk merepresentasikan relevansi sesungguhnya dari suatu posisi masukan terhadap keputusan model, dan menyarankan pendekatan propagasi relevansi berbasis dekomposisi Taylor yang lebih akurat.
 
-Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum monoatomik terhadap rekonstruksi spektrum poliatomik. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang poliatomik dengan representasi elemen monoatomik pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}).
-
-% ======================================================================
-% 2.7 Penelitian Terkait dan Posisi Penelitian
-% ======================================================================
-
-\section{Penelitian Terkait dan Posisi Penelitian}
-
-\subsection{Penelitian Berbasis Fisika Plasma}
-
-% [IDE POKOK]: Pemodelan fisika radiatif (MERLIN) menyediakan kerangka rekonstruksi spektrum LIBS yang konsisten secara termodinamika.
-Pengembangan metode prediksi komposisi unsur dari spektrum emisi plasma berakar pada pemodelan fisika radiatif. Pendekatan ini diwujudkan secara komprehensif dalam paket komputasi MERLIN, sebuah kode transfer radiatif tergeneralisasi yang mampu mensimulasikan emisi campuran multi-unsur arbitrer pada kondisi LTE, dengan validasi eksperimental pada baja Eurofer97 dalam atmosfer argon \citep{favre_merlin_2025}. Konsistensi termodinamika yang dijamin oleh integrasi \textit{Radiative Transfer Equation} (RTE) menjadikan basis data sintetis MERLIN representatif terhadap fenomena fisis seperti \textit{self-absorption} dan pelebaran Stark, sehingga layak digunakan sebagai data pelatihan model pembelajaran mesin.
-
-% [IDE POKOK]: Prosedur CF-LIBS manual berbasis fisika plasma menuntut keahlian tinggi sehingga sulit diterapkan untuk diagnostik lapangan.
-Meskipun kokoh secara teoretis, prosedur CF-LIBS berbasis fisika plasma murni menuntut tingkat keahlian interpretasi yang tinggi. \citet{favre_towards_2025} mencatat bahwa penentuan pasangan parameter ($n_e$, $T$) memerlukan estimasi \textit{baseline}, koreksi \textit{self-absorption}, pemilihan transisi yang tepat, serta operasi dekonvolusi dan integrasi yang melelahkan, sehingga membatasi penerapan CF-LIBS untuk diagnostik lapangan secara \textit{real-time}. Keterbatasan praktis inilah yang memotivasi penggabungan basis data fisika dengan model pembelajaran mendalam sebagaimana dibahas pada subbab berikut.
-
-\subsection{Penelitian Berbasis Machine Learning / Deep Learning}
-
-% [IDE POKOK]: ML klasik telah dimanfaatkan untuk estimasi parameter plasma dan kuantifikasi LIBS, tetapi terbatas pada pemetaan regresi langsung.
-Pendekatan \textit{Machine Learning} (ML) semakin banyak diterapkan baik untuk diagnostik plasma maupun analisis kuantitatif LIBS \citep{hao_machine_2024}. Sebagai contoh, \citet{wang_simulation_2024} membandingkan empat algoritma ML klasik---\textit{decision tree}, \textit{support vector machine}, \textit{Gaussian process regression} (GPR), dan jaringan saraf---untuk memprediksi temperatur plasma dari spektrum Cu terselesaikan-waktu, dengan GPR mencapai koefisien korelasi 0,99. Hasil tersebut menegaskan kapabilitas ML dalam memetakan spektrum ke parameter fisis, namun cakupannya masih berupa regresi langsung satu besaran tanpa pemodelan struktur spektral multi-unsur.
-
-% [IDE POKOK]: Hibridisasi CNN--Transformer (TransCNN-LIBS) meningkatkan akurasi kuantifikasi unsur jejak dengan menggabungkan fitur lokal dan dependensi global.
-Evolusi menuju arsitektur hibrid CNN--Transformer kemudian menyempurnakan kapabilitas kuantifikasi spektrum LIBS. \citet{liu_remote_2026} mengembangkan model TransCNN-LIBS yang memadukan lapisan CNN untuk ekstraksi fitur puncak lokal dengan blok \textit{Transformer} ber-\textit{multi-head self-attention} untuk menangkap dependensi global antar panjang gelombang, didahului prapemrosesan \textit{wavelet transform} (Coif5). Pada sistem LIBS jarak jauh 10~m dengan 40 sampel baja standar, model ini mengungguli PLS, BPNN, CNN, ResNet18, dan \textit{Transformer} murni dalam kuantifikasi empat unsur jejak (P, S, Cu, Mo) dengan rerata MRE 9,81\%, membuktikan efektivitas paradigma hibrid untuk sinyal ber-SNR rendah. Kerangka model tersebut diperlihatkan pada Gambar~\ref{fig:bab2_transcnn}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.99\textwidth]{images/bab2/liu2026_fig3_transcnn.png}
-    \caption{Kerangka model TransCNN-LIBS yang memadukan prapemrosesan \textit{wavelet}, blok \textit{multi-head attention}, dan lapisan konvolusi untuk kuantifikasi unsur jejak; seluruh pemrosesan dilakukan pada satu spektrum komposit tanpa dekomposisi per unsur (diadaptasi dari \citet{liu_remote_2026}, lisensi CC~BY).}
-    \label{fig:bab2_transcnn}
-\end{figure}
-
-% [IDE POKOK]: Informer terlatih simulasi fisika terbukti mampu transfer sintetis-ke-eksperimental, tetapi masih terbatas pada identifikasi kualitatif.
-Strategi pelatihan berbasis simulasi fisika juga telah divalidasi pada arsitektur \textit{Transformer} efisien. \citet{walidain_informer-based_2026} melatih model Informer ber-\textit{ProbSparse self-attention} \citep{zhou_informer_2021} sepenuhnya pada pustaka spektrum sintetis Saha--Boltzmann LTE, dan menunjukkan transfer \textit{zero-shot} ke spektrum eksperimental matriks herbal kompleks dengan identifikasi Na, Mg, Ca, dan Mn yang konsisten dengan verifikasi manual NIST ASD. Akan tetapi, kerangka tersebut diformulasikan sebagai klasifikasi multi-label kehadiran unsur (kualitatif), belum menjangkau estimasi konsentrasi kuantitatif.
-
-% [IDE POKOK]: Integrasi basis data radiatif MERLIN dengan CNN residual mencapai CF-LIBS real-time, namun arsitekturnya tetap regresi langsung tanpa mekanisme attention.
-Sintesis paling maju antara fisika plasma dan pembelajaran mendalam dicapai melalui integrasi basis data MERLIN dengan jaringan CNN residual. \citet{favre_towards_2025} menunjukkan bahwa pelatihan pada $10^5$ spektrum sintetis memungkinkan kuantifikasi sembilan spesies sekaligus estimasi $n_e$ dan $T$ tanpa keahlian interpretasi manual pada laju di atas 10~Hz. Meski demikian, sensitivitas jaringan sangat bergantung pada keberadaan tanda radiatif eksplisit unsur dalam jendela spektral yang diamati---ditunjukkan oleh distribusi prediksi bimodal untuk hidrogen di luar rentang deret Balmer---dan arsitekturnya tetap berupa regresi langsung spektrum-komposit-ke-konsentrasi tanpa mekanisme \textit{attention} yang dapat diinterpretasi.
-
-\subsection{Research Gap dan Kebaruan Penelitian}
-
-% [IDE POKOK]: Tabel perbandingan sistematis menunjukkan bahwa tidak satu pun penelitian terkait mengimplementasikan cross-attention, encoder--decoder, maupun dekomposisi mono/poliatomik.
-Perbandingan sistematis keempat penelitian terkait terhadap penelitian yang diusulkan dirangkum dalam Tabel~\ref{tab:perbandingan_penelitian}. Tabel tersebut memperlihatkan bahwa, meskipun komponen arsitektural seperti \textit{self-attention} \citep{liu_remote_2026, walidain_informer-based_2026} dan pelatihan berbasis simulasi fisika \citep{walidain_informer-based_2026, favre_towards_2025} telah diadopsi secara terpisah, tidak satu pun dari penelitian tersebut yang mengimplementasikan mekanisme \textit{cross-attention}, struktur \textit{encoder--decoder} penuh, maupun dekomposisi eksplisit spektrum poliatomik menjadi komponen monoatomik per unsur. Ketiadaan simultan ketiga komponen inilah yang membuka ruang kontribusi bagi penelitian ini.
-
-\begin{table}[htbp]
-\centering
-\caption{Perbandingan Sistematis Penelitian Terkait dan Posisi Penelitian yang Diusulkan}
-\label{tab:perbandingan_penelitian}
-\footnotesize
-\begin{tabular}{|p{2.1cm}|p{2.2cm}|c|c|c|p{2.1cm}|p{3.1cm}|}
-\hline
-Penelitian & Arsitektur & CA\textsuperscript{a} & ED\textsuperscript{b} & DM\textsuperscript{c} & Domain Data & Keterbatasan Utama \\
-\hline
-\citet{liu_remote_2026} & Hibrid Transformer--CNN (TransCNN-LIBS) dengan \textit{wavelet} Coif5 & Tidak & Tidak & Tidak & Baja (eksperimental; 40 sampel, jarak 10~m) & Hanya \textit{self-attention} pada sinyal komposit; perlu pelatihan ulang untuk matriks berbeda; MRE tertinggi pada unsur ber-SNR rendah (S) \\
-\hline
-\citet{walidain_informer-based_2026} & Informer (\textit{encoder}, \textit{ProbSparse self-attention}) & Tidak & Tidak & Tidak & Herbal (pelatihan sintetis LTE; uji eksperimental) & Kualitatif (multi-label); F1 makro 0,64; C, N, O, dan Fe di bawah ambang deteksi \\
-\hline
-\citet{favre_towards_2025} & CNN residual + lapisan \textit{dense} & Tidak & Tidak & Tidak & Campuran 9 unsur logam (sintetis MERLIN; validasi Eurofer97 \citep{favre_merlin_2025}) & Tanpa mekanisme \textit{attention}; sensitivitas bergantung jendela spektral; terikat asumsi LTE dan akurasi data Stark \\
-\hline
-\citet{wang_simulation_2024} & ML klasik (DT, SVM, GPR, NN) & Tidak & Tidak & Tidak & Cu (eksperimental, terselesaikan-waktu) & Memprediksi temperatur plasma, bukan konsentrasi multi-unsur; bukan \textit{deep learning} spektral \\
-\hline
-Penelitian ini & CNN--Transformer \textit{Encoder--Decoder} & Ya & Ya & Ya & Tanah vulkanik (sintetis LTE; validasi XRF) & Terikat asumsi LTE pada pembangkitan data sintetis \\
-\hline
-\multicolumn{7}{l}{\textsuperscript{a}\,\textit{Cross-Attention}; \textsuperscript{b}\,\textit{Encoder--Decoder}; \textsuperscript{c}\,Dekomposisi Monoatomik/Poliatomik.}
-\end{tabular}
-\end{table}
-
-% === CONSENSUS ANALYSIS ===
-% Perspektif 1 (Kritis): Kompetitor telah menjawab sebagian elemen klaim. Liu et al. (2026) sudah memakai multi-head self-attention yang "membantu model fokus pada wilayah panjang gelombang berbeda" -- jadi klaim "attention untuk LIBS" BUKAN kebaruan. Walidain et al. (2026) sudah melatih Transformer (Informer) pada spektrum sintetis fisika dan transfer ke data nyata -- jadi "simulation-trained transformer" juga bukan kebaruan. Favre et al. (2025) sudah mencapai kuantifikasi multi-unsur CF-LIBS dari data sintetis fisika secara real-time, plus interpretabilitas via integrated gradients. Klaim gap harus dipersempit: yang belum ada hanyalah dekomposisi STRUKTURAL mono->poli via cross-attention encoder--decoder, bukan "DL untuk LIBS" secara umum.
-% Perspektif 2 (Konstruktif): Bukti PDF mengonfirmasi: (i) tidak ada satu pun kompetitor memakai cross-attention -- Liu hanya self-attention, Walidain encoder-only, Favre CNN tanpa attention, Wang ML klasik; (ii) tidak ada yang memakai spektrum monoatomik sebagai referensi eksplisit dalam arsitektur; (iii) tidak ada yang mengoperasionalisasi persamaan superposisi S_poly = sum c_z S_mono di tingkat arsitektur; (iv) tidak ada yang menggarap tanah vulkanik -- domain kompetitor: baja, herbal (kualitatif), campuran logam tokamak, Cu. Gap arsitektur + domain + interpretabilitas fisika semuanya valid dan terdokumentasi.
-% Perspektif 3 (Sintetis/Final): Posisi yang dapat dipertahankan: akui capaian kompetitor secara eksplisit (attention sudah dipakai, pelatihan sintetis-fisika sudah dipakai, kuantifikasi real-time sudah dicapai), lalu tunjukkan bahwa ketiganya tetap memperlakukan spektrum sebagai sinyal komposit tunggal. Kebaruan dirumuskan tajam-sempit: operasionalisasi dekomposisi struktural mono/poli melalui cross-attention encoder--decoder, di mana bobot attention diberi makna fisis sebagai proksi koefisien konsentrasi c_z, diterapkan pada domain tanah vulkanik yang belum tersentuh. Versi inilah yang ditulis di bawah.
-% ===========================
-
-% [IDE POKOK]: Gap arsitektur -- seluruh penelitian terkait memperlakukan spektrum sebagai sinyal komposit tunggal tanpa struktur encoder--decoder ber-cross-attention.
-Gap pertama bersifat arsitektural. Seluruh penelitian pada Tabel~\ref{tab:perbandingan_penelitian} memperlakukan spektrum masukan sebagai sinyal komposit tunggal (\textit{single signal evaluation}): \citet{liu_remote_2026} menerapkan \textit{self-attention} hanya di antara posisi-posisi panjang gelombang dalam satu spektrum campuran, \citet{walidain_informer-based_2026} menggunakan \textit{encoder} Informer tanpa blok \textit{decoder}, dan \citet{favre_towards_2025} mengandalkan regresi CNN langsung tanpa mekanisme \textit{attention} sama sekali. Akibatnya, tidak ada satu pun arsitektur yang menyediakan jalur komputasi eksplisit untuk mencocokkan spektrum campuran terhadap pustaka referensi spektrum monoatomik per unsur, sebagaimana dimungkinkan oleh struktur \textit{encoder--decoder} dengan \textit{cross-attention} (Subbab~2.5.4 dan~2.5.5).
-
-% [IDE POKOK]: Gap data/domain -- belum ada penelitian DL-LIBS kuantitatif pada matriks tanah vulkanik dengan validasi XRF.
-Gap kedua menyangkut domain data. Validasi keempat penelitian terkait terbatas pada baja industri \citep{liu_remote_2026}, campuran logam relevan-tokamak \citep{favre_towards_2025, favre_merlin_2025}, sampel Cu tunggal \citep{wang_simulation_2024}, serta matriks herbal yang hanya dianalisis secara kualitatif \citep{walidain_informer-based_2026}. Tanah vulkanik menghadirkan tantangan yang berbeda secara kualitatif: matriks aluminosilikat dengan tujuh unsur mayor (Si, Al, Fe, Ca, Mg, Na, K) yang garis-garis emisinya saling tumpang-tindih padat serta variabilitas geokimia tinggi antar lokasi (Subbab~2.1.3). Dengan demikian, kuantifikasi multi-unsur berbasis \textit{deep learning} pada matriks tanah vulkanik dengan data referensi XRF merupakan wilayah aplikasi yang belum dijamah oleh penelitian-penelitian tersebut.
-
-% [IDE POKOK]: Gap interpretabilitas fisika -- belum ada model yang bobot internalnya diberi makna fisis sebagai koefisien konsentrasi dalam persamaan superposisi.
-Gap ketiga berkaitan dengan interpretabilitas fisika. Model-model terdahulu pada dasarnya mempelajari pemetaan kotak-hitam dari spektrum ke keluaran, sehingga kontribusi tiap unsur terhadap prediksi tidak dapat ditelusuri secara langsung; bahkan \citet{favre_towards_2025} memerlukan teknik atribusi eksternal (\textit{integrated gradients}) untuk memeriksa sensitivitas spektral jaringannya secara \textit{post-hoc}. Sebaliknya, pada arsitektur yang diusulkan, interpretabilitas tertanam di dalam struktur model itu sendiri: bobot \textit{cross-attention} yang menghubungkan \textit{query} poliatomik dengan \textit{key--value} monoatomik merepresentasikan proksi koefisien konsentrasi $c_z$ dalam Persamaan~\ref{eq:bab2_poly}, sehingga mekanisme komputasi model selaras satu-satu dengan prinsip superposisi linier emisi plasma dan dapat divalidasi terhadap garis referensi NIST ASD (Subbab~2.6.6).
-
-% [IDE POKOK]: Kebaruan tesis adalah operasionalisasi dekomposisi struktural mono/poliatomik melalui cross-attention encoder--decoder pada domain tanah vulkanik.
-Berdasarkan ketiga gap tersebut, kebaruan penelitian ini dapat diposisikan secara tajam. Penelitian ini mengusulkan, untuk pertama kalinya sejauh penelusuran literatur yang dirangkum dalam Tabel~\ref{tab:perbandingan_penelitian}, pemodelan dekomposisi struktural spektrum LIBS poliatomik menjadi komponen monoatomik per unsur di dalam kerangka \textit{deep learning}, yang dioperasionalisasikan melalui arsitektur CNN--Transformer \textit{encoder--decoder} dengan \textit{cross-attention}: \textit{decoder} menerima spektrum poliatomik tanah vulkanik sebagai \textit{query}, \textit{encoder} menyediakan representasi spektrum monoatomik per unsur sebagai \textit{key--value}, dan bobot \textit{attention} yang dihasilkan memperoleh makna fisis sebagai koefisien kontribusi konsentrasi sesuai Persamaan~\ref{eq:bab2_poly}. Dengan demikian, kontribusi penelitian ini bukan sekadar penerapan \textit{Transformer} pada LIBS---yang telah dirintis oleh penelitian terdahulu \citep{liu_remote_2026, walidain_informer-based_2026}---melainkan penanaman struktur fisika dekomposisi spektral secara eksplisit ke dalam arsitektur jaringan, sekaligus perluasannya ke domain kuantifikasi unsur tanah vulkanik yang belum pernah dikaji.
+Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum unsur tunggal terhadap rekonstruksi spektrum campuran. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang campuran dengan representasi unsur tunggal pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}).
