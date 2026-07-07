@@ -33,7 +33,7 @@
 %==============================================================================
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{usk-thesis-xelatex}[2025/01/01 v2.1 USK Thesis Package for XeLaTeX]
+\ProvidesPackage{lib/usk-thesis-xelatex}[2025/01/01 v2.1 USK Thesis Package for XeLaTeX]
 
 %==============================================================================
 % 1. OPSI PAKET & MODE PARAMETER
@@ -160,7 +160,7 @@
 
 % TikZ untuk diagram dan flowchart
 \RequirePackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,arrows.meta,calc}
 
 % Matematika dan sains
 \RequirePackage{amssymb}
@@ -361,24 +361,13 @@
 % Menggunakan biblatex dengan backend biber
 \RequirePackage[style=apa, backend=biber, natbib=true]{biblatex}
 
-% Language mapping untuk APA style
-\DeclareLanguageMapping{bahasa}{english-apa}
+% Language mapping untuk APA style (dihapus agar native lbx ter-load)
 
 % Label date format
 \DeclareLabeldate{%
   \field{date}
   \field{year}
   \literal{n.d.}
-}
-
-% String bibliografi dalam Bahasa Indonesia
-\DefineBibliographyStrings{bahasa}{
-  andothers   = {{dkk\adddot}},
-  page        = {{hlm\adddot}},
-  pages       = {{hlm\adddot}},
-  in          = {{Dalam}},
-  bibliography= {{DAFTAR KEPUSTAKAAN}},
-  references  = {{DAFTAR KEPUSTAKAAN}}
 }
 
 %==============================================================================

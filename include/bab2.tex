@@ -76,45 +76,12 @@ Kedua tantangan tersebut menggariskan jarak analitik yang hendak dijembatani ole
 \end{figure}
 
 Sebagai pembanding terhadap skema umum tersebut, Gambar~\ref{fig:bab2_libs_setup_tesis} memperlihatkan skema setup eksperimen yang digunakan pada penelitian ini, yang perincian instrumennya diuraikan pada Subbab~3.3.1.
-
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[font=\footnotesize,
-      alat/.style={draw, thick, align=center, minimum height=0.8cm},
-      panah/.style={-stealth}]
-      % laser
-      \node[alat, minimum width=3.2cm] (laser) at (0.6,4.6) {Laser Nd:YAG\\ (1064~nm; 114~mJ)};
-      % berkas laser dan cermin
-      \draw[panah, very thick] (laser.east) -- (4.35,4.6);
-      \draw[thick] (4.3,4.35) -- (4.8,4.85);
-      \node[above, inner sep=2pt] at (4.55,4.9) {cermin};
-      % lensa fokus
-      \draw[panah, very thick] (4.55,4.4) -- (4.55,3.15);
-      \draw[thick] (4.55,3.0) ellipse (0.5 and 0.12);
-      \node[right] at (5.15,3.0) {lensa fokus};
-      % berkas terfokus
-      \draw[very thick] (4.1,2.95) -- (4.55,1.65);
-      \draw[very thick] (5.0,2.95) -- (4.55,1.65);
-      % plasma
-      \foreach \a in {0,45,...,315} \draw[thick] (4.55,1.65) -- +(\a:0.22);
-      \node[left] at (4.15,1.95) {plasma};
-      % sampel
-      \draw[fill=black!15] (3.55,1.05) rectangle (5.55,1.5);
-      \node[below] at (4.55,1.0) {sampel tanah vulkanik};
-      % catatan atmosfer terbuka
-      \node[align=center] at (1.4,2.1) {atmosfer terbuka\\ (tanpa ruang sampel\\ bergas terkontrol)};
-      % pengumpulan emisi
-      \draw[dashed, panah] (4.9,1.85) -- node[above, sloped] {emisi plasma} (7.3,2.6);
-      \node[alat, minimum width=3.0cm] (spec) at (9.2,2.6) {Spektrometer\\ \textit{Echelle}};
-      \node[alat, minimum width=3.0cm] (oma) at (9.2,1.2) {Detektor OMA};
-      \node[alat, minimum width=3.0cm] (pc) at (9.2,-0.1) {Komputer};
-      \draw[panah] (spec) -- (oma);
-      \draw[panah] (oma) -- (pc);
-    \end{tikzpicture}
-    \caption{Skema setup eksperimen LIBS penelitian ini: Nd:YAG 1064~nm/114~mJ pada atmosfer terbuka, tanpa ruang argon terkontrol seperti Gambar~\ref{fig:bab2_libs_setup}.}
+    \includegraphics[width=0.75\textwidth]{images/bab2/libs_schematic.png}
+    \caption{Skema setup eksperimen LIBS penelitian ini: Nd:YAG 1064~nm/114~mJ pada atmosfer terbuka dengan koleksi emisi melalui sistem lensa dan serat optik ke spektrometer \textit{Mechelle} (diadaptasi dari \citet{qusthalani_comparing_2025}).}
     \label{fig:bab2_libs_setup_tesis}
 \end{figure}
-
 \subsection{Pembentukan Plasma LIBS}
 
 Sembari plasma tersebut berekspansi secara eksponensial dalam ruang bebas setelah berhentinya pemaparan laser, plasma mulai mendingin yang secara bertahap mengurangi pendaran emisi radiasi hamburan (\textit{continuum background}). Di saat yang sama, atom dan ion di dalam plasma melepas surplus energinya kembali ke tingkat orbit dasar melalui pancaran spektrum optik sekunder; peluruhan intensitas garis emisi seiring bertambahnya waktu tunda akibat pendinginan plasma ini diilustrasikan pada Gambar~\ref{fig:bab2_timeresolved}. Kemampuan LIBS untuk menganalisis material secara \textit{in situ} dan minim \textit{sample preparation} menjadikan LIBS sangat unggul untuk observasi geokimia benda padat kompleks, khususnya sampel geologi bervariasi tinggi layaknya tanah vulkanik tempat fenomena efek matriks banyak terjadi \citep{sawyers_database_2025, hao_machine_2024}.
@@ -157,59 +124,65 @@ dengan $\Delta E$ (dalam eV) merupakan selisih interval tingkat energi dari tran
 
 \section{Spektrum Emisi Plasma LIBS}
 
-\subsection{Distribusi Boltzmann}
+\subsection{Keseimbangan Ionisasi dan Populasi Termodinamika} \label{subsec:bab2_sahaboltzmann}
 
-Pada kondisi LTE, distribusi populasi tingkat energi eksitasi atom dalam sebuah tingkatan ionisasi dideskripsikan oleh Distribusi Boltzmann \citep{fujimoto_plasma_2004}:
-\begin{equation} \label{eq:bab2_boltzmann}
-n_i = \frac{n_z \, g_i \exp(-E_i / k_B T_e)}{Z_z(T_e)},
-\end{equation}
-di mana $n_i$ merupakan densitas populasi partikel pada level energi $i$, $n_z$ adalah total densitas partikel dari tingkatan ionisasi $z$, $g_i$ adalah degenerasi statistik tingkat energi, $E_i$ adalah energi tingkat eksitasi, $k_B$ adalah konstanta Boltzmann, dan $Z_z(T_e)$ adalah fungsi partisi (\textit{partition function}).
-
-\subsection{Persamaan Saha}
-
-Temperatur plasma ($T_e$) yang sama juga mengontrol keseimbangan populasi antar tingkatan ionisasi atom melalui Persamaan Saha \citep{fujimoto_plasma_2004}:
+Energi radiasi laser berintensitas tinggi yang dideposisikan pada permukaan sampel padat akan mengablasi material dan membentuk plasma transien. Karakteristik makroskopis plasma LIBS ini didefinisikan oleh temperatur elektron ($T_e$) dan kerapatan elektron ($n_e$). Di dalam kondisi plasma yang memenuhi asumsi keseimbangan termodinamika lokal atau \textit{Local Thermodynamic Equilibrium} (LTE), distribusi populasi spesies atomik diatur secara kausalitas termodinamika. Terlebih dahulu, keseimbangan rasio populasi antara tingkatan ionisasi yang berurutan ditentukan melalui Persamaan Saha \citep{fujimoto_plasma_2004}:
 \begin{equation} \label{eq:bab2_saha}
 \frac{n_e \, n_{z+1}}{n_z} = 2\,\frac{Z_{z+1}(T_e)}{Z_z(T_e)} \left(\frac{2\pi m_e k_B T_e}{h^2}\right)^{3/2} \exp\!\left(-\frac{E_{\mathrm{ion},z}}{k_B T_e}\right),
 \end{equation}
-dengan $n_{z+1}$ merupakan densitas partikel pada tingkat ionisasi satu tingkat lebih tinggi, $m_e$ adalah massa elektron, $h$ adalah konstanta Planck, dan $E_{\mathrm{ion},z}$ adalah energi ionisasi. Kedua persamaan ini menjadi fondasi utama \textit{forward model} untuk menghitung emisi kuantitatif pada kondisi plasma dengan parameter $T_e$ dan $n_e$ tertentu.
+di mana $n_z$ dan $n_{z+1}$ berturut-turut merupakan kerapatan spesies pada tingkatan ionisasi $z$ (netral/ion tingkat rendah) dan $z+1$ (ion tingkat lebih tinggi), $Z_z(T_e)$ dan $Z_{z+1}(T_e)$ menyatakan fungsi partisi masing-masing tingkatan, $m_e$ adalah massa elektron, $h$ adalah konstanta Planck, $k_B$ adalah konstanta Boltzmann, dan $E_{\mathrm{ion},z}$ menyatakan energi ionisasi spesifik unsur tersebut.
 
-\subsection{Koefisien Einstein}
+Setelah pembagian populasi total antara atom netral dan spesies ionik ditentukan melalui Persamaan Saha, langkah berikutnya adalah menghitung fraksi populasi partikel dalam tingkatan ionisasi $z$ yang menempati tingkat energi eksitasi spesifik ($E_i$). Pembagian fraksi mikroskopis ini dideskripsikan oleh Distribusi Boltzmann \citep{fujimoto_plasma_2004}:
+\begin{equation} \label{eq:bab2_boltzmann}
+n_i = \frac{n_z \, g_i \exp(-E_i / k_B T_e)}{Z_z(T_e)},
+\end{equation}
+dengan $n_i$ menyatakan kerapatan populasi partikel pada tingkat eksitasi energi atas $i$, dan $g_i$ menyatakan faktor degenerasi statistik dari tingkat eksitasi tersebut. Gabungan formulasi Saha dan Boltzmann ini secara deduktif menyusun komposisi populasi awal elektron tereksitasi yang siap mengalami peluruhan radiatif di dalam plasma.
 
-Populasi energi eksitasi yang kemudian meluruh ke tingkat energi yang lebih rendah akan meradiasikan foton emisi, yang intensitasnya ditakar oleh koefisien emisi spektral \citep{fujimoto_plasma_2004}:
+\subsection{Probabilitas Transisi Spontan dan Intensitas Emisi} \label{subsec:bab2_einstein}
+
+Setelah elektron menempati keadaan tereksitasi atas ($E_k$), keadaan tersebut bersifat transien dan tidak stabil. Elektron-elektron tersebut akan meluruh secara spontan ke tingkat energi yang lebih rendah ($E_i$) sembari memancarkan energi berlebih berupa foton radiasi dengan panjang gelombang transisi $\lambda_{ki} = hc / (E_k - E_i)$. Probabilitas transisi kuantum per unit waktu dari keadaan atas $k$ ke keadaan bawah $i$ diatur oleh Koefisien Einstein ($A_{ki}$). Koefisien ini menentukan laju radiasi spontan dan intensitas emisi absolut dari garis transisi tersebut. Nilai kekuatan emisi pancaran spektral atomik per satuan volume dan sudut ruang dinyatakan melalui koefisien emisi spektral linier $j_\lambda$ \citep{fujimoto_plasma_2004}:
 \begin{equation} \label{eq:bab2_emiss}
 j_\lambda = \frac{hc}{4\pi\lambda}\,A_{ki}\,n_k\,\phi_V(\lambda),
 \end{equation}
-di mana $A_{ki}$ adalah koefisien Einstein yang merepresentasikan probabilitas transisi spontan dari tingkat energi atas $k$ ke tingkat bawah $i$, $n_k$ adalah densitas populasi tingkat atas (dihitung via distribusi Saha-Boltzmann), dan $\phi_V(\lambda)$ adalah profil garis emisi.
+di mana $n_k$ menyatakan kerapatan populasi tingkat atas yang dihitung dari distribusi Saha-Boltzmann pada persamaan sebelumnya, $c$ adalah kecepatan cahaya, dan $\phi_V(\lambda)$ menyatakan profil bentuk garis emisi.
 
-\subsection{Pelebaran Garis Spektral}
+\subsection{Pelebaran Garis Emisi dan Fungsi Resolusi Instrumen} \label{subsec:bab2_pelebaran}
 
-Dalam pengukuran eksperimental, garis emisi yang secara teori bersifat monokromatik selalu mengalami pelebaran pada domain panjang gelombang. Dua mekanisme pelebaran yang dominan pada plasma LIBS adalah pelebaran Doppler dan pelebaran Stark.
+Secara teoretis, foton yang dilepaskan melalui transisi elektronik monokromatik (Persamaan~\ref{eq:bab2_emiss}) akan membentuk garis emisi lurus yang sangat sempit dan ideal. Namun, di dalam kondisi fisik plasma riil dan keterbatasan sistem pengukuran optik, garis spektral tersebut mengalami pelebaran (\textit{broadening}) akibat pengaruh efek Doppler termal dan perturbasi Stark tumbukan di dalam plasma.
 
-Pelebaran Doppler disebabkan oleh pergerakan termal atom yang memancarkan foton, menghasilkan profil Gaussian dengan lebar \citep{griem_spectral_1974}:
+Dua mekanisme pelebaran fisis utama yang terjadi di dalam plasma adalah pelebaran Doppler dan Stark. Pelebaran Doppler disebabkan oleh efek pergeseran Doppler termal akibat gerakan acak atom pemancar terhadap detektor, menghasilkan profil persebaran Gaussian dengan lebar spektral penuh pada setengah maksimum atau \textit{Full Width at Half Maximum} (FWHM) sebesar \citep{griem_spectral_1974}:
 \begin{equation} \label{eq:bab2_doppler}
-\Delta\lambda_D = \lambda_{ki}\sqrt{\frac{8\ln 2\,k_B T_i}{m_k c^2}}.
+\Delta\lambda_D = \lambda_{ki}\sqrt{\frac{8\ln 2\,k_B T_i}{m_k c^2}},
 \end{equation}
-
-Pelebaran Stark disebabkan oleh interaksi medan listrik mikro dari partikel bermuatan di sekitar atom pemancar, menghasilkan profil Lorentzian dengan lebar \citep{griem_spectral_1974}:
+di mana $T_i$ menyatakan temperatur ion dan $m_k$ menyatakan massa spesies atom. Sementara itu, pelebaran Stark terjadi akibat medan listrik mikro fluktuatif yang dihasilkan oleh tumbukan partikel bermuatan di sekitar atom pemancar dalam plasma padat. Pelebaran Stark menghasilkan FWHM dengan profil Lorentzian sebesar \citep{griem_spectral_1974}:
 \begin{equation} \label{eq:bab2_stark}
-\Delta\lambda_S \approx 2\,\omega_{ki}(T_e)\,\frac{n_e}{n_{e,\mathrm{ref}}}.
+\Delta\lambda_S \approx 2\,\omega_{ki}(T_e)\,\frac{n_e}{n_{e,\mathrm{ref}}},
 \end{equation}
+di mana $\omega_{ki}(T_e)$ menyatakan parameter lebar Stark sebagai fungsi temperatur elektron, dan $n_{e,\mathrm{ref}}$ adalah parameter kerapatan elektron acuan ($10^{17}$ cm$^{-3}$).
 
-\subsection{Profil Voigt}
+Di samping pengaruh fisis internal plasma tersebut, spektrum terukur yang ditangkap oleh detektor juga dibatasi oleh resolusi instrumental alat pengumpul cahaya. Pada penelitian ini, spektrometer yang digunakan adalah tipe \textit{Echelle} (Andor Mechelle ME5000) dengan daya pisah atau \textit{Resolving Power} konstan sebesar $R = 5000$ pada grid panjang gelombang sebanyak 14.000 kanal dengan interval panjang gelombang $\Delta\lambda = 0,05$ nm. Efek pelebaran instrumen ini dimodelkan sebagai profil Gaussian dengan fungsi lebar instrumen sebesar $FWHM_{\mathrm{inst}} = \lambda / R$. Nilai fungsi pelebaran alat ini cukup besar pada seluruh panjang gelombang kerja, sehingga mendominasi dan menelan efek pelebaran fisis minor lainnya seperti pelebaran akibat resonansi dan efek interaksi Van der Waals.
 
-Dalam plasma LIBS, kedua mekanisme pelebaran di atas berlaku secara simultan. Superposisi dari profil Gaussian (Doppler) dan profil Lorentzian (Stark) menghasilkan profil gabungan yang dikenal sebagai Profil Voigt, yang dinyatakan melalui konvolusi keduanya dalam fungsi $\phi_V(\lambda)$ \citep{griem_spectral_1974}. Profil Voigt ini digunakan dalam term $\phi_V(\lambda)$ pada Persamaan~\ref{eq:bab2_emiss} untuk mensimulasikan bentuk garis emisi yang realistis.
+\subsection{Profil Voigt sebagai Representasi Puncak Spektrum} \label{subsec:bab2_voigt}
 
-\subsection{Spektrum Unsur Tunggal dan Campuran}
+Dalam plasma LIBS aktual, gabungan dari berbagai kontribusi pelebaran intrinsik plasma dan batasan instrumen optik berlangsung secara bersamaan. Konvolusi dari pelebaran termal (Doppler), efek kerapatan elektron (Stark dominan), dan fungsi resolusi alat (spektrometer Echelle) menghasilkan bentuk kurva gabungan akhir yang disebut Profil Voigt. Fungsi profil ini dinyatakan secara formal melalui persamaan konvolusi $\phi_V(\lambda)$ \citep{griem_spectral_1974}:
+\begin{equation} \label{eq:bab2_voigt}
+\phi_V(\lambda) = \int_{-\infty}^{\infty} \phi_G(\lambda') \phi_L(\lambda - \lambda') \, d\lambda'.
+\end{equation}
+Profil Voigt ini kemudian disubstitusikan ke dalam term $\phi_V(\lambda)$ pada Persamaan~\ref{eq:bab2_emiss} untuk merekonstruksi puncak emisi yang realistis pada panjang gelombang kerja.
 
-Dari perspektif fisika dekomposisi spektral, profil emisi total campuran (\textit{mixture spectrum}) $S_{\mathrm{campuran}}(\lambda)$ yang dikoleksi via spektrometer merupakan superposisi linier dari emisi individual unsur tunggal (\textit{single-element spectrum}) $S_{\mathrm{tunggal}}^{(z)}(\lambda)$ untuk setiap elemen $z$. Spektrum unsur tunggal merangkum konstelasi puncak emisi individual suatu elemen spesifik dengan intensitas yang ditentukan oleh parameter plasma $T_e$ dan $n_e$.
+Dalam pemodelan komputasi untuk membangkitkan spektrum sintetis secara otomatis, nilai parameter lebar Stark $\omega_{ki}(T_e)$ yang disediakan oleh basis data NIST ASD sering kali kosong untuk transisi tertentu. Jika data parameter pelebaran Stark dari NIST ASD kosong untuk suatu transisi, korelasi polinomial empiris berbasis pemodelan MERLIN \citep{favre_merlin_2025} digunakan sebagai substitusi agar profil spektrum tetap dapat dibangkitkan tanpa memutus kontiguitas bentuk garis emisi.
 
-Spektrum campuran mewakili hasil jumlahan linier dari kontribusi setiap elemen yang dibobot oleh fraksi konsentrasi $c_z$:
+\subsection{Spektrum Unsur Tunggal dan Model Dekomposisi Campuran} \label{subsec:bab2_unsur_tunggal_campuran}
+
+Setelah struktur profil Voigt dari masing-masing puncak emisi atomik berhasil didefinisikan (Subbab~\ref{subsec:bab2_voigt}), jumlahan intensitas dari ribuan transisi emisi kuantum yang dimiliki oleh suatu unsur kimia akan membentuk Spektrum Unsur Tunggal (\textit{single-element spectrum}) $S_{\mathrm{tunggal}}^{(z)}(\lambda)$ untuk spesies $z$. Pada sampel padat heterogen (seperti tanah vulkanik), plasma ablasinya akan memancarkan ribuan garis emisi dari berbagai spesies unsur secara simultan, sehingga spektrum campuran (\textit{mixture spectrum}) yang terukur merupakan superposisi dari berbagai spektrum unsur tunggal tersebut.
+
+Berdasarkan pemodelan fisika plasma MERLIN \citep{favre_merlin_2025}, pembenaran terhadap persamaan \textit{Linear Mixing Model} (LMM) diperoleh melalui penyederhanaan Persamaan Transfer Radiatif (\textit{Radiative Transfer Equation}/RTE). Ketika plasma diasumsikan bersifat tipis secara optik (\textit{optically thin}, $\alpha_{\lambda}l_{1} \ll 1$), redaman akibat \textit{self-absorption} menjadi terabaikan sehingga radiansi spektral total yang terukur berbanding lurus dengan koefisien emisi total tersebut. Sifat aditif pada kondisi \textit{optically thin} inilah yang menjustifikasi penggunaan persamaan superposisi linier berbobot fraksi konsentrasi dalam arsitektur komputasional:
 \begin{equation} \label{eq:bab2_poly}
 S_{\mathrm{campuran}}(\lambda) = \sum_{z} c_z \, S_{\mathrm{tunggal}}^{(z)}(\lambda).
 \end{equation}
-Persamaan~\ref{eq:bab2_poly} merupakan bentuk \textit{linear mixing model} (LMM) yang telah diterapkan pada data LIBS, antara lain pada spektrum ChemCam/Mars \citep{konstantinidis_application_2019} dan pada analisis komposisi tanah melalui \textit{spectral unmixing} \citep{wang_novel_2014}; kedua studi tersebut memperlakukan spektrum sampel sebagai kombinasi linier sinyal referensi per unsur yang koefisiennya diestimasi melalui regresi. Model dekomposisi eksplisit ini menjustifikasi konsep \textit{cross-attention} yang menghubungkan representasi spektrum unsur tunggal dengan observasi spektrum campuran dalam kerangka pembelajaran mendalam. Perlu ditegaskan bahwa linearitas superposisi pada Persamaan~\ref{eq:bab2_poly} berlaku di bawah asumsi plasma \textit{optically thin} dan LTE dengan parameter plasma bersama ($T_e$, $n_e$) untuk seluruh unsur dalam plasma yang sama. Pada kondisi \textit{self-absorption} parsial, intensitas garis emisi yang kuat menyimpang dari proporsionalitas linier tersebut, dan model \textit{deep learning} yang diusulkan diharapkan mempelajari koreksi residual terhadap penyimpangan linearitas ini dari data (Subbab~2.4.2).
+Persamaan~\ref{eq:bab2_poly} merepresentasikan penjumlahan langsung dari intensitas profil emisi tiap unsur yang dibobot oleh fraksi konsentrasi $c_z$. Deviasi non-linier akibat efek \textit{self-absorption} pada plasma tebal (\textit{optically thick}) di dunia nyata akan dipelajari sebagai koreksi residual oleh model \textit{deep learning} (Subbab~2.4.2).
 
-Validitas model dekomposisi pada Persamaan~\ref{eq:bab2_poly} telah ditunjukkan pada pemodelan fisika radiatif berbasis paket komputasi MERLIN, sebuah kode transfer radiatif tergeneralisasi yang mensimulasikan emisi campuran multi-unsur arbitrer pada kondisi LTE dengan konsistensi termodinamika terjamin melalui integrasi \textit{Radiative Transfer Equation} (RTE) \citep{favre_merlin_2025}. Kemampuan rekonstruksi MERLIN pada data eksperimental baja Eurofer97 diperlihatkan pada Gambar~\ref{fig:bab2_merlin_spectra}: spektrum simulasi menyamai spektrum eksperimental pada jendela yang didominasi garis-garis Fe, dengan konsistensi terjaga pada beberapa waktu tunda berbeda, mengonfirmasi bahwa basis data sintetis berbasis fisika representatif terhadap fenomena \textit{self-absorption} dan pelebaran Stark sehingga layak digunakan sebagai data pelatihan model pembelajaran mesin.
+Validitas model dekomposisi pada Persamaan~\ref{eq:bab2_poly} di bawah kondisi fisik tersebut telah ditunjukkan pada pemodelan fisika radiatif berbasis paket komputasi MERLIN, sebuah kode transfer radiatif tergeneralisasi yang mensimulasikan emisi campuran multi-unsur arbitrer pada kondisi LTE dengan konsistensi termodinamika terjamin melalui integrasi RTE \citep{favre_merlin_2025}. Kemampuan rekonstruksi MERLIN pada data eksperimental baja Eurofer97 diperlihatkan pada Gambar~\ref{fig:bab2_merlin_spectra}: spektrum simulasi menyamai spektrum eksperimental pada jendela yang didominasi garis-garis Fe, dengan konsistensi terjaga pada beberapa waktu tunda berbeda, mengonfirmasi bahwa basis data sintetis berbasis fisika representatif terhadap fenomena \textit{self-absorption} dan pelebaran Stark sehingga layak digunakan sebagai data pelatihan model pembelajaran mesin.
 
 \begin{figure}[H]
     \centering
@@ -217,6 +190,61 @@ Validitas model dekomposisi pada Persamaan~\ref{eq:bab2_poly} telah ditunjukkan 
     \caption{Perbandingan spektrum eksperimental dan simulasi MERLIN baja Eurofer97 (diadaptasi dari \citet{favre_merlin_2025}, CC~BY).}
     \label{fig:bab2_merlin_spectra}
 \end{figure}
+
+Untuk memberikan gambaran komparatif yang sistematis mengenai perbedaan antara pemodelan radiatif analitik murni dengan generator spektrum sintetis yang dikembangkan dalam penelitian ini, Tabel~\ref{tab:simulasi_perbandingan} merangkum perbandingan tahapan simulasi spektrum dari kedua pendekatan tersebut.
+
+{\small
+\renewcommand{\arraystretch}{1.3} % Memberikan jarak antar baris agar lebih mudah dibaca
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.18\linewidth}|>{\raggedright\arraybackslash}p{0.38\linewidth}|>{\raggedright\arraybackslash}p{0.38\linewidth}|}
+\caption{Perbandingan Tahapan Simulasi Spektrum: Pendekatan Transfer Radiatif Analitik vs. Pembangkitan Generatif Berbasis Spektrometer Echelle}
+\label{tab:simulasi_perbandingan} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Tahap} & \textbf{Model Analitik MERLIN \citep{favre_merlin_2025}} & \textbf{Generator Spektrum Sintetis (Penelitian Ini)} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{Tahap} & \textbf{Model Analitik MERLIN \citep{favre_merlin_2025}} & \textbf{Generator Spektrum Sintetis (Penelitian Ini)} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{{Bersambung ke halaman berikutnya}} \\
+\endfoot
+\hline
+\endlastfoot
+
+Inisialisasi Parameter & 
+Komposisi dicari melalui penyelesaian persamaan diferensial kinetika fiktif (\textit{mass action laws}) untuk mencari titik LTE absolut. & 
+Konsentrasi diinisialisasi melalui \textit{random sampling} dari rentang variansi lebar dan dikonstrain ke dalam simpleks ketertutupan massa. \\
+\hline
+
+Distribusi Populasi & 
+Menghitung populasi termodinamika dengan menyertakan koreksi Griem untuk Penurunan Potensial Ionisasi (IP Lowering) pada plasma padat. & 
+Menghitung populasi menggunakan energi ionisasi fundamental ($E_{i0}$) dari NIST ASD langsung, mengevaluasi $N_e$ ($10^{16}$--$10^{18}$ cm$^{-3}$) dan $T_e$ (6000--15000 K). \\
+\hline
+
+Emisi Kontinu & 
+Menghitung spektrum kontinu secara analitik melalui formulasi emisi \textit{Free-Bound} dan \textit{Free-Free} secara terperinci. & 
+Emisi kontinu analitik diabaikan; spektrum dasar dipandang sebagai profil \textit{baseline drift} dan \textit{Gaussian noise}. \\
+\hline
+
+Profil \& Resolusi Spektrometer & 
+Menggunakan profil \textit{pseudo-Voigt} komprehensif (Stark, Doppler, Resonansi, VdW). Fungsi aparatus bersifat konstan (mengikuti lebar celah). & 
+Konvolusi profil Voigt dinamis (Stark \& Doppler). Pelebaran instrumen spesifik Echelle (Andor Mechelle ME5000) bersifat non-linier ($FWHM = \lambda / 5000$) pada grid 14.000 kanal ($\Delta\lambda = 0,05$ nm). \\
+\hline
+
+Integrasi Transfer Radiatif & 
+Mengintegrasikan Persamaan Transfer Radiatif (RTE) pada skema 2-lapis untuk memodelkan efek \textit{self-absorption} secara analitik. & 
+Menerapkan \textit{Linear Mixing Model} (LMM) murni. Intensitas unsur tunggal dijumlahkan (superposisi linier) berdasarkan asumsi \textit{optically thin}. \\
+\hline
+
+Skala Eksekusi Komputasi & 
+Komputasi iteratif yang lambat difokuskan pada rekonstruksi tunggal atau beberapa spektrum eksperimen secara ultra-presisi. & 
+Generasi divektorisasi penuh melalui operasi matriks paralel pada CPU/GPU untuk menghasilkan dataset berskala $100.000+$ sampel. \\
+\hline
+\end{longtable}
+}
 
 % ======================================================================
 % 2.4 Kuantifikasi Unsur pada LIBS
@@ -236,35 +264,144 @@ dengan $a$ dan $b$ merupakan koefisien regresi yang ditentukan secara empiris. M
 
 Keterbatasan utama pendekatan univariat adalah kerentanannya terhadap \textit{matrix effect}, yaitu pengaruh variasi komposisi matriks sampel terhadap intensitas emisi selain dari konsentrasi unsur yang dianalisis \citep{safi_multivariate_2018, lu_calibration_2019}. Pada matriks kompleks seperti tanah vulkanik dengan multi-elemen yang berinteraksi, kurva kalibrasi univariat seringkali menunjukkan linearitas yang buruk \citep{gomez_matrix_2018}. Untuk mengatasi hal ini, pendekatan multivariat seperti \textit{Partial Least Squares Regression} (PLSR) mengeksploitasi seluruh informasi spektral untuk membangun model kalibrasi yang lebih robust terhadap variasi matriks \citep{zhang_partial_2020}. Meski demikian, metode berbasis kalibrasi tetap memerlukan sampel standar referensi yang representatif, yang merupakan tantangan tersendiri untuk material geologi dengan variasi komposisi tinggi.
 
-\subsection{Calibration-Free LIBS}
+Meskipun metode kalibrasi univariat klasik gagal akibat pemaksaan asumsi linier secara langsung pada ruang spektral mentah yang terdistorsi efek matriks, asumsi superposisi linier tetap bernilai secara fundamental jika diterapkan pada ruang fitur yang tepat. Dalam kerangka \textit{deep learning} yang diusulkan pada penelitian ini, lapisan konvolusional (CNN) bertindak sebagai pemeta non-linier yang mentransformasikan spektrum mentah ke dalam ruang laten (\textit{latent space}) berdimensi tinggi. Transformasi ini secara implisit mengurai komplikasi efek matriks sebelum operasi linier (dekomposisi) dilakukan pada tahap akhir.
 
-\textit{Calibration-Free LIBS} (CF-LIBS) merupakan pendekatan kuantifikasi unsur yang bertujuan menghilangkan ketergantungan terhadap sampel standar kalibrasi eksternal, dengan memanfaatkan persamaan fisika plasma secara langsung \citep{cristoforetti_local_2010}. Dalam CF-LIBS, konsentrasi unsur diturunkan dari hubungan Saha-Boltzmann (Persamaan~\ref{eq:bab2_saha} dan~\ref{eq:bab2_boltzmann}) setelah mengestimasi parameter plasma $T_e$ dan $n_e$ dari spektrum emisi yang terukur. Langkah sentral dalam prosedur ini adalah konstruksi \textit{Boltzmann plot} untuk menentukan $T_e$, sedangkan $n_e$ diestimasi dari pelebaran Stark garis spektral tertentu.
+\subsection{Calibration-Free LIBS (CF-LIBS) dan Transisi ke Deep Learning}
 
-Meski menawarkan keunggulan analitik yang signifikan, akurasi CF-LIBS dibatasi oleh tiga faktor utama: validitas asumsi LTE yang harus diverifikasi melalui kriteria McWhirter (Persamaan~\ref{eq:bab2_mcwhirter}), efek \textit{self-absorption} pada garis emisi kuat yang mendistorsi intensitas terukur sehingga mengganggu estimasi $T_e$ dan $n_e$ \citep{yang_self-absorption_2020}, serta penentuan $T_e$ dan $n_e$ yang tidak akurat sebagai sumber utama ketidakpastian \citep{zeng_accurate_2023}. Sejumlah modifikasi telah diusulkan untuk mengatasinya, antara lain metode \textit{one-point calibration} (OPC) \citep{borduchi_one-point_2019} serta integrasi kode transfer radiatif MERLIN dengan jaringan CNN residual yang mencapai kuantifikasi CF-LIBS \textit{real-time} ($>$10~Hz) pada sampel baja Eurofer97 \citep{favre_towards_2025}. Namun, pendekatan terakhir mensyaratkan infrastruktur basis data atomik yang kompleks dan validasinya belum mencakup matriks geologi vulkanik dengan \textit{spectral overlap} tinggi, sehingga mendorong eksplorasi arsitektur pembelajaran mendalam yang lebih dapat digeneralisasikan.
+\textit{Calibration-Free LIBS} (CF-LIBS) merupakan pendekatan kuantifikasi unsur yang pertama kali diusulkan oleh \citet{ciucci_new_1999} guna menghilangkan ketergantungan terhadap sampel standar kalibrasi eksternal. Berbeda dengan kurva kalibrasi empiris, CF-LIBS mengekstraksi konsentrasi unsur secara analitik dengan membedah fisika plasma secara langsung \citep{cremers_handbook_nodate, cristoforetti_local_2010}. 
+
+Dalam protokol CF-LIBS standar, langkah sentral setelah mengasumsikan plasma memenuhi \textit{Local Thermodynamic Equilibrium} (LTE) adalah penentuan temperatur elektron ($T_e$) melalui konstruksi \textit{Boltzmann plot}. Untuk suatu spesi atomik, intensitas emisi $I_{ki}$ terhubung dengan temperatur $T_e$ melalui persamaan:
+\begin{equation}
+    \ln \left( \frac{I_{ki} \lambda_{ki}}{A_{ki} g_k} \right) = -\frac{E_k}{k_B T_e} + \ln \left( \frac{F C_s}{U_s(T_e)} \right), \label{eq:boltzmann_plot}
+\end{equation}
+Plot antara ruas kiri persamaan terhadap energi eksitasi level atas ($E_k$) akan menghasilkan regresi linier dengan gradien $-1/(k_B T_e)$. Selanjutnya, densitas elektron ($n_e$) diestimasi dari pelebaran garis spektral akibat efek Stark (\textit{Stark broadening}):
+\begin{equation}
+    \Delta \lambda_{\text{Stark}} \approx 2w \left( \frac{n_e}{10^{16}} \right).
+\end{equation}
+Setelah parameter $T_e$ dan $n_e$ didapatkan, konsentrasi unsur diturunkan dari hubungan Saha-Boltzmann (Persamaan~\ref{eq:bab2_saha} dan~\ref{eq:bab2_boltzmann}) dan pada akhirnya dinormalisasi menjadi 100\%.
+
+Meski menawarkan keunggulan teoretis yang signifikan, akurasi operasional CF-LIBS sangat dibatasi oleh realitas fisis plasma di lapangan. Tiga faktor pembatas utamanya adalah: (1) validitas asumsi LTE yang harus selalu diverifikasi melalui kriteria McWhirter (Persamaan~\ref{eq:bab2_mcwhirter}), (2) efek \textit{self-absorption} pada garis emisi kuat yang mendistorsi intensitas terukur sehingga mematahkan linearitas \textit{Boltzmann plot} \citep{yang_self-absorption_2020}, serta (3) penentuan $T_e$ dan $n_e$ yang tidak akurat sebagai sumber utama propagasi ketidakpastian eksponensial \citep{zeng_accurate_2023}. 
+
+Sejumlah modifikasi analitik telah diusulkan untuk mengatasi kebuntuan ini, antara lain metode \textit{one-point calibration} (OPC) \citep{borduchi_one-point_2019} serta integrasi kode transfer radiatif MERLIN dengan jaringan CNN residual yang mencapai kuantifikasi CF-LIBS \textit{real-time} pada sampel baja \citep{favre_towards_2025}. Namun, pendekatan analitik termodifikasi ini mensyaratkan infrastruktur basis data atomik yang kompleks, dan validasinya belum mencakup matriks geologi vulkanik dengan \textit{spectral overlap} tinggi. Keterbatasan fundamental inilah yang mendorong perlunya eksplorasi arsitektur \textit{deep learning} (seperti Transformer) yang mampu memodelkan pemetaan non-linier spektrum secara \textit{end-to-end}, menggantikan tahap ekstraksi parameter fisis manual yang sangat rentan terhadap galat matriks \citep{liu_remote_2026, walidain_informer-based_2026}.
 
 \subsection{X-ray Fluorescence (XRF) sebagai Data Referensi}
 
 \textit{X-ray Fluorescence} (XRF) merupakan teknik analitik non-destruktif yang mengukur komposisi unsur berdasarkan emisi sinar-X karakteristik yang dipancarkan oleh atom setelah dieksitasi oleh sumber sinar-X primer. Prinsip kerja XRF didasarkan pada efek fotolistrik, di mana foton berenergi tinggi mengeksitasi elektron dari kulit dalam atom, dan foton karakteristik yang dipancarkan saat pengisian kembali kekosongan elektron tersebut memiliki energi yang khas bagi setiap unsur.
 
-Dalam konteks validasi LIBS, XRF telah lama digunakan sebagai metode referensi standar untuk analisis geokimia tanah dan batuan. Teknik \textit{Wavelength Dispersive XRF} (WDXRF) dengan preparasi \textit{fused glass disk} mampu menganalisis unsur mayor dalam sampel geologi dengan akurasi tinggi, ditunjukkan oleh koefisien determinasi $R^2 > 0{,}998$ untuk unsur seperti SiO$_2$, Al$_2$O$_3$, dan CaO \citep{yamasaki_major_2023}. Perangkat \textit{portable XRF} (pXRF) juga telah terbukti efektif untuk analisis \textit{in situ} di lapangan, meskipun akurasinya dipengaruhi oleh faktor heterogenitas sampel, kadar air, dan bahan organik \citep{ravansari_portable_2019}. Dalam penelitian ini, data konsentrasi unsur dari XRF digunakan sebagai \textit{ground truth} untuk pelatihan model dan evaluasi performa kuantifikasi LIBS pada sampel tanah vulkanik Seulawah Agam, konsisten dengan pendekatan yang digunakan dalam berbagai studi analisis geokimia LIBS terdahulu \citep{khumaeni_analysis_2025, idris_geochemistry_2022}.
+Dalam konteks validasi LIBS, XRF telah lama digunakan sebagai metode referensi standar untuk analisis geokimia tanah dan batuan. Teknik \textit{Wavelength Dispersive XRF} (WDXRF) dengan preparasi \textit{fused glass disk} mampu menganalisis unsur mayor dalam sampel geologi dengan akurasi tinggi, ditunjukkan oleh koefisien determinasi $R^2 > 0{,}998$ untuk unsur seperti SiO$_2$, Al$_2$O$_3$, dan CaO \citep{yamasaki_major_2023}. Perangkat \textit{portable XRF} (pXRF) juga telah terbukti efektif untuk analisis \textit{in situ} di lapangan, meskipun akurasinya dipengaruhi oleh faktor heterogenitas sampel, kadar air, dan bahan organik \citep{ravansari_portable_2019}. 
 
-% ======================================================================
-% 2.5 Deep Learning untuk Analisis Spektrum
-% ======================================================================
+Dalam penelitian ini, data konsentrasi unsur dari XRF digunakan sebagai \textit{ground truth} mutlak untuk pelatihan model dan evaluasi performa kuantifikasi LIBS pada sampel tanah vulkanik Seulawah Agam. Pendekatan ini konsisten dengan kerangka validasi yang digunakan dalam berbagai studi analisis geokimia LIBS terdahulu \citep{khumaeni_analysis_2025, idris_geochemistry_2022}.
+
+Tantangan fundamental epistemologis dalam menggunakan XRF sebagai referensi untuk LIBS adalah ketidaksesuaian skala interogasi (\textit{interrogation volume}): XRF menganalisis sampel makroskopik yang telah dihomogenisasi sempurna, sedangkan plasma LIBS hanya mencuplik material pada orde mikrogram yang secara intrinsik sangat heterogen. Untuk menjembatani kesenjangan representativitas spasial ini, penelitian ini mengakumulasi spektrum dari puluhan tembakan laser individual yang tersebar di berbagai titik permukaan sampel. Melalui paparan spasial yang luas ini, himpunan spektrum mikro dari LIBS diharapkan secara statistik mampu merepresentasikan komposisi \textit{bulk} makroskopik yang diukur oleh XRF, sehingga pelabelan \textit{supervised learning} tetap valid secara analitik.
+
+\textbf{REVISI POIN 2.4
+}% Secara struktural, argumen di Seksi 2.4 sudah sangat tajam, namun dari segi strategi sitasi, Anda belum sepenuhnya aman. Tesis Magister yang solid tidak boleh hanya melayang di atas literatur tahun 2024–2026, tetapi juga tidak boleh tertinggal di buku teks tahun 2000-an. Anda harus memadukan keduanya secara taktis.
+% Untuk Seksi 2.4, Anda wajib berpatokan pada dua pilar literatur: Handbook LIBS klasik (sebagai fondasi absolut yang tidak bisa dibantah) dan artikel terkini (sebagai justifikasi kebaruan metode Anda).
+% Berikut adalah kritik dan panduan pemetaan sitasi yang harus Anda pastikan ada di Seksi 2.4:
+% 1. Fondasi Klasik: Kewajiban Mengutip Handbook dan Pionir
+% Penguji yang merupakan fisikawan senior atau pakar spektroskopi akan mencari nama-nama pionir. Jika Anda membahas teori dasar tanpa mengutip mereka, Anda akan dianggap tidak memahami akar keilmuan LIBS.
+% • Subbab 2.4.1 (Kurva Kalibrasi): Anda wajib mengutip handbook standar seperti Laser-Induced Breakdown Spectroscopy karya Miziolek et al. (2006) atau Musazzi & Perini (2014). Untuk tinjauan komprehensif efek matriks, sitasi paper ulasan klasik dari Hahn & Omenetto (2010 atau 2012) adalah kewajiban mutlak.
+% • Subbab 2.4.2 (CF-LIBS): Jangan hanya mengutip artikel tahun 2024/2025 saat mendefinisikan CF-LIBS. Anda harus mengutip penemu metode ini, yaitu Ciucci et al. (1999). Baru setelah itu, Anda bawa narasinya ke perkembangan atau kritik modern.
+% 2. State-of-the-Art: Senjata dari Artikel Terkini (2025-2026)
+% Setelah fondasi diletakkan oleh handbook dan literatur klasik, gunakan 4 artikel jurnal utama yang Anda miliki (Favre et al., Liu et al., Walidain et al.) untuk "menyerang" kelemahan metode klasik tersebut.
+% • Kritik terhadap CF-LIBS: Gunakan artikel Favre et al. (2025) tentang CF-LIBS dan MERLIN untuk menjustifikasi bahwa menghitung CF-LIBS secara analitik di lapangan terlalu berat secara komputasi dan sering gagal karena distorsi self-absorption atau penyimpangan LTE.
+% • Transisi ke Deep Learning: Saat Anda menyatakan bahwa Machine Learning adalah solusinya, gunakan artikel Liu et al. (2026) untuk membuktikan bahwa kombinasi CNN-Transformer sudah terbukti berhasil mengurai spektrum kompleks (bahkan pada baja/material jarak jauh).
+% • Generalisasi Matriks: Gunakan riset Anda sebelumnya atau literatur terkait seperti Walidain et al. (2026) untuk menjustifikasi penggunaan Transformer (seperti Informer) dalam menangani ribuan kanal spektral secara efisien untuk analisis multivariat kompleks.
+% 3. Eksekusi Paragraf (Contoh Sintesis Sitasi)
+% Agar tidak terlihat seperti sekadar menempelkan referensi, sitasi Anda harus dirangkai dalam satu alur logika yang menunjukkan evolusi. Contohnya:
 
 \section{Deep Learning untuk Analisis Spektrum}
 
-\subsection{Convolutional Neural Network (CNN)}
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\textwidth}{!}{
+%     \begin{tikzpicture}[
+%         font=\sffamily\small,
+%         >=stealth,
+%         block/.style={draw, thick, fill=blue!5, align=center, rounded corners, minimum height=3em, minimum width=4cm},
+%         tensor/.style={draw, thick, fill=yellow!10, align=center, minimum height=2em, minimum width=2.5cm},
+%         module/.style={draw, thick, fill=green!5, align=center, minimum height=3em, minimum width=3.5cm},
+%         arrow/.style={->, thick}
+%     ]
 
-\textit{Convolutional Neural Network} (CNN) satu dimensi merupakan arsitektur \textit{deep learning} yang efektif untuk ekstraksi fitur lokal dari data sekuensial seperti spektrum LIBS. CNN bekerja melalui operasi konvolusi menggunakan jendela geser (\textit{kernel}) pada sumbu panjang gelombang untuk menangkap pola-pola lokal sinyal, seperti profil puncak emisi dan pelebaran garis Voigt \citep{he_deep_2016}. Aktivasi non-linear melalui fungsi \textit{Rectified Linear Unit} (ReLU) dan stabilisasi distribusi aktivasi melalui \textit{Batch Normalisation} \citep{ioffe_batch_2015} diterapkan pada setiap lapisan konvolusi untuk meningkatkan kapabilitas representasi model.
+%     % --- ENCODER SECTION (KAMUS UNSUR TUNGGAL) ---
+%     \node[tensor, fill=red!10] (input_mono) {Kamus Spektrum Unsur Tunggal\\ $S_{\mathrm{tunggal}}^{(z)}$};
+%     \node[module, below=0.6cm of input_mono] (cnn_mono) {Dilated 1D CNN\\ (Avg Pool + InstNorm)};
+%     \node[tensor, below=0.6cm of cnn_mono] (token_mono) {Token Spasial Unsur};
+%     \node[module, below=0.6cm of token_mono] (pe_mono) {Wavelength Positional\\ Encoding ($\lambda$)};
+%     \node[block, below=0.6cm of pe_mono] (encoder) {\textbf{Transformer Encoder}\\ (Self-Attention, Pre-LN)};
+%     \node[tensor, below=0.6cm of encoder] (mem_k_v) {Memori Referensi\\ \textbf{Key (K), Value (V)}};
 
-\subsection{Transformer}
+%     \draw[arrow] (input_mono) -- (cnn_mono);
+%     \draw[arrow] (cnn_mono) -- (token_mono);
+%     \draw[arrow] (token_mono) -- (pe_mono);
+%     \draw[arrow] (pe_mono) -- (encoder);
+%     \draw[arrow] (encoder) -- (mem_k_v);
 
-Kompleksitas dependensi spektral pada rentang panjang gelombang yang luas (hingga lebih dari 35.000 kanal) membutuhkan mekanisme yang mampu menangkap relasi antar titik spektral secara simultan. Arsitektur \textit{Transformer} \citep{vaswani_attention_2017} menjawab kebutuhan ini melalui mekanisme \textit{Self-Attention} yang memetakan hubungan antar posisi spektral menggunakan matriks \textit{Query} ($\mathbf{Q}$), \textit{Key} ($\mathbf{K}$), dan \textit{Value} ($\mathbf{V}$):
+%     % --- DECODER SECTION (OBSERVASI CAMPURAN) ---
+%     \node[tensor, fill=red!10, right=4cm of input_mono] (input_poly) {Spektrum Observasi Campuran\\ $S_{\mathrm{campuran}}$};
+%     \node[module, below=0.6cm of input_poly] (cnn_poly) {Dilated 1D CNN\\ (Avg Pool + InstNorm)};
+%     \node[tensor, below=0.6cm of cnn_poly] (token_poly) {Token Spasial Campuran};
+%     \node[module, below=0.6cm of token_poly] (pe_poly) {Wavelength Positional\\ Encoding ($\lambda$)};
+%     \node[tensor, below=0.6cm of pe_poly] (query_q) {Vektor Pencarian\\ \textbf{Query (Q)}};
+%     \node[block, below=0.6cm of query_q] (decoder) {\textbf{Transformer Decoder}\\ (Cross-Attention)};
+
+%     \draw[arrow] (input_poly) -- (cnn_poly);
+%     \draw[arrow] (cnn_poly) -- (token_poly);
+%     \draw[arrow] (token_poly) -- (pe_poly);
+%     \draw[arrow] (pe_poly) -- (query_q);
+%     \draw[arrow] (query_q) -- (decoder);
+
+%     % --- CROSS ATTENTION LINK ---
+%     \draw[arrow, dashed, color=blue, thick] (mem_k_v.east) -- ++(1,0) |- (decoder.west) node[pos=0.25, left, align=right] {\textit{Cross-Attention Mapping}\\ Mengurai sinyal campuran\\ berdasarkan referensi unsur};
+
+%     % --- OUTPUT HEADS ---
+%     \node[tensor, fill=green!10, below=1cm of decoder] (latent_out) {Representasi Laten Terdekomposisi};
+%     \draw[arrow] (decoder) -- (latent_out);
+
+%     \node[module, below left=1cm and -1cm of latent_out] (head_conc) {Calibration Head\\ (Softplus $\rightarrow$ Softmax)};
+%     \node[module, below right=1cm and -1cm of latent_out] (head_spec) {Reconstruction Head\\ (ConvTranspose1d)};
+
+%     \draw[arrow] (latent_out.south) -- ++(0,-0.4) -| (head_conc.north);
+%     \draw[arrow] (latent_out.south) -- ++(0,-0.4) -| (head_spec.north);
+
+%     \node[tensor, fill=orange!15, below=0.6cm of head_conc] (out_conc) {Prediksi Konsentrasi Absolut\\ ($c_z$)};
+%     \node[tensor, fill=orange!15, below=0.6cm of head_spec] (out_spec) {Rekonstruksi Unsur Murni\\ ($\hat{S}_{\mathrm{tunggal}}$)};
+
+%     \draw[arrow] (head_conc) -- (out_conc);
+%     \draw[arrow] (head_spec) -- (out_spec);
+
+%     % Background Boxes
+%     \begin{scope}[on background layer]
+%         \node[fit=(input_mono)(mem_k_v), fill=blue!5, rounded corners, draw, dashed, inner sep=0.3cm, label=above:\textbf{Jalur Pemrosesan Referensi (Kamus)}] {};
+%         \node[fit=(input_poly)(decoder), fill=red!5, rounded corners, draw, dashed, inner sep=0.3cm, label=above:\textbf{Jalur Dekomposisi Campuran (Observasi)}] {};
+%     \end{scope}
+
+%     \end{tikzpicture}
+%     }
+%     \caption{Cetak biru arsitektur CNN-Transformer Encoder-Decoder. Jalur referensi (kiri) mengekstrak memori representasi dari spektrum unsur tunggal, sedangkan jalur dekomposisi (kanan) menggunakan spektrum campuran untuk memetakan dan menyaring probabilitas kontribusi unsur melalui mekanisme \textit{Cross-Attention}.}
+%     \label{fig:arsitektur_utama}
+% \end{figure}
+
+Kompleksitas spektral tanah vulkanik yang ditandai oleh interferensi garis emisi logam transisi dan variasi latar kontinu menuntut pendekatan komputasi yang mampu mengekstraksi informasi analitik secara \textit{end-to-end}. Kerangka \textit{deep learning} yang diusulkan dalam penelitian ini dirancang untuk mengatasi keterbatasan metode kalibrasi konvensional dengan memadukan representasi fisis ke dalam arsitektur pembelajaran mesin.
+
+\subsection{Ekstraksi Fitur Spektral berbasis Dilated CNN 1D} \label{subsec:bab2_dilated_cnn}
+
+Sinyal emisi spektrum LIBS yang dihasilkan oleh spektrometer memiliki resolusi tinggi, yang mencakup 14.000 kanal panjang gelombang pada rentang spektroskopi terpilih. Karakteristik garis emisi atomik dicirikan oleh fitur-fitur lokal yang sangat sempit, seperti puncak emisi tajam dan sayap profil Stark/Voigt. Untuk mengekstraksi fitur lokal dengan efisiensi tinggi pada urutan data sepanjang ini, digunakan arsitektur \textit{Dilated Convolutional Neural Network} satu dimensi (\textit{Dilated CNN 1D}) dengan tingkat pelebaran eksponensial.
+
+Berbeda dari CNN konvensional yang memperluas bidang pandang (\textit{receptive field}) dengan memperbesar ukuran kernel konvolusi atau menambahkan lapisan secara linear (yang memicu ledakan parameter dan degradasi gradien), \textit{Dilated CNN 1D} menerapkan pelebaran jarak antar-elemen kernel secara eksponensial tanpa meningkatkan jumlah parameter bobot. Dengan demikian, model dapat menangkap struktur puncak spektral yang lebih luas secara efisien. Operasi konvolusi ini dipadukan dengan fungsi aktivasi \textit{Gaussian Error Linear Unit} (GELU) yang memberikan transisi non-linearitas halus di sekitar nilai nol guna menghindari hilangnya gradien pada puncak spektral berintensitas lemah.
+
+Untuk stabilisasi pelatihan, arsitektur ini menerapkan \textit{Instance Normalization} sebagai pengganti \textit{Batch Normalization}. Pada spektrum LIBS, rasio intensitas absolut antar garis emisi fisis yang berbeda membawa informasi krusial mengenai konsentrasi dan parameter plasma. Penggunaan \textit{Batch Normalization} berisiko mendistorsi rasio intensitas fisis ini karena melakukan normalisasi secara kolektif di seluruh sampel dalam satu \textit{batch}. Sebaliknya, \textit{Instance Normalization} menormalisasi setiap sampel spektrum secara independen, sehingga integritas rasio intensitas relatif antar puncak emisi tetap terjaga. 
+
+Selanjutnya, proses reduksi dimensi spasial dilakukan menggunakan \textit{Average Pooling}, bukan \textit{Max Pooling}. Dalam spektroskopi fisis, informasi konsentrasi suatu unsur berkorelasi dengan integral luas di bawah puncak (\textit{integrated line intensity}) serta bentuk profil sayap Stark, bukan hanya nilai intensitas puncak maksimumnya. Penggunaan \textit{Average Pooling} secara matematis merangkum seluruh kontribusi luasan di bawah puncak dan profil sayap tersebut ke dalam representasi fitur laten yang diumpankan ke lapisan berikutnya.
+
+\subsection{Transformer dan Wavelength Positional Encoding} \label{subsec:bab2_transformer}
+
+Meskipun lapisan \textit{Dilated CNN 1D} sangat andal dalam mengekstraksi morfologi puncak lokal, model membutuhkan mekanisme untuk menangkap dependensi jangka panjang (\textit{long-range dependencies}) antar-garis emisi yang tersebar di sepanjang spektrum. Sebagai contoh, garis-garis emisi dari spesi atom yang sama sering kali muncul sebagai pola multiplet pada wilayah panjang gelombang yang berjauhan. Arsitektur \textit{Transformer} \citep{vaswani_attention_2017} menjawab kebutuhan ini dengan memanfaatkan mekanisme \textit{Self-Attention} untuk menghitung korelasi dinamis antar-panjang gelombang secara simultan. Formulasi perhatian ini dinyatakan sebagai:
 \begin{equation} \label{eq:bab2_attention}
-\mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
+\mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V},
 \end{equation}
-Skema \textit{Multi-Head Attention} memungkinkan model menangkap korelasi antar panjang gelombang dari berbagai subspace representasi secara paralel, sehingga mampu merekonstruksi konektivitas antar garis emisi dalam satu elemen, seperti relasi multiplet dari tingkat ionisasi yang sama.
+di mana $\mathbf{Q}$, $\mathbf{K}$, dan $\mathbf{V}$ masing-masing merepresentasikan matriks \textit{Query}, \textit{Key}, dan \textit{Value}, sedangkan $d_k$ adalah dimensi proyeksi fitur.
 
 Contoh penerapan arsitektur hibrid CNN-Transformer pada LIBS adalah TransCNN-LIBS \citep{liu_remote_2026}, yang memadukan lapisan CNN untuk ekstraksi fitur puncak lokal dengan blok \textit{Transformer} ber-\textit{multi-head self-attention} untuk menangkap dependensi global antar panjang gelombang, didahului prapemrosesan \textit{wavelet transform} (Coif5), sebagaimana diperlihatkan pada Gambar~\ref{fig:bab2_transcnn}. Arsitektur ini menerapkan \textit{self-attention} hanya pada satu spektrum komposit tanpa struktur \textit{encoder-decoder} maupun dekomposisi eksplisit per unsur.
 
@@ -275,9 +412,11 @@ Contoh penerapan arsitektur hibrid CNN-Transformer pada LIBS adalah TransCNN-LIB
     \label{fig:bab2_transcnn}
 \end{figure}
 
-\subsection{Informer}
+Dalam pemrosesan bahasa alami (NLP) konvensional, informasi posisi kata dikodekan menggunakan indeks sekuensial integer ($1, 2, 3, \dots$). Namun, pada domain spektroskopi fisis, posisi garis emisi pada sumbu panjang gelombang membawa makna fisis absolut yang ditentukan oleh hukum transisi tingkat energi kuantum, bukan sekadar urutan kanal. Oleh karena itu, penelitian ini mengganti pengodean posisi sekuensial tersebut dengan \textit{Wavelength Positional Encoding}. Skema ini menyematkan nilai panjang gelombang fisik nyata ($\lambda$) langsung ke dalam fungsi trigonometri sinusoida untuk membentuk representasi koordinat posisi absolut. Dengan demikian, model dapat mengenali jarak spektral absolut antar garis transisi meskipun spektrum mengalami \textit{wavelength shift} atau resolusi kanal yang berbeda.
 
-Kompleksitas mekanisme \textit{self-attention} konvensional yang berskala \( O(n^2) \) terhadap panjang urutan menjadi hambatan signifikan ketika spektrum LIBS yang memiliki puluhan ribu titik data diproses sebagai urutan panjang. \textit{Informer} \citep{zhou_informer_2021} merupakan varian arsitektur \textit{Transformer} yang mengatasi hambatan ini dengan mengurangi kompleksitas komputasi dan memori menjadi \( O(n \ln n) \). Reduksi ini dimungkinkan oleh fakta bahwa distribusi bobot \textit{attention} pada spektrum nyata bersifat \textit{sparse}, hanya sebagian kecil pasangan posisi spektral yang memiliki korelasi dominan, sehingga perhitungan perhatian cukup dilakukan pada subset posisi paling informatif tanpa kehilangan informasi spektral yang signifikan. Pendekatan ini menjadikan \textit{Informer} efisien untuk pemrosesan spektrum berdimensi tinggi seperti LIBS, dan efektivitasnya telah divalidasi pada spektrum LIBS matriks herbal dalam penelitian terdahulu \citep{walidain_informer-based_2026}; struktur \textit{encoder} Informer yang digunakan pada penelitian tersebut diperlihatkan pada Gambar~\ref{fig:bab2_informer}.
+Selain itu, mengingat spektrum LIBS bersifat sangat \textit{sparse}---di mana sebagian besar wilayah spektral bernilai nol (derau latar) dan hanya sedikit posisi yang diisi puncak emisi tajam---model menerapkan konfigurasi \textit{Pre-Layer Normalization} (Pre-LN) di dalam blok Transformer. Dengan meletakkan lapisan normalisasi sebelum operasi \textit{self-attention} dan \textit{feed-forward}, aliran gradien terlindungi dari ketidakstabilan akibat kejarangan data spektral (\textit{spectral sparsity}), sehingga memastikan konvergensi pelatihan yang lebih cepat dan stabil.
+
+Setelah seluruh komponen \textit{self-attention} diintegrasikan, panjang urutan spektral ($L$) yang mencapai lebih dari 35.000 kanal pada resolusi tinggi memicu peningkatan kompleksitas komputasi dan memori kuadratik sebesar $O(L^2)$. Untuk mengatasi kendala ini, arsitektur \textit{Informer} \citep{zhou_informer_2021} digunakan untuk mengoptimalkan efisiensi komputasi menjadi $O(L \ln L)$ melalui mekanisme \textit{ProbSparse self-attention}. Pemangkasan ini didasarkan pada karakteristik kejarangan (\textit{sparsity}) spektrum emisi, di mana hanya sebagian kecil panjang gelombang yang memuat garis emisi dominan (informasi penting), sementara area lainnya berupa derau latar belakang. Dengan mengukur kejarangan \textit{query} dan menghitung perhatian hanya pada posisi spektral yang paling informatif, model dapat memproses spektrum resolusi tinggi secara efisien. Prapelatihan arsitektur Informer pada data LIBS berdimensi tinggi telah divalidasi pada klasifikasi spektral tanaman herbal sebagaimana ditunjukkan pada Gambar~\ref{fig:bab2_informer} \citep{walidain_informer-based_2026}.
 
 \begin{figure}[H]
     \centering
@@ -286,17 +425,24 @@ Kompleksitas mekanisme \textit{self-attention} konvensional yang berskala \( O(n
     \label{fig:bab2_informer}
 \end{figure}
 
-\subsection{Encoder-Decoder}
+\subsection{Arsitektur Encoder-Decoder sebagai Separator Sumber} \label{subsec:bab2_encoder_decoder}
 
-Arsitektur \textit{Encoder-Decoder} memisahkan proses representasi masukan dan proses dekoding keluaran secara modular. Pada konteks penelitian ini, blok \textit{Encoder} memproses spektrum unsur tunggal $S_{\mathrm{tunggal}}^{(z)}$ untuk menghasilkan representasi memori spesifik elemen, sementara blok \textit{Decoder} memproses spektrum campuran.
+Setelah komponen dasar berupa CNN dan Transformer diperkenalkan, keduanya disusun menjadi kerangka \textit{Encoder-Decoder} penuh. Pemisahan tugas secara modular dalam kerangka ini sangat penting untuk pemodelan dekomposisi spektral. 
 
-\subsection{Cross-Attention}
+Blok \textit{Encoder} bertugas memetakan kamus referensi, yaitu kumpulan spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) ke dalam ruang laten untuk menghasilkan basis representasi yang spesifik untuk tiap unsur. Sementara itu, blok \textit{Decoder} bertugas menerima spektrum campuran ($S_{\mathrm{campuran}}$) hasil observasi plasma. Decoder berfungsi untuk mengurai sinyal campuran tersebut dengan merujuk pada representasi yang telah dibuat oleh Encoder. Pemisahan tugas ini memungkinkan model untuk secara eksplisit memisahkan kontribusi spektral dari setiap unsur murni sebelum menghitung konsentrasi akhir. Alur pemrosesan data, integrasi modul, serta cetak biru arsitektur ini secara menyeluruh diilustrasikan pada Gambar~\ref{fig:arsitektur_utama}.
 
-Koneksi antara \textit{Encoder} dan \textit{Decoder} direkatkan melalui mekanisme \textit{Cross-Attention}. Pada mekanisme ini, blok \textit{Decoder} menghasilkan vektor $\mathbf{Q}_{\text{dec}}$ dari representasi spektrum campuran dan mencocokkannya dengan $\mathbf{K}_{\text{enc}}, \mathbf{V}_{\text{enc}}$ dari \textit{Encoder} yang menyimpan representasi spektrum unsur tunggal individual. Secara formal, operasi ini merupakan bentuk khusus dari Persamaan~\ref{eq:bab2_attention} dengan \textit{query} bersumber dari \textit{decoder} sementara pasangan \textit{key-value} bersumber dari \textit{encoder}:
+\subsection{Cross-Attention sebagai Dekomposisi Spektral} \label{subsec:bab2_cross_attention}
+
+Jembatan utama yang menghubungkan blok \textit{Encoder} dan \textit{Decoder} adalah mekanisme \textit{Cross-Attention}, yang sekaligus menjadi jantung dari algoritma dekomposisi spektral dalam penelitian ini. Mekanisme ini memodelkan interaksi antara informasi referensi unsur murni dan spektrum campuran eksperimental.
+
+Aliran tensor pada lapisan \textit{Cross-Attention} diatur secara spesifik. Matriks \textit{Key} ($\mathbf{K}$) dan \textit{Value} ($\mathbf{V}$) diekstrak dari memori spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) yang dihasilkan oleh \textit{Encoder}. Sementara itu, vektor \textit{Query} ($\mathbf{Q}$) dibangun dari spektrum campuran ($S_{\mathrm{campuran}}$) yang sedang diproses oleh \textit{Decoder} dan dipadukan dengan \textit{Element Embedding} yang berisi pengodean identitas kimia unsur target. Formulasi operasi \textit{cross-attention} ini dinyatakan sebagai:
 \begin{equation} \label{eq:bab2_crossattention}
-\mathrm{CrossAttention}(\mathbf{Q}_{\text{dec}},\mathbf{K}_{\text{enc}},\mathbf{V}_{\text{enc}}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}_{\text{dec}}\mathbf{K}_{\text{enc}}^{\top}}{\sqrt{d_k}}\right)\mathbf{V}_{\text{enc}}.
+\mathrm{CrossAttention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
 \end{equation}
-Bobot \textit{cross-attention} hasil operasi \textit{softmax} pada Persamaan~\ref{eq:bab2_crossattention} merepresentasikan probabilitas kontribusi relatif setiap unsur tunggal terhadap sinyal campuran, sekaligus memungkinkan ekstraksi koefisien konsentrasi $c_z$ secara konsisten dengan prinsip dekomposisi spektral (Persamaan~\ref{eq:bab2_poly}); mekanisme ini diilustrasikan secara konseptual pada Gambar~\ref{fig:bab2_crossattention_konsep}.
+
+Mekanisme ini memungkinkan model (melalui Query dari campuran) untuk "mencari" dan "mengekstrak" probabilitas kontribusi masing-masing unsur murni (berdasarkan Key dan Value dari Encoder) dari dalam plasma spektrum campuran yang kompleks. Sebagai contoh, saat memproses campuran, model akan mencocokkan Query campuran dengan Key karakteristik unsur Fe untuk mengekstrak hanya intensitas garis emisi milik Fe (Value).
+
+Di akhir lapisan, representasi fitur yang terdekomposisi diproyeksikan menggunakan fungsi aktivasi \textit{Softplus} untuk menjamin bahwa seluruh keluaran intensitas bernilai positif secara fisis. Akhirnya, vektor fitur tersebut dipetakan ke dalam simpleks ketertutupan massa menggunakan fungsi \textit{Softmax} untuk mendapatkan konsentrasi absolut $c_z$ (di mana $\sum_z c_z = 1$). Hubungan konseptual dan perbandingan mekanisme ini dengan model pencampuran linier konvensional diilustrasikan pada Gambar~\ref{fig:bab2_crossattention_konsep} dan Gambar~\ref{fig:bab2_lmm_vs_ca}.
 
 \begin{figure}[H]
     \centering
@@ -340,8 +486,6 @@ Bobot \textit{cross-attention} hasil operasi \textit{softmax} pada Persamaan~\re
     \label{fig:bab2_crossattention_konsep}
 \end{figure}
 
-Mekanisme \textit{cross-attention} ini secara konseptual berbeda dari pendekatan \textit{spectral unmixing} klasik berbasis \textit{linear mixing model} (LMM) \citep{keshava_spectral_2002, konstantinidis_application_2019}, yang mengestimasi koefisien kelimpahan $\hat{c}_z$ melalui solver linier eksplisit (regresi atau \textit{non-negative least squares}) terhadap pustaka \textit{endmember}. Alih-alih solver linier terpisah, mekanisme \textit{cross-attention} mencocokkan spektrum campuran (\textit{query}) terhadap referensi spektrum unsur tunggal (\textit{key-value}) secara langsung di dalam arsitektur jaringan, sehingga koefisien $c_z$ muncul sebagai bobot \textit{attention} yang dapat diinterpretasi tanpa langkah solver terpisah, sebagaimana diilustrasikan pada Gambar~\ref{fig:bab2_lmm_vs_ca}.
-
 \begin{figure}[H]
     \centering
     \resizebox{0.98\textwidth}{!}{%
@@ -376,12 +520,103 @@ Mekanisme \textit{cross-attention} ini secara konseptual berbeda dari pendekatan
     \caption{Perbandingan \textit{spectral unmixing} klasik \citep{keshava_spectral_2002, konstantinidis_application_2019} terhadap pendekatan \textit{cross-attention} penelitian ini.}
     \label{fig:bab2_lmm_vs_ca}
 \end{figure}
+\subsection{Physics-Informed dan Multi-Task Learning (MTL)} \label{subsec:bab2_physics_informed_mtl}
 
-\subsection{Domain Adaptation}
+Arsitektur \textit{deep learning} yang dikembangkan dalam penelitian ini menganut paradigma \textit{Physics-Informed Deep Learning} (PIDL). Alih-alih melatih jaringan saraf secara murni sebagai kotak hitam (\textit{black-box}) statistik yang rawan menghasilkan prediksi tidak fisis, model secara langsung terikat oleh konstrain fisis LTE dan hukum konservasi energi radiatif sejak tahap awal pelatihan. Pelatihan model dirancang menggunakan paradigma \textit{Multi-Task Learning} (MTL) yang menuntut optimasi simultan untuk tiga tugas utama yang saling berkorelasi secara fisis, yaitu estimasi konsentrasi fraksi elemental, dekomposisi spektral unsur tunggal (\textit{spectral unmixing}), dan ekstraksi parameter termodinamika makroskopis plasma.
 
-Model yang dilatih pada data sintetis (\textit{forward model} LTE) rentan terhadap penurunan kinerja saat diterapkan pada data eksperimental nyata akibat adanya \textit{domain shift}. Perbedaan ini meliputi efek instrumentasi, distorsi \textit{continuum background} residual, dan deviasi dari asumsi LTE ideal. Untuk mengatasi permasalahan ini, mekanisme adaptasi domain (\textit{domain adaptation}) melalui \textit{Gradient Reversal Layer} (GRL) \citep{ganin_unsupervised_2015, ganin_domain_2016} diintegrasikan ke dalam arsitektur model. Istilah dan mekanisme GRL pertama kali diperkenalkan oleh \citet{ganin_unsupervised_2015}, kemudian diperluas dengan eksperimen tambahan pada \citet{ganin_domain_2016}. GRL bekerja dengan membalikkan arah gradien dari klasifier domain selama \textit{backpropagation}, sehingga mendorong \textit{encoder} untuk mengekstraksi fitur yang bersifat \textit{domain-invariant}, yaitu representasi spektral yang informatif untuk prediksi konsentrasi tanpa bias terhadap asal-usul domain data. Mekanisme serupa telah diterapkan langsung pada data LIBS oleh \citet{shi_batch_2025}, yang menamai arsitekturnya \textit{Gradient Reversal Adversarial Network} (GRAN) untuk mengoreksi \textit{batch effect} antar-sesi pengukuran pada fusi spektral LIBS-FTIR, menunjukkan bahwa pendekatan berbasis pembalikan gradien bukan teknik yang diadopsi mentah dari bidang lain, melainkan sudah memiliki preseden langsung dalam konteks LIBS.
+Untuk mengoptimalkan fusi tugas-tugas tersebut secara simultan dan mencegah terjadinya dominasi gradien oleh salah satu tugas selama perambatan mundur (\textit{backpropagation}), dirancang sebuah fungsi kerugian gabungan (\textit{compound loss function}) $\mathcal{L}_{\mathrm{total}}$ yang didefinisikan secara formal sebagai:
+\begin{equation} \label{eq:bab2_loss_total}
+\mathcal{L}_{\mathrm{total}} = w_{\mathrm{conc}}\,\mathcal{L}_{\mathrm{conc}} + w_{\mathrm{clr}}\,\mathcal{L}_{\mathrm{clr}} + w_{\mathrm{spec}}\,\mathcal{L}_{\mathrm{spec}} + w_{\mathrm{phys}}\,\mathcal{L}_{\mathrm{phys}} + \lambda_{\mathrm{cons}}\,\mathcal{L}_{\mathrm{cons}}
+\end{equation}
+dengan $w_{\mathrm{conc}}$, $w_{\mathrm{clr}}$, $w_{\mathrm{spec}}$, $w_{\mathrm{phys}}$, dan $\lambda_{\mathrm{cons}}$ bertindak sebagai koefisien pembobot hiperparameter (\textit{static loss weighting multipliers}) yang mengontrol kontribusi relatif masing-masing komponen kesalahan terhadap pembaruan bobot model.
 
-Permasalahan \textit{domain shift} sintetis-eksperimental telah menjadi perhatian pada penelitian LIBS terkait, khususnya untuk klasifikasi tanah \citep{huang_adaptive_2024, he_semisupervised_2026} maupun kuantifikasi komposisi logam \citep{srivastava_quantitative_2022}, yang menegaskan relevansi permasalahan ini pada domain penelitian serupa. Pendekatan yang digunakan pada literatur tersebut umumnya terbagi dua kelompok: (i) transfer learning berbasis \textit{fine-tuning} dan \textit{self-training/pseudo-labeling} \citep{huang_adaptive_2024, he_semisupervised_2026}, yang mengandalkan model sumber untuk menghasilkan label semu pada domain target sehingga rentan terhadap kesalahan akumulatif ketika \textit{domain gap} besar; dan (ii) pendekatan adversarial berbasis GRL/\textit{Domain-Adversarial Neural Network} \citep{srivastava_quantitative_2022, rehman_deep_2022}, yang tidak memerlukan label pada domain target maupun \textit{pseudo-labeling} karena penyelarasan domain dilakukan langsung pada ruang fitur. Mengingat besarnya \textit{domain gap} antara spektrum sintetis LTE murni dan spektrum eksperimental tanah vulkanik serta terbatasnya jumlah sampel eksperimen (24 sampel), penelitian ini memilih pendekatan GRL agar tidak bergantung pada akurasi \textit{pseudo-label} dari model sumber yang berpotensi belum andal pada domain target.
+\subsubsection{Fungsi Kerugian Konsentrasi Elemental dan Transformasi Komposisional}
+
+Representasi data konsentrasi elemental pada batuan atau tanah vulkanik merupakan besaran komposisional yang terikat di dalam ruang simpleks Dirichlet tertutup, di mana penjumlahan seluruh fraksi elemental bernilai tepat satu ($\sum_{z} c_z = 1{,}0$). Fungsi kerugian konsentrasi pertama dirumuskan menggunakan divergensi Kullback-Leibler ($\mathcal{L}_{\mathrm{conc}}$) untuk meminimalkan jarak informasi antara sebaran konsentrasi prediksi ($\hat{\mathbf{c}}$) dan sebaran target \textit{ground truth} dari data referensi XRF ($\mathbf{c}$):
+\begin{equation}
+\mathcal{L}_{\mathrm{conc}} = \text{KL}(\mathbf{c} \parallel \hat{\mathbf{c}}) = \frac{1}{B} \sum_{i=1}^{B} \sum_{e=1}^{E} c_{ie} \ln \left( \frac{c_{ie}}{\max(\hat{c}_{ie}, \epsilon)} \right)
+\end{equation}
+dengan nilai konstanta stabilitas numerik $\epsilon = 10^{-8}$ untuk mencegah singularitas logaritma dari nilai nol, sedangkan $B$ menyatakan ukuran \textit{batch} dan $E$ menyatakan jumlah elemen target. Meskipun divergensi KL sensitif terhadap sebaran distribusi relatif, metrik ini memiliki kelemahan fisis bawaan berupa sensitivitas yang sangat rendah terhadap variasi fraksi unsur minoritas ketika sistem didominasi oleh unsur mayoritas geokimia tanah seperti Silikon (Si), Aluminium (Al), dan Besi (Fe). Gradien optimasi untuk unsur-unsur jejak (\textit{trace elements}) berintensitas rendah akan terhimpit, memicu kegagalan prediksi kuantitatif unsur jejak.
+
+Untuk mengatasi limitasi tersebut, model mengintegrasikan kerugian \textit{Centered Log-Ratio} ($\mathcal{L}_{\mathrm{clr}}$) berbasis geometri Aitchison. Transformasi CLR memetakan vektor komposisional dari ruang simpleks tertutup $\mathbb{S}^E$ ke dalam ruang Euclidean riil $\mathbb{R}^E$ dengan membagi nilai fraksi tiap unsur terhadap rata-rata geometrik seluruh unsur di dalam sampel, yang diformulasikan sebagai:
+\begin{equation}
+\text{clr}(c_{ie}) = \ln(c_{ie}) - \frac{1}{E} \sum_{j=1}^{E} \ln(c_{ij})
+\end{equation}
+Persamaan fungsi kerugian $\mathcal{L}_{\mathrm{clr}}$ kemudian dihitung sebagai \textit{Mean Squared Error} (MSE) dari proyeksi CLR tersebut:
+\begin{equation}
+\mathcal{L}_{\mathrm{clr}} = \frac{1}{B \cdot E} \sum_{i=1}^{B} \sum_{e=1}^{E} \left( \text{clr}(\hat{c}_{ie}) - \text{clr}(c_{ie}) \right)^2
+\end{equation}
+Injeksi kerugian $\mathcal{L}_{\mathrm{clr}}$ memberikan penalti kesalahan secara relatif, sehingga perubahan fraksi minor (skala sub-persen) memiliki magnitudo gradien yang setara dengan unsur mayoritas. Hal ini meningkatkan nilai koefisien determinasi ($R^2$) pada prediksi unsur-unsur jejak tanpa mendegradasi akurasi unsur utama sampel tanah.
+
+\subsubsection{Metrik Kepatuhan Geometri Rekonstruksi Spektrum}
+
+Fungsi kerugian rekonstruksi spektral $\mathcal{L}_{\mathrm{spec}}$ bertanggung jawab memastikan bahwa emisi unsur tunggal hasil dekomposisi \textit{decoder} merepresentasikan garis emisi fisik murni yang sesuai dengan transisi kuantum. Kesalahan rekonstruksi total didefinisikan sebagai kombinasi empat komponen metrik:
+\begin{equation}
+\mathcal{L}_{\mathrm{spec}} = \mathcal{L}_{\mathrm{spec\_mse}} + \beta_{\mathrm{grad}} \mathcal{L}_{\mathrm{grad}} + w_{\mathrm{sam}} \mathcal{L}_{\mathrm{sam}} + \lambda_{\mathrm{l1}} \mathcal{L}_{\mathrm{l1}}
+\end{equation}
+Komponen pertama, $\mathcal{L}_{\mathrm{spec\_mse}}$, merupakan \textit{Peak-Weighted Mean Squared Error} (PWMSE). Spektrum emisi LIBS didominasi oleh derau \textit{baseline} kontinu (>95\% intensitas mendekati nol), sehingga optimasi MSE konvensional akan memaksa model memprediksi spektrum bernilai nol untuk meminimalkan loss. PWMSE mengatasi bias ini dengan menyisipkan matriks bobot dinamis $W_{ie}(\lambda)$ yang sebanding dengan profil intensitas garis emisi target:
+\begin{equation}
+W_{ie}(\lambda) = 1{,}0 + \alpha_{\mathrm{pw}} \left( \frac{I_{\mathrm{label}, ie}(\lambda)}{\max_{\lambda} I_{\mathrm{label}, ie}(\lambda) + \epsilon} \right)
+\end{equation}
+\begin{equation}
+\mathcal{L}_{\mathrm{spec\_mse}} = \frac{1}{B \cdot E \cdot L} \sum_{i=1}^{B} \sum_{e=1}^{E} \sum_{j=1}^{L} W_{ie}(\lambda_j) \left( \hat{I}_{\mathrm{pred}, ie}(\lambda_j) - I_{\mathrm{label}, ie}(\lambda_j) \right)^2
+\end{equation}
+dengan $L$ menyatakan jumlah saluran panjang gelombang. Parameter penguat $\alpha_{\mathrm{pw}}$ bernilai $20{,}0$, yang berarti kesalahan prediksi pada puncak garis transisi fisis diberi penalti 21 kali lebih berat dibandingkan wilayah derau latar.
+
+Meskipun PWMSE mengunci amplitudo puncak transisi, metrik tersebut tidak membatasi deviasi kemiringan profil garis. Oleh karena itu, diperkenalkan \textit{Spectral Gradient Loss} ($\mathcal{L}_{\mathrm{grad}}$) yang menghitung deviasi pada turunan pertama spasial sepanjang sumbu panjang gelombang ($\lambda$):
+\begin{equation}
+\mathcal{L}_{\mathrm{grad}} = \frac{1}{B \cdot E \cdot (L-1)} \sum_{i=1}^{B} \sum_{e=1}^{E} \sum_{j=1}^{L-1} \left( \Delta \hat{I}_{\mathrm{pred}, ie}(\lambda_j) - \Delta I_{\mathrm{label}, ie}(\lambda_j) \right)^2
+\end{equation}
+di mana $\Delta I(\lambda_j) = I(\lambda_{j+1}) - I(\lambda_j)$. Fungsi kerugian ini memaksa model mencocokkan profil asimetri Stark dan lebar sayap Lorentz pada spektrum, yang secara langsung berkaitan dengan kepadatan plasma.
+
+Untuk menghindari kegagalan berupa \textit{spectral line swapping}—di mana garis emisi suatu unsur direkonstruksi pada posisi panjang gelombang milik unsur lain akibat kedekatan jarak garis emisi logam transisi—diintegrasikan kerugian \textit{Spectral Angle Mapper} ($\mathcal{L}_{\mathrm{sam}}$). Metrik ini mengukur kemiripan arah vektor spektral berdasarkan sudut kosinus global antar-panjang gelombang:
+\begin{equation}
+\mathcal{L}_{\mathrm{sam}} = \frac{1}{B \cdot E} \sum_{i=1}^{B} \sum_{e=1}^{E} \left( 1 - \frac{\hat{\mathbf{I}}_{\mathrm{pred}, ie} \cdot \mathbf{I}_{\mathrm{label}, ie}}{\|\hat{\mathbf{I}}_{\mathrm{pred}, ie}\|_2 \|\mathbf{I}_{\mathrm{label}, ie}\|_2 + \epsilon} \right)
+\end{equation}
+Terakhir, karena representasi spektrum murni bersifat renggang (\textit{sparse}), model menerapkan regularisasi $L_1$ \textit{sparsity} ($\mathcal{L}_{\mathrm{l1}}$) untuk meredam kebocoran DC \textit{offset} atau nilai \textit{baseline} semu yang dihasilkan oleh lapisan aktivasi Sigmoid pada \textit{decoder}:
+\begin{equation}
+\mathcal{L}_{\mathrm{l1}} = \frac{1}{B \cdot E \cdot L} \sum_{i=1}^{B} \sum_{e=1}^{E} \sum_{j=1}^{L} \left| \hat{I}_{\mathrm{pred}, ie}(\lambda_j) \right|
+\end{equation}
+
+\subsubsection{Pengekang Kepatuhan Termodinamika (Physics-Informed Regularization)}
+
+Untuk memastikan model mematuhi hukum termodinamika plasma lokal (LTE), arsitektur model menyertakan penaksiran parameter fisik temperatur elektron ($T_e$) dan kerapatan elektron ($n_e$) sebagai regularisator implisit. Galat parameter fisika $\mathcal{L}_{\mathrm{phys}}$ dihitung menggunakan MSE terbobot:
+\begin{equation}
+\mathcal{L}_{\mathrm{phys}} = \mathcal{L}_{\mathrm{te}} + w_{\mathrm{ne}} \mathcal{L}_{\mathrm{ne}}
+\end{equation}
+Karena rentang nilai numerik $T_e$ ($\approx 6000 - 15000 \text{ K}$) dan $n_e$ ($\approx 10^{16} - 10^{18} \text{ cm}^{-3}$) terpisah sejauh beberapa orde magnitudo, kalkulasi langsung pada skala linier akan didominasi oleh fluktuasi kerapatan elektron $n_e$, sehingga gradien $T_e$ terabaikan. Untuk menyamakan pengaruh kedua besaran fisis tersebut, dilakukan normalisasi skala pada loader dataset sebelum perhitungan loss dilakukan:
+\begin{enumerate}
+\item \textbf{Temperatur Elektron ($T_e$):} Dinormalisasi secara linier menggunakan faktor pembagi $10^4 \text{ K}$, menghasilkan target dengan skala stabil $\tilde{T}_e \sim [0{,}6, 1{,}5]$.
+\item \textbf{Kerapatan Elektron ($n_e$):} Dipetakan ke dalam skala logaritmik basis 10 dengan translasi pergeseran batas bawah:
+   \begin{equation}
+   \tilde{n}_e = \log_{10}(n_e) - 16
+   \end{equation}
+   Proyeksi ini menghasilkan target akhir $\tilde{n}_e \sim [0{,}0, 2{,}0]$ yang setara untuk rentang kerapatan $10^{16}$ hingga $10^{18} \text{ cm}^{-3}$.
+\end{enumerate}
+Dengan penormalan tersebut, fungsi kesalahan $\mathcal{L}_{\mathrm{te}}$ dan $\mathcal{L}_{\mathrm{ne}}$ dirumuskan sebagai:
+\begin{equation}
+\mathcal{L}_{\mathrm{te}} = \frac{1}{B} \sum_{i=1}^{B} \left( \hat{T}_{e, i} - \tilde{T}_{e, i} \right)^2
+\end{equation}
+\begin{equation}
+\mathcal{L}_{\mathrm{ne}} = \frac{1}{B} \sum_{i=1}^{B} \left( \hat{n}_{e, i} - \tilde{n}_{e, i} \right)^2
+\end{equation}
+Optimasi terhadap parameter plasma ini memaksa model mengekstraksi representasi laten yang merefleksikan perubahan suhu eksitasi Boltzmann dan pelebaran Stark, yang pada gilirannya mengarahkan model untuk mematuhi hukum fisika emisi plasma LTE.
+
+\subsubsection{Hukum Kekekalan Energi Spektral (Spectral Conservation Law Constraint)}
+
+Sebagai fungsi pengekang fisik eksternal, model menegakkan hukum kekekalan energi radiasi spektral ($\mathcal{L}_{\mathrm{cons}}$) menggunakan pendekatan \textit{soft constraint}. Berdasarkan justifikasi optik tipis (\textit{optically thin}) pada kondisi LTE, radiansi total campuran merupakan superposisi linier dari radiansi unsur-unsur murni penyusunnya. Kerugian konservasi dirumuskan untuk meminimalkan deviasi antara jumlahan spektrum unsur tunggal hasil prediksi \textit{decoder} terhadap spektrum campuran masukan model ($x$):
+\begin{equation}
+\mathcal{L}_{\mathrm{cons}} = \frac{1}{B \cdot L} \sum_{i=1}^{B} \sum_{j=1}^{L} \left( \left[ \sum_{e=1}^{E} \hat{I}_{\mathrm{pred}, ie}(\lambda_j) \right] - x_i(\lambda_j) \right)^2
+\end{equation}
+Penerapan fungsi pembatas $\mathcal{L}_{\mathrm{cons}}$ ini secara teoretis mencegah model melakukan prediksi intensitas fiktif atau melakukan klaim ganda (\textit{double-counting}) atas satu garis emisi yang sama antarelemen yang berbeda tanpa kompensasi intensitas yang sesuai pada spektrum campuran asal.
+
+\subsection{Domain Adaptation melalui Gradient Reversal Layer (GRL)} \label{subsec:bab2_domain_adaptation}
+
+Model kuantifikasi yang dilatih sepenuhnya pada data sintetis (berbasis LTE ideal Saha-Boltzmann) secara intrinsik rentan mengalami penurunan akurasi yang signifikan ketika diturunkan langsung untuk memprediksi data eksperimental lapangan akibat adanya perbedaan distribusi domain (\textit{domain shift}). Kesenjangan domain ini dipicu oleh efek instrumentasi riil (seperti derau Gaussian dan Poisson, pergeseran panjang gelombang), deviasi dari asumsi LTE plasma lokal, serta efek matriks residual yang belum sepenuhnya terurai oleh simulator fisis.
+
+Untuk menjembatani jurang perbedaan domain ini, diintegrasikan mekanisme \textit{Domain Adaptation} menggunakan \textit{Gradient Reversal Layer} (GRL) \citep{ganin_unsupervised_2015, ganin_domain_2016}. Mekanisme GRL bertindak sebagai jembatan yang menghubungkan representasi fitur laten dari domain sintetis (sumber) dan domain eksperimental (target). Selama proses pelatihan maju (\textit{forward pass}), GRL membiarkan data mengalir secara normal tanpa hambatan untuk menghitung estimasi kerugian. Namun, pada saat perambatan mundur (\textit{backpropagation}), GRL secara otomatis mengalikan gradien dari penggolong domain (\textit{domain classifier}) dengan faktor negatif ($-\alpha$).
+
+Pembalikan gradien ini memaksa \textit{extractor} fitur untuk mempelajari representasi laten yang tidak bias atau invarian terhadap asal-usul domain data (\textit{domain-invariant features}). Dengan kata lain, model dipaksa untuk "menutup mata" terhadap perbedaan instrumental dan kebisingan antara simulasi dan realitas eksperimen, dan hanya memfokuskan ekstraksi fiturnya pada garis emisi dan korelasi konsentrasi yang murni fisis. Penerapan adaptasi domain adversarial berbasis GRL ini memastikan bahwa performa prediksi model tetap tangguh dan tergeneralisasi secara akurat saat diterapkan pada sampel tanah vulkanik eksperimental di lapangan.
 
 Tabel~\ref{tab:perbandingan_penelitian} merangkum karakteristik arsitektural beberapa pendekatan \textit{deep learning} yang telah diterapkan pada analisis kuantitatif LIBS, mencakup ada-tidaknya mekanisme \textit{cross-attention} (CA), struktur \textit{encoder-decoder} penuh (ED), dan dekomposisi eksplisit spektrum campuran menjadi komponen unsur tunggal per unsur (DM).
 
@@ -459,28 +694,47 @@ dengan nilai ideal $a \approx 1$ dan $b \approx 0$. Selain itu, galat posisi gar
 (\lambda_{\mathrm{sim},i}-\lambda_{\mathrm{NIST},i})^2}
 \end{equation}
 
-\subsection{Boltzmann Plot}
+\subsection{Validasi Fisis Rekonstruksi Spektral}
+\label{subsec:bab2_validasi_rekonstruksi}
 
-Validasi distribusi intensitas dilakukan menggunakan metode \textit{Boltzmann plot}, yang didasarkan pada hubungan:
+Untuk memastikan bahwa arsitektur CNN-Transformer yang diusulkan tidak sekedar bertindak sebagai kotak hitam komputasi yang melakukan pencocokan kurva secara matematis (\textit{overfitting}), validasi fisis dilakukan terhadap spektrum unsur murni hasil dekomposisi keluaran Decoder ($\hat{S}_{\mathrm{tunggal}}$). Validasi ini sangat penting untuk membuktikan bahwa model secara mandiri mampu merekonstruksi kaidah fisika plasma optik tipis.
+
+Evaluasi posisi garis emisi dilakukan dengan membandingkan puncak spektrum hasil rekonstruksi Decoder terhadap panjang gelombang referensi mutlak dari NIST Atomic Spectra Database (ASD). Tingkat pergeseran atau galat posisi dievaluasi menggunakan \textit{Root Mean Square Error} (RMSE) spasial:
 
 \begin{equation}
-\ln\left(
-\frac{I\lambda}{g_k A_{ki}}
-\right)
-=
--\frac{E_k}{k_B T_e}+C
+\mathrm{RMSE}_{\lambda} = \sqrt{ \frac{1}{N} \sum_{i=1}^{N} (\lambda_{\mathrm{pred},i} - \lambda_{\mathrm{NIST},i})^2 }
 \end{equation}
 
-di mana $I$ adalah intensitas garis emisi, $\lambda$ adalah panjang gelombang, $g_k$ adalah degenerasi tingkat atas, $A_{ki}$ adalah probabilitas transisi Einstein, $E_k$ adalah energi tingkat atas, $k_B$ adalah konstanta Boltzmann, dan $T_e$ adalah temperatur elektron plasma. Melalui regresi linear terhadap $E_k$, nilai kemiringan kurva dapat digunakan untuk memperkirakan temperatur plasma, sedangkan koefisien determinasi ($R^2$) menunjukkan tingkat konsistensi distribusi intensitas terhadap asumsi \textit{Local Thermodynamic Equilibrium} (LTE). Contoh \textit{Boltzmann plot} pada beberapa waktu tunda pengukuran diperlihatkan pada Gambar~\ref{fig:bab2_boltzmannplot}.
+Selain presisi spasial, fidelitas bentuk profil garis (Stark dan Doppler) yang direkonstruksi oleh model dievaluasi secara geometris. Kemampuan Decoder untuk mempertahankan profil Voigt tanpa tertukar dengan garis unsur lain (\textit{spectral line swapping}) diukur untuk memastikan pemisahan sumber (\textit{spectral unmixing}) terjadi secara kausalitas fisis, bukan sekedar kompensasi numerik. Contoh hasil validasi rekonstruksi spektral unsur murni diperlihatkan pada Gambar~\ref{fig:bab2_poc_spectral_reconstruction}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{images/bab2/wang2024_fig4_boltzmann.png}
-    \caption{Contoh \textit{Boltzmann plot} pada empat waktu tunda untuk estimasi $T_e$ (diadaptasi dari \citet{wang_simulation_2024}, CC~BY).}
-    \label{fig:bab2_boltzmannplot}
+    \includegraphics[width=0.8\textwidth]{images/appendix/spectral_slices_s0.png}
+    \caption{Validasi fisis rekonstruksi spektrum unsur murni dari lapisan decoder pada studi pendahuluan, menunjukkan bertahannya profil Voigt pada arsitektur yang diusulkan.}
+    \label{fig:bab2_poc_spectral_reconstruction}
 \end{figure}
 
-Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dapat dianalisis menggunakan korelasi Pearson atau regresi logaritmik untuk menilai apakah intensitas spektral meningkat secara konsisten terhadap probabilitas emisi atomik.
+\subsection{Boltzmann Plot sebagai Pembuktian Termodinamika}
+\label{subsec:bab2_boltzmann_termodinamika}
+
+Untuk menghindari logika sirkular (tautologi) di mana data sintetis dievaluasi menggunakan persamaan Saha-Boltzmann yang membangkitkannya, metode \textit{Boltzmann plot} dalam penelitian ini diterapkan secara eksklusif pada spektrum unsur murni hasil prediksi model (keluaran Decoder). Pengujian ini bertujuan membuktikan apakah kecerdasan buatan secara mandiri berhasil mempelajari dan mematuhi hukum Keseimbangan Termodinamika Lokal (LTE) dari sampel yang diuraikannya.
+
+Validasi termodinamika ini didasarkan pada linierisasi persamaan distribusi populasi:
+
+\begin{equation}
+\ln\left( \frac{I\lambda}{g_k A_{ki}} \right) = -\frac{E_k}{k_B T_e} + C
+\end{equation}
+
+di mana $I$ adalah intensitas garis emisi hasil prediksi model, $\lambda$ adalah panjang gelombang, $g_k$ adalah degenerasi tingkat atas, $A_{ki}$ adalah probabilitas transisi, $E_k$ adalah energi eksitasi, $k_B$ adalah konstanta Boltzmann, dan $T_e$ adalah temperatur elektron.
+
+Apabila ekstraksi intensitas puncak dari spektrum prediksi model disubstitusikan ke dalam ruang ruas kiri dan diplot terhadap $E_k$, regresi linier yang dihasilkan akan merefleksikan tingkat kepatuhan termodinamika model. Koefisien determinasi ($R^2$) dari plot ini menjadi metrik pembuktian absolut: nilai $R^2$ yang tinggi membuktikan secara definitif bahwa model tidak memanipulasi intensitas emisi secara acak, melainkan mendekomposisi spektrum campuran dengan tetap mengunci distribusi probabilitas kuantum atomik. Hasil estimasi temperatur via Boltzmann plot ditunjukkan pada Gambar~\ref{fig:bab2_poc_physics_correlation}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/appendix/physics.png}
+    \caption{Korelasi ekstraksi parameter termodinamika plasma lokal (LTE); tidak adanya pooling destruktif pada cabang Stark terbukti mempertahankan informasi kerapatan elektron.}
+    \label{fig:bab2_poc_physics_correlation}
+\end{figure}
 
 \subsection{RMSE, MAE, MAPE, dan Koefisien Determinasi ($R^2$)}
 
@@ -494,4 +748,18 @@ Analisis \textit{attention map} merupakan pendekatan interpretabilitas yang mema
 
 Visualisasi langsung bobot \textit{attention} telah terbukti memberikan wawasan interpretatif yang bermakna dalam berbagai domain analisis sinyal spektral. Namun demikian, \citet{chefer_transformer_2021} menunjukkan bahwa visualisasi bobot \textit{attention} langsung seringkali tidak cukup untuk merepresentasikan relevansi sesungguhnya dari suatu posisi masukan terhadap keputusan model, dan menyarankan pendekatan propagasi relevansi berbasis dekomposisi Taylor yang lebih akurat.
 
-Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum unsur tunggal terhadap rekonstruksi spektrum campuran. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang campuran dengan representasi unsur tunggal pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}).
+Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum unsur tunggal terhadap rekonstruksi spektrum campuran. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang campuran dengan representasi unsur tunggal pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}). Hasil visualisasi distribusi bobot cross-attention dan spesialisasi head attention masing-masing diperlihatkan pada Gambar~\ref{fig:bab2_poc_attention_heatmap} and Gambar~\ref{fig:bab2_poc_attention_heads}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/appendix/attn_heatmap.png}
+    \caption{Distribusi bobot cross-attention dari blok decoder pada studi pendahuluan, menunjukkan korelasi spasial tingkat tinggi terhadap posisi garis emisi referensi NIST ASD.}
+    \label{fig:bab2_poc_attention_heatmap}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/appendix/attention_heads_ca.png}
+    \caption{Visualisasi spesialisasi saluran atensi (\textit{attention heads}) decoder pada wilayah panjang gelombang Kalsium ($380 - 440 \text{ nm}$), menunjukkan penguncian spasial yang presisi pada garis emisi fisis Ca I dan Ca II referensi NIST.}
+    \label{fig:bab2_poc_attention_heads}
+\end{figure}

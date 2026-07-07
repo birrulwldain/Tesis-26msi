@@ -4,89 +4,130 @@
 
 \appendix
 
-\chapter{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
-\label{app:visualisasi-perturbasi}
-\appendices{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
+% \chapter{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
+% \label{app:visualisasi-perturbasi}
+% \appendices{Visualisasi Efek Perturbasi pada Spektrum LIBS Sintetis}
 
-Lampiran ini menyajikan visualisasi kualitatif dari berbagai jenis perturbasi yang disimulasikan pada spektrum LIBS sintetis. Visualisasi ini bertujuan untuk mengilustrasikan secara langsung pengaruh setiap jenis gangguan instrumen maupun lingkungan terhadap profil spektral.
+% Lampiran ini menyajikan visualisasi kualitatif dari berbagai jenis perturbasi yang disimulasikan pada spektrum LIBS sintetis. Visualisasi ini bertujuan untuk mengilustrasikan secara langsung pengaruh setiap jenis gangguan instrumen maupun lingkungan terhadap profil spektral.
 
-Pada setiap gambar visualisasi berikut, garis abu-abu merepresentasikan spektrum asli (\textit{original spectrum}) tanpa gangguan, garis biru menunjukkan spektrum setelah dikenai perturbasi (\textit{perturbed spectrum}), dan tanda silang merah menandakan posisi puncak emisi yang berhasil terdeteksi (\textit{detected peaks}) oleh algoritma deteksi dasar.
+% Pada setiap gambar visualisasi berikut, garis abu-abu merepresentasikan spektrum asli (\textit{original spectrum}) tanpa gangguan, garis biru menunjukkan spektrum setelah dikenai perturbasi (\textit{perturbed spectrum}), dan tanda silang merah menandakan posisi puncak emisi yang berhasil terdeteksi (\textit{detected peaks}) oleh algoritma deteksi dasar.
 
-%-------------------------------------------------------------------------------
-\section{Gaussian Noise}
-%-------------------------------------------------------------------------------
+% %-------------------------------------------------------------------------------
+% \section{Gaussian Noise}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_gaussian.pdf}
+%     \caption{Visualisasi efek Gaussian noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
+%     \label{fig:appendix_gaussian}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Poisson Noise}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_poisson.pdf}
+%     \caption{Visualisasi efek Poisson noise akibat variasi statistik jumlah foton terhadap spektrum LIBS sintetis.}
+%     \label{fig:appendix_poisson}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Spike Noise}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_spike.pdf}
+%     \caption{Visualisasi efek spike noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
+%     \label{fig:appendix_spike}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Wavelength Shift}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_shift.pdf}
+%     \caption{Visualisasi efek pergeseran panjang gelombang (\textit{wavelength shift}) terhadap spektrum LIBS sintetis.}
+%     \label{fig:appendix_shift}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Instrumental Broadening}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_broadening.pdf}
+%     \caption{Visualisasi efek pelebaran instrumen (\textit{instrumental broadening}) terhadap spektrum LIBS sintetis.}
+%     \label{fig:appendix_broadening}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Baseline Drift}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_baseline.pdf}
+%     \caption{Visualisasi efek simpangan garis dasar (\textit{baseline drift}) terhadap spektrum LIBS sintetis.}
+%     \label{fig:appendix_baseline}
+% \end{figure}
+
+% %-------------------------------------------------------------------------------
+% \section{Missing-Line Suppression}
+% %-------------------------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{images/appendix/appendix_missing.pdf}
+%     \caption{Visualisasi efek penghilangan garis spektral (\textit{missing-line suppression}) terhadap spektrum LIBS sintetis.}
+%     \label{fig:appendix_missing}
+% \end{figure}
+
+% Secara keseluruhan, visualisasi efek perturbasi di atas digunakan sebagai studi pendahuluan dalam rancangan penelitian ini guna memvalidasi tingkat realisme gangguan yang disimulasikan. Pemahaman komprehensif terkait mekanisme degradasi spektrum oleh setiap jenis noise ini akan menjadi landasan utama dalam mengevaluasi tingkat ketahanan (\textit{robustness benchmark}) algoritma deteksi, serta untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah pada penelitian utama.
+
+\chapter{Hasil Studi Pendahuluan (Proof-of-Concept) pada Subset Data Sintetis}
+\label{app:poc-studi-pendahuluan}
+\appendices{Hasil Studi Pendahuluan (Proof-of-Concept) pada Subset Data Sintetis}
+
+Bagian ini menyajikan hasil pengujian dan visualisasi dari studi pendahuluan (\textit{Proof-of-Concept}) menggunakan arsitektur hibrid CNN-Transformer Encoder-Decoder (Informer) yang dikembangkan. Eksperimen ini ditujukan untuk memverifikasi kemampuan model dalam melakukan pemisahan sumber spektral (\textit{spectral unmixing}) dan kuantifikasi elemental secara simultan dengan memanfaatkan konstrain fisis termodinamika plasma.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/appendix/attn_heatmap.png}
+%     \caption{Distribusi bobot cross-attention dari blok decoder pada studi pendahuluan, menunjukkan korelasi spasial tingkat tinggi terhadap posisi garis emisi referensi NIST ASD.}
+%     \label{fig:poc_attention_heatmap}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/appendix/attention_heads_ca.png}
+%     \caption{Visualisasi spesialisasi saluran atensi (\textit{attention heads}) decoder pada wilayah panjang gelombang Kalsium ($380 - 440 \text{ nm}$), menunjukkan penguncian spasial yang presisi pada garis emisi fisis Ca I dan Ca II referensi NIST.}
+%     \label{fig:poc_attention_heads}
+% \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_gaussian.pdf}
-    \caption{Visualisasi efek Gaussian noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
-    \label{fig:appendix_gaussian}
+    \includegraphics[width=0.8\textwidth]{images/appendix/spectral_slices_s0.png}
+    \caption{Validasi fisis rekonstruksi spektrum unsur murni dari lapisan decoder, menunjukkan bertahannya profil Voigt pada arsitektur yang diusulkan.}
+    \label{fig:poc_spectral_reconstruction}
 \end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Poisson Noise}
-%-------------------------------------------------------------------------------
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_poisson.pdf}
-    \caption{Visualisasi efek Poisson noise akibat variasi statistik jumlah foton terhadap spektrum LIBS sintetis.}
-    \label{fig:appendix_poisson}
+    \includegraphics[width=0.8\textwidth]{images/appendix/concentration_s0000.png}
+    \caption{Kinerja prediksi konsentrasi elemental pada subset data awal; penggunaan transformasi CLR terbukti mencegah kolapsnya prediksi pada unsur minoritas (\textit{trace elements}).}
+    \label{fig:poc_concentration_parity}
 \end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Spike Noise}
-%-------------------------------------------------------------------------------
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_spike.pdf}
-    \caption{Visualisasi efek spike noise terhadap spektrum LIBS sintetis pada beberapa tingkat gangguan.}
-    \label{fig:appendix_spike}
+    \includegraphics[width=0.8\textwidth]{images/appendix/physics.png}
+    \caption{Korelasi ekstraksi parameter termodinamika plasma lokal (LTE); tidak adanya pooling destruktif pada cabang Stark terbukti mempertahankan informasi kerapatan elektron.}
+    \label{fig:poc_physics_correlation}
 \end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Wavelength Shift}
-%-------------------------------------------------------------------------------
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_shift.pdf}
-    \caption{Visualisasi efek pergeseran panjang gelombang (\textit{wavelength shift}) terhadap spektrum LIBS sintetis.}
-    \label{fig:appendix_shift}
-\end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Instrumental Broadening}
-%-------------------------------------------------------------------------------
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_broadening.pdf}
-    \caption{Visualisasi efek pelebaran instrumen (\textit{instrumental broadening}) terhadap spektrum LIBS sintetis.}
-    \label{fig:appendix_broadening}
-\end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Baseline Drift}
-%-------------------------------------------------------------------------------
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_baseline.pdf}
-    \caption{Visualisasi efek simpangan garis dasar (\textit{baseline drift}) terhadap spektrum LIBS sintetis.}
-    \label{fig:appendix_baseline}
-\end{figure}
-
-%-------------------------------------------------------------------------------
-\section{Missing-Line Suppression}
-%-------------------------------------------------------------------------------
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{images/appendix/appendix_missing.pdf}
-    \caption{Visualisasi efek penghilangan garis spektral (\textit{missing-line suppression}) terhadap spektrum LIBS sintetis.}
-    \label{fig:appendix_missing}
-\end{figure}
-
-Secara keseluruhan, visualisasi efek perturbasi di atas digunakan sebagai studi pendahuluan dalam rancangan penelitian ini guna memvalidasi tingkat realisme gangguan yang disimulasikan. Pemahaman komprehensif terkait mekanisme degradasi spektrum oleh setiap jenis noise ini akan menjadi landasan utama dalam mengevaluasi tingkat ketahanan (\textit{robustness benchmark}) algoritma deteksi, serta untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah pada penelitian utama.

@@ -108,7 +108,95 @@ Bahan penelitian dalam studi ini terdiri atas data sintetis dan sampel eksperime
 
 \section{Diagram Alir Penelitian}
 
-Diagram alir penelitian pada Gambar~\ref{fig:diagram_alir} menggambarkan keseluruhan tahapan metodologi yang dilakukan dalam penelitian ini, mulai dari pembangkitan data sintetis berbasis model fisika plasma hingga evaluasi performa model pada data eksperimen. Secara umum, metodologi penelitian ini disusun ke dalam empat tahapan utama yang saling berkaitan.
+Sebelum merincikan prosedur operasional penelitian, kerangka konseptual utama dari arsitektur yang diusulkan diilustrasikan pada Gambar~\ref{fig:arsitektur_konseptual}. Model komputasi yang dibangun bertindak sebagai jembatan fisis yang mentransformasikan observasi spektrum campuran yang kompleks dan saling tumpang tindih menjadi dekomposisi spektrum unsur tunggal penyusunnya, sekaligus mengekstraksi parameter termodinamika plasma secara simultan.
+
+Untuk merealisasikan gagasan konseptual tersebut ke dalam bentuk komputasi dan eksperimen, diagram alir penelitian pada Gambar~\ref{fig:diagram_alir} menggambarkan keseluruhan tahapan metodologi yang dilakukan. Alur kerja ini mencakup fase hulu berupa pembangkitan data sintetis berbasis model fisika plasma, hingga fase hilir berupa evaluasi performa model pada data observasi eksperimen. Secara umum, metodologi penelitian ini disusun ke dalam empat tahapan utama yang saling berkaitan.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{0.95\textwidth}{!}{
+    \begin{tikzpicture}[
+        font=\sffamily,
+        >=stealth,
+        axis/.style={->, thick},
+        curve/.style={line width=1.5pt},
+        ai_box/.style={draw, thick, fill=gray!15, rounded corners=2mm, align=center, minimum width=3.5cm, minimum height=1.8cm},
+        plasma_box/.style={draw=orange!80!black, thick, fill=orange!10, rounded corners=2mm, align=center, minimum width=3.5cm, minimum height=1.5cm}
+    ]
+
+    % ========================================================
+    % 1. SPEKTRUM CAMPURAN (KIRI)
+    % ========================================================
+    \coordinate (O_mix) at (0,0);
+    
+    % Sumbu
+    \draw[axis] (O_mix) -- ++(4.5,0) node[right] {$\lambda$};
+    \draw[axis] (O_mix) -- ++(0,3.5) node[above] {Intensitas};
+    
+    % Kurva Spektrum Campuran (Superposisi)
+    \draw[curve, black] plot[smooth, tension=0.7] coordinates {
+        (0.2, 0.1) (0.5, 0.15) (0.9, 3.0) (1.2, 0.2) 
+        (1.5, 1.8) (1.8, 0.2) (2.3, 1.2) (2.7, 0.1) 
+        (3.1, 0.9) (3.6, 0.1) (4.0, 0.1)
+    };
+    
+    % Label Nomenklatur (Diturunkan posisinya agar tidak tertusuk panah)
+    \node[align=center] at (2.2, -1.0) {\large \textbf{Spektrum Campuran}\\ $S_{\mathrm{campuran}}(\lambda)$};
+
+    % ========================================================
+    % 2. BLOK MODEL AI & PARAMETER PLASMA (TENGAH)
+    % ========================================================
+    \node[ai_box] (ai) at (7.8, 1.5) {\Large \textbf{Model AI} \\ \large CNN-Transformer};
+    
+    \node[plasma_box] (plasma) at (7.8, -1.2) {\Large \textbf{Plasma} \\ \normalsize $T_e = 10\,200$ K \\ \normalsize $n_e = 1.5 \times 10^{17}$ cm$^{-3}$};
+
+    % Panah Input
+    \draw[->, dashed, line width=1.5pt] (4.8, 1.5) -- (ai.west);
+    
+    % Panah ke Parameter Plasma
+    \draw[->, dashed, line width=1.5pt] (ai.south) -- (plasma.north);
+
+    % ========================================================
+    % 3. SPEKTRUM UNSUR TUNGGAL (KANAN)
+    % ========================================================
+    
+    % -- A. Spektrum Si (Merah) --
+    \coordinate (O_Si) at (11.8, 3.5);
+    \draw[axis] (O_Si) -- ++(3.5,0);
+    \draw[axis] (O_Si) -- ++(0,1.5);
+    \draw[curve, red!70!black] plot[smooth, tension=0.7] coordinates {
+        (12.0, 3.55) (12.4, 4.8) (12.7, 3.6) (13.1, 3.9) (13.5, 3.55) (14.8, 3.55)
+    };
+    \node[right] at (13.8, 4.6) {\textbf{Si} ($c_{\mathrm{Si}} = 45\%$)};
+
+    % -- B. Spektrum Al (Hijau) --
+    \coordinate (O_Al) at (11.8, 1.2);
+    \draw[axis] (O_Al) -- ++(3.5,0);
+    \draw[axis] (O_Al) -- ++(0,1.5);
+    \draw[curve, green!60!black] plot[smooth, tension=0.7] coordinates {
+        (12.0, 1.25) (13.1, 1.25) (13.6, 2.4) (14.0, 1.35) (14.4, 1.7) (14.8, 1.25)
+    };
+    \node[right] at (13.8, 2.3) {\textbf{Al} ($c_{\mathrm{Al}} = 15\%$)};
+
+    % -- C. Spektrum Fe (Oranye) --
+    \coordinate (O_Fe) at (11.8, -1.1);
+    \draw[axis] (O_Fe) -- ++(3.5,0);
+    \draw[axis] (O_Fe) -- ++(0,1.5);
+    \draw[curve, orange!90!black] plot[smooth, tension=0.7] coordinates {
+        (12.0, -1.05) (12.5, -0.6) (12.9, -1.05) (13.9, -1.05) (14.3, -0.1) (14.8, -1.05)
+    };
+    \node[right] at (13.8, 0) {\textbf{Fe} ($c_{\mathrm{Fe}} = 8\%$)};
+
+    % Panah Dekomposisi dari Model ke Unsur (Diperhalus dengan looseness)
+    \draw[->, line width=1.5pt] (ai.east) ++(0, 0.35) to[out=0, in=180, looseness=0.6] (11.7, 4.0);
+    \draw[->, line width=1.5pt] (ai.east) to[out=0, in=180, looseness=0.6] (11.7, 1.7);
+    \draw[->, line width=1.5pt] (ai.east) ++(0, -0.35) to[out=0, in=180, looseness=0.6] (11.7, -0.6);
+
+    \end{tikzpicture}
+    }
+    \caption{Ilustrasi konseptual kerangka kerja model AI yang diusulkan. Model mentransformasikan observasi spektrum campuran $S_{\mathrm{campuran}}(\lambda)$ menjadi dekomposisi fisis unsur tunggal penyusunnya sekaligus mengekstraksi parameter termodinamika plasma secara simultan.}
+    \label{fig:arsitektur_konseptual}
+\end{figure}
 
 Tahap pertama merupakan proses generasi spektrum LIBS sintetis menggunakan \textit{forward model} berbasis persamaan Saha-Boltzmann dan parameter atomik dari \textit{NIST Atomic Spectra Database}. Pada tahap ini dibangkitkan pasangan spektrum unsur tunggal dan campuran beserta label konsentrasi unsur yang digunakan sebagai data pelatihan awal model.
 
@@ -141,7 +229,7 @@ Tahap generasi spektrum sintetis dalam penelitian ini dilakukan untuk membangun 
 
     \item Intensitas emisi untuk setiap garis spektral dihitung menggunakan model berbasis distribusi Saha-Boltzmann yang telah diuraikan pada Bab~II. Populasi tingkat energi atom dan ion dihitung berdasarkan temperatur plasma, sedangkan intensitas garis spektral dihitung menggunakan koefisien emisi Einstein sesuai Persamaan~\ref{eq:bab2_emiss}.
 
-    \item Setiap garis spektral yang dihasilkan selanjutnya diperlebar menggunakan profil Voigt, yaitu konvolusi antara pelebaran Gaussian akibat efek Doppler dan pelebaran Lorentzian akibat efek Stark. Pelebaran Doppler dihitung menggunakan Persamaan~\ref{eq:bab2_doppler}, sedangkan pelebaran Stark dihitung menggunakan Persamaan~\ref{eq:bab2_stark}.
+    \item Setiap garis emisi akhir dibentuk melalui konvolusi antara profil Voigt (yang merupakan gabungan dari pelebaran Doppler termal akibat gerakan termal atom dan pelebaran Stark akibat interaksi medan listrik lokal plasma) dengan fungsi resolusi instrumen (\textit{instrumental broadening}) dari Spektrometer Echelle. Spektrometer pembanding yang dituju dalam pemodelan ini memiliki Daya Pisah (\textit{Resolving Power}) $R = 5000$, sehingga fungsi pelebaran alatnya dimodelkan sebagai profil Gaussian dengan lebar penuh pada setengah maksimum (\textit{Full Width at Half Maximum}) $\text{FWHM}_{\text{inst}} = \lambda / 5000$. Pelebaran Doppler awal dihitung menggunakan Persamaan~\ref{eq:bab2_doppler}, sedangkan pelebaran Stark dihitung menggunakan Persamaan~\ref{eq:bab2_stark}.
 
     \item Spektrum unsur tunggal individual $S_{\mathrm{tunggal}}^{(z)}(\lambda)$ dibangkitkan untuk masing-masing elemen $z$. Selanjutnya, spektrum campuran $S_{\mathrm{campuran}}(\lambda)$ dibentuk melalui superposisi tertimbang dari seluruh spektrum unsur tunggal berdasarkan fraksi konsentrasi unsur sesuai Persamaan~\ref{eq:bab2_poly}.
 
@@ -204,7 +292,7 @@ Tahap generasi spektrum sintetis dalam penelitian ini dilakukan untuk membangun 
   \end{tabular}
 \end{table}
 
-Sebagai studi pendahuluan sebelum pembentukan dataset pelatihan final, dilakukan evaluasi \textit{robustness benchmark} terhadap subset spektrum sintetis yang telah dibangkitkan untuk mengkarakterisasi dampak tujuh jenis perturbasi realistis terhadap integritas spektral, meliputi \textit{Gaussian noise}, \textit{Poisson noise}, \textit{spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, dan \textit{missing-line suppression}. Evaluasi ini dilakukan menggunakan tiga lapisan metrik, yaitu \textit{Peak F1-score} untuk lapisan deteksi, \textit{Line F1-score} untuk lapisan pencocokan garis, dan \textit{Pearson Correlation} untuk lapisan fidelitas spektral. Hasil evaluasi tersebut digunakan untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah (\textit{evidence-based augmentation policy}), di mana probabilitas sampling dan rentang keparahan setiap perturbasi ditentukan secara proporsional terhadap dampak empirisnya terhadap \textit{pipeline} interpretasi spektrum. Visualisasi kualitatif efek setiap jenis perturbasi terhadap profil spektrum sintetis disajikan pada Lampiran~\ref{app:visualisasi-perturbasi}.
+Sebagai studi pendahuluan sebelum pembentukan dataset pelatihan final, dilakukan evaluasi \textit{robustness benchmark} terhadap subset spektrum sintetis yang telah dibangkitkan untuk mengkarakterisasi dampak tujuh jenis perturbasi realistis terhadap integritas spektral, meliputi \textit{Gaussian noise}, \textit{Poisson noise}, \textit{spike noise}, \textit{wavelength shift}, \textit{instrumental broadening}, \textit{baseline drift}, dan \textit{missing-line suppression}. Evaluasi ini dilakukan menggunakan tiga lapisan metrik, yaitu \textit{Peak F1-score} untuk lapisan deteksi, \textit{Line F1-score} untuk lapisan pencocokan garis, dan \textit{Pearson Correlation} untuk lapisan fidelitas spektral. Hasil evaluasi tersebut digunakan untuk merumuskan kebijakan augmentasi data yang berbasis bukti ilmiah (\textit{evidence-based augmentation policy}), di mana probabilitas sampling dan rentang keparahan setiap perturbasi ditentukan secara proporsional terhadap dampak empirisnya terhadap \textit{pipeline} interpretasi spektrum. Seluruh jenis perturbasi ini (seperti \textit{Gaussian noise}, \textit{Poisson noise}, \textit{baseline drift}, dan \textit{missing-line suppression}) diinjeksikan secara dinamis (\textit{on-the-fly data augmentation}) pada spektrum campuran selama proses \textit{pre-training} berlangsung. Injeksi dinamis ini berfungsi sebagai mekanisme regularisasi yang memaksa model---khususnya ekstraktor CNN dan Transformer Encoder---untuk mempelajari representasi fitur yang kebal (\textit{robust}) terhadap degradasi sinyal optik riil, sehingga model tidak terjebak dalam menghafal pola data sintetis yang terlalu ideal. Visualisasi kualitatif efek setiap jenis perturbasi terhadap profil spektrum sintetis disajikan pada Lampiran~\ref{app:visualisasi-perturbasi}.
 
 % ======================
 % Tahap 2, Mendukung Tujuan 2
