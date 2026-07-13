@@ -294,8 +294,8 @@ Dalam penelitian ini, data konsentrasi unsur dari XRF digunakan sebagai \textit{
 
 Tantangan fundamental epistemologis dalam menggunakan XRF sebagai referensi untuk LIBS adalah ketidaksesuaian skala interogasi (\textit{interrogation volume}): XRF menganalisis sampel makroskopik yang telah dihomogenisasi sempurna, sedangkan plasma LIBS hanya mencuplik material pada orde mikrogram yang secara intrinsik sangat heterogen. Untuk menjembatani kesenjangan representativitas spasial ini, penelitian ini mengakumulasi spektrum dari puluhan tembakan laser individual yang tersebar di berbagai titik permukaan sampel. Melalui paparan spasial yang luas ini, himpunan spektrum mikro dari LIBS diharapkan secara statistik mampu merepresentasikan komposisi \textit{bulk} makroskopik yang diukur oleh XRF, sehingga pelabelan \textit{supervised learning} tetap valid secara analitik.
 
-\textbf{REVISI POIN 2.4
-}% Secara struktural, argumen di Seksi 2.4 sudah sangat tajam, namun dari segi strategi sitasi, Anda belum sepenuhnya aman. Tesis Magister yang solid tidak boleh hanya melayang di atas literatur tahun 2024–2026, tetapi juga tidak boleh tertinggal di buku teks tahun 2000-an. Anda harus memadukan keduanya secara taktis.
+% Sec
+% Secara struktural, argumen di Seksi 2.4 sudah sangat tajam, namun dari segi strategi sitasi, Anda belum sepenuhnya aman. Tesis Magister yang solid tidak boleh hanya melayang di atas literatur tahun 2024–2026, tetapi juga tidak boleh tertinggal di buku teks tahun 2000-an. Anda harus memadukan keduanya secara taktis.
 % Untuk Seksi 2.4, Anda wajib berpatokan pada dua pilar literatur: Handbook LIBS klasik (sebagai fondasi absolut yang tidak bisa dibantah) dan artikel terkini (sebagai justifikasi kebaruan metode Anda).
 % Berikut adalah kritik dan panduan pemetaan sitasi yang harus Anda pastikan ada di Seksi 2.4:
 % 1. Fondasi Klasik: Kewajiban Mengutip Handbook dan Pionir
@@ -412,7 +412,7 @@ Contoh penerapan arsitektur hibrid CNN-Transformer pada LIBS adalah TransCNN-LIB
     \label{fig:bab2_transcnn}
 \end{figure}
 
-Dalam pemrosesan bahasa alami (NLP) konvensional, informasi posisi kata dikodekan menggunakan indeks sekuensial integer ($1, 2, 3, \dots$). Namun, pada domain spektroskopi fisis, posisi garis emisi pada sumbu panjang gelombang membawa makna fisis absolut yang ditentukan oleh hukum transisi tingkat energi kuantum, bukan sekadar urutan kanal. Oleh karena itu, penelitian ini mengganti pengodean posisi sekuensial tersebut dengan \textit{Wavelength Positional Encoding}. Skema ini menyematkan nilai panjang gelombang fisik nyata ($\lambda$) langsung ke dalam fungsi trigonometri sinusoida untuk membentuk representasi koordinat posisi absolut. Dengan demikian, model dapat mengenali jarak spektral absolut antar garis transisi meskipun spektrum mengalami \textit{wavelength shift} atau resolusi kanal yang berbeda.
+Dalam pemrosesan bahasa alami (NLP) konvensional, informasi posisi kata dikodekan menggunakan indeks sekuensial integer ($1, 2, 3, \dots$). Namun, pada domain spektroskopi fisis, posisi garis emisi pada sumbu panjang gelombang membawa makna fisis absolut yang ditentukan oleh prinsip transisi tingkat energi kuantum, bukan sekadar urutan kanal. Oleh karena itu, penelitian ini mengganti pengodean posisi sekuensial tersebut dengan \textit{Wavelength Positional Encoding}. Skema ini menyematkan nilai panjang gelombang fisik nyata ($\lambda$) langsung ke dalam fungsi trigonometri sinusoida untuk membentuk representasi koordinat posisi absolut. Dengan demikian, model dapat mengenali jarak spektral absolut antar garis transisi meskipun spektrum mengalami \textit{wavelength shift} atau resolusi kanal yang berbeda.
 
 Selain itu, mengingat spektrum LIBS bersifat sangat \textit{sparse}---di mana sebagian besar wilayah spektral bernilai nol (derau latar) dan hanya sedikit posisi yang diisi puncak emisi tajam---model menerapkan konfigurasi \textit{Pre-Layer Normalization} (Pre-LN) di dalam blok Transformer. Dengan meletakkan lapisan normalisasi sebelum operasi \textit{self-attention} dan \textit{feed-forward}, aliran gradien terlindungi dari ketidakstabilan akibat kejarangan data spektral (\textit{spectral sparsity}), sehingga memastikan konvergensi pelatihan yang lebih cepat dan stabil.
 
@@ -427,20 +427,20 @@ Setelah seluruh komponen \textit{self-attention} diintegrasikan, panjang urutan 
 
 \subsection{Arsitektur Encoder-Decoder sebagai Separator Sumber} \label{subsec:bab2_encoder_decoder}
 
-Setelah komponen dasar berupa CNN dan Transformer diperkenalkan, keduanya disusun menjadi kerangka \textit{Encoder-Decoder} penuh. Pemisahan tugas secara modular dalam kerangka ini sangat penting untuk pemodelan dekomposisi spektral. 
+Setelah komponen dasar berupa CNN dan Transformer diperkenalkan, keduanya disusun menjadi kerangka \textit{Encoder-Decoder} penuh. Pemisahan tugas secara modular dalam kerangka ini sangat penting untuk pemodelan dekomposisi spektral.
 
-Blok \textit{Encoder} bertugas memetakan kamus referensi, yaitu kumpulan spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) ke dalam ruang laten untuk menghasilkan basis representasi yang spesifik untuk tiap unsur. Sementara itu, blok \textit{Decoder} bertugas menerima spektrum campuran ($S_{\mathrm{campuran}}$) hasil observasi plasma. Decoder berfungsi untuk mengurai sinyal campuran tersebut dengan merujuk pada representasi yang telah dibuat oleh Encoder. Pemisahan tugas ini memungkinkan model untuk secara eksplisit memisahkan kontribusi spektral dari setiap unsur murni sebelum menghitung konsentrasi akhir. Alur pemrosesan data, integrasi modul, serta cetak biru arsitektur ini secara menyeluruh diilustrasikan pada Gambar~\ref{fig:arsitektur_utama}.
+\textcolor{red}{B}lok \textit{Encoder} bertugas menerima spektrum campuran ($S_{\mathrm{campuran}}$) hasil observasi plasma dan mengekstrak representasi laten spektral global beserta parameter termodinamika plasma. Sementara itu, blok \textit{Decoder} menerima himpunan representasi spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) sebagai \textit{query}. Decoder berfungsi untuk mengurai sinyal campuran tersebut dengan memetakan dan menyaring kontribusi spasial panjang gelombang dari representasi yang telah dibuat oleh Encoder. Pemisahan tugas ini memungkinkan model untuk secara eksplisit memisahkan kontribusi spektral dari setiap unsur murni sebelum menghitung konsentrasi akhir. Alur pemrosesan data, integrasi modul, serta cetak biru arsitektur ini secara menyeluruh diilustrasikan pada Gambar~\ref{fig:arsitektur_utama}.
 
 \subsection{Cross-Attention sebagai Dekomposisi Spektral} \label{subsec:bab2_cross_attention}
 
 Jembatan utama yang menghubungkan blok \textit{Encoder} dan \textit{Decoder} adalah mekanisme \textit{Cross-Attention}, yang sekaligus menjadi jantung dari algoritma dekomposisi spektral dalam penelitian ini. Mekanisme ini memodelkan interaksi antara informasi referensi unsur murni dan spektrum campuran eksperimental.
 
-Aliran tensor pada lapisan \textit{Cross-Attention} diatur secara spesifik. Matriks \textit{Key} ($\mathbf{K}$) dan \textit{Value} ($\mathbf{V}$) diekstrak dari memori spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) yang dihasilkan oleh \textit{Encoder}. Sementara itu, vektor \textit{Query} ($\mathbf{Q}$) dibangun dari spektrum campuran ($S_{\mathrm{campuran}}$) yang sedang diproses oleh \textit{Decoder} dan dipadukan dengan \textit{Element Embedding} yang berisi pengodean identitas kimia unsur target. Formulasi operasi \textit{cross-attention} ini dinyatakan sebagai:
+\textcolor{red}{A}liran tensor pada lapisan \textit{Cross-Attention} diatur secara spesifik. Matriks \textit{Key} ($\mathbf{K}$) dan \textit{Value} ($\mathbf{V}$) diekstrak dari memori spektrum campuran ($S_{\mathrm{campuran}}$) yang dihasilkan oleh \textit{Encoder}. Sementara itu, vektor \textit{Query} ($\mathbf{Q}$) dibangun dari representasi spektrum unsur tunggal ($S_{\mathrm{tunggal}}^{(z)}$) yang sedang diproses oleh \textit{Decoder} dan dipadukan dengan \textit{Element Embedding} yang berisi pengodean identitas kimia unsur target. Formulasi operasi \textit{cross-attention} ini dinyatakan sebagai:
 \begin{equation} \label{eq:bab2_crossattention}
 \mathrm{CrossAttention}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}.
 \end{equation}
 
-Mekanisme ini memungkinkan model (melalui Query dari campuran) untuk "mencari" dan "mengekstrak" probabilitas kontribusi masing-masing unsur murni (berdasarkan Key dan Value dari Encoder) dari dalam plasma spektrum campuran yang kompleks. Sebagai contoh, saat memproses campuran, model akan mencocokkan Query campuran dengan Key karakteristik unsur Fe untuk mengekstrak hanya intensitas garis emisi milik Fe (Value).
+\textcolor{red}{M}ekanisme ini memungkinkan model (melalui Query khusus unsur tunggal) untuk "mencari" dan "mengekstrak" kontribusi masing-masing unsur murni (berdasarkan Key dan Value spektrum campuran dari Encoder) dari dalam plasma spektrum campuran yang kompleks. Sebagai contoh, saat memproses dekomposisi, model akan mencocokkan Query karakteristik unsur Fe dengan Key spektrum campuran untuk mengekstrak hanya intensitas garis emisi milik Fe (Value).
 
 Di akhir lapisan, representasi fitur yang terdekomposisi diproyeksikan menggunakan fungsi aktivasi \textit{Softplus} untuk menjamin bahwa seluruh keluaran intensitas bernilai positif secara fisis. Akhirnya, vektor fitur tersebut dipetakan ke dalam simpleks ketertutupan massa menggunakan fungsi \textit{Softmax} untuk mendapatkan konsentrasi absolut $c_z$ (di mana $\sum_z c_z = 1$). Hubungan konseptual dan perbandingan mekanisme ini dengan model pencampuran linier konvensional diilustrasikan pada Gambar~\ref{fig:bab2_crossattention_konsep} dan Gambar~\ref{fig:bab2_lmm_vs_ca}.
 
@@ -450,30 +450,34 @@ Di akhir lapisan, representasi fitur yang terdekomposisi diproyeksikan menggunak
       elem/.style={draw, minimum width=1.0cm, minimum height=0.5cm, inner sep=1pt},
       blok/.style={draw, thick, align=center, minimum height=0.9cm},
       panah/.style={-stealth}]
-      % kiri: tujuh spektrum unsur tunggal
-      \node[elem] (e1) at (0,4.8) {Si};
-      \node[elem] (e2) at (0,4.0) {Al};
-      \node[elem] (e3) at (0,3.2) {Fe};
-      \node[elem] (e4) at (0,2.4) {Ca};
-      \node[elem] (e5) at (0,1.6) {Mg};
-      \node[elem] (e6) at (0,0.8) {Na};
-      \node[elem] (e7) at (0,0.0) {K};
-      \node[align=center] at (0,5.5) {$S_{\mathrm{tunggal}}^{(z)}(\lambda)$};
+      % kiri: spektrum campuran
+      \node[blok, minimum width=2.4cm] (mix) at (0.0,2.4) {Spektrum campuran\\ $S_{\mathrm{campuran}}(\lambda)$};
       % encoder
-      \node[blok, minimum width=2.2cm] (enc) at (3.0,2.4) {\textit{Encoder}};
-      \foreach \i in {1,...,7} \draw[panah] (e\i) -- (enc);
-      % kanan atas: spektrum campuran dan decoder
-      \node[blok, minimum width=3.0cm] (mix) at (8.6,5.2) {Spektrum campuran\\ $S_{\mathrm{campuran}}(\lambda)$};
-      \node[blok, minimum width=2.2cm] (dec) at (8.6,3.8) {\textit{Decoder}};
-      \draw[panah] (mix) -- (dec);
-      % cross-attention
-      \node[blok, minimum width=5.0cm] (ca) at (8.6,2.0)
+      \node[blok, minimum width=1.8cm] (enc) at (2.5,2.4) {\textit{Encoder}};
+      \draw[panah] (mix) -- (enc);
+      
+      % kanan: tujuh spektrum unsur tunggal
+      \node[elem] (e1) at (8.0,4.8) {Si};
+      \node[elem] (e2) at (8.0,4.0) {Al};
+      \node[elem] (e3) at (8.0,3.2) {Fe};
+      \node[elem] (e4) at (8.0,2.4) {Ca};
+      \node[elem] (e5) at (8.0,1.6) {Mg};
+      \node[elem] (e6) at (8.0,0.8) {Na};
+      \node[elem] (e7) at (8.0,0.0) {K};
+      \node[align=center] at (8.0,5.5) {$S_{\mathrm{tunggal}}^{(z)}(\lambda)$};
+      % decoder
+      \node[blok, minimum width=1.8cm] (dec) at (5.5,2.4) {\textit{Decoder}};
+      \foreach \i in {1,...,7} \draw[panah] (e\i) -- (dec);
+      
+      % cross-attention (tengah bawah)
+      \node[blok, minimum width=5.0cm] (ca) at (4.0,0.5)
         {\textit{Cross-Attention}\\ $\mathrm{softmax}\!\left(\mathbf{Q}_{\text{dec}}\mathbf{K}_{\text{enc}}^{\top}/\sqrt{d_k}\right)\mathbf{V}_{\text{enc}}$};
-      \draw[panah] (dec) -- node[right] {$\mathbf{Q}_{\text{dec}}$} (ca);
-      \draw[panah] (enc.east) -- node[above] {$\mathbf{K}_{\text{enc}},\ \mathbf{V}_{\text{enc}}$} (ca.west);
+      \draw[panah] (enc.south) -- node[left, xshift=-1mm] {$\mathbf{K}_{\text{enc}},\ \mathbf{V}_{\text{enc}}$} (2.5,0.95);
+      \draw[panah] (dec.south) -- node[right, xshift=1mm] {$\mathbf{Q}_{\text{dec}}$} (5.5,0.95);
+      
       % keluaran: diagram batang c_z
-      \draw[panah] (ca.south) -- node[right, align=left] {bobot \textit{attention}\\ sebagai proksi $c_z$} (8.6,-0.5);
-      \begin{scope}[shift={(6.4,-2.4)}]
+      \draw[panah] (ca.south) -- node[right, align=left] {bobot \textit{attention}\\ sebagai proksi $c_z$} (4.0,-0.8);
+      \begin{scope}[shift={(1.8,-2.7)}]
         \draw[-stealth] (0,0) -- (0,1.7) node[left] {$c_z$};
         \draw[-stealth] (0,0) -- (4.4,0);
         \foreach \x/\h/\l in {0.3/1.30/Si, 0.85/0.75/Al, 1.4/0.55/Fe, 1.95/0.40/Ca, 2.5/0.30/Mg, 3.05/0.22/Na, 3.6/0.18/K}{
@@ -507,13 +511,13 @@ Di akhir lapisan, representasi fitur yang terdekomposisi diproyeksikan menggunak
       \node at (10.4,4.5) {\textbf{(b) Pendekatan penelitian ini}};
       \node[kotak, minimum width=2.9cm] (mono) at (7.6,3.4) {7 spektrum\\ unsur tunggal};
       \node[kotak, minimum width=2.9cm] (mx2) at (7.6,2.2) {Spektrum campuran};
-      \node[kotak, minimum width=1.9cm] (enc2) at (10.4,3.4) {\textit{Encoder}};
-      \node[kotak, minimum width=1.9cm] (dec2) at (10.4,2.2) {\textit{Decoder}};
-      \draw[panah] (mono) -- (enc2);
-      \draw[panah] (mx2) -- (dec2);
+      \node[kotak, minimum width=1.9cm] (dec2) at (10.4,3.4) {\textit{Decoder}};
+      \node[kotak, minimum width=1.9cm] (enc2) at (10.4,2.2) {\textit{Encoder}};
+      \draw[panah] (mono) -- (dec2);
+      \draw[panah] (mx2) -- (enc2);
       \node[kotak, minimum width=2.6cm] (ca2) at (13.2,2.8) {\textit{Cross-}\\ \textit{Attention}};
-      \draw[panah] (enc2) -- node[above, sloped] {$\mathbf{K},\mathbf{V}$} (ca2);
-      \draw[panah] (dec2) -- node[below, sloped] {$\mathbf{Q}$} (ca2);
+      \draw[panah] (enc2) -- node[below, sloped] {$\mathbf{K},\mathbf{V}$} (ca2);
+      \draw[panah] (dec2) -- node[above, sloped] {$\mathbf{Q}$} (ca2);
       \node[kotak, minimum width=2.6cm] (out2) at (13.2,1.2) {bobot \textit{attention}\\ $\approx c_z$};
       \draw[panah] (ca2) -- (out2);
     \end{tikzpicture}}
@@ -522,7 +526,7 @@ Di akhir lapisan, representasi fitur yang terdekomposisi diproyeksikan menggunak
 \end{figure}
 \subsection{Physics-Informed dan Multi-Task Learning (MTL)} \label{subsec:bab2_physics_informed_mtl}
 
-Arsitektur \textit{deep learning} yang dikembangkan dalam penelitian ini menganut paradigma \textit{Physics-Informed Deep Learning} (PIDL). Alih-alih melatih jaringan saraf secara murni sebagai kotak hitam (\textit{black-box}) statistik yang rawan menghasilkan prediksi tidak fisis, model secara langsung terikat oleh konstrain fisis LTE dan hukum konservasi energi radiatif sejak tahap awal pelatihan. Pelatihan model dirancang menggunakan paradigma \textit{Multi-Task Learning} (MTL) yang menuntut optimasi simultan untuk tiga tugas utama yang saling berkorelasi secara fisis, yaitu estimasi konsentrasi fraksi elemental, dekomposisi spektral unsur tunggal (\textit{spectral unmixing}), dan ekstraksi parameter termodinamika makroskopis plasma.
+Arsitektur \textit{deep learning} yang dikembangkan dalam penelitian ini menganut paradigma \textit{Physics-Informed Deep Learning} (PIDL). Alih-alih melatih jaringan saraf secara murni sebagai kotak hitam (\textit{black-box}) statistik yang rawan menghasilkan prediksi tidak fisis, model secara langsung terikat oleh konstrain fisis LTE dan prinsip superposisi spektral sejak tahap awal pelatihan. Pelatihan model dirancang menggunakan paradigma \textit{Multi-Task Learning} (MTL) yang menuntut optimasi simultan untuk tiga tugas utama yang saling berkorelasi secara fisis, yaitu aktifitas estimasi konsentrasi fraksi elemental, dekomposisi spektral unsur tunggal (\textit{spectral unmixing}), dan ekstraksi parameter termodinamika makroskopis plasma.
 
 Untuk mengoptimalkan fusi tugas-tugas tersebut secara simultan dan mencegah terjadinya dominasi gradien oleh salah satu tugas selama perambatan mundur (\textit{backpropagation}), dirancang sebuah fungsi kerugian gabungan (\textit{compound loss function}) $\mathcal{L}_{\mathrm{total}}$ yang didefinisikan secara formal sebagai:
 \begin{equation} \label{eq:bab2_loss_total}
@@ -580,7 +584,7 @@ Terakhir, karena representasi spektrum murni bersifat renggang (\textit{sparse})
 
 \subsubsection{Pengekang Kepatuhan Termodinamika (Physics-Informed Regularization)}
 
-Untuk memastikan model mematuhi hukum termodinamika plasma lokal (LTE), arsitektur model menyertakan penaksiran parameter fisik temperatur elektron ($T_e$) dan kerapatan elektron ($n_e$) sebagai regularisator implisit. Galat parameter fisika $\mathcal{L}_{\mathrm{phys}}$ dihitung menggunakan MSE terbobot:
+Untuk memastikan model mematuhi kondisi Keseimbangan Termodinamika Lokal (LTE), arsitektur model menyertakan penaksiran parameter fisik temperatur elektron ($T_e$) dan kerapatan elektron ($n_e$) sebagai regularisator implisit. Galat parameter fisika $\mathcal{L}_{\mathrm{phys}}$ dihitung menggunakan MSE terbobot:
 \begin{equation}
 \mathcal{L}_{\mathrm{phys}} = \mathcal{L}_{\mathrm{te}} + w_{\mathrm{ne}} \mathcal{L}_{\mathrm{ne}}
 \end{equation}
@@ -600,15 +604,15 @@ Dengan penormalan tersebut, fungsi kesalahan $\mathcal{L}_{\mathrm{te}}$ dan $\m
 \begin{equation}
 \mathcal{L}_{\mathrm{ne}} = \frac{1}{B} \sum_{i=1}^{B} \left( \hat{n}_{e, i} - \tilde{n}_{e, i} \right)^2
 \end{equation}
-Optimasi terhadap parameter plasma ini memaksa model mengekstraksi representasi laten yang merefleksikan perubahan suhu eksitasi Boltzmann dan pelebaran Stark, yang pada gilirannya mengarahkan model untuk mematuhi hukum fisika emisi plasma LTE.
+Optimasi terhadap parameter plasma ini memaksa model mengekstraksi representasi laten yang merefleksikan perubahan suhu eksitasi Boltzmann dan pelebaran Stark, yang pada gilirannya mengarahkan model untuk mematuhi prinsip fisika emisi plasma LTE.
 
-\subsubsection{Hukum Kekekalan Energi Spektral (Spectral Conservation Law Constraint)}
+\subsubsection{Pengekang Konsistensi Superposisi Spektral (Spectral Superposition Consistency Constraint)}
 
-Sebagai fungsi pengekang fisik eksternal, model menegakkan hukum kekekalan energi radiasi spektral ($\mathcal{L}_{\mathrm{cons}}$) menggunakan pendekatan \textit{soft constraint}. Berdasarkan justifikasi optik tipis (\textit{optically thin}) pada kondisi LTE, radiansi total campuran merupakan superposisi linier dari radiansi unsur-unsur murni penyusunnya. Kerugian konservasi dirumuskan untuk meminimalkan deviasi antara jumlahan spektrum unsur tunggal hasil prediksi \textit{decoder} terhadap spektrum campuran masukan model ($x$):
+Fungsi pengekang fisis eksternal diterapkan untuk memastikan kepatuhan model terhadap prinsip superposisi linear spektral ($\mathcal{L}_{\mathrm{cons}}$) melalui pendekatan \textit{soft constraint}. Merujuk pada asumsi optik tipis (\textit{optically thin}) dalam kondisi LTE, intensitas total dari spektrum campuran merupakan superposisi linear dari intensitas spektrum masing-masing unsur murni penyusunnya. Fungsi kerugian ini dirumuskan untuk meminimalkan deviasi antara akumulasi spektrum prediksi unsur murni dari \textit{decoder} dengan spektrum campuran yang menjadi masukan model ($x$):
 \begin{equation}
 \mathcal{L}_{\mathrm{cons}} = \frac{1}{B \cdot L} \sum_{i=1}^{B} \sum_{j=1}^{L} \left( \left[ \sum_{e=1}^{E} \hat{I}_{\mathrm{pred}, ie}(\lambda_j) \right] - x_i(\lambda_j) \right)^2
 \end{equation}
-Penerapan fungsi pembatas $\mathcal{L}_{\mathrm{cons}}$ ini secara teoretis mencegah model melakukan prediksi intensitas fiktif atau melakukan klaim ganda (\textit{double-counting}) atas satu garis emisi yang sama antarelemen yang berbeda tanpa kompensasi intensitas yang sesuai pada spektrum campuran asal.
+Secara fisik, penerapan \textit{constraint} $\mathcal{L}_{\mathrm{cons}}$ ini membatasi model agar tidak memprediksi intensitas emisi yang tidak realistis (non-fisis) atau melakukan perhitungan ganda (\textit{double-counting}) pada garis emisi yang berhimpitan antar-unsur tanpa adanya kompensasi intensitas yang sesuai pada spektrum campuran.
 
 \subsection{Domain Adaptation melalui Gradient Reversal Layer (GRL)} \label{subsec:bab2_domain_adaptation}
 
@@ -717,7 +721,7 @@ Selain presisi spasial, fidelitas bentuk profil garis (Stark dan Doppler) yang d
 \subsection{Boltzmann Plot sebagai Pembuktian Termodinamika}
 \label{subsec:bab2_boltzmann_termodinamika}
 
-Untuk menghindari logika sirkular (tautologi) di mana data sintetis dievaluasi menggunakan persamaan Saha-Boltzmann yang membangkitkannya, metode \textit{Boltzmann plot} dalam penelitian ini diterapkan secara eksklusif pada spektrum unsur murni hasil prediksi model (keluaran Decoder). Pengujian ini bertujuan membuktikan apakah kecerdasan buatan secara mandiri berhasil mempelajari dan mematuhi hukum Keseimbangan Termodinamika Lokal (LTE) dari sampel yang diuraikannya.
+Untuk menghindari logika sirkular (tautologi) di mana data sintetis dievaluasi menggunakan persamaan Saha-Boltzmann yang membangkitkannya, metode \textit{Boltzmann plot} dalam penelitian ini diterapkan secara eksklusif pada spektrum unsur murni hasil prediksi model (keluaran Decoder). Pengujian ini bertujuan membuktikan apakah kecerdasan buatan secara mandiri berhasil mempelajari dan mematuhi prinsip Keseimbangan Termodinamika Lokal (LTE) dari sampel yang diuraikannya.
 
 Validasi termodinamika ini didasarkan pada linierisasi persamaan distribusi populasi:
 
@@ -740,7 +744,7 @@ Apabila ekstraksi intensitas puncak dari spektrum prediksi model disubstitusikan
 
 Evaluasi kinerja kuantitatif model regresi dalam penelitian ini menggunakan empat metrik standar yang umum diterapkan dalam analisis spektroskopi berbasis pembelajaran mesin \citep{chicco_coefficient_2021}. \textit{Root Mean Square Error} (RMSE) memberikan bobot lebih besar terhadap kesalahan prediksi yang besar (\textit{outlier-sensitive}), sehingga sensitif terhadap penyimpangan ekstrem konsentrasi yang mungkin timbul akibat heterogenitas matriks vulkanik. \textit{Mean Absolute Error} (MAE) mengukur rata-rata kesalahan absolut tanpa pembobotan kuadrat, sehingga lebih robust terhadap \textit{outlier}. \textit{Mean Absolute Percentage Error} (MAPE) mengekspresikan kesalahan dalam persentase relatif terhadap nilai referensi, memungkinkan perbandingan akurasi antar unsur yang memiliki rentang konsentrasi berbeda. Keempat metrik tersebut didefinisikan secara formal pada Bab~III.
 
-Koefisien determinasi $R^2$ mengukur proporsi variasi konsentrasi yang berhasil dijelaskan oleh model, dengan nilai ideal $R^2 = 1$ yang mengindikasikan kesesuaian sempurna antara prediksi dan referensi \citep{chicco_coefficient_2021, jaradat_evaluation_2025}. Dalam penelitian ini, target performa model ditetapkan pada $R^2 \geq 0{,}95$ dan MAPE $< 10\%$, sebagaimana dirangkum pada tabel parameter model di Bab~III.
+Koefisien determinasi $R^2$ mengukur proporsi variasi konsentrasi yang berhasil dijelaskan oleh model, dengan nilai ideal $R^2 = 1$ yang mengindikasikan kesesuaian sempurna antara prediksi dan referensi \citep{chicco_coefficient_2021, jaradat_evaluation_2025}. Dalam penelitian ini, target performa model ditetapkan pada $R^2 \geq 0{,}85$ dan MAPE $< 15\%$, sebagaimana dirangkum pada tabel parameter model di Bab~III.
 
 \subsection{Analisis Attention Map}
 
@@ -748,18 +752,4 @@ Analisis \textit{attention map} merupakan pendekatan interpretabilitas yang mema
 
 Visualisasi langsung bobot \textit{attention} telah terbukti memberikan wawasan interpretatif yang bermakna dalam berbagai domain analisis sinyal spektral. Namun demikian, \citet{chefer_transformer_2021} menunjukkan bahwa visualisasi bobot \textit{attention} langsung seringkali tidak cukup untuk merepresentasikan relevansi sesungguhnya dari suatu posisi masukan terhadap keputusan model, dan menyarankan pendekatan propagasi relevansi berbasis dekomposisi Taylor yang lebih akurat.
 
-Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum unsur tunggal terhadap rekonstruksi spektrum campuran. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang campuran dengan representasi unsur tunggal pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}). Hasil visualisasi distribusi bobot cross-attention dan spesialisasi head attention masing-masing diperlihatkan pada Gambar~\ref{fig:bab2_poc_attention_heatmap} and Gambar~\ref{fig:bab2_poc_attention_heads}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/appendix/attn_heatmap.png}
-    \caption{Distribusi bobot cross-attention dari blok decoder pada studi pendahuluan, menunjukkan korelasi spasial tingkat tinggi terhadap posisi garis emisi referensi NIST ASD.}
-    \label{fig:bab2_poc_attention_heatmap}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/appendix/attention_heads_ca.png}
-    \caption{Visualisasi spesialisasi saluran atensi (\textit{attention heads}) decoder pada wilayah panjang gelombang Kalsium ($380 - 440 \text{ nm}$), menunjukkan penguncian spasial yang presisi pada garis emisi fisis Ca I dan Ca II referensi NIST.}
-    \label{fig:bab2_poc_attention_heads}
-\end{figure}
+Dalam konteks penelitian ini, bobot \textit{cross-attention} dari blok \textit{Decoder} digunakan untuk memvisualisasikan kontribusi relatif setiap spektrum unsur tunggal terhadap rekonstruksi spektrum campuran. Matriks bobot \textit{cross-attention} yang menghubungkan posisi panjang gelombang campuran dengan representasi unsur tunggal pada \textit{Encoder} dikorelasikan dengan posisi garis emisi referensi dari NIST ASD. Puncak-puncak bobot \textit{attention} yang tinggi pada posisi yang konsisten dengan garis emisi karakteristik suatu unsur memberikan validasi kualitatif bahwa model mempelajari hubungan fisik yang bermakna antara dekomposisi spektral dan identitas unsur, sejalan dengan prinsip superposisi linear (Persamaan~\ref{eq:bab2_poly}).

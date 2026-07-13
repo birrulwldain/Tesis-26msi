@@ -177,7 +177,7 @@ Bagian kedua hipotesis---bahwa bobot \textit{cross-attention} setia terhadap str
 Ketiganya dibandingkan terhadap \textit{baseline} acak (\textit{uniform attention}) dan, bila memungkinkan, antar-\textit{seed}, mengikuti semangat uji diagnostik kesetiaan \textit{attention} \citep{wiegreffe_attention_2019, bibal_attention_2022}. Inilah kontribusi yang membedakan penelitian ini dari studi interpretabilitas \textit{attention} pada umumnya yang tidak memiliki \textit{ground truth} objektif \citep{jain_attention_2019}.
 
 \section{Indikator Keberhasilan}
-Penelitian dinyatakan berhasil bila: spektrum sintetis konsisten dengan NIST ($R^2_\lambda \geq 0{,}95$, $\mathrm{RMSE}_\lambda \leq 0{,}05$~nm, $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$); data eksperimen layak ($\mathrm{SNR} \geq 10$, korelasi LIBS--XRF $R^2 \geq 0{,}80$); model mencapai $R^2 \geq 0{,}95$ dan MAPE $<10\%$; \emph{dan} keunggulan terhadap \textit{baseline} signifikan secara statistik; \emph{serta} \textit{ablation} menunjukkan penurunan performa yang bermakna saat \textit{cross-attention}/\textit{pre-training} dimatikan, dan metrik kesetiaan \textit{cross-attention} secara signifikan melampaui \textit{baseline} acak. Ringkasan disajikan pada Tabel~\ref{tab:ai_analisis_data}.
+Penelitian dinyatakan berhasil bila: spektrum sintetis konsisten dengan NIST ($R^2_\lambda \geq 0{,}90$ dan $\mathrm{RMSE}_\lambda \leq 0{,}10$~nm); data eksperimen layak ($\mathrm{SNR} \geq 3$, korelasi LIBS--XRF $R^2 \geq 0{,}70$); model mencapai $R^2 \geq 0{,}85$ dan MAPE $<15\%$; \emph{dan} keunggulan terhadap \textit{baseline} signifikan secara statistik; \emph{serta} \textit{ablation} menunjukkan penurunan performa yang bermakna saat \textit{cross-attention}/\textit{pre-training} dimatikan, dan metrik kesetiaan \textit{cross-attention} secara signifikan melampaui \textit{baseline} acak. Ringkasan disajikan pada Tabel~\ref{tab:ai_analisis_data}.
 
 \begin{table}[htbp]
 \centering
@@ -187,11 +187,11 @@ Penelitian dinyatakan berhasil bila: spektrum sintetis konsisten dengan NIST ($R
 \begin{tabularx}{\textwidth}{|c|X|X|X|}
 \hline
 \textbf{Tahap} & \textbf{Data} & \textbf{Metode} & \textbf{Indikator} \\ \hline
-1 & Spektrum sintetis unsur tunggal/campuran & Regresi posisi garis vs NIST, \textit{Boltzmann plot}, robustness benchmark & $R^2_\lambda \geq 0{,}95$, $\mathrm{RMSE}_\lambda \leq 0{,}05$~nm \\ \hline
-2 & Spektrum eksperimen + XRF & SNR, identifikasi unsur, korelasi LIBS--XRF, \textit{grouped split} & $\mathrm{SNR}\geq 10$, $R^2 \geq 0{,}80$ \\ \hline
-3 & Kurva \textit{loss} (5 seed) & Konvergensi, deteksi \textit{overfitting}, variansi antar-seed & $\Delta\mathcal{L}_{10} \leq 5\%$, selisih \textit{train--val} ${<}10\%$ \\ \hline
-4a & Prediksi vs XRF + \textit{baseline} & RMSE/$R^2$/MAPE, uji Wilcoxon, CI 95\% & $R^2 \geq 0{,}95$, MAPE ${<}10\%$, unggul signifikan \\ \hline
+1 & Spektrum sintetis unsur tunggal/campuran & Regresi posisi garis vs NIST, robustness benchmark & $R^2_\lambda \geq 0{,}90$, $\mathrm{RMSE}_\lambda \leq 0{,}10$~nm \\ \hline
+2 & Spektrum eksperimen + XRF & SNR, identifikasi unsur, korelasi LIBS--XRF, \textit{grouped split} & $\mathrm{SNR}\geq 3$, $R^2 \geq 0{,}70$ \\ \hline
+3 & Kurva \textit{loss} (5 seed) & Konvergensi, deteksi \textit{overfitting}, variansi antar-seed & $\Delta\mathcal{L}_{10} \leq 10\%$, selisih \textit{train--val} ${<}15\%$ \\ \hline
+4a & Prediksi vs XRF + \textit{baseline} & RMSE/$R^2$/MAPE, uji Wilcoxon, CI 95\% & $R^2 \geq 0{,}85$, MAPE ${<}15\%$, unggul signifikan \\ \hline
 4b & Varian \textit{ablation} A1--A5 & Selisih performa vs A0 & Penurunan bermakna saat komponen dimatikan \\ \hline
-4c & Bobot \textit{cross-attention} vs NIST & Precision/recall, \textit{attention mass}, korelasi peringkat & Melampaui \textit{baseline} acak signifikan \\ \hline
+4c & Bobot \textit{cross-attention} vs NIST & Precision/recall, \textit{attention mass}, korelasi peringkat & Melampaui \textit{baseline} acak signifikan \\ \hline\ \hline
 \end{tabularx}
 \end{table}

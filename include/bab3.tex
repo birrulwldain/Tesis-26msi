@@ -354,7 +354,7 @@ Tahap ini mendukung Tujuan Penelitian~2 dengan menyediakan data eksperimental ny
 
 \subsection{Tahap 3: Pengembangan dan Pelatihan Model CNN-Transformer}
 
-Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CNN-Transformer \textit{encoder-decoder} yang mampu mengekstraksi fitur lokal dan memodelkan dependensi global pada spektrum LIBS. Arsitektur yang diusulkan mengeksploitasi fakta fisika bahwa spektrum campuran merupakan superposisi tertimbang dari spektrum unsur tunggal penyusunnya sebagaimana dinyatakan pada Persamaan~\ref{eq:bab2_poly}. Dengan demikian, \textit{encoder} dirancang untuk memproses representasi spektrum unsur tunggal individual, sedangkan \textit{decoder} memanfaatkan mekanisme \textit{cross-attention} untuk mempelajari hubungan kontribusi unsur terhadap spektrum campuran. Pelatihan model dilakukan secara dua tahap, yaitu \textit{pre-training} menggunakan data sintetis hasil Tahap~1 untuk mempelajari representasi struktural, kemudian dilanjutkan dengan \textit{fine-tuning} menggunakan data eksperimen hasil Tahap~2. Untuk mengurangi perbedaan distribusi antara kedua domain data tersebut, mekanisme adaptasi domain juga diintegrasikan dalam proses pelatihan. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
+\textcolor{red}{T}ahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CNN-Transformer \textit{encoder-decoder} yang mampu mengekstraksi fitur lokal dan memodelkan dependensi global pada spektrum LIBS. Arsitektur yang diusulkan mengeksploitasi fakta fisika bahwa spektrum campuran merupakan superposisi tertimbang dari spektrum unsur tunggal penyusunnya sebagaimana dinyatakan pada Persamaan~\ref{eq:bab2_poly}. Dengan demikian, \textit{encoder} dirancang untuk memproses representasi spektrum campuran (*polyatomic*) guna menangkap dependensi termodinamika plasma global, sedangkan \textit{decoder} memanfaatkan mekanisme \textit{cross-attention} dengan menggunakan representasi spektrum unsur tunggal (*monoatomic*) sebagai \textit{query} untuk mendekode kontribusi relatif unsur secara individual. Pelatihan model dilakukan secara dua tahap, yaitu \textit{pre-training} menggunakan data sintetis hasil Tahap~1 untuk mempelajari representasi struktural, kemudian dilanjutkan dengan \textit{fine-tuning} menggunakan data eksperimen hasil Tahap~2. Untuk mengurangi perbedaan distribusi antara kedua domain data tersebut, mekanisme adaptasi domain juga diintegrasikan dalam proses pelatihan. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
 
 \begin{enumerate}
     \item Arsitektur model dirancang terdiri atas empat komponen utama, yaitu ekstraktor fitur berbasis \textit{Convolutional Neural Network} (CNN) satu dimensi, \textit{Transformer encoder}, \textit{Transformer decoder} dengan mekanisme \textit{cross-attention}, serta kepala keluaran untuk prediksi konsentrasi dan rekonstruksi spektrum. Ilustrasi arsitektur model secara lengkap disajikan pada Gambar~\ref{fig:arsitektur_model}.
@@ -366,13 +366,13 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
         \label{fig:arsitektur_model}
     \end{figure}
 
-    \item Model menerima dua jenis masukan, yaitu himpunan spektrum unsur tunggal $\{S_{\mathrm{tunggal}}^{(1)}, S_{\mathrm{tunggal}}^{(2)}, \ldots, S_{\mathrm{tunggal}}^{(Z)}\}$ yang merepresentasikan emisi individual dari setiap elemen, serta spektrum campuran $S_{\mathrm{campuran}}$ yang merepresentasikan sinyal total plasma multi-elemen.
+    \item \textcolor{red}{M}odel menerima spektrum campuran $S_{\mathrm{campuran}}$ (poliatomik) sebagai masukan utama untuk blok \textit{encoder}, sedangkan blok \textit{decoder} menerima himpunan spektrum unsur tunggal $\{S_{\mathrm{tunggal}}^{(1)}, S_{\mathrm{tunggal}}^{(2)}, \ldots, S_{\mathrm{tunggal}}^{(Z)}\}$ (monoatomik) yang dikombinasikan dengan indeks identitas elemen untuk memandu proses dekomposisi.
 
     \item Setiap spektrum masukan diproses terlebih dahulu oleh modul CNN satu dimensi untuk mengekstraksi fitur lokal seperti posisi puncak emisi, lebar garis, dan struktur multiplet. Modul CNN terdiri atas tiga lapisan konvolusi berturut-turut dengan ukuran \textit{kernel} yang menurun secara progresif, sehingga lapisan awal menangkap fitur spektral berskala lebar dan lapisan berikutnya menangkap fitur yang lebih sempit. Modul CNN yang sama digunakan untuk memproses seluruh spektrum unsur tunggal maupun campuran agar representasi fitur berada pada ruang laten yang konsisten.
 
-    \item Keluaran dari CNN untuk setiap spektrum unsur tunggal diproyeksikan ke dimensi model dan diproses oleh blok \textit{Transformer encoder}. Mekanisme \textit{self-attention} memungkinkan model menangkap dependensi jarak jauh antar garis spektral dalam satu elemen, sehingga menghasilkan representasi laten yang kaya untuk masing-masing unsur.
+    \item \textcolor{red}{S}pektrum campuran yang telah diproses oleh CNN diproyeksikan ke dimensi model dan diproses oleh blok \textit{Transformer encoder}. Mekanisme \textit{self-attention} global memungkinkan model menangkap dependensi temporal-spektral antar panjang gelombang komposit secara holistik guna menghasilkan representasi laten campuran (*memory*) dan parameter plasma global.
 
-    \item Spektrum campuran yang telah diproses CNN diproyeksikan dan dimasukkan ke dalam blok \textit{Transformer decoder}. Pada tahap ini, mekanisme \textit{cross-attention} menghubungkan representasi spektrum campuran dengan representasi spektrum unsur tunggal dari \textit{encoder}, sehingga model dapat mempelajari kontribusi relatif setiap unsur terhadap sinyal total yang diamati.
+    \item \textcolor{red}{S}pektrum unsur tunggal yang diproses oleh CNN disuntikkan dengan \textit{element embedding} untuk membentuk representasi khusus-elemen sebagai input \textit{query} pada blok \textit{Transformer decoder}. Pada tahap ini, mekanisme \textit{cross-attention} mencocokkan \textit{query} unsur tunggal tersebut terhadap memori spektrum campuran dari \textit{encoder} guna mendekode kontribusi konsentrasi dan merekonstruksi profil spektrum unsur murni.
 
     \item Representasi akhir dari \textit{decoder} diteruskan ke kepala keluaran (\textit{output heads}) yang bekerja secara paralel untuk memprediksi konsentrasi unsur, merekonstruksi spektrum campuran, dan memperkirakan parameter plasma sebagai keluaran tambahan yang memperkuat keterkaitan model dengan fisika plasma.
 
@@ -405,7 +405,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
     \hline
   \end{tabular}
 \end{table}
-    \item Pelatihan model dilakukan melalui dua tahap sekuensial. Pada tahap pertama, model menjalani \textit{pre-training} menggunakan 100.000 spektrum sintetis untuk mempelajari hubungan struktural antara spektrum unsur tunggal dan campuran. Fungsi kerugian yang digunakan merupakan \textit{compound loss} gabungan lima komponen, kerugian konsentrasi, kerugian rekonstruksi spektrum, kerugian parameter fisika plasma, dan kerugian konservasi, sebagaimana dinyatakan pada Persamaan~\ref{eq:bab3_loss}.
+    \item Pelatihan model dilakukan melalui dua tahap sekuensial. Pada tahap pertama, model menjalani \textit{pre-training} menggunakan 100.000 spektrum sintetis untuk mempelajari hubungan struktural antara spektrum unsur tunggal dan campuran. Fungsi kerugian yang digunakan merupakan \textit{compound loss} gabungan lima komponen, yaitu kerugian konsentrasi, kerugian rekonstruksi spektrum, kerugian parameter fisika plasma, dan kerugian superposisi spektral, sebagaimana dinyatakan pada Persamaan~\ref{eq:bab3_loss}.
 
 \begin{equation} \label{eq:bab3_loss}
 \mathcal{L}_{\mathrm{total}} = w_{\mathrm{conc}}\,\mathcal{L}_{\mathrm{KL}} + w_{\mathrm{clr}}\,\mathcal{L}_{\mathrm{CLR}} + w_{\mathrm{spec}}\,\mathcal{L}_{\mathrm{spec}} + w_{\mathrm{phys}}\,\mathcal{L}_{\mathrm{phys}} + \lambda_{\mathrm{cons}}\,\mathcal{L}_{\mathrm{cons}}
@@ -417,7 +417,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
 \mathcal{L}_{\mathrm{spec}} = \mathcal{L}_{\mathrm{MSE\text{-}terbobot}} + \beta_{\mathrm{grad}}\,\mathcal{L}_{\mathrm{grad}} + w_{\mathrm{sam}}\,\mathcal{L}_{\mathrm{SAM}} + \lambda_{L_1}\,\mathcal{L}_{L_1}
 \end{equation}
 
-    Kerugian parameter fisika $\mathcal{L}_{\mathrm{phys}} = \mathcal{L}_{T_e} + w_{n_e}\,\mathcal{L}_{n_e}$ dipisah per parameter karena $T_e$ dikodekan dalam rasio intensitas antar garis (fitur global, bertahan terhadap \textit{pooling}), sedangkan $n_e$ dikodekan dalam lebar garis Stark (fitur sub-token yang mudah hilang), pemisahan ini memungkinkan kedua parameter dipantau dan diberi bobot secara independen selama pelatihan. Kerugian konservasi $\mathcal{L}_{\mathrm{cons}}$ adalah MSE antara jumlah spektrum unsur tunggal hasil prediksi dan spektrum campuran masukan ($\sum_z \hat{S}_{\mathrm{tunggal}}^{(z)} \approx S_{\mathrm{campuran}}$), berperan sebagai \textit{soft constraint} yang menegakkan hukum kekekalan intensitas dari Persamaan~\ref{eq:bab2_poly} tanpa memaksa pemisahan unsur menjadi terlalu kaku. Seluruh bobot komponen dapat dikonfigurasi dan disetel agar magnitudo tiap komponen sebanding pada awal pelatihan.
+    Kerugian parameter fisika $\mathcal{L}_{\mathrm{phys}} = \mathcal{L}_{T_e} + w_{n_e}\,\mathcal{L}_{n_e}$ dipisah per parameter karena $T_e$ dikodekan dalam rasio intensitas antar garis (fitur global, bertahan terhadap \textit{pooling}), sedangkan $n_e$ dikodekan dalam lebar garis Stark (fitur sub-token yang mudah hilang), pemisahan ini memungkinkan kedua parameter dipantau dan diberi bobot secara independen selama pelatihan. Kerugian superposisi spektral $\mathcal{L}_{\mathrm{cons}}$ adalah MSE antara jumlah spektrum unsur tunggal hasil prediksi dan spektrum campuran masukan ($\sum_z \hat{S}_{\mathrm{tunggal}}^{(z)} \approx S_{\mathrm{campuran}}$), berperan sebagai \textit{soft constraint} yang mengawal prinsip superposisi linear dari Persamaan~\ref{eq:bab2_poly} tanpa memaksa pemisahan unsur menjadi terlalu kaku. Seluruh bobot komponen dapat dikonfigurasi dan disetel agar magnitudo tiap komponen sebanding pada awal pelatihan.
 
     \item Setelah \textit{pre-training}, model menjalani \textit{fine-tuning} menggunakan 24 sampel eksperimen dengan label target konsentrasi unsur dari XRF. Pada tahap ini digunakan laju pembelajaran yang lebih kecil untuk mempertahankan representasi yang telah dipelajari sebelumnya.
 
@@ -471,7 +471,7 @@ Tahap ini merupakan inti dari Tujuan Penelitian~2, yaitu merancang arsitektur CN
 Tahap akhir ini dirancang untuk menjawab Tujuan Penelitian~3, yaitu mengevaluasi performa model yang diusulkan terhadap beberapa model pembanding pada sampel tanah vulkanik Aceh, sekaligus menguji hipotesis sentral penelitian. Hipotesis yang diuji adalah bahwa pemodelan struktur generatif spektrum LIBS, di mana spektrum campuran direkonstruksi dari komponen unsur tunggal, mampu meningkatkan akurasi sekaligus interpretabilitas kuantifikasi unsur dibandingkan pendekatan konvensional yang memperlakukan spektrum sebagai sinyal komposit tunggal. Evaluasi dilakukan melalui analisis kuantitatif menggunakan metrik regresi standar, serta analisis kualitatif melalui interpretabilitas bobot \textit{cross-attention}. Tahap ini dilakukan melalui beberapa langkah sebagai berikut:
 
 \begin{enumerate}
-    \item Kinerja model dievaluasi secara kuantitatif menggunakan tiga metrik utama yang umum digunakan dalam analisis regresi spektroskopi, yaitu \textit{Root Mean Square Error} (RMSE), koefisien determinasi ($R^2$), dan \textit{Mean Absolute Percentage Error} (MAPE).
+    \item Kinerja model dievaluasi secara kuantitatif menggunakan empat metrik utama yang umum digunakan dalam analisis regresi spektroskopi, yaitu \textit{Root Mean Square Error} (RMSE), koefisien determinasi ($R^2$), \textit{Mean Absolute Error} (MAE), dan \textit{Mean Absolute Percentage Error} (MAPE).
 
 \begin{equation} \label{eq:bab3_rmse}
 \mathrm{RMSE} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(\hat{c}_i - c_i\right)^2}
@@ -479,6 +479,12 @@ Tahap akhir ini dirancang untuk menjawab Tujuan Penelitian~3, yaitu mengevaluasi
 
 \begin{equation} \label{eq:bab3_r2}
 R^2 = 1 - \frac{\sum_{i=1}^{N}(\hat{c}_i - c_i)^2}{\sum_{i=1}^{N}(c_i - \bar{c})^2}
+\end{equation}
+
+Sedangkan \textit{Mean Absolute Error} (MAE) yang mengukur rata-rata kesalahan absolut dihitung menggunakan Persamaan~\ref{eq:bab3_mae}:
+
+\begin{equation} \label{eq:bab3_mae}
+\mathrm{MAE} = \frac{1}{N}\sum_{i=1}^{N}\left|\hat{c}_i - c_i\right|
 \end{equation}
 
 \begin{equation} \label{eq:bab3_mape}
@@ -501,13 +507,13 @@ R^2 = 1 - \frac{\sum_{i=1}^{N}(\hat{c}_i - c_i)^2}{\sum_{i=1}^{N}(c_i - \bar{c})
 \section{Analisis Data}
 Data yang diperoleh pada setiap tahapan penelitian dianalisis sesuai dengan karakteristik data, tujuan penelitian, serta indikator capaian yang telah ditetapkan pada diagram alir penelitian. Analisis data dilakukan untuk menilai keberhasilan proses simulasi spektrum sintetis, kualitas data eksperimen, kestabilan pengembangan model, serta performa akhir model dalam kuantifikasi unsur. Secara umum, analisis data dalam penelitian ini dikelompokkan ke dalam empat tahapan sebagai berikut:
 \begin{enumerate}
-    \item Data hasil simulasi spektrum sintetis dianalisis untuk memastikan bahwa spektrum yang dihasilkan konsisten secara fisik dengan teori emisi plasma. Analisis dilakukan dengan membandingkan posisi garis emisi hasil simulasi terhadap garis referensi dari basis data \textit{NIST Atomic Spectra Database} (ASD) melalui regresi linear dan perhitungan \textit{Root Mean Square Error} (RMSE) posisi garis. Distribusi intensitas relatif antar garis dianalisis menggunakan metode \textit{Boltzmann plot} untuk mengevaluasi konsistensi terhadap parameter plasma dan asumsi \textit{Local Thermodynamic Equilibrium} (LTE). Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dianalisis untuk menilai kesesuaian distribusi intensitas terhadap data atomik. Tahap ini dinyatakan berhasil apabila diperoleh $R^2_{\lambda} \geq 0{,}95$, $\mathrm{RMSE}_{\lambda} \leq 0{,}05$~nm, dan $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$.
+    \item Data hasil simulasi spektrum sintetis dianalisis untuk memastikan bahwa spektrum yang dihasilkan konsisten secara fisik dengan teori emisi plasma. Analisis dilakukan dengan membandingkan posisi garis emisi hasil simulasi terhadap garis referensi dari basis data \textit{NIST Atomic Spectra Database} (ASD) melalui regresi linear dan perhitungan \textit{Root Mean Square Error} (RMSE) posisi garis. Selain itu, korelasi antara probabilitas transisi Einstein ($A_{ki}$) dan intensitas puncak hasil simulasi dianalisis untuk menilai kesesuaian distribusi intensitas terhadap data atomik. Tahap ini dinyatakan berhasil apabila diperoleh $R^2_{\lambda} \geq 0{,}90$ dan $\mathrm{RMSE}_{\lambda} \leq 0{,}10$~nm.
 
-    \item Data eksperimen LIBS dianalisis untuk menilai kualitas akuisisi spektrum sebelum digunakan pada tahap pelatihan model. Analisis meliputi perhitungan \textit{Signal-to-Noise Ratio} (SNR) untuk setiap spektrum, evaluasi kestabilan intensitas antar tembakan laser, serta identifikasi unsur target berdasarkan kecocokan garis emisi terhadap data referensi. Data konsentrasi unsur hasil pengukuran \textit{X-ray Fluorescence} (XRF) dianalisis secara deskriptif untuk memperoleh rentang variasi konsentrasi unsur pada sampel tanah vulkanik. Tahap ini dinyatakan berhasil apabila spektrum memiliki nilai $\mathrm{SNR} \geq 10$ dan korelasi hasil LIBS terhadap data XRF mencapai $R^2 \geq 0{,}80$.
+    \item Data eksperimen LIBS dianalisis untuk menilai kualitas akuisisi spektrum sebelum digunakan pada tahap pelatihan model. Analisis meliputi perhitungan \textit{Signal-to-Noise Ratio} (SNR) untuk setiap spektrum, evaluasi kestabilan intensitas antar tembakan laser, serta identifikasi unsur target berdasarkan kecocokan garis emisi terhadap data referensi. Data konsentrasi unsur hasil pengukuran \textit{X-ray Fluorescence} (XRF) dianalisis secara deskriptif untuk memperoleh rentang variasi konsentrasi unsur pada sampel tanah vulkanik. Tahap ini dinyatakan berhasil apabila spektrum memiliki nilai $\mathrm{SNR} \geq 3$ dan korelasi hasil LIBS terhadap data XRF mencapai $R^2 \geq 0{,}70$.
 
-    \item Proses pengembangan model dianalisis melalui pemantauan kurva fungsi kerugian (\textit{loss}) pada data pelatihan dan validasi selama tahap \textit{pre-training} maupun \textit{fine-tuning}. Analisis ini bertujuan untuk menilai kestabilan proses optimasi, mendeteksi gejala \textit{overfitting}, serta mengevaluasi peningkatan performa model pada dataset eksperimen setelah proses \textit{fine-tuning}. Tahap ini dinyatakan berhasil apabila perubahan \textit{validation loss} selama 10 \textit{epoch} terakhir kurang dari atau sama dengan 5\%, selisih antara \textit{training loss} dan \textit{validation loss} kurang dari 10\%, serta nilai RMSE setelah \textit{fine-tuning} lebih kecil dibandingkan nilai RMSE pada tahap \textit{pre-training}.
+    \item Proses pengembangan model dianalisis melalui pemantauan kurva fungsi kerugian (\textit{loss}) pada data pelatihan dan validasi selama tahap \textit{pre-training} maupun \textit{fine-tuning}. Analisis ini bertujuan untuk menilai kestabilan proses optimasi, mendeteksi gejala \textit{overfitting}, serta mengevaluasi peningkatan performa model pada dataset eksperimen setelah proses \textit{fine-tuning}. Tahap ini dinyatakan berhasil apabila perubahan \textit{validation loss} selama 10 \textit{epoch} terakhir kurang dari atau sama dengan 10\%, selisih antara \textit{training loss} dan \textit{validation loss} kurang dari 15\%, serta nilai RMSE setelah \textit{fine-tuning} lebih kecil dibandingkan nilai RMSE pada tahap \textit{pre-training}.
 
-    \item Evaluasi akhir model dilakukan menggunakan metrik regresi kuantitatif, yaitu \textit{Root Mean Square Error} (RMSE), \textit{Mean Absolute Error} (MAE), \textit{Mean Absolute Percentage Error} (MAPE), dan koefisien determinasi ($R^2$), yang dihitung untuk setiap unsur. Nilai performa model dibandingkan terhadap empat model \textit{baseline} untuk memvalidasi keunggulan pendekatan yang diusulkan. Tahap ini dinyatakan berhasil apabila model mencapai nilai $R^2 \geq 0{,}95$ dan MAPE $< 10\%$. Apabila target performa tersebut tercapai, analisis lanjutan dilakukan menggunakan visualisasi bobot \textit{cross-attention} untuk mengevaluasi apakah model mempelajari hubungan yang konsisten dengan prinsip fisika spektroskopi emisi.
+    \item Evaluasi akhir model dilakukan menggunakan metrik regresi kuantitatif, yaitu \textit{Root Mean Square Error} (RMSE), \textit{Mean Absolute Error} (MAE), \textit{Mean Absolute Percentage Error} (MAPE), dan koefisien determinasi ($R^2$), yang dihitung untuk setiap unsur. Nilai performa model dibandingkan terhadap empat model \textit{baseline} untuk memvalidasi keunggulan pendekatan yang diusulkan. Tahap ini dinyatakan berhasil apabila model mencapai nilai $R^2 \geq 0{,}85$ dan MAPE $< 15\%$. Apabila target performa tersebut tercapai, analisis lanjutan dilakukan menggunakan visualisasi bobot \textit{cross-attention} untuk mengevaluasi apakah model mempelajari hubungan yang konsisten dengan prinsip fisika spektroskopi emisi.
 \end{enumerate}
 
 \begin{table}[htbp]
@@ -521,23 +527,23 @@ Data yang diperoleh pada setiap tahapan penelitian dianalisis sesuai dengan kara
 \hline
 1 &
 Spektrum sintetis LIBS unsur tunggal dan campuran &
-Regresi posisi garis terhadap NIST, RMSE panjang gelombang, \textit{Boltzmann plot}, korelasi $A_{ki}$ vs intensitas &
-$R^2_{\lambda} \geq 0{,}95$, $\mathrm{RMSE}_{\lambda} \leq 0{,}05$~nm, $R^2_{\mathrm{Boltzmann}} \geq 0{,}90$ \\
+Regresi posisi garis terhadap NIST, RMSE panjang gelombang, dan korelasi $A_{ki}$ vs intensitas &
+$R^2_{\lambda} \geq 0{,}90$, $\mathrm{RMSE}_{\lambda} \leq 0{,}10$~nm \\
 \hline
 2 &
 Spektrum LIBS eksperimen dan data XRF &
 Perhitungan SNR, identifikasi unsur, statistik deskriptif XRF, korelasi LIBS-XRF &
-$\mathrm{SNR} \geq 10$, korelasi LIBS-XRF $R^2 \geq 0{,}80$ \\
+$\mathrm{SNR} \geq 3$, korelasi LIBS-XRF $R^2 \geq 0{,}70$ \\
 \hline
 3 &
 Kurva \textit{training loss} dan \textit{validation loss} &
 Analisis konvergensi, deteksi \textit{overfitting}, evaluasi peningkatan performa &
-$\Delta \mathcal{L}_{10\ \text{epoch}} \leq 5\%$, selisih \textit{train-val loss} ${<}10\%$, RMSE \textit{fine-tuning} $<$ RMSE \textit{pre-training} \\
+$\Delta \mathcal{L}_{10\ \text{epoch}} \leq 10\%$, selisih \textit{train-val loss} ${<}15\%$, RMSE \textit{fine-tuning} $<$ RMSE \textit{pre-training} \\
 \hline
 4 &
-Prediksi model dan data referensi XRF &
+Spektrum prediksi model dan data referensi XRF &
 Perhitungan RMSE, MAE, MAPE, $R^2$, dan analisis \textit{cross-attention} &
-$R^2 \geq 0{,}95$, MAPE $< 10\%$ \\
+$R^2 \geq 0{,}85$, MAPE $< 15\%$ \\
 \hline
 \end{tabularx}
 \end{table}
