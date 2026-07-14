@@ -3,10 +3,11 @@
 
 % Charts & diagrams
 \usepackage{pgfplots}
-\usetikzlibrary{positioning, arrows.meta, shapes.geometric, calc, fit}
+\usetikzlibrary{positioning, arrows.meta, shapes.geometric, calc, fit, shadows}
 \pgfplotsset{compat=1.17}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{adjustbox}
 \usepackage[style=numeric,backend=biber]{biblatex}
 \addbibresource{daftar-pustaka.bib}
 
@@ -109,9 +110,9 @@
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \centering
-      \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_fig4_cnn_prediction.png}\\
+      \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_table2.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Prediksi parameter plasma $T_e, n_e$
+      \fontsize{7pt}{8pt}\selectfont Tabel 2: Perbandingan parameter plasma dan fraksi mol
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
@@ -127,9 +128,9 @@
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \centering
-      \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/walidain2026_fig1_informer.png}\\
+      \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/walidain2026_table2.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Alur kerja model Informer-LIBS kualitatif
+      \fontsize{7pt}{8pt}\selectfont Tabel 2: Presisi, recall, dan F1-score model Informer
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
@@ -159,38 +160,9 @@
 \end{frame}
 
 % Slide 4
-\begin{frame}{Rumusan Masalah \& Tujuan Penelitian}
-  \begin{columns}[t]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{\large Rumusan Masalah}
-        \fontsize{7.5pt}{9pt}\selectfont
-        \textbf{RM-1:} Bagaimana memodelkan superposisi spektrum campuran dan unsur tunggal secara fisis? \\
-        \vspace{0.6em}
-        \textbf{RM-2:} Bagaimana merancang arsitektur CNN-Transformer yang mengintegrasikan prior fisis? \\
-        \vspace{0.6em}
-        \textbf{RM-3:} Bagaimana akurasi kuantifikasi unsur dan parameter plasma pada tanah vulkanik?
-      \end{block}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{block}{\large Tujuan Penelitian}
-        \fontsize{7.5pt}{9pt}\selectfont
-        \textbf{TP-1:} Mensimulasikan representasi spektrum murni bebas matriks via Saha-Boltzmann. \\
-        \vspace{0.6em}
-        \textbf{TP-2:} Mengembangkan model hibrid Encoder-Decoder berbasis Cross-Attention. \\
-        \vspace{0.6em}
-        \textbf{TP-3:} Mengevaluasi kemampuan model pada sampel eksperimen tanah vulkanik.
-      \end{block}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ==========================================
-% Bagian B. Solusi (Arsitektur Model)
-% ==========================================
 \section{Solusi (Arsitektur Model)}
 
-% Slide 5
-\begin{frame}{Arsitektur Model: Dual-Stream Framework}
+\begin{frame}{CNN-Transformer : Konse usulan penelitian ini}
   \begin{figure}[H]
     \centering
     \resizebox{!}{0.55\textheight}{
@@ -273,9 +245,55 @@
 
     \end{tikzpicture}
     }
-    \caption{Makro arsitektur multi-stream dual-path yang memetakan spektrum campuran geologi tanah vulkanik.}
+    % \caption{Makro arsitektur multi-stream dual-path yang memetakan spektrum campuran geologi tanah vulkanik.}
   \end{figure}
 \end{frame}
+
+
+\begin{frame}{Research Questions \& Objectives}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \textbf{Rumusan Masalah:}
+      \vspace{0.5em}
+      
+      \centering
+      \begin{tikzpicture}[
+        node distance=0.35cm,
+        rqbox/.style={rectangle, draw=maincolor, fill=maincolor!5, rounded corners=1mm,
+          text width=4.8cm, align=center, font=\scriptsize\sffamily, minimum height=1.0cm, inner sep=1.5mm},
+        arrow/.style={-{Stealth[length=2.5mm,width=2mm]}, thick, draw=maincolor!80}
+      ]
+        \node[rqbox] (rq1) {\textbf{RQ1}\\Bagaimana memodelkan hubungan antara \textbf{spektrum campuran} LIBS dengan \textbf{spektrum unsur tunggal}?};
+        \node[rqbox, below=of rq1] (rq2) {\textbf{RQ2}\\Bagaimana merancang arsitektur \textbf{CNN-Transformer \textit{encoder-decoder}} untuk mengekstraksi fitur lokal \& global?};
+        \node[rqbox, below=of rq2] (rq3) {\textbf{RQ3}\\Bagaimana kinerja model memprediksi \textbf{konsentrasi unsur \& parameter plasma} pada tanah vulkanik?};
+        
+        \draw[arrow] (rq1) -- (rq2);
+        \draw[arrow] (rq2) -- (rq3);
+      \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \textbf{Tujuan Penelitian:}
+      \vspace{0.5em}
+
+      \centering
+      \begin{tikzpicture}[
+        node distance=0.35cm,
+        objbox/.style={rectangle, draw=green!60!black, fill=green!5, rounded corners=1mm,
+          text width=4.8cm, align=center, font=\scriptsize\sffamily, minimum height=1.0cm, inner sep=1.5mm},
+        arrow/.style={-{Stealth[length=2.5mm,width=2mm]}, thick, draw=green!60!black}
+      ]
+        \node[objbox] (obj1) {\textbf{Obj 1}\\Menghasilkan representasi spektrum unsur \textbf{tunggal dan campuran} berbasis model fisika plasma.};
+        \node[objbox, below=of obj1] (obj2) {\textbf{Obj 2}\\Mengembangkan arsitektur \textbf{CNN-Transformer \textit{encoder-decoder}} untuk kuantifikasi unsur berbasis LIBS.};
+        \node[objbox, below=of obj2] (obj3) {\textbf{Obj 3}\\Mengevaluasi performa model terhadap \textbf{\textit{baseline}} pada sampel tanah vulkanik Aceh.};
+        
+        \draw[arrow] (obj1) -- (obj2);
+        \draw[arrow] (obj2) -- (obj3);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 
 % Slide 6
 \begin{frame}{Arsitektur Model: Dilated 1D CNN Tokenizer}
@@ -296,164 +314,397 @@
   \end{table}
 \end{frame}
 
-% Slide 7
-\begin{frame}{Mekanisme Utama: Cross-Attention Decomposer}
+% Slide Baru: Visualisasi Pemotongan Spektroskopi (Sliding Window)
+\begin{frame}{Visualisasi Konsep Tokenisasi: Sliding Window Spektroskopi}
   \begin{figure}[H]
     \centering
-    \resizebox{!}{0.55\textheight}{
-    \begin{tikzpicture}[font=\footnotesize,
-      elem/.style={draw, minimum width=1.0cm, minimum height=0.5cm, inner sep=1pt},
-      blok/.style={draw, thick, align=center, minimum height=0.9cm},
-      panah/.style={-stealth}]
-      % kiri: spektrum campuran
-      \node[blok, minimum width=2.4cm] (mix) at (0.0,2.4) {Spektrum campuran\\ $S_{\mathrm{campuran}}(\lambda)$};
-      % encoder
-      \node[blok, minimum width=1.8cm] (enc) at (2.5,2.4) {\textit{Encoder}};
-      \draw[panah] (mix) -- (enc);
-      
-      % kanan: tujuh spektrum unsur tunggal
-      \node[elem] (e1) at (8.0,4.8) {Si};
-      \node[elem] (e2) at (8.0,4.0) {Al};
-      \node[elem] (e3) at (8.0,3.2) {Fe};
-      \node[elem] (e4) at (8.0,2.4) {Ca};
-      \node[elem] (e5) at (8.0,1.6) {Mg};
-      \node[elem] (e6) at (8.0,0.8) {Na};
-      \node[elem] (e7) at (8.0,0.0) {K};
-      \node[align=center] at (8.0,5.5) {$S_{\mathrm{tunggal}}^{(z)}(\lambda)$};
-      % decoder
-      \node[blok, minimum width=1.8cm] (dec) at (5.5,2.4) {\textit{Decoder}};
-      \foreach \i in {1,...,7} \draw[panah] (e\i) -- (dec);
-      
-      % cross-attention (tengah bawah)
-      \node[blok, minimum width=5.0cm] (ca) at (4.0,0.5)
-        {\textit{Cross-Attention}\\ $\mathrm{softmax}\!\left(\mathbf{Q}_{\text{dec}}\mathbf{K}_{\text{enc}}^{\top}/\sqrt{d_k}\right)\mathbf{V}_{\text{enc}}$};
-      \draw[panah] (enc.south) -- node[left, xshift=-1mm] {$\mathbf{K}_{\text{enc}},\ \mathbf{V}_{\text{enc}}$} (2.5,0.95);
-      \draw[panah] (dec.south) -- node[right, xshift=1mm] {$\mathbf{Q}_{\text{dec}}$} (5.5,0.95);
-      
-      % keluaran: diagram batang c_z
-      \draw[panah] (ca.south) -- node[right, align=left] {bobot \textit{attention}\\ sebagai proksi $c_z$} (4.0,-0.8);
-      \begin{scope}[shift={(1.8,-2.7)}]
-        \draw[-stealth] (0,0) -- (0,1.7) node[left] {$c_z$};
-        \draw[-stealth] (0,0) -- (4.4,0);
-        \foreach \x/\h/\l in {0.3/1.30/Si, 0.85/0.75/Al, 1.4/0.55/Fe, 1.95/0.40/Ca, 2.5/0.30/Mg, 3.05/0.22/Na, 3.6/0.18/K}{
-          \draw[fill=black!25] (\x,0) rectangle +(0.4,\h);
-          \node[below] at (\x+0.2,0) {\l};
-        }
-      \end{scope}
-    \end{tikzpicture}
-    }
+    \includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{images/spectral_zoom_cnn.png}
+    \caption{Visualisasi pemotongan spektrum campuran (window 320--330 nm) yang dikirim ke Tokenizer CNN 1D.}
+    \label{fig:spectral_zoom_cnn}
   \end{figure}
 \end{frame}
 
-% Slide 8
-\begin{frame}{Adaptasi Domain: Gradient Reversal Layer (GRL)}
-  \begin{figure}[H]
-    \centering
-    \resizebox{!}{0.55\textheight}{
-    \begin{tikzpicture}[
-        scale=0.9,
-        font=\small,
-        box/.style={draw, thick, fill=gray!10, rounded corners=1mm, align=center, minimum width=2.4cm, minimum height=0.7cm},
-        grl_box/.style={draw=red!80!black, thick, fill=red!10, rounded corners=1mm, align=center, minimum width=2.4cm, minimum height=0.7cm},
-        arrow/.style={-stealth, line width=1.2pt}
-    ]
-    % Nodes
-    \node (input) at (0, 0) {Spektrum Masukan};
-    \node[box] (cnn) at (2.8, 0) {CNN 1D\\ Tokenizer};
-    \node[box] (enc) at (6.0, 0) {Transformer\\ Encoder};
-    
-    % Branch point
-    \coordinate (branch) at (7.6, 0);
-    
-    % Main Path (Up)
-    \node[box] (dec) at (9.8, 1.0) {Transformer\\ Decoder};
-    \node[box] (out) at (13.0, 1.0) {Output Heads\\ ($\hat{\mathbf{c}}, T_e, n_e$)};
-    
-    % Adversarial Path (Down)
-    \node[grl_box] (grl) at (9.8, -1.0) {Gradient Reversal\\ Layer (GRL, $-\alpha$)};
-    \node[box] (domain) at (13.0, -1.0) {Domain Classifier\\ ($\mathcal{L}_{\mathrm{domain}}$)};
-    
-    % Connections
-    \draw[arrow] (input) -- (cnn);
-    \draw[arrow] (cnn) -- (enc);
-    \draw[arrow] (enc) -- (branch) |- (dec);
-    \draw[arrow] (branch) |- (grl);
-    \draw[arrow] (grl) -- (domain);
-    \draw[arrow] (dec) -- (out);
-    
-    \end{tikzpicture}
-    }
-  \end{figure}
-  \vspace{-0.5em}
-  \begin{equation*}
-  \mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda \mathcal{L}_{\mathrm{domain}}
-  \end{equation*}
-\end{frame}
-
-% Slide 9
-\begin{frame}{Output Model \& Parameter Plasma}
-  \begin{columns}[t]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{\large 1. Prediksi Konsentrasi $\hat{\mathbf{c}}$}
-        \fontsize{7.5pt}{9pt}\selectfont
-        Vektor konsentrasi diprediksi pada simpleks tertutup ($\sum_z \hat{c}_z = 1$). \\
-        \vspace{0.4em}
-        \textbf{Loss Function:}
-        \begin{equation*}
-        \mathcal{L}_{\mathrm{conc}} = \mathcal{L}_{\mathrm{KL}}(\mathbf{c} \parallel \hat{\mathbf{c}}) + \mu \mathcal{L}_{\mathrm{CLR}}(\mathbf{c}, \hat{\mathbf{c}})
-        \end{equation*}
-      \end{block}
-      \begin{block}{\large 2. Parameter Plasma ($T_e, n_e$)}
-        \fontsize{7.5pt}{9pt}\selectfont
-        Suhu eksitasi dan kerapatan Stark diestimasi secara simultan. \\
-        \vspace{0.4em}
-        \textbf{Loss Function:}
-        \begin{equation*}
-        \mathcal{L}_{\mathrm{phys}} = (\hat{T}_e - T_e)^2 + w_{n_e} (\hat{n}_e - n_e)^2
-        \end{equation*}
-      \end{block}
+% Slide Baru: Visualisasi Input Encoder vs Input Decoder
+\begin{frame}{Visualisasi Input Model: Campuran (Encoder) vs Unsur Tunggal (Decoder)}
+  \begin{columns}[c]
+    \begin{column}{0.54\textwidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{images/enc_dec_inputs.png}
+        \caption{Spektrum 10 nm terfokus (320--330 nm) hasil simulasi plasma 7000 K.}
+        \label{fig:enc_dec_inputs}
+      \end{figure}
     \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{block}{\large 3. Rekonstruksi Spektrum Murni $\hat{\mathbf{I}}_{\mathrm{pred}}$}
-        \fontsize{7.5pt}{9pt}\selectfont
-        Decoder merekonstruksi garis emisi individu yang terdekomposisi. \\
-        \vspace{0.4em}
-        \textbf{Loss Function:}
-        \begin{equation*}
-        \mathcal{L}_{\mathrm{spec}} = \mathcal{L}_{\mathrm{MSE\text{-}terbobot}} + \beta_{\mathrm{grad}}\mathcal{L}_{\mathrm{grad}} + w_{\mathrm{sam}}\mathcal{L}_{\mathrm{SAM}} + \lambda_{L_1}\mathcal{L}_{L_1}
-        \end{equation*}
-      \end{block}
+    \begin{column}{0.44\textwidth}
+      \centering
+      \begin{tikzpicture}[
+          font=\sffamily,
+          >=stealth,
+          box/.style={draw, thick, rounded corners=1mm, align=center, text width=2.0cm, minimum height=0.6cm, font=\fontsize{6.5pt}{7.5pt}\selectfont},
+          cnn_box/.style={box, fill=orange!10, draw=orange!70!black},
+          model_box/.style={box, fill=blue!5, draw=blue!50!black, text width=1.8cm},
+          arrow/.style={-stealth, line width=1.0pt}
+      ]
+          % Jalur Campuran (Encoder Path) - Panah dari plot atas di kiri
+          \node[cnn_box] (cnn_enc) at (-2.2, 4.3) {\textbf{CNN Tokenizer}\\\textbf{(Encoder)}};
+          \node[model_box] (enc) at (0.1, 4.3) {\textbf{Transformer}\\\textbf{Encoder}};
+          
+          \draw[arrow, draw=blue!70!black, line width=1.5pt] (-4.9, 4.3) -- (cnn_enc.west);
+          \draw[arrow] (cnn_enc) -- (enc);
+          
+          % Interaksi Cross-Attention di tengah
+          \node[draw, dashed, purple, rounded corners=1mm, fill=purple!5, font=\fontsize{7pt}{8pt}\selectfont\bfseries, align=center, text width=3.5cm] (ca) at (0.1, 2.4) {Cross-Attention Alignment};
+          \draw[arrow, ->, draw=purple] (enc.south) -- node[right, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries, color=purple!80!black] {Key \& Value (K, V)} (ca.north);
+          
+          % Jalur Unsur Tunggal (Decoder Path) - Panah dari plot bawah di kiri
+          \node[cnn_box] (cnn_dec) at (-2.2, 0.5) {\textbf{CNN Tokenizer}\\\textbf{(Decoder)}};
+          \node[model_box] (dec) at (0.1, 0.5) {\textbf{Transformer}\\\textbf{Decoder}};
+          
+          \draw[arrow, draw=red!70!black, line width=1.5pt] (-4.9, 0.5) -- (cnn_dec.west);
+          \draw[arrow] (cnn_dec) -- (dec);
+          \draw[arrow, ->, draw=purple] (dec.north) -- node[right, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries, color=purple!80!black] {Query (Q)} (ca.south);
+      \end{tikzpicture}
     \end{column}
   \end{columns}
 \end{frame}
+
+% Slide 7: Mekanisme Utama (Diagram Teoretis)
+\begin{frame}{Mekanisme Utama: Cross-Attention Decomposer}
+  \vspace{-0.5em}
+  \begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.80\textheight, keepaspectratio, center}
+    \begin{tikzpicture}[font=\normalsize,
+      elem/.style={draw, thick, minimum width=1.1cm, minimum height=0.6cm, inner sep=2pt, font=\fontsize{9pt}{10pt}\selectfont},
+      blok/.style={draw, very thick, align=center, minimum height=1.1cm, inner sep=3pt, font=\fontsize{10pt}{11pt}\selectfont},
+      cnn/.style={draw, very thick, fill=orange!15, draw=orange!80!black, align=center, minimum height=1.1cm, inner sep=3pt, font=\fontsize{9pt}{10pt}\selectfont},
+      outblok/.style={draw, very thick, fill=blue!8, draw=blue!70!black, align=center, minimum height=1.0cm, inner sep=3pt, font=\fontsize{9pt}{10pt}\selectfont},
+      panah/.style={-stealth, line width=1.5pt}]
+      
+      % kiri: spektrum campuran
+      \node[blok, minimum width=2.8cm] (mix) at (0.0,2.8) {Spektrum Campuran\\ $S_{\mathrm{campuran}}(\lambda)$};
+      % CNN Tokenizer Kiri
+      \node[cnn, minimum width=1.6cm] (cnn_enc) at (2.6,2.8) {CNN 1D\\ Tokenizer};
+      % Encoder
+      \node[blok, minimum width=1.8cm] (enc) at (4.7,2.8) {Transformer\\ Encoder};
+      
+      \draw[panah] (mix) -- (cnn_enc);
+      \draw[panah] (cnn_enc) -- (enc);
+      
+      % kanan: tujuh spektrum unsur tunggal
+      \node[elem] (e1) at (11.6,5.6) {Si};
+      \node[elem] (e2) at (11.6,4.7) {Al};
+      \node[elem] (e3) at (11.6,3.8) {Fe};
+      \node[elem] (e4) at (11.6,2.9) {Ca};
+      \node[elem] (e5) at (11.6,2.0) {Mg};
+      \node[elem] (e6) at (11.6,1.1) {Na};
+      \node[elem] (e7) at (11.6,0.2) {K};
+      \node[align=center, font=\fontsize{9.5pt}{10.5pt}\selectfont\bfseries] at (11.6,6.4) {$S_{\mathrm{tunggal}}^{(z)}(\lambda)$};
+      
+      % CNN Tokenizer Kanan
+      \node[cnn, minimum width=1.6cm] (cnn_dec) at (9.3,2.8) {CNN 1D\\ Tokenizer};
+      % Decoder
+      \node[blok, minimum width=1.8cm] (dec) at (7.2,2.8) {Transformer\\ Decoder};
+      
+      \foreach \i in {1,...,7} \draw[panah] (e\i) -- (cnn_dec.east);
+      \draw[panah] (cnn_dec) -- (dec);
+      
+      % cross-attention (tengah bawah)
+      \node[blok, minimum width=5.8cm] (ca) at (5.95,0.6)
+        {\textit{Cross-Attention Alignment}\\ $\mathrm{softmax}\!\left(\mathbf{Q}\mathbf{K}^{\top}/\sqrt{d_k}\right)\mathbf{V}$};
+        
+      \draw[panah] (enc.south) -- node[left, font=\fontsize{8.5pt}{9.5pt}\selectfont\bfseries] {Key \& Value (K, V)} (4.7,1.1);
+      \draw[panah] (dec.south) -- node[right, font=\fontsize{8.5pt}{9.5pt}\selectfont\bfseries] {Query (Q)} (7.2,1.1);
+      
+      % Linear MLP
+      \node[blok, minimum width=2.6cm, minimum height=0.8cm] (mlp) at (5.95,-0.7) {Linear MLP};
+      \draw[panah] (ca.south) -- (mlp);
+      
+      % Kiri: Softplus -> Concentration
+      \node[outblok, minimum width=1.6cm, minimum height=0.8cm] (act_conc) at (2.4,-1.9) {Softplus};
+      \node[align=center, font=\fontsize{9pt}{10pt}\selectfont\bfseries, color=blue!70!black] (out_conc) at (2.4,-3.0) {Concentration\\ (Konsentrasi)};
+      \draw[panah] (mlp.south) -- (5.95,-1.25) -- (2.4,-1.25) -- (act_conc.north);
+      \draw[panah] (act_conc) -- (out_conc);
+      
+      % Tengah: Sigmoid -> Spectrum Reconstruction
+      \node[outblok, minimum width=1.6cm, minimum height=0.8cm] (act_spec) at (5.95,-1.9) {Sigmoid};
+      \node[align=center, font=\fontsize{9pt}{10pt}\selectfont\bfseries, color=blue!70!black] (out_spec) at (5.95,-3.0) {Spectrum\\ Reconstruction};
+      \draw[panah] (mlp.south) -- (act_spec.north);
+      \draw[panah] (act_spec) -- (out_spec);
+      
+      % Kanan: Softplus -> Physics Params
+      \node[outblok, minimum width=1.6cm, minimum height=0.8cm] (act_phys) at (9.5,-1.9) {Softplus};
+      \node[align=center, font=\fontsize{9pt}{10pt}\selectfont\bfseries, color=blue!70!black] (out_phys) at (9.5,-3.0) {Physics Params\\ ($T_e,\, n_e$)};
+      \draw[panah] (mlp.south) -- (5.95,-1.25) -- (9.5,-1.25) -- (act_phys.north);
+      \draw[panah] (act_phys) -- (out_phys);
+    \end{tikzpicture}
+    \end{adjustbox}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Validasi Luaran \& Dekomposisi Model}
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[height=0.9\textheight,keepaspectratio]{images/model_outputs.png}
+        \vspace{-0.4em}
+        \caption{\fontsize{6.5pt}{7.5pt}\selectfont Hasil dekomposisi fisis model: (A) Rekonstruksi spektrum Ca \& Fe, (B) Prediksi konsentrasi.}
+        \label{fig:model_outputs}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      {\normalsize\color{orange!80!black}\textbf{C. Estimasi Parameter Plasma}}
+      
+      \vspace{0.4em}
+      \resizebox{\textwidth}{!}{
+        \begin{tabular}{lccc}
+          \hline
+          \textbf{Parameter} & \textbf{Ground Truth} & \textbf{Prediksi Model} & \textbf{Akurasi} \\
+          \hline
+          Suhu ($T_e$) & 7000 K & 6982 K & 99.74 \% \\
+          Kerapatan ($n_e$) & $1.50 \times 10^{17}\text{ cm}^{-3}$ & $1.49 \times 10^{17}\text{ cm}^{-3}$ & 99.33 \% \\
+          \hline
+        \end{tabular}
+      }
+      
+      \vspace{1.0em}
+      \flushleft
+      {\normalsize\color{orange!80!black}\textbf{Karakteristik Dekomposisi:}}
+      \vspace{0.2em}
+      \fontsize{7.0pt}{9.0pt}\selectfont
+      \begin{itemize}
+        \item \textbf{Resolusi Multi-Unsur:} Model memisahkan kontribusi emisi murni Ca dan Fe dari campuran tumpang tindih secara simultan.
+        \item \textbf{Akurasi Tinggi:} Konsentrasi diestimasi dengan tingkat kesesuaian sangat tinggi terhadap ground truth.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 8: GRL
+\begin{frame}{Adaptasi Domain: Gradient Reversal Layer (GRL)}
+  \vspace{-0.3em}
+  \begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.74\textheight, keepaspectratio, center}
+    \begin{tikzpicture}[font=\normalsize,
+      blok/.style={draw, very thick, align=center, minimum width=3.0cm, minimum height=1.6cm, inner sep=4pt, font=\fontsize{10pt}{11.5pt}\selectfont},
+      cnnblok/.style={draw, very thick, fill=orange!15, draw=orange!80!black, align=center, minimum width=1.3cm, minimum height=1.3cm, inner sep=3pt, font=\fontsize{10pt}{11pt}\selectfont},
+      grlblok/.style={draw=red!70!black, very thick, fill=red!8, align=center, minimum width=3.0cm, minimum height=1.6cm, inner sep=4pt, font=\fontsize{10pt}{11.5pt}\selectfont},
+      panah/.style={-stealth, line width=1.5pt},
+      dpanah/.style={stealth-stealth, line width=1.5pt}
+    ]
+
+    % ─── Input nodes (kolom kiri) ───────────────────────────────
+    \node[blok] (mix)    at (0,  3.2) {Inputs\\ Source Domain\\ Mixture Spectra\\ Synthetic Data};
+    \node[blok] (target) at (0,  0.8) {Inputs\\ Target Domain\\ Experimental Data};
+    \node[blok] (single) at (0, -2.0) {Inputs\\ Source Domain\\ Single-Element\\ Synthetic Data};
+
+    % ─── CNN blocks ──────────────────────────────────────────────
+    \node[cnnblok] (cnn_enc) at (3.8, 2.0) {CNN};
+    \node[cnnblok] (cnn_dec) at (3.8, -2.0) {CNN};
+
+    % ─── Transformer Encoder & Decoder ───────────────────────────
+    \node[blok] (enc) at (7.0, 2.0) {Transformer\\ Encoder};
+    \node[blok] (dec) at (7.0, -2.0) {Transformer\\ Decoder};
+
+    % ─── GRL (atas Encoder) ──────────────────────────────────────
+    \node[grlblok] (grl) at (7.0, 4.6) {GRL\\ Gradient Reversal\\ Layer};
+
+    % ─── Domain Classifier & Label ───────────────────────────────
+    \node[blok] (dc) at (11.0, 4.6) {Domain Classifier\\ (MLP Classifier)};
+    \node[blok] (dl) at (11.0, 2.0) {Outputs:\\ Domain Label};
+
+    % ─── Outputs (bottom right) ──────────────────────────────────
+    \node[blok] (out) at (11.0, -2.0) {Outputs};
+
+    % ─── Arrows ──────────────────────────────────────────────────
+    % Inputs → CNN shared
+    \draw[panah] (mix.east)    -| (cnn_enc.north);
+    \draw[panah] (target.east) -| (cnn_enc.south);
+
+    % CNN → Encoder
+    \draw[panah] (cnn_enc) -- (enc);
+
+    % Encoder → GRL (vertical up)
+    \draw[panah] (enc.north) -- (grl.south);
+
+    % GRL → Domain Classifier (horizontal)
+    \draw[panah] (grl) -- (dc);
+
+    % Domain Classifier → Domain Label (vertical down)
+    \draw[panah] (dc.south) -- (dl.north);
+
+    % Encoder ↔ Decoder (double-headed, cross-attention)
+    \draw[dpanah] (enc.south) -- (dec.north);
+
+    % Bottom row: Single-Element path
+    \draw[panah] (single)   -- (cnn_dec);
+    \draw[panah] (cnn_dec)  -- (dec);
+    \draw[panah] (dec)      -- (out);
+
+    \end{tikzpicture}
+    \end{adjustbox}
+  \end{figure}
+  \vspace{-0.2em}
+  \centering
+  \small $\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda\,\mathcal{L}_{\mathrm{domain}}$
+\end{frame}
+
+
 
 % ==========================================
 % Bagian C. Protokol Penelitian
 % ==========================================
 \section{Protokol Penelitian}
-
+% Slide 10
 % Slide 10
 \begin{frame}{Protokol Penelitian \& Alur Kerja}
-  \begin{figure}[H]
-    \centering
-    \resizebox{!}{0.55\textheight}{
-    \begin{tikzpicture}[
-        node distance=1.2cm,
-        stage/.style={draw, thick, fill=blue!5, rounded corners=2mm, align=center, minimum width=3.0cm, minimum height=1.4cm, font=\small},
-        arrow/.style={-stealth, line width=1.5pt}
-    ]
-    \node[stage] (s1) {\textbf{Tahap 1: Sintesis}\\ \small Simulasi Saha-Boltzmann\\ \small 100.000 Spektrum sintetis\\ \small Rentang 200 - 900 nm};
-    \node[stage, right=0.8cm of s1] (s2) {\textbf{Tahap 2: Akuisisi}\\ \small 24 Sampel Seulawah Agam\\ \small Pengukuran LIBS\\ \small Label referensi XRF};
-    \node[stage, right=0.8cm of s2] (s3) {\textbf{Tahap 3: Pelatihan}\\ \small Pre-training (Sintetis)\\ \small Fine-tuning (Eksperimen)\\ \small Adaptasi Domain GRL};
-    \node[stage, right=0.8cm of s3] (s4) {\textbf{Tahap 4: Validasi}\\ \small 5-Fold Cross-Val\\ \small Metrik: RMSE, $R^2$, MAPE\\ \small Boltzmann Plot};
+\vspace{-0.5em}
+\begin{center}
+\begin{tikzpicture}[font=\sffamily]
+
+  % Definisi Gaya Teks
+  \tikzset{
+    header text/.style={white, anchor=north west, text width=5.6cm, font=\bfseries\fontsize{8pt}{9pt}\selectfont},
+    body text/.style={anchor=north west, align=left, text width=5.5cm, font=\fontsize{7.5pt}{10.5pt}\selectfont}
+  }
+
+  % ==========================================
+  % TAHAP 1: KIRI ATAS (Simulasi Sintetis)
+  % ==========================================
+  \begin{scope}
+    \clip[rounded corners=3pt] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
+    \fill[blue!10] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
+    \fill[blue!80!black] (-5.9cm,3.05cm) rectangle (-0.1cm,3.6cm);
     
-    \draw[arrow] (s1) -- (s2);
-    \draw[arrow] (s2) -- (s3);
-    \draw[arrow] (s3) -- (s4);
-    \end{tikzpicture}
-    }
-    \caption{Empat tahapan utama metodologi penelitian kuantifikasi LIBS.}
-  \end{figure}
+    % ILUSTRASI TIKZ: Spektrum Emisi (Watermark)
+    \begin{scope}[shift={(-3.0, 1.5)}, scale=1.3, opacity=0.15, draw=blue!80!black, line width=3pt, line cap=round, line join=round]
+      \draw (-1.5, -0.6) -- (-1.0, -0.6) -- (-0.7, 0.4) -- (-0.5, -0.4) -- (0, 1.2) -- (0.3, -0.5) -- (0.7, 0.8) -- (1.0, -0.6) -- (1.5, -0.6);
+    \end{scope}
+  \end{scope}
+  \draw[blue!80!black, line width=1.2pt, rounded corners=3pt] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
+  
+  \node[header text] at (-5.85cm,3.48cm) {Tahap 1\textsuperscript{*} — Simulasi Sintetis \hfill Bln 1–5};
+  \node[body text, text=black!90] at (-5.85cm,2.95cm) {
+    \textbf{Tujuan:} Bangkitkan ${\sim}100.000$ spektrum LIBS sintetis menggunakan Saha–Boltzmann\\[3pt]
+    \textbf{Output:} Dataset pre-training spektrum mono- \& poliatom\\[3pt]
+    \textbf{Indikator:} $R^2 \geq 0{,}95$;\ RMSE$_\lambda \leq 0{,}05$\,nm
+  };
+
+  % ==========================================
+  % TAHAP 2: KANAN ATAS (Akuisisi Eksperimental)
+  % ==========================================
+  \begin{scope}
+    \clip[rounded corners=3pt] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
+    \fill[teal!10] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
+    \fill[teal!80!black] (0.1cm,3.05cm) rectangle (5.9cm,3.6cm);
+    
+    % ILUSTRASI TIKZ: Ablasi Laser & Plasma (Watermark)
+    \begin{scope}[shift={(3.0, 1.5)}, scale=1.0, opacity=0.15, draw=teal!80!black, line width=3pt]
+       \draw[dashed] (-1.2, 1.2) -- (0, 0); % Sinar Laser
+       \draw (0,0) circle (0.3); % Plasma Core
+       \draw (-0.6, 0) -- (0.6, 0); \draw (0, -0.6) -- (0, 0.6);
+       \draw (-0.4, -0.4) -- (0.4, 0.4); \draw (-0.4, 0.4) -- (0.4, -0.4);
+    \end{scope}
+  \end{scope}
+  \draw[teal!80!black, line width=1.2pt, rounded corners=3pt] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
+  
+  \node[header text] at (0.15cm,3.48cm) {Tahap 2 — Akuisisi Eksperimental \hfill Bln 3–6};
+  \node[body text, text=black!90] at (0.15cm,2.95cm) {
+    \textbf{Tujuan:} Rekam spektrum LIBS 24 sampel tanah vulkanik Gunung Seulawah Agam\\[3pt]
+    \textbf{Output:} Spektrum eksperimen + label XRF (\textit{ground truth})\\[3pt]
+    \textbf{Indikator:} SNR $\geq 10$;\ unsur target tervalidasi XRF
+  };
+
+  % ==========================================
+  % TAHAP 3: KANAN BAWAH (Pengembangan Model)
+  % ==========================================
+  \begin{scope}
+    \clip[rounded corners=3pt] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
+    \fill[purple!10] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
+    \fill[purple!80!black] (0.1cm,-0.65cm) rectangle (5.9cm,-0.1cm);
+    
+    % ILUSTRASI TIKZ: Neural Network / Transformer (Watermark)
+    \begin{scope}[shift={(3.0, -2.1)}, scale=1.0, opacity=0.15, draw=purple!80!black, line width=2pt]
+       % Garis Koneksi
+       \draw (-1.0, 0.8) -- (-0.2, 1.2); \draw (-1.0, 0.8) -- (-0.2, 0.4);
+       \draw (-1.0, 0) -- (-0.2, 0.4); \draw (-1.0, 0) -- (-0.2, -0.4);
+       \draw (-1.0, -0.8) -- (-0.2, -0.4); \draw (-1.0, -0.8) -- (-0.2, -1.2);
+       \draw (0.2, 1.2) -- (1.0, 0.4); \draw (0.2, 0.4) -- (1.0, 0.4);
+       \draw (0.2, -0.4) -- (1.0, -0.4); \draw (0.2, -1.2) -- (1.0, -0.4);
+       % Nodes
+       \foreach \y in {-0.8, 0, 0.8} \filldraw[fill=white] (-1.0, \y) circle (0.15);
+       \foreach \y in {-1.2, -0.4, 0.4, 1.2} \filldraw[fill=white] (-0.2, \y) circle (0.15) (0.2, \y) circle (0.15);
+       \foreach \y in {-0.4, 0.4} \filldraw[fill=white] (1.0, \y) circle (0.15);
+    \end{scope}
+  \end{scope}
+  \draw[purple!80!black, line width=1.2pt, rounded corners=3pt] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
+  
+  \node[header text] at (0.15cm,-0.23cm) {Tahap 3\textsuperscript{*} — Pengembangan Model \hfill Bln 4–10};
+  \node[body text, text=black!90] at (0.15cm,-0.75cm) {
+    \textbf{Tujuan:} Latih CNN-Transformer: pre-training $\rightarrow$ fine-tuning $\rightarrow$ GRL\\[3pt]
+    \textbf{Output:} Model prediksi konsentrasi + rekonstruksi spektrum\\[3pt]
+    \textbf{Indikator:} $\Delta\text{Loss} \leq 5\%$;\ gap train–val $< 10\%$
+  };
+
+  % ==========================================
+  % TAHAP 4: KIRI BAWAH (Evaluasi & Validasi)
+  % ==========================================
+  \begin{scope}
+    \clip[rounded corners=3pt] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
+    \fill[red!10] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
+    \fill[red!80!black] (-5.9cm,-0.65cm) rectangle (-0.1cm,-0.1cm);
+    
+    % ILUSTRASI TIKZ: Kurva Regresi/Scatter Validasi (Watermark)
+    \begin{scope}[shift={(-3.0, -2.2)}, scale=1.0, opacity=0.15, draw=red!80!black, line width=3pt]
+       \draw[->] (-1.0, -1.0) -- (1.5, -1.0); % Sumbu X
+       \draw[->] (-1.0, -1.0) -- (-1.0, 1.2); % Sumbu Y
+       \draw[dashed] (-1.0, -1.0) -- (1.2, 1.2); % Garis Ideal (R^2 = 1)
+       % Titik sebaran error (Scatter plot)
+       \filldraw (-0.5, -0.3) circle (0.12);
+       \filldraw (0.1, 0.3) circle (0.12);
+       \filldraw (0.5, 0.2) circle (0.12);
+       \filldraw (0.8, 0.9) circle (0.12);
+       \filldraw (-0.2, -0.5) circle (0.12);
+    \end{scope}
+  \end{scope}
+  \draw[red!80!black, line width=1.2pt, rounded corners=3pt] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
+  
+  \node[header text] at (-5.85cm,-0.23cm) {Tahap 4 — Evaluasi \& Validasi \hfill Bln 6–10};
+  \node[body text, text=black!90] at (-5.85cm,-0.75cm) {
+    \textbf{Tujuan:} Evaluasi performa model vs referensi XRF dengan 5-fold cross validation\\[3pt]
+    \textbf{Output:} Metrik RMSE, MAE, MAPE, $R^2$ + \textit{proof-of-concept}\\[3pt]
+    \textbf{Indikator:} $R^2 \geq 0{,}90$;\ MAPE $< 10\%$
+  };
+
+  % ==========================================
+  % PANAH SIKLIKAL (Overlay Transparan)
+  % ==========================================
+  \tikzset{
+    arrow flow/.style={-stealth, gray, line width=3pt, opacity=0.6},
+    label flow/.style={gray!90, font=\fontsize{7pt}{8pt}\selectfont\bfseries, inner sep=2pt}
+  }
+
+  % T1 -> T2 (Data Pre-Training)
+  \draw[arrow flow] (-1.0cm, 1.85cm) -- (1.0cm, 1.85cm);
+  \node[label flow, fill=white, opacity=0.9, text opacity=1] at (0, 1.85cm) {Data Pre-Training};
+
+  % T2 -> T3 (Dataset)
+  \draw[arrow flow] (3.0cm, 0.9cm) -- (3.0cm, -0.9cm);
+  \node[label flow, fill=white, opacity=0.9, text opacity=1, rotate=-90] at (3.0cm, 0) {Dataset};
+
+  % T3 -> T4 (Prediksi)
+  \draw[arrow flow] (1.0cm, -1.85cm) -- (-1.0cm, -1.85cm);
+  \node[label flow, fill=white, opacity=0.9, text opacity=1] at (0, -1.85cm) {Prediksi};
+
+  % T4 -> T1 (Umpan Balik)
+  \draw[arrow flow] (-3.0cm, -0.9cm) -- (-3.0cm, 0.9cm);
+  \node[label flow, fill=white, opacity=0.9, text opacity=1, rotate=90] at (-3.0cm, 0) {Umpan Balik};
+
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 % Slide 11
@@ -561,7 +812,9 @@
   \end{figure}
   \begin{block}{\large Kebijakan Validasi Tanpa Kebocoran Data (Data Leakage-Free)}
     \fontsize{7.5pt}{9pt}\selectfont
+    \begin{sloppypar}
     Pemisahan fold dilakukan secara ketat pada \textbf{tingkat sampel tanah (24 lokasi geografi)}, bukan tingkat tembakan laser individual. Hal ini menjamin seluruh spektrum tembakan dari satu lokasi yang sama selalu dikelompokkan ke fold yang sama guna mencegah bias optimasi.
+    \end{sloppypar}
   \end{block}
 \end{frame}
 
@@ -590,7 +843,9 @@
   \end{figure}
   \begin{block}{\large Jadwal Eksekusi Utama}
     \fontsize{7.5pt}{9pt}\selectfont
+    \begin{sloppypar}
     Integrasi kode dan pengujian awal dilakukan secara lokal untuk memastikan efisiensi sebelum model disebarkan pada sistem kluster GPU HPC Mahameru untuk optimasi adversarial skala penuh.
+    \end{sloppypar}
   \end{block}
 \end{frame}
 
