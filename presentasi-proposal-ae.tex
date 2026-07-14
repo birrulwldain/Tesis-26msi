@@ -57,7 +57,7 @@
 % Slide 1: Title
 \maketitle
 
-% Slide Baru: Infografis LIBS + AI
+% Slide 2: Latar Belakang
 \begin{frame}{Latar Belakang: Analisis Tanah \& Solusi LIBS-AI}
   \begin{figure}[H]
     \centering
@@ -66,7 +66,7 @@
   \end{figure}
 \end{frame}
 
-% Slide Baru: Spektrum Mezoued 2025
+% Slide 3: Kompleksitas Spektrum Mineral Mezoued
 \begin{frame}{Kompleksitas Spektrum Mineral Mezoued (2025)}
   \begin{figure}[H]
     \centering
@@ -79,7 +79,7 @@
 % ==========================================
 \section{Akar Masalah dan SOTA}
 
-% Slide 2
+% Slide 4: Akar Masalah
 \begin{frame}{Akar Masalah: Kompleksitas Spektrum LIBS}
   \begin{figure}[H]
     \centering
@@ -87,7 +87,7 @@
   \end{figure}
 \end{frame}
 
-% Slide 3: MERLIN Favre 2025
+% Slide 5: Temuan Terdahulu (MERLIN)
 \begin{frame}{Temuan Terdahulu: Model Transpor Radiatif MERLIN (Favre et al., 2025)}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
@@ -105,7 +105,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 4: CNN Favre 2025
+% Slide 6: Temuan Terdahulu (CNN)
 \begin{frame}{Temuan Terdahulu: Spektroskopi LIBS Berbasis CNN (Favre et al., 2025)}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
@@ -123,7 +123,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 5: Informer Walidain 2026
+% Slide 7: Temuan Terdahulu (Informer)
 \begin{frame}{Temuan Terdahulu: Analisis Kualitatif Model Informer (Walidain et al., 2026)}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
@@ -141,7 +141,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 6: CNN Transformer Liu 2026
+% Slide 8: Temuan Terdahulu (Remote LIBS)
 \begin{frame}{Temuan Terdahulu: Kuantifikasi Spektrum Remote LIBS (Liu et al., 2026)}
   \begin{columns}[c]
     \begin{column}{0.54\textwidth}
@@ -159,7 +159,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 4
+% Slide 9: Solusi (Arsitektur Model)
 \section{Solusi (Arsitektur Model)}
 
 \begin{frame}{CNN-Transformer : Konse usulan penelitian ini}
@@ -250,6 +250,7 @@
 \end{frame}
 
 
+% Slide 10: Research Questions \& Objectives
 \begin{frame}{Research Questions \& Objectives}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
@@ -295,26 +296,7 @@
 \end{frame}
 
 
-% Slide 6
-\begin{frame}{Arsitektur Model: Dilated 1D CNN Tokenizer}
-  \begin{table}
-  \centering
-  \small
-  \begin{tabular}{lll}
-  \toprule
-  \textbf{Komponen Jaringan} & \textbf{Desain Standar (NLP/CV)} & \textbf{Desain Berbasis Spektroskopi (Ours)} \\
-  \midrule
-  \textbf{Operasi Konvolusi} & CNN 1D Standar & Dilated CNN 1D (bidang pandang eksponensial) \\
-  \textbf{Fungsi Aktivasi} & ReLU & GELU (menjaga gradien pada puncak emisi lemah) \\
-  \textbf{Normalisasi Data} & Batch Normalization & Instance Normalization (menjaga rasio intensitas relatif) \\
-  \textbf{Reduksi Dimensi} & Max Pooling & Average Pooling (menyimpan kontribusi integral area Voigt) \\
-  \bottomrule
-  \end{tabular}
-  \caption{Desain spesifikasi blok Dilated CNN 1D sebagai tokenizer spektral.}
-  \end{table}
-\end{frame}
-
-% Slide Baru: Visualisasi Pemotongan Spektroskopi (Sliding Window)
+% Slide 11: Visualisasi Konsep Tokenisasi
 \begin{frame}{Visualisasi Konsep Tokenisasi: Sliding Window Spektroskopi}
   \begin{figure}[H]
     \centering
@@ -324,7 +306,7 @@
   \end{figure}
 \end{frame}
 
-% Slide Baru: Visualisasi Input Encoder vs Input Decoder
+% Slide 12: Visualisasi Input Model
 \begin{frame}{Visualisasi Input Model: Campuran (Encoder) vs Unsur Tunggal (Decoder)}
   \begin{columns}[c]
     \begin{column}{0.54\textwidth}
@@ -368,7 +350,7 @@
   \end{columns}
 \end{frame}
 
-% Slide 7: Mekanisme Utama (Diagram Teoretis)
+% Slide 13: Mekanisme Utama (Cross-Attention)
 \begin{frame}{Mekanisme Utama: Cross-Attention Decomposer}
   \vspace{-0.5em}
   \begin{figure}[H]
@@ -442,6 +424,7 @@
   \end{figure}
 \end{frame}
 
+% Slide 14: Validasi Luaran \& Dekomposisi Model
 \begin{frame}{Validasi Luaran \& Dekomposisi Model}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
@@ -482,7 +465,8 @@
   \end{columns}
 \end{frame}
 
-% Slide 8: GRL
+
+% Slide 15: Adaptasi Domain (GRL)
 \begin{frame}{Adaptasi Domain: Gradient Reversal Layer (GRL)}
   \vspace{-0.3em}
   \begin{figure}[H]
@@ -552,270 +536,827 @@
   \small $\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{prediksi}} - \lambda\,\mathcal{L}_{\mathrm{domain}}$
 \end{frame}
 
-
-
 % ==========================================
 % Bagian C. Protokol Penelitian
 % ==========================================
 \section{Protokol Penelitian}
-% Slide 10
-% Slide 10
+% Slide 16: Protokol Penelitian \& Alur Kerja
 \begin{frame}{Protokol Penelitian \& Alur Kerja}
 \vspace{-0.5em}
 \begin{center}
+\begin{adjustbox}{max width=\textwidth, max totalheight=0.82\textheight, keepaspectratio}
 \begin{tikzpicture}[font=\sffamily]
 
   % Definisi Gaya Teks
   \tikzset{
-    header text/.style={white, anchor=north west, text width=5.6cm, font=\bfseries\fontsize{8pt}{9pt}\selectfont},
-    body text/.style={anchor=north west, align=left, text width=5.5cm, font=\fontsize{7.5pt}{10.5pt}\selectfont}
+    header text/.style={white, anchor=north west, text width=5.0cm, font=\bfseries\fontsize{8pt}{9pt}\selectfont}
   }
 
   % ==========================================
-  % TAHAP 1: KIRI ATAS (Simulasi Sintetis)
+  % TAHAP I: KIRI ATAS (Simulasi)
   % ==========================================
   \begin{scope}
-    \clip[rounded corners=3pt] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
-    \fill[blue!10] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
-    \fill[blue!80!black] (-5.9cm,3.05cm) rectangle (-0.1cm,3.6cm);
-    
-    % ILUSTRASI TIKZ: Spektrum Emisi (Watermark)
-    \begin{scope}[shift={(-3.0, 1.5)}, scale=1.3, opacity=0.15, draw=blue!80!black, line width=3pt, line cap=round, line join=round]
-      \draw (-1.5, -0.6) -- (-1.0, -0.6) -- (-0.7, 0.4) -- (-0.5, -0.4) -- (0, 1.2) -- (0.3, -0.5) -- (0.7, 0.8) -- (1.0, -0.6) -- (1.5, -0.6);
-    \end{scope}
+    \clip[rounded corners=3pt] (-6.1cm,0.4cm) rectangle (-0.9cm,3.2cm);
+    \fill[blue!10] (-6.1cm,0.4cm) rectangle (-0.9cm,3.2cm);
+    \fill[blue!80!black] (-6.1cm,2.65cm) rectangle (-0.9cm,3.2cm);
   \end{scope}
-  \draw[blue!80!black, line width=1.2pt, rounded corners=3pt] (-5.9cm,0.1cm) rectangle (-0.1cm,3.6cm);
+  \draw[blue!80!black, line width=1.2pt, rounded corners=3pt] (-6.1cm,0.4cm) rectangle (-0.9cm,3.2cm);
   
-  \node[header text] at (-5.85cm,3.48cm) {Tahap 1\textsuperscript{*} — Simulasi Sintetis \hfill Bln 1–5};
-  \node[body text, text=black!90] at (-5.85cm,2.95cm) {
-    \textbf{Tujuan:} Bangkitkan ${\sim}100.000$ spektrum LIBS sintetis menggunakan Saha–Boltzmann\\[3pt]
-    \textbf{Output:} Dataset pre-training spektrum mono- \& poliatom\\[3pt]
-    \textbf{Indikator:} $R^2 \geq 0{,}95$;\ RMSE$_\lambda \leq 0{,}05$\,nm
+  \node[header text] at (-6.02cm,3.08cm) {Tahap I — Simulasi};
+  \node[anchor=south west, inner sep=0] at (-6.05cm, 0.45cm) {
+    \includegraphics[width=5.1cm, height=2.15cm, keepaspectratio=false]{images/tahap1_sim_spectra.png}
   };
 
   % ==========================================
-  % TAHAP 2: KANAN ATAS (Akuisisi Eksperimental)
+  % TAHAP II: KANAN ATAS (Akuisisi)
   % ==========================================
   \begin{scope}
-    \clip[rounded corners=3pt] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
-    \fill[teal!10] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
-    \fill[teal!80!black] (0.1cm,3.05cm) rectangle (5.9cm,3.6cm);
-    
-    % ILUSTRASI TIKZ: Ablasi Laser & Plasma (Watermark)
-    \begin{scope}[shift={(3.0, 1.5)}, scale=1.0, opacity=0.15, draw=teal!80!black, line width=3pt]
-       \draw[dashed] (-1.2, 1.2) -- (0, 0); % Sinar Laser
-       \draw (0,0) circle (0.3); % Plasma Core
-       \draw (-0.6, 0) -- (0.6, 0); \draw (0, -0.6) -- (0, 0.6);
-       \draw (-0.4, -0.4) -- (0.4, 0.4); \draw (-0.4, 0.4) -- (0.4, -0.4);
-    \end{scope}
+    \clip[rounded corners=3pt] (0.9cm,0.4cm) rectangle (6.1cm,3.2cm);
+    \fill[teal!10] (0.9cm,0.4cm) rectangle (6.1cm,3.2cm);
+    \fill[teal!80!black] (0.9cm,2.65cm) rectangle (6.1cm,3.2cm);
   \end{scope}
-  \draw[teal!80!black, line width=1.2pt, rounded corners=3pt] (0.1cm,0.1cm) rectangle (5.9cm,3.6cm);
+  \draw[teal!80!black, line width=1.2pt, rounded corners=3pt] (0.9cm,0.4cm) rectangle (6.1cm,3.2cm);
   
-  \node[header text] at (0.15cm,3.48cm) {Tahap 2 — Akuisisi Eksperimental \hfill Bln 3–6};
-  \node[body text, text=black!90] at (0.15cm,2.95cm) {
-    \textbf{Tujuan:} Rekam spektrum LIBS 24 sampel tanah vulkanik Gunung Seulawah Agam\\[3pt]
-    \textbf{Output:} Spektrum eksperimen + label XRF (\textit{ground truth})\\[3pt]
-    \textbf{Indikator:} SNR $\geq 10$;\ unsur target tervalidasi XRF
+  \node[header text] at (0.98cm,3.08cm) {Tahap II — Akuisisi};
+  \node[anchor=south west, inner sep=0] at (0.95cm, 0.45cm) {
+    \includegraphics[width=5.1cm, height=2.15cm, keepaspectratio=false]{images/tahap2_exp_spectra.png}
   };
 
   % ==========================================
-  % TAHAP 3: KANAN BAWAH (Pengembangan Model)
+  % TAHAP III: KANAN BAWAH (Pelatihan)
   % ==========================================
   \begin{scope}
-    \clip[rounded corners=3pt] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
-    \fill[purple!10] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
-    \fill[purple!80!black] (0.1cm,-0.65cm) rectangle (5.9cm,-0.1cm);
-    
-    % ILUSTRASI TIKZ: Neural Network / Transformer (Watermark)
-    \begin{scope}[shift={(3.0, -2.1)}, scale=1.0, opacity=0.15, draw=purple!80!black, line width=2pt]
-       % Garis Koneksi
-       \draw (-1.0, 0.8) -- (-0.2, 1.2); \draw (-1.0, 0.8) -- (-0.2, 0.4);
-       \draw (-1.0, 0) -- (-0.2, 0.4); \draw (-1.0, 0) -- (-0.2, -0.4);
-       \draw (-1.0, -0.8) -- (-0.2, -0.4); \draw (-1.0, -0.8) -- (-0.2, -1.2);
-       \draw (0.2, 1.2) -- (1.0, 0.4); \draw (0.2, 0.4) -- (1.0, 0.4);
-       \draw (0.2, -0.4) -- (1.0, -0.4); \draw (0.2, -1.2) -- (1.0, -0.4);
-       % Nodes
-       \foreach \y in {-0.8, 0, 0.8} \filldraw[fill=white] (-1.0, \y) circle (0.15);
-       \foreach \y in {-1.2, -0.4, 0.4, 1.2} \filldraw[fill=white] (-0.2, \y) circle (0.15) (0.2, \y) circle (0.15);
-       \foreach \y in {-0.4, 0.4} \filldraw[fill=white] (1.0, \y) circle (0.15);
-    \end{scope}
+    \clip[rounded corners=3pt] (0.9cm,-3.2cm) rectangle (6.1cm,-0.4cm);
+    \fill[purple!10] (0.9cm,-3.2cm) rectangle (6.1cm,-0.4cm);
+    \fill[purple!80!black] (0.9cm,-0.95cm) rectangle (6.1cm,-0.4cm);
   \end{scope}
-  \draw[purple!80!black, line width=1.2pt, rounded corners=3pt] (0.1cm,-3.6cm) rectangle (5.9cm,-0.1cm);
+  \draw[purple!80!black, line width=1.2pt, rounded corners=3pt] (0.9cm,-3.2cm) rectangle (6.1cm,-0.4cm);
   
-  \node[header text] at (0.15cm,-0.23cm) {Tahap 3\textsuperscript{*} — Pengembangan Model \hfill Bln 4–10};
-  \node[body text, text=black!90] at (0.15cm,-0.75cm) {
-    \textbf{Tujuan:} Latih CNN-Transformer: pre-training $\rightarrow$ fine-tuning $\rightarrow$ GRL\\[3pt]
-    \textbf{Output:} Model prediksi konsentrasi + rekonstruksi spektrum\\[3pt]
-    \textbf{Indikator:} $\Delta\text{Loss} \leq 5\%$;\ gap train–val $< 10\%$
+  \node[header text] at (0.98cm,-0.52cm) {Tahap III — Pelatihan};
+  \node[anchor=south west, inner sep=0] at (0.95cm, -3.15cm) {
+    \includegraphics[width=5.1cm, height=2.15cm, keepaspectratio=false]{images/tahap3_loss_curve.png}
   };
 
   % ==========================================
-  % TAHAP 4: KIRI BAWAH (Evaluasi & Validasi)
+  % TAHAP IV: KIRI BAWAH (Evaluasi)
   % ==========================================
   \begin{scope}
-    \clip[rounded corners=3pt] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
-    \fill[red!10] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
-    \fill[red!80!black] (-5.9cm,-0.65cm) rectangle (-0.1cm,-0.1cm);
-    
-    % ILUSTRASI TIKZ: Kurva Regresi/Scatter Validasi (Watermark)
-    \begin{scope}[shift={(-3.0, -2.2)}, scale=1.0, opacity=0.15, draw=red!80!black, line width=3pt]
-       \draw[->] (-1.0, -1.0) -- (1.5, -1.0); % Sumbu X
-       \draw[->] (-1.0, -1.0) -- (-1.0, 1.2); % Sumbu Y
-       \draw[dashed] (-1.0, -1.0) -- (1.2, 1.2); % Garis Ideal (R^2 = 1)
-       % Titik sebaran error (Scatter plot)
-       \filldraw (-0.5, -0.3) circle (0.12);
-       \filldraw (0.1, 0.3) circle (0.12);
-       \filldraw (0.5, 0.2) circle (0.12);
-       \filldraw (0.8, 0.9) circle (0.12);
-       \filldraw (-0.2, -0.5) circle (0.12);
-    \end{scope}
+    \clip[rounded corners=3pt] (-6.1cm,-3.2cm) rectangle (-0.9cm,-0.4cm);
+    \fill[red!10] (-6.1cm,-3.2cm) rectangle (-0.9cm,-0.4cm);
+    \fill[red!80!black] (-6.1cm,-0.95cm) rectangle (-0.9cm,-0.4cm);
   \end{scope}
-  \draw[red!80!black, line width=1.2pt, rounded corners=3pt] (-5.9cm,-3.6cm) rectangle (-0.1cm,-0.1cm);
+  \draw[red!80!black, line width=1.2pt, rounded corners=3pt] (-6.1cm,-3.2cm) rectangle (-0.9cm,-0.4cm);
   
-  \node[header text] at (-5.85cm,-0.23cm) {Tahap 4 — Evaluasi \& Validasi \hfill Bln 6–10};
-  \node[body text, text=black!90] at (-5.85cm,-0.75cm) {
-    \textbf{Tujuan:} Evaluasi performa model vs referensi XRF dengan 5-fold cross validation\\[3pt]
-    \textbf{Output:} Metrik RMSE, MAE, MAPE, $R^2$ + \textit{proof-of-concept}\\[3pt]
-    \textbf{Indikator:} $R^2 \geq 0{,}90$;\ MAPE $< 10\%$
+  \node[header text] at (-6.02cm,-0.52cm) {Tahap IV — Evaluasi};
+  \node[anchor=south west, inner sep=0] at (-6.05cm, -3.15cm) {
+    \includegraphics[width=5.1cm, height=2.15cm, keepaspectratio=false]{images/tahap4_eval_te.png}
   };
 
   % ==========================================
-  % PANAH SIKLIKAL (Overlay Transparan)
+  % PANAH ALUR & LUARAN TAHAPAN (Tepi & Luar Kotak)
   % ==========================================
   \tikzset{
-    arrow flow/.style={-stealth, gray, line width=3pt, opacity=0.6},
-    label flow/.style={gray!90, font=\fontsize{7pt}{8pt}\selectfont\bfseries, inner sep=2pt}
+    arrow flow/.style={-stealth, gray!80, line width=2.0pt, opacity=0.95},
+    label flow/.style={gray!90, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries, align=center, inner sep=2pt}
   }
 
-  % T1 -> T2 (Data Pre-Training)
-  \draw[arrow flow] (-1.0cm, 1.85cm) -- (1.0cm, 1.85cm);
-  \node[label flow, fill=white, opacity=0.9, text opacity=1] at (0, 1.85cm) {Data Pre-Training};
+  % T1 -> T2: Horizontal Tengah Atas (Dataset Sintetis di atas panah)
+  \draw[arrow flow] (-0.9cm, 1.8cm) -- (0.9cm, 1.8cm) 
+    node[midway, above=1pt, label flow] {Dataset\\ Sintetis};
 
-  % T2 -> T3 (Dataset)
-  \draw[arrow flow] (3.0cm, 0.9cm) -- (3.0cm, -0.9cm);
-  \node[label flow, fill=white, opacity=0.9, text opacity=1, rotate=-90] at (3.0cm, 0) {Dataset};
+  % T2 -> T3: Siku Kanan Luar (Dataset Penuh di sebelah kanan panah vertikal luar)
+  \draw[arrow flow] (6.1cm, 1.8cm) -- (6.5cm, 1.8cm) -- (6.5cm, -1.8cm) -- (6.1cm, -1.8cm);
+  \node[label flow, anchor=west] at (6.6cm, 0) {Dataset\\ Penuh};
 
-  % T3 -> T4 (Prediksi)
-  \draw[arrow flow] (1.0cm, -1.85cm) -- (-1.0cm, -1.85cm);
-  \node[label flow, fill=white, opacity=0.9, text opacity=1] at (0, -1.85cm) {Prediksi};
-
-  % T4 -> T1 (Umpan Balik)
-  \draw[arrow flow] (-3.0cm, -0.9cm) -- (-3.0cm, 0.9cm);
-  \node[label flow, fill=white, opacity=0.9, text opacity=1, rotate=90] at (-3.0cm, 0) {Umpan Balik};
+  % T3 -> T4: Horizontal Tengah Bawah (Model Konvergen di atas panah)
+  \draw[arrow flow] (0.9cm, -1.8cm) -- (-0.9cm, -1.8cm)
+    node[midway, above=1pt, label flow] {Model\\ Konvergen};
 
 \end{tikzpicture}
+\end{adjustbox}
 \end{center}
 \end{frame}
 
-% Slide 11
-\begin{frame}{Prosedur: Simulasi \& Spektrum Sintetis (Tahap 1)}
-  \begin{table}
-    \centering
-    \small
-    \begin{tabular}{llp{5.5cm}}
-      \toprule
-      \textbf{Parameter} & \textbf{Nilai} & \textbf{Deskripsi} \\
-      \midrule
-      Suhu Elektron ($T_e$) & 6.000 - 15.000 K & Kondisi fisis plasma LIBS di bawah LTE \\
-      Kerapatan Elektron ($n_e$) & $10^{16}$ - $10^{17}$ cm$^{-3}$ & Parameter fisis Stark Broadening \\
-      Resolusi Spektral ($\Delta\lambda$) & 0,02 nm & Setara dengan instrumen spektrometer Echelle \\
-      Rentang Panjang Gelombang & 200 - 900 nm & Mencakup garis-garis emisi elemen utama \\
-      Total Dataset Sintetis & 100.000 & Dataset besar untuk pre-training model \\
-      \bottomrule
-    \end{tabular}
-    \caption{Spesifikasi parameter generasi spektrum sintetis Tahap 1.}
-  \end{table}
+% Slide 17: Prosedur: Tahap I — Simulasi
+\begin{frame}{Prosedur: Tahap I — Simulasi}
+  \begin{center}
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.85\textheight, keepaspectratio}
+      \begin{tikzpicture}[font=\sffamily]
+        % Garis memotong di tengah (silang)
+        \draw[gray!30, line width=1.0pt] (-5.8, 0) -- (5.8, 0);
+        \draw[gray!30, line width=1.0pt] (0, -3.2) -- (0, 3.2);
+
+        % ==========================================
+        % KUADRAN I: KIRI ATAS (Parameter & NIST ASD)
+        % ==========================================
+        \node[anchor=north west, font=\fontsize{9.5pt}{11pt}\selectfont\bfseries, color=blue!85!black] at (-5.7, 3.0) {1. Parameter Fisis \& NIST ASD};
+        \node[anchor=north east] at (-0.3, 2.6) {
+          \fontsize{6.5pt}{8.0pt}\selectfont
+          \setlength{\tabcolsep}{4.5pt}
+          \renewcommand{\arraystretch}{1.2}
+          \begin{tabular}{ccccc}
+            \toprule
+            \textbf{Unsur} & \textbf{Spesies} & \textbf{$\lambda$ (nm)} & \textbf{Energi ($E_i - E_k$)} & \textbf{$A_{ki}$ (s$^{-1}$)} \\
+            \midrule
+            Si & Si I & 288,16 & 0,78 -- 5,08 eV & 1,89e8 \\
+            Al & Al I & 309,27 & 0,02 -- 4,02 eV & 7,37e7 \\
+            Fe & Fe I & 373,49 & 0,05 -- 3,37 eV & 1,62e8 \\
+            Ca & Ca II & 393,37 & 0,00 -- 3,15 eV & 1,47e8 \\
+            Mg & Mg I & 285,21 & 0,00 -- 4,35 eV & 2,91e8 \\
+            \bottomrule
+          \end{tabular}
+        };
+
+        % ==========================================
+        % KUADRAN II: KANAN ATAS (Saha-Boltzmann)
+        % ==========================================
+        \node[anchor=north west, font=\fontsize{9.5pt}{11pt}\selectfont\bfseries, color=teal!85!black] at (0.3, 3.0) {2. Saha-Boltzmann (LTE)};
+        \node[anchor=north west, inner sep=0] at (0.3, 2.6) {
+          \includegraphics[width=5.4cm, height=2.4cm, keepaspectratio=false]{images/tahap1_step2_stick.png}
+        };
+
+        % ==========================================
+        % KUADRAN III: KANAN BAWAH (Voigt & Pelebaran)
+        % ==========================================
+        \node[anchor=north west, font=\fontsize{9.5pt}{11pt}\selectfont\bfseries, color=purple!85!black] at (0.3, -0.1) {3. Spektrum Voigt Kontinu};
+        \node[anchor=north west, inner sep=0] at (0.3, -0.5) {
+          \includegraphics[width=5.4cm, height=2.4cm, keepaspectratio=false]{images/tahap1_step3_voigt.png}
+        };
+
+        % ==========================================
+        % KUADRAN IV: KIRI BAWAH (Struktur Dataset HDF5)
+        % ==========================================
+        \node[anchor=north west, font=\fontsize{9.5pt}{11pt}\selectfont\bfseries, color=red!85!black] at (-5.7, -0.1) {4. Dataset Spektrum HDF5 (100k)};
+        
+        % Plot waterfall 3D di sebelah kiri (lebar diperkecil menjadi 3.2cm)
+        \node[anchor=north west, inner sep=0] at (-5.7, -0.5) {
+          \includegraphics[width=3.2cm, height=2.4cm, keepaspectratio=false]{images/tahap1_step4_hdf5.png}
+        };
+        
+        % Kotak Informasi Kandungan Dataset di sebelah kanan
+        \draw[draw=red!40!black, fill=red!5, thick, rounded corners=3pt] (-2.4, -0.5) rectangle (-0.3, -2.9);
+        \node[anchor=north west, text width=1.9cm, align=left] at (-2.3, -0.6) {
+          {\fontsize{6.0pt}{7.5pt}\selectfont\color{red!80!black}\bfseries Isi HDF5:} \\[3pt]
+          \fontsize{5.2pt}{6.8pt}\selectfont\color{black}
+          $\bullet$ $S_{\mathrm{mix}}$ \& $S_{\mathrm{single}}$ \\
+          $\bullet$ $T_e, n_e \in \mathbb{R}^2$ \\
+          $\bullet$ $\mathbf{c} \in \mathbb{R}^7$ \\
+          $\bullet$ 100k Sampel
+        };
+
+      \end{tikzpicture}
+    \end{adjustbox}
+  \end{center}
 \end{frame}
 
-% Slide 12
+% Slide 18: Perbandingan Rumus Fisika Plasma
+\begin{frame}[fragile]{Perbandingan Rumus Fisika Plasma: MERLIN vs. Penelitian Ini}
+  \begin{center}
+    \begin{adjustbox}{max width=0.98\textwidth}
+      \fontsize{7.5pt}{10.0pt}\selectfont
+      \renewcommand{\arraystretch}{1.6}
+      \begin{tabular}{lll}
+        \toprule
+        \textbf{Aspek/Tahap Fisika} & \shortstack[l]{\textbf{Model Analitik MERLIN}\\\textbf{(Favre et al., 2025)}} & \shortstack[l]{\textbf{Model Spektrum Sintetis}\\\textbf{(Tesis Ini)}} \\
+        \midrule
+        \textbf{1. Keseimbangan Populasi} &
+        \shortstack[l]{Saha: $\frac{n_e n_{z+1}}{n_z} \propto \exp\left(-\frac{E_{\mathrm{ion},z} - \Delta E_{\mathrm{ion},z}}{k_B T_e}\right)$ \\ Boltzmann: $[X_k] = \frac{g_k}{Q_X} e^{-E_k/k_B T_e} n_X$} &
+        \shortstack[l]{Saha: $\frac{n_e n_{z+1}}{n_z} = 2\frac{Z_{z+1}}{Z_z}\left(\frac{2\pi m_e k_B T_e}{h^2}\right)^{3/2} \exp\left(-\frac{E_{\mathrm{ion},z}}{k_B T_e}\right)$ \\ Boltzmann: $[X_k] = \frac{g_k}{Q_X} e^{-E_k/k_B T_e} n_X$} \\
+        & (Kinetika reaksi fiktif untuk $n_X$) & (Kesetimbangan Saha instan dari NIST ASD) \\
+        \midrule
+        \textbf{2. Intensitas Garis} &
+        $I_{ki} = \frac{hc}{4\pi \lambda_{ki}} A_{ki} \frac{g_k}{Q_X(T_e)} n_X \exp\left(-\frac{E_k}{k_B T_e}\right)$ &
+        $I_{ki} = \frac{hc}{4\pi \lambda_{ki}} A_{ki} \frac{g_k}{Q_X(T_e)} n_X \exp\left(-\frac{E_k}{k_B T_e}\right)$ \\
+        & (Untuk transisi tunggal $k \to i$ di plasma) & (Dasar pembangkitan intensitas puncak garis spektrum) \\
+        \midrule
+        \textbf{3. Pelebaran Spektral} &
+        $\Delta\lambda_{\mathrm{total}} = f(\Delta\lambda_S, \Delta\lambda_D, \Delta\lambda_R, \Delta\lambda_{\mathrm{VdW}})$ &
+        $\phi_V(\lambda) = \phi_G(\lambda, \sigma_{\mathrm{total}}) \ast \phi_L(\lambda, \gamma_L)$ \\
+        & (\textit{pseudo-Voigt polynomial fitting}) & (Voigt fisis + konvolusi instrumen spektrometer) \\
+        \midrule
+        \textbf{4. Transfer Radiatif (RTE)} &
+        $L_{\lambda} = \frac{\epsilon_{\lambda}}{\alpha_{\lambda}} \left(1 - e^{-\alpha_{\lambda} l}\right)$ &
+        $S_{\mathrm{campuran}}(\lambda) = \sum_{z} c_z S_{\mathrm{tunggal}}^{(z)}(\lambda)$ \\
+        & (Integrasi RTE dengan \textit{self-absorption}) & (Linear Mixing Model / plasma \textit{optically thin}) \\
+        \bottomrule
+      \end{tabular}
+    \end{adjustbox}
+  \end{center}
+\end{frame}
+
+% Slide 19: Setup Eksperimen LIBS
+\begin{frame}{Setup Eksperimen LIBS (Tahap 2)}
+  \centering
+  \includegraphics[width=\textwidth, height=0.74\textheight, keepaspectratio]%
+    {images/bab2/libs_schematic.png}
+
+  \vspace{0.3em}
+  {\fontsize{7pt}{9pt}\selectfont\color{gray!70}
+   Skema setup LIBS: Nd:YAG 1064~nm/114~mJ, atmosfer terbuka,
+   koleksi emisi via lensa \& serat optik ke spektrometer \textit{Mechelle}
+   (diadaptasi dari \citeauthor{qusthalani_comparing_2025}, 2025).}
+\end{frame}
+% Slide 20: Prosedur: Eksperimen \& Data LIBS Tanah
 \begin{frame}{Prosedur: Eksperimen \& Data LIBS Tanah (Tahap 2)}
-  \begin{table}
-    \centering
-    \small
-    \begin{tabular}{llp{5.5cm}}
-      \toprule
-      \textbf{Parameter LIBS Eksperimental} & \textbf{Spesifikasi Akuisisi} \\
-      \midrule
-      Sumber Laser & Q-switched Nd:YAG (1064 nm) \\
-      Energi Pulsa & 114 mJ \\
-      Gate Delay \& Gate Width & 0,5 $\mu$s \& 0,5 $\mu$s \\
-      Spektrometer \& Detektor & Echelle \& OMA \\
-      Jumlah Sampel Tanah & 24 sampel vulkanik Gunung Seulawah Agam \\
-      Label Referensi Konsentrasi & X-Ray Fluorescence (XRF) \\
-      Total Spektrum Eksperimental & 600 - 1200 tembakan laser individual \\
-      \bottomrule
-    \end{tabular}
-    \caption{Spesifikasi parameter eksperimen LIBS Tahap 2.}
-  \end{table}
+  \centering
+  \begin{adjustbox}{max width=\textwidth, max height=0.78\textheight}
+  \begin{tikzpicture}[font=\sffamily, scale=1.0]
+    % ── Garis bantu mata angin ─────────────────────────────────────────
+    \draw[gray!25, dashed, line width=1pt] (-5.0, 1.2) -- (5.0, 1.2);
+    \draw[gray!25, dashed, line width=1pt] (0, -0.5) -- (0, 3.1);
+
+    % Label mata angin
+    \node[gray!50, font=\footnotesize\bfseries] at (0,   3.2) {U};
+    \node[gray!50, font=\footnotesize\bfseries] at ( 5.1, 1.2) {T};
+    \node[gray!50, font=\footnotesize\bfseries] at (0,  -0.6) {S};
+    \node[gray!50, font=\footnotesize\bfseries] at (-5.1, 1.2) {B};
+
+    % ── Pusat: Kawah ──────────────────────────────────────────────────
+    \node[draw=orange!80!black, fill=orange!10, circle, thick, align=center,
+          minimum size=2.2cm, font=\fontsize{8pt}{9.5pt}\selectfont]
+          (center) at (0, 1.2)
+          {\textbf{Kawah}\\[2pt]\textbf{Seulawah}\\[2pt]\textbf{Agam}};
+
+    % Utara
+    \node[draw=blue!55!black, fill=blue!7, rounded corners=3pt,
+          text width=3.6cm, align=center, inner sep=5pt,
+          font=\fontsize{8pt}{10pt}\selectfont]
+          (N) at (0, 3.0) {
+      \textcolor{blue!70!black}{\textbf{Utara}}\\[3pt]
+      \textbf{6 Sampel}\\[1pt]
+      \small 3 kedalaman (dekat)\\
+      \small 3 kedalaman (jauh)
+    };
+    \draw[-stealth, line width=1.3pt, blue!55!black] (center.90) -- (N.south);
+
+    % Timur
+    \node[draw=green!55!black, fill=green!7, rounded corners=3pt,
+          text width=3.6cm, align=center, inner sep=5pt,
+          font=\fontsize{8pt}{10pt}\selectfont]
+          (E) at (4.0, 1.2) {
+      \textcolor{green!60!black}{\textbf{Timur}}\\[3pt]
+      \textbf{6 Sampel}\\[1pt]
+      \small 3 kedalaman (dekat)\\
+      \small 3 kedalaman (jauh)
+    };
+    \draw[-stealth, line width=1.3pt, green!55!black] (center.0) -- (E.west);
+
+    % Selatan
+    \node[draw=purple!55!black, fill=purple!7, rounded corners=3pt,
+          text width=3.6cm, align=center, inner sep=5pt,
+          font=\fontsize{8pt}{10pt}\selectfont]
+          (S) at (0, -0.5) {
+      \textcolor{purple!70!black}{\textbf{Selatan}}\\[3pt]
+      \textbf{6 Sampel}\\[1pt]
+      \small 3 kedalaman (dekat)\\
+      \small 3 kedalaman (jauh)
+    };
+    \draw[-stealth, line width=1.3pt, purple!55!black] (center.270) -- (S.north);
+
+    % Barat
+    \node[draw=teal!55!black, fill=teal!7, rounded corners=3pt,
+          text width=3.6cm, align=center, inner sep=5pt,
+          font=\fontsize{8pt}{10pt}\selectfont]
+          (W) at (-4.0, 1.2) {
+      \textcolor{teal!70!black}{\textbf{Barat}}\\[3pt]
+      \textbf{6 Sampel}\\[1pt]
+      \small 3 kedalaman (dekat)\\
+      \small 3 kedalaman (jauh)
+    };
+    \draw[-stealth, line width=1.3pt, teal!55!black] (center.180) -- (W.east);
+
+    % ── Kotak total (sudut kiri bawah) ────────────────────────────────
+    \node[draw=maincolor!60, fill=maincolor!5, rounded corners=3pt,
+          text width=4.8cm, align=center, inner sep=6pt,
+          font=\fontsize{8pt}{10pt}\selectfont]
+          at (-3.5, -1.85) {
+      \textcolor{gray!65}{$4 \times 6 = \mathbf{24}$ sampel tanah vulkanik}\\[5pt]
+      \textcolor{maincolor!85!black}{\textbf{$24 \times 10$ tembakan $= \mathbf{240}$ spektrum}}
+    };
+
+  \end{tikzpicture}
+  \end{adjustbox}
 \end{frame}
 
-% Slide 13
-\begin{frame}{Prosedur: Pelatihan Adversarial \& Loss Physics (Tahap 3)}
-  \begin{columns}[t]
-    \begin{column}{0.58\textwidth}
-      \begin{block}{\large Pengekang Superposisi Spektral $\mathcal{L}_{\mathrm{cons}}$}
-        \fontsize{7.5pt}{9pt}\selectfont
-        Mengawal kesesuaian linear antara jumlah spektrum unsur murni prediksi dengan spektrum campuran aktual:
-        \begin{equation*}
-        \mathcal{L}_{\mathrm{cons}} = \frac{1}{B \cdot L} \sum_{i=1}^{B} \sum_{j=1}^{L} \left( \left[ \sum_{e=1}^{E} \hat{I}_{\mathrm{pred}, ie}(\lambda_j) \right] - x_i(\lambda_j) \right)^2
-        \end{equation*}
-        Secara fisis menghindari prediksi puncak emisi fiktif atau klaim ganda (*double-counting*).
-      \end{block}
-    \end{column}
-    \begin{column}{0.38\textwidth}
-      \begin{block}{\large Fungsi Kerugian Total}
-        \fontsize{7.5pt}{9pt}\selectfont
-        Model dioptimalkan secara multi-task pada data pre-training:
-        \begin{align*}
-        \mathcal{L}_{\mathrm{total}} = & w_{\mathrm{conc}}\mathcal{L}_{\mathrm{KL}} + w_{\mathrm{clr}}\mathcal{L}_{\mathrm{CLR}} \\
-        & + w_{\mathrm{spec}}\mathcal{L}_{\mathrm{spec}} + w_{\mathrm{phys}}\mathcal{L}_{\mathrm{phys}} \\
-        & + \lambda_{\mathrm{cons}}\mathcal{L}_{\mathrm{cons}}
-        \end{align*}
-      \end{block}
-    \end{column}
-  \end{columns}
+
+
+% Slide 21: Alur Pelatihan Tahap 3A (Pre-training)
+\begin{frame}{Prosedur: Alur Pelatihan Tahap~3A (Pre-training Spektrum Sintetis)}
+  \centering
+  \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
+  \begin{tikzpicture}[
+      font=\sffamily,
+      blk/.style={draw=gray!60, fill=gray!6, rounded corners=3pt,
+                  align=center, inner sep=5pt, text width=4.2cm, minimum height=1.0cm},
+      model/.style={draw=maincolor!70, fill=maincolor!8, rounded corners=3pt,
+                    align=center, inner sep=5pt, text width=4.2cm, minimum height=1.0cm, thick},
+      loss/.style={draw=orange!70!black, fill=orange!6, rounded corners=3pt,
+                   align=center, inner sep=5pt, text width=4.2cm, minimum height=1.0cm},
+      loopnode/.style={draw=violet!70!black, fill=violet!5, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.0cm},
+      evalnode/.style={draw=teal!70!black, fill=teal!6, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.0cm},
+      arr/.style={-stealth, line width=1.1pt, gray!65},
+      arrb/.style={-stealth, line width=1.3pt, maincolor!80},
+      arrloop/.style={-stealth, line width=1.2pt, violet!80},
+  ]
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 1:  Dataset (KANAN)  ──→  Split Policy (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[blk, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (data) at (3.5, 2.4)
+        {\textbf{Dataset HDF5}\\
+         Spektrum Sintetis\\
+         {\tiny Total: 100.000 Sampel}};
+
+  \node[blk, fill=gray!12, font=\fontsize{8pt}{9.5pt}\selectfont]
+        (split) at (-3.5, 2.4)
+        {\textbf{Split Policy}\\
+         {\tiny(\texttt{dataset\_schema.yaml})}\\[2pt]
+         \fontsize{7.5pt}{8.5pt}\selectfont
+         Train 80\% $|$ Val 10\% $|$ Test 10\%};
+
+  \draw[arr] (data.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{pembagian} (split.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 2:  Training (KANAN)  ──→  Validasi (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[model, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (train) at (3.5, 0.0)
+        {\textbf{Training (Batch Loop)}\\
+         {\tiny Forward (AMP) $\to$ $\mathcal{L}_{\mathrm{total}}$}\\
+         {\tiny Backward $\to$ Grad Clip $\to$ AdamW}};
+
+  \node[loss, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (val) at (-3.5, 0.0)
+        {\textbf{Validasi (Val Set)}\\
+         {\tiny Evaluasi MAE, RMSE, SAM}\\
+         {\tiny Monitor R² Konsentrasi}};
+
+  % Zigzag: Split Policy (L1) ↘ Training (R2)
+  \draw[arrb, rounded corners=6pt]
+        (split.south) -- ++(0, -0.5) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{Train Set (80k)}
+        (train.north);
+
+  % Horizontal: Training → Validasi
+  \draw[arr] (train.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{akhir epoch} (val.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 3:  Epoch Control (KANAN)  ──→  Evaluasi Akhir (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[loopnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (epoch) at (3.5, -2.4)
+        {\textbf{Epoch Loop Control}\\
+         {\tiny Max 100 Epoch $|$ Cosine Scheduler}\\
+         {\tiny Early Stop (Patience=10 ep)}};
+
+  \node[evalnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (eval) at (-3.5, -2.4)
+        {\textbf{Evaluasi Akhir}\\
+         (Test Set -- 10\%)\\
+         {\tiny Muat \texttt{best\_model.pt} $\to$ Metrik}};
+
+  % Zigzag: Validasi (L2) ↘ Epoch Control (R3)
+  \draw[arr, rounded corners=6pt]
+        (val.south) -- ++(0, -0.5) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{metrik epoch}
+        (epoch.north);
+
+  % Horizontal: Epoch Control → Evaluasi Akhir
+  \draw[arr] (epoch.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{selesai} (eval.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % LOOP EPOCH (sisi KANAN luar): Epoch Control ↑ Training
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arrloop, rounded corners=6pt]
+        (epoch.east) -- ++(1.5, 0)
+        node[right, pos=0.5, font=\fontsize{6.5pt}{8pt}\selectfont\sffamily, align=left]
+             {Belum\\konvergen}
+        -- ++(0, 2.4) -- (train.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % TEST SET (sisi KIRI luar): Split Policy ↓ Evaluasi Akhir
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arr, dashed, gray!55, rounded corners=6pt]
+        (split.west) -- ++(-1.5, 0)
+        node[left, pos=0.5, font=\fontsize{6pt}{7pt}\selectfont\sffamily, align=right, text=gray!70]
+             {Test Set\\(10k)}
+        -- ++(0, -4.8) -- (eval.west);
+
+  \end{tikzpicture}
+  \end{adjustbox}
 \end{frame}
 
-% Slide 14
+
+% Slide 22: Alur Pelatihan Tahap 3B (GRL & Joint Fine-Tuning)
+\begin{frame}{Prosedur: Alur Pelatihan Tahap~3B (GRL \& Adaptasi Domain)}
+  \centering
+  \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
+  \begin{tikzpicture}[
+      font=\sffamily,
+      blk/.style={draw=gray!60, fill=gray!6, rounded corners=3pt,
+                  align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      model/.style={draw=maincolor!70, fill=maincolor!8, rounded corners=3pt,
+                    align=center, inner sep=5pt, text width=4.3cm, minimum height=1.1cm, thick},
+      loss/.style={draw=orange!70!black, fill=orange!6, rounded corners=3pt,
+                   align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      loopnode/.style={draw=violet!70!black, fill=violet!5, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      evalnode/.style={draw=teal!70!black, fill=teal!6, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      arr/.style={-stealth, line width=1.1pt, gray!65},
+      arrb/.style={-stealth, line width=1.3pt, maincolor!80},
+      arrloop/.style={-stealth, line width=1.2pt, violet!80},
+  ]
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 1: Input Data Ganda (KANAN) ──→ Checkpoint & GRL Split (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[blk, font=\fontsize{8pt}{9pt}\selectfont, fill=blue!5, draw=blue!50]
+        (data_source) at (3.5, 3.4)
+        {\textbf{Source Domain (Sintetis)}\\
+         Spektrum + Label Konsentrasi\\
+         {\tiny (NIST Saha-Boltzmann 100k)}};
+
+  \node[blk, font=\fontsize{8pt}{9pt}\selectfont, fill=purple!5, draw=purple!50]
+        (data_target) at (3.5, 2.0)
+        {\textbf{Target Domain (Real LIBS)}\\
+         Spektrum Tanah Vulkanik\\
+         {\tiny (Tanpa Label -- 24 Lokasi)}};
+
+  \node[blk, fill=orange!10, draw=orange!50, font=\fontsize{8pt}{9pt}\selectfont, text width=4.2cm]
+        (split) at (-3.5, 2.7)
+        {\textbf{Load Checkpoint 3A}\\
+         \fontsize{7.5pt}{8.5pt}\selectfont \texttt{load\_state\_dict(best\_3A.pt)}\\
+         Inisialisasi Bobot Awal Fisis};
+
+  % Input paralel ke Checkpoint
+  \draw[arr, rounded corners=4pt] (data_source.west) -- ++(-0.4, 0) |- (split.east);
+  \draw[arr, rounded corners=4pt] (data_target.west) -- ++(-0.4, 0) |- (split.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 2: Training (KANAN) ──→ Validasi Target (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[model, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (train) at (3.5, 0.0)
+        {\textbf{Training (Batch Loop GRL)}\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Forward: $\mathcal{L}_{\mathrm{pred}}$ (Src) + $\mathcal{L}_{\mathrm{dom}}$ (Src+Tgt)\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Backward: Gradien GRL ($-\lambda$) vs Pred ($+$)};
+
+  \node[loss, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (val) at (-3.5, 0.0)
+        {\textbf{Validasi (Target Domain)}\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Evaluasi RMSE \& $R^2$ pada subset\\
+         \fontsize{7.5pt}{8.5pt}\selectfont spektrum Eksperimen via Label XRF};
+
+  % Zigzag: Checkpoint (L1) ↘ Training (R2)
+  \draw[arrb, rounded corners=6pt]
+        (split.south) -- ++(0, -0.85) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{Transfer Bobot}
+        (train.north);
+
+  % Horizontal: Training → Validasi
+  \draw[arr] (train.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{akhir epoch} (val.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 3: Epoch Control & Lambda Scheduler (KANAN) ──→ Evaluasi Akhir (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[loopnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (epoch) at (3.5, -2.7)
+        {\textbf{Epoch Loop Control}\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Max 50 Epoch | Cosine Scheduler\\
+         \fontsize{7.5pt}{8.5pt}\selectfont \textbf{Update GRL Lambda ($\lambda$):} 0 $\to$ 1};
+
+  \node[evalnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (eval) at (-3.5, -2.7)
+        {\textbf{Evaluasi Akhir GRL}\\
+         (Test Set Eksperimen -- 10\%)\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Muat \texttt{best\_model\_GRL.pt} $\to$ Metrik};
+
+  % Zigzag: Validasi (L2) ↘ Epoch Control (R3)
+  \draw[arr, rounded corners=6pt]
+        (val.south) -- ++(0, -0.85) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{metrik epoch}
+        (epoch.north);
+
+  % Horizontal: Epoch Control → Evaluasi Akhir
+  \draw[arr] (epoch.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{selesai} (eval.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % LOOP EPOCH (sisi KANAN luar)
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arrloop, rounded corners=6pt]
+        (epoch.east) -- ++(1.5, 0)
+        node[right, pos=0.5, font=\fontsize{6.5pt}{8pt}\selectfont\sffamily, align=left]
+             {Belum\\konvergen}
+        -- ++(0, 3.3) -- (train.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % TEST SET (sisi KIRI luar)
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arr, dashed, gray!55, rounded corners=6pt]
+        (split.west) -- ++(-1.5, 0)
+        node[left, pos=0.5, font=\fontsize{6pt}{7pt}\selectfont\sffamily, align=right, text=gray!70]
+             {Test Set\\Eksperimen}
+        -- ++(0, -6.0) -- (eval.west);
+
+  \end{tikzpicture}
+  \end{adjustbox}
+\end{frame}
+
+
+% Slide 23: Alur Pelatihan Tahap 3C (Decoder Fine-Tuning)
+\begin{frame}{Prosedur: Alur Pelatihan Tahap~3C (Decoder Fine-Tuning)}
+  \centering
+  \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
+  \begin{tikzpicture}[
+      font=\sffamily,
+      blk/.style={draw=gray!60, fill=gray!6, rounded corners=3pt,
+                  align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      model/.style={draw=maincolor!70, fill=maincolor!8, rounded corners=3pt,
+                    align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm, thick},
+      loss/.style={draw=orange!70!black, fill=orange!6, rounded corners=3pt,
+                   align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      loopnode/.style={draw=violet!70!black, fill=violet!5, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      evalnode/.style={draw=teal!70!black, fill=teal!6, rounded corners=3pt,
+                       align=center, inner sep=5pt, text width=4.2cm, minimum height=1.1cm},
+      arr/.style={-stealth, line width=1.1pt, gray!65},
+      arrb/.style={-stealth, line width=1.3pt, maincolor!80},
+      arrloop/.style={-stealth, line width=1.2pt, violet!80},
+  ]
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 1:  Dataset Eksperimen (KANAN)  ──→  Checkpoint & Freeze (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[blk, font=\fontsize{8.5pt}{10pt}\selectfont, fill=teal!5, draw=teal!50]
+        (data) at (3.5, 2.7)
+        {\textbf{Dataset Eksperimen LIBS}\\
+         Sampel Tanah Vulkanik Aceh\\
+         {\tiny Total: 24 Lokasi (Berlabel XRF)}};
+
+  \node[blk, fill=gray!12, font=\fontsize{8pt}{9.5pt}\selectfont]
+        (split) at (-3.5, 2.7)
+        {\textbf{Checkpoint \& Freeze}\\
+         \fontsize{7.5pt}{8.5pt}\selectfont Load \texttt{best\_model\_3A.pt}\\
+         \textbf{Freeze CNN Encoder}\\
+         Latih hanya Decoder \& Head};
+
+  \draw[arr] (data.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{5-Fold Split} (split.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 2:  Training (KANAN)  ──→  Validasi (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[model, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (train) at (3.5, 0.0)
+        {\textbf{Decoder Fine-Tuning}\\
+         {\tiny Forward: Hitung $\mathcal{L}_{\mathrm{prediksi}}$ pada target XRF}\\
+         {\tiny Backward: Update Decoder \& Head $\to$ AdamW}};
+
+  \node[loss, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (val) at (-3.5, 0.0)
+        {\textbf{Validasi (Val Fold)}\\
+         {\tiny Evaluasi MAE, RMSE, MAPE}\\
+         {\tiny Monitor $R^2$ pada data real}};
+
+  % Zigzag: Split Policy (L1) ↘ Training (R2)
+  \draw[arrb, rounded corners=6pt]
+        (split.south) -- ++(0, -0.85) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{Train Fold (80\%)}
+        (train.north);
+
+  % Horizontal: Training → Validasi
+  \draw[arr] (train.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{akhir epoch} (val.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % ROW 3:  Epoch Control (KANAN)  ──→  Evaluasi Akhir (KIRI)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[loopnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (epoch) at (3.5, -2.7)
+        {\textbf{Epoch Loop Control}\\
+         {\tiny Max 100 Epoch $|$ Cosine Scheduler}\\
+         {\tiny Early Stop (Patience=10 ep, monitor $R^2$)}};
+
+  \node[evalnode, font=\fontsize{8.5pt}{10pt}\selectfont]
+        (eval) at (-3.5, -2.7)
+        {\textbf{Evaluasi Akhir FT}\\
+         (Test Fold -- 20\%)\\
+         {\tiny Muat \texttt{best\_model\_FT.pt} $\to$ Metrik}};
+
+  % Zigzag: Validasi (L2) ↘ Epoch Control (R3)
+  \draw[arr, rounded corners=6pt]
+        (val.south) -- ++(0, -0.85) |-
+        node[pos=0.25, left, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{metrik epoch}
+        (epoch.north);
+
+  % Horizontal: Epoch Control → Evaluasi Akhir
+  \draw[arr] (epoch.west) -- node[above, font=\fontsize{6pt}{7pt}\selectfont\sffamily]{selesai} (eval.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % LOOP EPOCH (sisi KANAN luar): Epoch Control ↑ Training
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arrloop, rounded corners=6pt]
+        (epoch.east) -- ++(1.5, 0)
+        node[right, pos=0.5, font=\fontsize{6.5pt}{8pt}\selectfont\sffamily, align=left]
+             {Belum\\konvergen}
+        -- ++(0, 3.0) -- (train.east);
+
+  % ══════════════════════════════════════════════════════════════════════
+  % TEST SET (sisi KIRI luar): Split Policy ↓ Evaluasi Akhir
+  % ══════════════════════════════════════════════════════════════════════
+  \draw[arr, dashed, gray!55, rounded corners=6pt]
+        (split.west) -- ++(-1.5, 0)
+        node[left, pos=0.5, font=\fontsize{6pt}{7pt}\selectfont\sffamily, align=right, text=gray!70]
+             {Test Fold\\(20\%)}
+        -- ++(0, -5.7) -- (eval.west);
+
+  \end{tikzpicture}
+  \end{adjustbox}
+\end{frame}
+
+
+
+
+% Slide 24: Rencana Pengujian: Skenario Transfer Domain
+\begin{frame}{Rencana Pengujian: Evaluasi Skenario Transfer Domain (Tahap 4)}
+  \centering
+  \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
+  \begin{tikzpicture}[
+      font=\sffamily,
+      sectiontitle/.style={align=center, font=\bfseries\small\color{maincolor}, fill=maincolor!8, draw=maincolor!35, rounded corners=3pt, minimum width=3.3cm, minimum height=0.6cm},
+      databox/.style={draw=gray!50, fill=gray!5, rounded corners=3pt, align=center, text width=3.3cm, minimum height=1.3cm, font=\fontsize{8pt}{9.5pt}\selectfont},
+      modelbox/.style={draw=orange!60, fill=orange!5, rounded corners=3pt, align=center, text width=3.8cm, minimum height=1.3cm, font=\fontsize{8pt}{9.5pt}\selectfont, thick},
+      evalbox/.style={draw=teal!65, fill=teal!4, rounded corners=3pt, align=left, text width=4.3cm, minimum height=1.3cm, font=\fontsize{7.5pt}{9pt}\selectfont},
+      arr/.style={-stealth, line width=1.1pt, gray!60},
+      arrbold/.style={-stealth, line width=1.4pt, maincolor!85}
+  ]
+
+  % ══════════════════════════════════════════════════════════════════════
+  % KOLOM 1: INPUT DATA (x = -4.5)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[sectiontitle] (h1) at (-4.5, 2.7) {1. Sumber Data};
+
+  \node[databox] (d_syn) at (-4.5, 0.45) {
+    \textbf{Spektrum Sintetis}\\
+    {\tiny (Source Domain -- 100k)}\\
+    \fontsize{7pt}{8pt}\selectfont Simulasi Saha-Boltzmann
+  };
+
+  \node[databox] (d_real) at (-4.5, -1.05) {
+    \textbf{Spektrum Eksperimen}\\
+    {\tiny (Target Domain -- 24 Lokasi)}\\
+    \fontsize{7pt}{8pt}\selectfont LIBS Vulkanik Tanah Aceh
+  };
+
+  % ══════════════════════════════════════════════════════════════════════
+  % KOLOM 2: SKENARIO MODEL (x = 0.0)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[sectiontitle, fill=orange!10, draw=orange!40, text=orange!80!black] (h2) at (0.0, 2.7) {2. Skenario Pengujian};
+
+  \node[modelbox, draw=blue!55, fill=blue!5] (mA) at (0.0, 1.2) {
+    \textbf{Skenario A: Zero-Shot}\\
+    {\fontsize{7pt}{8pt}\selectfont Pelatihan murni sintetis, langsung diuji ke data eksperimen riil.}
+  };
+
+  \node[modelbox, draw=purple!55, fill=purple!5] (mB) at (0.0, -0.3) {
+    \textbf{Skenario B: GRL Adaptation}\\
+    {\fontsize{7pt}{8pt}\selectfont Pelatihan multi-task (sintetis + eksperimen tanpa label via GRL).}
+  };
+
+  \node[modelbox, draw=teal!55, fill=teal!5] (mC) at (0.0, -1.8) {
+    \textbf{Skenario C: Fine-Tuning}\\
+    {\fontsize{7pt}{8pt}\selectfont Penyetelan kepala decoder menggunakan label asli XRF (5-Fold CV).}
+  };
+
+  % ══════════════════════════════════════════════════════════════════════
+  % KOLOM 3: ANALISIS & METRIK (x = 4.6)
+  % ══════════════════════════════════════════════════════════════════════
+  \node[sectiontitle, fill=teal!10, draw=teal!40, text=teal!80!black] (h3) at (4.6, 2.7) {3. Hasil \& Evaluasi};
+
+  \node[evalbox] (e1) at (4.6, 1.2) {
+    \textbf{Metrik \& Baselines:}\\
+    Uji akurasi (\textbf{RMSE, MAE, MAPE, $R^2$}) terhadap model pembanding: \textbf{PLS, MLP, CNN-only, Transformer-only}.
+  };
+
+  \node[evalbox] (e2) at (4.6, -0.3) {
+    \textbf{Fisis \& Interpretabilitas:}\\
+    Kesesuaian \textit{cross-attention} dengan garis emisi NIST, serta kecocokan suhu ($T_e$) \& densitas ($n_e$) pada batas LTE.
+  };
+
+  \node[evalbox] (e3) at (4.6, -1.8) {
+    \textbf{Indikator Keberhasilan:}\\
+    Evaluasi akhir pada spektrum eksperimen riil mencapai target: \textbf{$R^2 \geq 0{,}85$} dan \textbf{MAPE $< 15\%$}.
+  };
+
+  % ══════════════════════════════════════════════════════════════════════
+  % KONEKSI/PANAH (ARROWS)
+  % ══════════════════════════════════════════════════════════════════════
+  % Dari Sumber Data ke Skenario Model
+  \draw[arr] (d_syn.east) -- ++(0.4, 0) |- (mA.west);
+  \draw[arr] (d_syn.east) -- ++(0.4, 0) |- (mB.west);
+  
+  \draw[arr] (d_real.east) -- ++(0.4, 0) |- (mB.west);
+  \draw[arr] (d_real.east) -- ++(0.4, 0) |- (mC.west);
+
+  % Dari Skenario Model ke Evaluasi
+  \draw[arr] (mA.east) -- (e1.west);
+  \draw[arrbold] (mB.east) -- (e2.west);
+  \draw[arr] (mC.east) -- (e3.west);
+
+  \end{tikzpicture}
+  \end{adjustbox}
+\end{frame}
+
+
+% Slide 25: Rencana Pengujian: Metode Evaluasi & Luaran (Tahap 4)
+\begin{frame}{Rencana Pengujian: Metode Evaluasi \& Luaran (Tahap 4)}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.68\textheight, keepaspectratio}
+      \begin{tabular}{|p{3.8cm} | p{8.2cm}|}
+        \hline
+        \fontsize{8.5pt}{10pt}\selectfont\textbf{Luaran yang Dievaluasi} & \fontsize{8.5pt}{10pt}\selectfont\textbf{Perlakuan \& Metode Validasi} \\
+        \hline
+        \textbf{Kuantifikasi Konsentrasi} & 
+        \fontsize{7.5pt}{8.8pt}\selectfont
+        \textbf{Skenario A \& B (Zero-Shot \& GRL):} Diuji langsung pada subset \textit{Test Set} eksperimen riil yang identik.\\
+        & \fontsize{7.5pt}{8.8pt}\selectfont\textbf{Skenario C (Fine-Tuning):} Dievaluasi via \textit{5-Fold Cross Validation} pada data berlabel referensi XRF. \\
+        \hline
+        \textbf{Parameter Fisis Plasma ($T_e, n_e$)} & 
+        \fontsize{7.5pt}{8.8pt}\selectfont
+        \textbf{Skenario A, B, \& C:} Prediksi model divalidasi dengan membandingkannya terhadap perhitungan fisis konvensional (\textit{Saha-Boltzmann Plot} manual untuk $T_e$, dan pelebaran \textit{Stark} untuk $n_e$). \\
+        \hline
+        \textbf{Dekomposisi Spektral} & 
+        \fontsize{7.5pt}{8.8pt}\selectfont
+        \textbf{Dataset Sintetis (Skenario A, B, C):} Kuantifikasi galat RMSE bentuk kurva rekonstruksi terhadap \textit{ground-truth} unsur murni dari simulator.\\
+        & \fontsize{7.5pt}{8.8pt}\selectfont\textbf{Dataset Eksperimen (Skenario A, B, C -- XAI):} Puncak \textit{cross-attention} dipetakan ke data NIST ASD sebagai pembuktian isolasi unsur dari tumpukan spektrum (\textit{matrix effect}). \\
+        \hline
+      \end{tabular}
+    \end{adjustbox}
+  \end{center}
+\end{frame}
+
+
+% Slide 26: Rencana Pengujian: 5-Fold Cross Validation (Tahap 4)
 \begin{frame}{Rencana Pengujian: 5-Fold Cross Validation (Tahap 4)}
   \begin{figure}[H]
     \centering
-    \resizebox{!}{0.48\textheight}{
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.48\textheight}
     \begin{tikzpicture}[
         node distance=0.4cm,
-        fold/.style={draw, thick, fill=blue!10, minimum width=2.2cm, minimum height=0.5cm, font=\footnotesize},
-        test_fold/.style={draw, thick, fill=red!20, minimum width=2.2cm, minimum height=0.5cm, font=\footnotesize}
+        fold/.style={draw, thick, fill=blue!10, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize},
+        test_fold/.style={draw, thick, fill=red!20, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize}
     ]
+    % Iterasi 1
     \node[fold] (f1_1) {Fold 1 (Train)};
-    \node[fold, right=0.15cm of f1_1] (f1_2) {Fold 2 (Train)};
-    \node[fold, right=0.15cm of f1_2] (f1_3) {Fold 3 (Train)};
-    \node[fold, right=0.15cm of f1_3] (f1_4) {Fold 4 (Train)};
-    \node[test_fold, right=0.15cm of f1_4] (f1_5) {Fold 5 (Test)};
+    \node[fold, right=0.1cm of f1_1] (f1_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f1_2] (f1_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f1_3] (f1_4) {Fold 4 (Train)};
+    \node[test_fold, right=0.1cm of f1_4] (f1_5) {Fold 5 (Test)};
     \node[left=0.2cm of f1_1] {\textbf{Iterasi 1:}};
     
-    \node[fold, below=0.15cm of f1_1] (f2_1) {Fold 1 (Train)};
-    \node[fold, right=0.15cm of f2_1] (f2_2) {Fold 2 (Train)};
-    \node[fold, right=0.15cm of f2_2] (f2_3) {Fold 3 (Train)};
-    \node[test_fold, right=0.15cm of f2_3] (f2_4) {Fold 4 (Test)};
-    \node[fold, right=0.15cm of f2_4] (f2_5) {Fold 5 (Train)};
+    % Iterasi 2
+    \node[fold, below=0.1cm of f1_1] (f2_1) {Fold 1 (Train)};
+    \node[fold, right=0.1cm of f2_1] (f2_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f2_2] (f2_3) {Fold 3 (Train)};
+    \node[test_fold, right=0.1cm of f2_3] (f2_4) {Fold 4 (Test)};
+    \node[fold, right=0.1cm of f2_4] (f2_5) {Fold 5 (Train)};
     \node[left=0.2cm of f2_1] {\textbf{Iterasi 2:}};
     
-    \node[fold, below=0.15cm of f2_1] (f3_1) {Fold 1 (Train)};
-    \node[fold, right=0.15cm of f3_1] (f3_2) {Fold 2 (Train)};
-    \node[test_fold, right=0.15cm of f3_2] (f3_3) {Fold 3 (Test)};
-    \node[fold, right=0.15cm of f3_3] (f3_4) {Fold 4 (Train)};
-    \node[fold, right=0.15cm of f3_4] (f3_5) {Fold 5 (Train)};
+    % Iterasi 3
+    \node[fold, below=0.1cm of f2_1] (f3_1) {Fold 1 (Train)};
+    \node[fold, right=0.1cm of f3_1] (f3_2) {Fold 2 (Train)};
+    \node[test_fold, right=0.1cm of f3_2] (f3_3) {Fold 3 (Test)};
+    \node[fold, right=0.1cm of f3_3] (f3_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f3_4] (f3_5) {Fold 5 (Train)};
     \node[left=0.2cm of f3_1] {\textbf{Iterasi 3:}};
+
+    % Iterasi 4
+    \node[fold, below=0.1cm of f3_1] (f4_1) {Fold 1 (Train)};
+    \node[test_fold, right=0.1cm of f4_1] (f4_2) {Fold 2 (Test)};
+    \node[fold, right=0.1cm of f4_2] (f4_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f4_3] (f4_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f4_4] (f4_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f4_1] {\textbf{Iterasi 4:}};
+
+    % Iterasi 5
+    \node[test_fold, below=0.1cm of f4_1] (f5_1) {Fold 1 (Test)};
+    \node[fold, right=0.1cm of f5_1] (f5_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f5_2] (f5_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f5_3] (f5_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f5_4] (f5_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f5_1] {\textbf{Iterasi 5:}};
     
     \end{tikzpicture}
-    }
+    \end{adjustbox}
   \end{figure}
-  \begin{block}{\large Kebijakan Validasi Tanpa Kebocoran Data (Data Leakage-Free)}
-    \fontsize{7.5pt}{9pt}\selectfont
-    \begin{sloppypar}
-    Pemisahan fold dilakukan secara ketat pada \textbf{tingkat sampel tanah (24 lokasi geografi)}, bukan tingkat tembakan laser individual. Hal ini menjamin seluruh spektrum tembakan dari satu lokasi yang sama selalu dikelompokkan ke fold yang sama guna mencegah bias optimasi.
-    \end{sloppypar}
-  \end{block}
+  \begin{center}
+    \fontsize{8pt}{10pt}\selectfont
+    \textbf{Kebijakan Validasi Tanpa Kebocoran Data (Data Leakage-Free):}\\
+    Pemisahan \textit{fold} dilakukan secara ketat pada \textbf{tingkat sampel tanah (24 lokasi geografi)}, bukan tingkat tembakan laser individual. Hal ini menjamin seluruh spektrum tembakan dari satu lokasi yang sama selalu dikelompokkan ke \textit{fold} yang sama guna mencegah bias optimasi.
+  \end{center}
 \end{frame}
 
 % ==========================================
@@ -823,60 +1364,56 @@
 % ==========================================
 \section{PoC dan Penutup}
 
-% Slide 15
-\begin{frame}{Rencana Pengujian: Alokasi Sumber Daya Komputasi}
-  \begin{figure}[H]
-    \centering
-    \resizebox{!}{0.48\textheight}{
-    \begin{tikzpicture}[
-        node distance=1.5cm,
-        box/.style={draw, thick, fill=gray!5, rounded corners=1mm, align=center, minimum width=4.5cm, minimum height=1.4cm, font=\small},
-        hpc_box/.style={draw=orange!80!black, thick, fill=orange!10, rounded corners=1mm, align=center, minimum width=4.5cm, minimum height=1.4cm, font=\small},
-        arrow/.style={-stealth, line width=1.5pt}
-    ]
-    \node[box] (local) {\textbf{Local Pipeline}\\ MacBook Air M1 (2020)\\ Prototyping, Prapemrosesan,\\ Kode Validasi, \& Pengujian Awal};
-    \node[hpc_box, right=2.2cm of local] (cloud) {\textbf{HPC / Cloud Cluster}\\ Mahameru HPC BRIN / Cloud\\ Pelatihan Skala Besar (100k data),\\ Fine-tuning \& Adversarial GRL};
-    
-    \draw[arrow] (local) -- node[above, font=\footnotesize] {Sync/Git} (cloud);
-    \end{tikzpicture}
-    }
-  \end{figure}
-  \begin{block}{\large Jadwal Eksekusi Utama}
-    \fontsize{7.5pt}{9pt}\selectfont
-    \begin{sloppypar}
-    Integrasi kode dan pengujian awal dilakukan secara lokal untuk memastikan efisiensi sebelum model disebarkan pada sistem kluster GPU HPC Mahameru untuk optimasi adversarial skala penuh.
-    \end{sloppypar}
-  \end{block}
+% Slide 27: Rencana Pengujian: Alokasi Sumber Daya & Jadwal Penelitian
+\begin{frame}{Alokasi Sumber Daya \& Jadwal Penelitian}
+  \begin{columns}[t]
+    \begin{column}{0.45\textwidth}
+      \small
+      \textbf{1. Akuisisi Data Eksperimen}
+      \fontsize{7.5pt}{9pt}\selectfont
+      \begin{itemize}
+        \item \textbf{Lokasi:} Laboratorium Gelombang dan Optik, Departemen Fisika, Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Syiah Kuala (USK).
+        \item \textbf{Tugas:} Preparasi sampel tanah vulkanik, penembakan laser, dan akuisisi spektrum emisi LIBS.
+      \end{itemize}
+
+      \vspace{0.4em}
+      \small
+      \textbf{2. Simulasi \& Pelatihan Model}
+      \fontsize{7.5pt}{9pt}\selectfont
+      \begin{itemize}
+        \item \textbf{Infrastruktur:} Kluster GPU Mahameru HPC BRIN.
+        \item \textbf{Tugas:} Pembangkitan spektrum sintetis (100k data) dan pelatihan model CNN-Transformer (Pre-training \& GRL).
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.53\textwidth}
+      \centering
+      \small\textbf{Jadwal Pelaksanaan Penelitian}
+      \vspace{0.3em}
+      
+      \renewcommand{\arraystretch}{1.25}
+      \begin{adjustbox}{max width=\textwidth}
+        \begin{tabular}{|p{3.5cm}|*{12}{c|}}
+          \hline
+          \textbf{Nama Kegiatan} & \multicolumn{12}{c|}{\textbf{Tahun Pertama Bulan ke-}} \\
+          \cline{2-13}
+          & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+          \hline
+          1. Pembangkitan spektrum sintetis & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & & & & & & & \\
+          \hline
+          2. Preparasi sampel \& pengukuran LIBS (Lab Optik USK) & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & & & & & & \\
+          \hline
+          3. Desain, \textit{pre-training} \& \textit{fine-tuning} (HPC BRIN) & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & & \\
+          \hline
+          4. Analisis performa \& penulisan tesis / manuskrip & & & & & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+          \hline
+        \end{tabular}
+      \end{adjustbox}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% Slide 16
-\begin{frame}{Analisis Draf Hasil: Heatmap Cross-Attention}
-  \begin{figure}[H]
-    \centering
-    \resizebox{!}{0.58\textheight}{
-    \begin{tikzpicture}[scale=0.55]
-    % Heatmap grid
-    \foreach \y/\element in {0/K, 1/Na, 2/Mg, 3/Ca, 4/Fe, 5/Al, 6/Si} {
-        \node[left, font=\large] at (-0.2, \y+0.5) {\element};
-        \foreach \x in {0,...,6} {
-            % Mock weights (higher on diagonal)
-            \pgfmathparse{int((\x == \y) ? 80 : (abs(\x-\y) == 1 ? 15 : 5))}
-            \let\weight=\pgfmathresult
-            \draw[fill=blue!\weight!white, draw=gray!20] (\x, \y) rectangle ++(1, 1);
-            \node[font=\footnotesize] at (\x+0.5, \y+0.5) {0.\pgfmathparse{int(100-\weight)}\pgfmathresult};
-        }
-    }
-    \foreach \x in {0,...,6} {
-        \node[below, rotate=45, anchor=north east, font=\large] at (\x+0.5, 0) {Kanal \x};
-    }
-    \node[above, font=\Large\bfseries] at (3.5, 7.5) {Matriks Atensi ($Q K^\top$)};
-    \end{tikzpicture}
-    }
-    \caption{Visualisasi bobot perhatian model (Cross-Attention Map) pada kanal-kanal panjang gelombang atomik NIST.}
-  \end{figure}
-\end{frame}
-
-% Slide 17
+% Slide 29: Kesimpulan \& Kontribusi Penelitian
 \begin{frame}{Kesimpulan \& Kontribusi Penelitian}
   \begin{figure}[H]
     \centering

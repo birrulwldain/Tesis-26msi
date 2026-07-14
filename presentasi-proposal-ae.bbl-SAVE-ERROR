@@ -16,5 +16,86 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{qusthalani_comparing_2025}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=ac50b3cb92237eb2c67e4780ca9071c4}{%
+           family={Qusthalani},
+           familyi={Q\bibinitperiod},
+           given={Ahmad},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6c6d00841f19e10ecfe348e06acd2396}{%
+           family={Mitaphonna},
+           familyi={M\bibinitperiod},
+           given={Rara},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e66581e33226d59242e184b418386ac9}{%
+           family={Muliadi},
+           familyi={M\bibinitperiod},
+           given={Ramli},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a11008a51248caabe623041dbf0d4576}{%
+           family={Rajibussalim},
+           familyi={R\bibinitperiod}}}%
+        {{hash=243850ff1042c6cf7eb4ffbdb46123a0}{%
+           family={Lahna},
+           familyi={L\bibinitperiod},
+           given={Kurnia},
+           giveni={K\bibinitperiod}}}%
+        {{hash=9c122d1c38b156f136467737f1ad23be}{%
+           family={Zaini\bibnamedelima Nasrullah},
+           familyi={Z\bibinitperiod\bibinitdelim N\bibinitperiod},
+           given={Nasrullah},
+           giveni={N\bibinitperiod}}}%
+        {{hash=bb822b69e766b9dfe18a3943a1c2097b}{%
+           family={Idris},
+           familyi={I\bibinitperiod},
+           given={Nasrullah},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{b2434211edc5baa771c40e357c7b72ee}
+      \strng{fullhash}{62536a20f15612274926065b9b008550}
+      \strng{fullhashraw}{62536a20f15612274926065b9b008550}
+      \strng{bibnamehash}{b2434211edc5baa771c40e357c7b72ee}
+      \strng{authorbibnamehash}{b2434211edc5baa771c40e357c7b72ee}
+      \strng{authornamehash}{b2434211edc5baa771c40e357c7b72ee}
+      \strng{authorfullhash}{62536a20f15612274926065b9b008550}
+      \strng{authorfullhashraw}{62536a20f15612274926065b9b008550}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This study aimed to explore the potential of modern spectroscopy in the authentication of organic and non-organic chicken eggs using near-infrared spectroscopy (NIRS) and laser-induced breakdown spectroscopy (LIBS) spectra. A total of 175 eggs were analyzed, which were grouped into seven categories based on the source of feed given: 100\% organic, 100\% non-organic, 75\% organic, 75\% non-organic, 50\% organic, free-range chickens, and eggs obtained from the local traditional market. Each group consisted of 25 eggs. NIRS spectra were recorded in the wavelength range of 350–2500 nm, whereas LIBS spectra were recorded in the range of 200–900 nm. A total of 350 spectral data were normalized and processed using multiplicative scatter correction, Savitzky–Golay filter, and detrending before being analyzed with principal component analysis (PCA). Analysis based on the PCA score plot showed that NIRS successfully distinguished organic and non-organic eggs with a separation percentage of 100\%, whereas LIBS achieved a separation percentage of 86\%. These results indicate that NIRS has significant advantages over LIBS in the authentication of organic and nonorganic eggs. In addition, eggs from the uncaged chicken category showed similar spectral patterns to eggs from chickens fed 100\% organic feed. Eggs obtained from the local traditional market were evenly distributed in the organic and nonorganic groups. This study provides an important contribution to the development of nondestructive methods for controlling the quality and authentication of eggs in the food industry.}
+      \field{issn}{23391995, 23560851}
+      \field{journaltitle}{Makara Journal of Science}
+      \field{month}{12}
+      \field{number}{4}
+      \field{title}{Comparing the {Effectiveness} of {Eggshell} {Spectra} from {Laser}-{Induced} {Break}-down {Spectroscopy} and {Near}-{Infrared} {Spectroscopy} {Using} {Principal} {Compo}-nent {Analysis} to {Determine} the {Authenticity} of {Organic} {Eggs}}
+      \field{urlday}{18}
+      \field{urlmonth}{4}
+      \field{urlyear}{2026}
+      \field{volume}{29}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.7454/mss.v29i4.2927
+      \endverb
+      \verb{file}
+      \verb PDF:/Users/birrulwldain/Zotero/storage/2ZCPJABB/2025 - Comparing the Effectiveness of Eggshell Spectra from Laser-Induced Break-down Spectroscopy and Near-.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://scholarhub.ui.ac.id/science/vol29/iss4/13/
+      \endverb
+      \verb{url}
+      \verb https://scholarhub.ui.ac.id/science/vol29/iss4/13/
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
