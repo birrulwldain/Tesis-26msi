@@ -66,6 +66,12 @@
   \end{figure}
 \end{frame}
 
+
+% ==========================================
+% Bagian A. Akar Masalah dan SOTA
+% ==========================================
+\section{Latar Belakang, Rumusan Masalah dan Tujuan Penelitian}
+
 % Slide 3: Kompleksitas Spektrum Mineral Mezoued
 \begin{frame}{Kompleksitas Spektrum Mineral Mezoued (2025)}
   \begin{figure}[H]
@@ -74,10 +80,6 @@
   \end{figure}
 \end{frame}
 
-% ==========================================
-% Bagian A. Akar Masalah dan SOTA
-% ==========================================
-\section{Akar Masalah dan SOTA}
 
 % Slide 4: Akar Masalah
 \begin{frame}{Akar Masalah: Kompleksitas Spektrum LIBS}
@@ -88,37 +90,37 @@
 \end{frame}
 
 % Slide 5: Temuan Terdahulu (MERLIN)
-\begin{frame}{Temuan Terdahulu: Model Transpor Radiatif MERLIN (Favre et al., 2025)}
+\begin{frame}{Temuan Terdahulu: MultiElemental Radiative equiLibrIum emissioN (MERLIN) (Favre et al., 2025)}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_fig8_spectra_decomp.png}\\
-      \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Dekomposisi spektrum emisi campuran
+      % \vspace{0.4em}
+      % \fontsize{7pt}{8pt}\selectfont Dekomposisi spektrum emisi campuran
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_fig16_spectra_expvsmerlin.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Spektrum eksperimen vs simulasi MERLIN
+      % \fontsize{7pt}{8pt}\selectfont Spektrum eksperimen vs simulasi MERLIN
     \end{column}
   \end{columns}
 \end{frame}
 
 % Slide 6: Temuan Terdahulu (CNN)
-\begin{frame}{Temuan Terdahulu: Spektroskopi LIBS Berbasis CNN (Favre et al., 2025)}
+\begin{frame}{Temuan Terdahulu: LIBS supported by machine learning (CNN) (Favre et al., 2025)}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_table2.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Tabel 2: Perbandingan parameter plasma dan fraksi mol
+      % \fontsize{7pt}{8pt}\selectfont Tabel 2: Perbandingan parameter plasma dan fraksi mol
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/favre2025_fig12_cnn_prediction.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Spektrum prediksi CNN vs target fisis (truth)
+      % \fontsize{7pt}{8pt}\selectfont Spektrum prediksi CNN vs target fisis (truth)
     \end{column}
   \end{columns}
 \end{frame}
@@ -130,39 +132,37 @@
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/walidain2026_table2.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Tabel 2: Presisi, recall, dan F1-score model Informer
+      % \fontsize{7pt}{8pt}\selectfont Tabel 2: Presisi, recall, dan F1-score model Informer
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/walidain2026_fig2_peakmatch.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Pencocokan puncak emisi Mg dan Na hasil prediksi
+      % \fontsize{7pt}{8pt}\selectfont Pencocokan puncak emisi Mg dan Na hasil prediksi
     \end{column}
   \end{columns}
 \end{frame}
 
 % Slide 8: Temuan Terdahulu (Remote LIBS)
-\begin{frame}{Temuan Terdahulu: Kuantifikasi Spektrum Remote LIBS (Liu et al., 2026)}
+\begin{frame}{Temuan Terdahulu: Remote LIBS based on transformer-CNN (Liu et al., 2026)}
   \begin{columns}[c]
     \begin{column}{0.54\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/liu2026_fig5_spectrum.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Spektrum observasi remote LIBS (10 meter)
+      % \fontsize{7pt}{8pt}\selectfont Spektrum observasi remote LIBS (10 meter)
     \end{column}
     \begin{column}{0.42\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{images/bab2/liu2026_fig4_scatter_p.png}\\
       \vspace{0.4em}
-      \fontsize{7pt}{8pt}\selectfont Prediksi konsentrasi unsur P ($R^2 = 0.9924$)
+      % \fontsize{7pt}{8pt}\selectfont Prediksi konsentrasi unsur P ($R^2 = 0.9924$)
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 9: Solusi (Arsitektur Model)
-\section{Solusi (Arsitektur Model)}
 
-\begin{frame}{CNN-Transformer : Konse usulan penelitian ini}
+\begin{frame}{CNN-Transformer : Konsep usulan penelitian ini}
   \begin{figure}[H]
     \centering
     \resizebox{!}{0.55\textheight}{
@@ -296,18 +296,22 @@
 \end{frame}
 
 
+% Slide 9: Solusi (Arsitektur Model)
+\section{Solusi, Usulan Model CNN-Transformer}
+
+
 % Slide 11: Visualisasi Konsep Tokenisasi
-\begin{frame}{Visualisasi Konsep Tokenisasi: Sliding Window Spektroskopi}
+\begin{frame}{Bagaimana Spektrum di representasikan?}
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth,height=0.72\textheight,keepaspectratio]{images/spectral_zoom_cnn.png}
-    \caption{Visualisasi pemotongan spektrum campuran (window 320--330 nm) yang dikirim ke Tokenizer CNN 1D.}
+    % \caption{Visualisasi pemotongan spektrum campuran (window 320--330 nm) yang dikirim ke Tokenizer CNN 1D.}
     \label{fig:spectral_zoom_cnn}
   \end{figure}
 \end{frame}
 
 % Slide 12: Visualisasi Input Model
-\begin{frame}{Visualisasi Input Model: Campuran (Encoder) vs Unsur Tunggal (Decoder)}
+\begin{frame}{Bagaimana Model Menguraikan Spektrum?}
   \begin{columns}[c]
     \begin{column}{0.54\textwidth}
       \begin{figure}[H]
@@ -328,7 +332,7 @@
           arrow/.style={-stealth, line width=1.0pt}
       ]
           % Jalur Campuran (Encoder Path) - Panah dari plot atas di kiri
-          \node[cnn_box] (cnn_enc) at (-2.2, 4.3) {\textbf{CNN Tokenizer}\\\textbf{(Encoder)}};
+          \node[cnn_box] (cnn_enc) at (-2.2, 4.3) {\textbf{CNN}\\\textbf{(Tokenizer)}};
           \node[model_box] (enc) at (0.1, 4.3) {\textbf{Transformer}\\\textbf{Encoder}};
           
           \draw[arrow, draw=blue!70!black, line width=1.5pt] (-4.9, 4.3) -- (cnn_enc.west);
@@ -339,7 +343,7 @@
           \draw[arrow, ->, draw=purple] (enc.south) -- node[right, font=\fontsize{6.5pt}{7.5pt}\selectfont\bfseries, color=purple!80!black] {Key \& Value (K, V)} (ca.north);
           
           % Jalur Unsur Tunggal (Decoder Path) - Panah dari plot bawah di kiri
-          \node[cnn_box] (cnn_dec) at (-2.2, 0.5) {\textbf{CNN Tokenizer}\\\textbf{(Decoder)}};
+          \node[cnn_box] (cnn_dec) at (-2.2, 0.5) {\textbf{CNN}\\\textbf{(Tokenizer)}};
           \node[model_box] (dec) at (0.1, 0.5) {\textbf{Transformer}\\\textbf{Decoder}};
           
           \draw[arrow, draw=red!70!black, line width=1.5pt] (-4.9, 0.5) -- (cnn_dec.west);
@@ -425,7 +429,7 @@
 \end{frame}
 
 % Slide 14: Validasi Luaran \& Dekomposisi Model
-\begin{frame}{Validasi Luaran \& Dekomposisi Model}
+\begin{frame}{Luaran Model}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \begin{figure}[H]
@@ -539,9 +543,9 @@
 % ==========================================
 % Bagian C. Protokol Penelitian
 % ==========================================
-\section{Protokol Penelitian}
+\section{Metode Penelitian}
 % Slide 16: Protokol Penelitian \& Alur Kerja
-\begin{frame}{Protokol Penelitian \& Alur Kerja}
+\begin{frame}{Diagram Alir Penelitian}
 \vspace{-0.5em}
 \begin{center}
 \begin{adjustbox}{max width=\textwidth, max totalheight=0.82\textheight, keepaspectratio}
@@ -638,7 +642,7 @@
 \end{frame}
 
 % Slide 17: Prosedur: Tahap I — Simulasi
-\begin{frame}{Prosedur: Tahap I — Simulasi}
+\begin{frame}{Tahap I: Simulasi}
   \begin{center}
     \begin{adjustbox}{max width=\textwidth, max totalheight=0.85\textheight, keepaspectratio}
       \begin{tikzpicture}[font=\sffamily]
@@ -710,7 +714,7 @@
 \end{frame}
 
 % Slide 18: Perbandingan Rumus Fisika Plasma
-\begin{frame}[fragile]{Perbandingan Rumus Fisika Plasma: MERLIN vs. Penelitian Ini}
+\begin{frame}[fragile]{Tahap I: MERLIN vs Penelitian Ini}
   \begin{center}
     \begin{adjustbox}{max width=0.98\textwidth}
       \fontsize{7.5pt}{10.0pt}\selectfont
@@ -745,7 +749,7 @@
 \end{frame}
 
 % Slide 19: Setup Eksperimen LIBS
-\begin{frame}{Setup Eksperimen LIBS (Tahap 2)}
+\begin{frame}{Tahap II: Setup Eksperimen LIBS}
   \centering
   \includegraphics[width=\textwidth, height=0.74\textheight, keepaspectratio]%
     {images/bab2/libs_schematic.png}
@@ -757,7 +761,7 @@
    (diadaptasi dari \citeauthor{qusthalani_comparing_2025}, 2025).}
 \end{frame}
 % Slide 20: Prosedur: Eksperimen \& Data LIBS Tanah
-\begin{frame}{Prosedur: Eksperimen \& Data LIBS Tanah (Tahap 2)}
+\begin{frame}{Tahap II: Eksperimen pada sampel Tanah Vulkanik}
   \centering
   \begin{adjustbox}{max width=\textwidth, max height=0.78\textheight}
   \begin{tikzpicture}[font=\sffamily, scale=1.0]
@@ -841,7 +845,7 @@
 
 
 % Slide 21: Alur Pelatihan Tahap 3A (Pre-training)
-\begin{frame}{Prosedur: Alur Pelatihan Tahap~3A (Pre-training Spektrum Sintetis)}
+\begin{frame}{Tahap III: Pre-training Spektrum Sintetis}
   \centering
   \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
   \begin{tikzpicture}[
@@ -951,7 +955,7 @@
 
 
 % Slide 22: Alur Pelatihan Tahap 3B (GRL & Joint Fine-Tuning)
-\begin{frame}{Prosedur: Alur Pelatihan Tahap~3B (GRL \& Adaptasi Domain)}
+\begin{frame}{Tahap III: Alur Pelatihan \& GRL Adaptation Domain}
   \centering
   \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
   \begin{tikzpicture}[
@@ -1068,7 +1072,7 @@
 
 
 % Slide 23: Alur Pelatihan Tahap 3C (Decoder Fine-Tuning)
-\begin{frame}{Prosedur: Alur Pelatihan Tahap~3C (Decoder Fine-Tuning)}
+\begin{frame}{Tahap III: Alur Pelatihan Decoder Fine-Tuning}
   \centering
   \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
   \begin{tikzpicture}[
@@ -1177,10 +1181,70 @@
 \end{frame}
 
 
+% Slide 24: Rencana Pengujian: 5-Fold Cross Validation (Tahap 4)
+\begin{frame}{Tahap IV: Bagaimana data Eksperimen dibagi?}
+  \begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max width=\textwidth, max totalheight=0.48\textheight}
+    \begin{tikzpicture}[
+        node distance=0.4cm,
+        fold/.style={draw, thick, fill=blue!10, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize},
+        test_fold/.style={draw, thick, fill=red!20, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize}
+    ]
+    % Iterasi 1
+    \node[fold] (f1_1) {Fold 1 (Train)};
+    \node[fold, right=0.1cm of f1_1] (f1_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f1_2] (f1_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f1_3] (f1_4) {Fold 4 (Train)};
+    \node[test_fold, right=0.1cm of f1_4] (f1_5) {Fold 5 (Test)};
+    \node[left=0.2cm of f1_1] {\textbf{Iterasi 1:}};
+    
+    % Iterasi 2
+    \node[fold, below=0.1cm of f1_1] (f2_1) {Fold 1 (Train)};
+    \node[fold, right=0.1cm of f2_1] (f2_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f2_2] (f2_3) {Fold 3 (Train)};
+    \node[test_fold, right=0.1cm of f2_3] (f2_4) {Fold 4 (Test)};
+    \node[fold, right=0.1cm of f2_4] (f2_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f2_1] {\textbf{Iterasi 2:}};
+    
+    % Iterasi 3
+    \node[fold, below=0.1cm of f2_1] (f3_1) {Fold 1 (Train)};
+    \node[fold, right=0.1cm of f3_1] (f3_2) {Fold 2 (Train)};
+    \node[test_fold, right=0.1cm of f3_2] (f3_3) {Fold 3 (Test)};
+    \node[fold, right=0.1cm of f3_3] (f3_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f3_4] (f3_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f3_1] {\textbf{Iterasi 3:}};
+
+    % Iterasi 4
+    \node[fold, below=0.1cm of f3_1] (f4_1) {Fold 1 (Train)};
+    \node[test_fold, right=0.1cm of f4_1] (f4_2) {Fold 2 (Test)};
+    \node[fold, right=0.1cm of f4_2] (f4_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f4_3] (f4_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f4_4] (f4_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f4_1] {\textbf{Iterasi 4:}};
+
+    % Iterasi 5
+    \node[test_fold, below=0.1cm of f4_1] (f5_1) {Fold 1 (Test)};
+    \node[fold, right=0.1cm of f5_1] (f5_2) {Fold 2 (Train)};
+    \node[fold, right=0.1cm of f5_2] (f5_3) {Fold 3 (Train)};
+    \node[fold, right=0.1cm of f5_3] (f5_4) {Fold 4 (Train)};
+    \node[fold, right=0.1cm of f5_4] (f5_5) {Fold 5 (Train)};
+    \node[left=0.2cm of f5_1] {\textbf{Iterasi 5:}};
+    
+    \end{tikzpicture}
+    \end{adjustbox}
+  \end{figure}
+  % \begin{center}
+  %   \fontsize{8pt}{10pt}\selectfont
+  %   \textbf{Kebijakan Validasi Tanpa Kebocoran Data (Data Leakage-Free):}\\
+  %   Pemisahan \textit{fold} dilakukan secara ketat pada \textbf{tingkat sampel tanah (24 lokasi geografi)}, bukan tingkat tembakan laser individual. Hal ini menjamin seluruh spektrum tembakan dari satu lokasi yang sama selalu dikelompokkan ke \textit{fold} yang sama guna mencegah bias optimasi.
+  % \end{center}
+\end{frame}
 
 
-% Slide 24: Rencana Pengujian: Skenario Transfer Domain
-\begin{frame}{Rencana Pengujian: Evaluasi Skenario Transfer Domain (Tahap 4)}
+
+% Slide 25: Rencana Pengujian: Skenario Transfer Domain
+\begin{frame}{Tahap IV: Evaluasi Kinerja}
   \centering
   \begin{adjustbox}{max width=\textwidth, max height=0.82\textheight}
   \begin{tikzpicture}[
@@ -1270,8 +1334,8 @@
 \end{frame}
 
 
-% Slide 25: Rencana Pengujian: Metode Evaluasi & Luaran (Tahap 4)
-\begin{frame}{Rencana Pengujian: Metode Evaluasi \& Luaran (Tahap 4)}
+% Slide 26: Rencana Pengujian: Metode Evaluasi & Luaran (Tahap 4)
+\begin{frame}{Tahap IV: Luaran Evaluasi Kinerja}
   \begin{center}
     \renewcommand{\arraystretch}{1.2}
     \begin{adjustbox}{max width=\textwidth, max totalheight=0.68\textheight, keepaspectratio}
@@ -1299,73 +1363,10 @@
 \end{frame}
 
 
-% Slide 26: Rencana Pengujian: 5-Fold Cross Validation (Tahap 4)
-\begin{frame}{Rencana Pengujian: 5-Fold Cross Validation (Tahap 4)}
-  \begin{figure}[H]
-    \centering
-    \begin{adjustbox}{max width=\textwidth, max totalheight=0.48\textheight}
-    \begin{tikzpicture}[
-        node distance=0.4cm,
-        fold/.style={draw, thick, fill=blue!10, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize},
-        test_fold/.style={draw, thick, fill=red!20, minimum width=1.6cm, minimum height=0.42cm, font=\scriptsize}
-    ]
-    % Iterasi 1
-    \node[fold] (f1_1) {Fold 1 (Train)};
-    \node[fold, right=0.1cm of f1_1] (f1_2) {Fold 2 (Train)};
-    \node[fold, right=0.1cm of f1_2] (f1_3) {Fold 3 (Train)};
-    \node[fold, right=0.1cm of f1_3] (f1_4) {Fold 4 (Train)};
-    \node[test_fold, right=0.1cm of f1_4] (f1_5) {Fold 5 (Test)};
-    \node[left=0.2cm of f1_1] {\textbf{Iterasi 1:}};
-    
-    % Iterasi 2
-    \node[fold, below=0.1cm of f1_1] (f2_1) {Fold 1 (Train)};
-    \node[fold, right=0.1cm of f2_1] (f2_2) {Fold 2 (Train)};
-    \node[fold, right=0.1cm of f2_2] (f2_3) {Fold 3 (Train)};
-    \node[test_fold, right=0.1cm of f2_3] (f2_4) {Fold 4 (Test)};
-    \node[fold, right=0.1cm of f2_4] (f2_5) {Fold 5 (Train)};
-    \node[left=0.2cm of f2_1] {\textbf{Iterasi 2:}};
-    
-    % Iterasi 3
-    \node[fold, below=0.1cm of f2_1] (f3_1) {Fold 1 (Train)};
-    \node[fold, right=0.1cm of f3_1] (f3_2) {Fold 2 (Train)};
-    \node[test_fold, right=0.1cm of f3_2] (f3_3) {Fold 3 (Test)};
-    \node[fold, right=0.1cm of f3_3] (f3_4) {Fold 4 (Train)};
-    \node[fold, right=0.1cm of f3_4] (f3_5) {Fold 5 (Train)};
-    \node[left=0.2cm of f3_1] {\textbf{Iterasi 3:}};
 
-    % Iterasi 4
-    \node[fold, below=0.1cm of f3_1] (f4_1) {Fold 1 (Train)};
-    \node[test_fold, right=0.1cm of f4_1] (f4_2) {Fold 2 (Test)};
-    \node[fold, right=0.1cm of f4_2] (f4_3) {Fold 3 (Train)};
-    \node[fold, right=0.1cm of f4_3] (f4_4) {Fold 4 (Train)};
-    \node[fold, right=0.1cm of f4_4] (f4_5) {Fold 5 (Train)};
-    \node[left=0.2cm of f4_1] {\textbf{Iterasi 4:}};
-
-    % Iterasi 5
-    \node[test_fold, below=0.1cm of f4_1] (f5_1) {Fold 1 (Test)};
-    \node[fold, right=0.1cm of f5_1] (f5_2) {Fold 2 (Train)};
-    \node[fold, right=0.1cm of f5_2] (f5_3) {Fold 3 (Train)};
-    \node[fold, right=0.1cm of f5_3] (f5_4) {Fold 4 (Train)};
-    \node[fold, right=0.1cm of f5_4] (f5_5) {Fold 5 (Train)};
-    \node[left=0.2cm of f5_1] {\textbf{Iterasi 5:}};
-    
-    \end{tikzpicture}
-    \end{adjustbox}
-  \end{figure}
-  \begin{center}
-    \fontsize{8pt}{10pt}\selectfont
-    \textbf{Kebijakan Validasi Tanpa Kebocoran Data (Data Leakage-Free):}\\
-    Pemisahan \textit{fold} dilakukan secara ketat pada \textbf{tingkat sampel tanah (24 lokasi geografi)}, bukan tingkat tembakan laser individual. Hal ini menjamin seluruh spektrum tembakan dari satu lokasi yang sama selalu dikelompokkan ke \textit{fold} yang sama guna mencegah bias optimasi.
-  \end{center}
-\end{frame}
-
-% ==========================================
-% Bagian D. PoC dan Penutup
-% ==========================================
-\section{PoC dan Penutup}
 
 % Slide 27: Rencana Pengujian: Alokasi Sumber Daya & Jadwal Penelitian
-\begin{frame}{Alokasi Sumber Daya \& Jadwal Penelitian}
+\begin{frame}{Tempat \& Jadwal Penelitian}
   \begin{columns}[t]
     \begin{column}{0.45\textwidth}
       \small
@@ -1381,7 +1382,7 @@
       \textbf{2. Simulasi \& Pelatihan Model}
       \fontsize{7.5pt}{9pt}\selectfont
       \begin{itemize}
-        \item \textbf{Infrastruktur:} Kluster GPU Mahameru HPC BRIN.
+        \item \textbf{Infrastruktur:} Kluster GPU dan CPU Mahameru HPC BRIN.
         \item \textbf{Tugas:} Pembangkitan spektrum sintetis (100k data) dan pelatihan model CNN-Transformer (Pre-training \& GRL).
       \end{itemize}
     \end{column}
@@ -1415,26 +1416,7 @@
 
 % Slide 29: Kesimpulan \& Kontribusi Penelitian
 \begin{frame}{Kesimpulan \& Kontribusi Penelitian}
-  \begin{figure}[H]
-    \centering
-    \resizebox{!}{0.48\textheight}{
-    \begin{tikzpicture}[
-        scale=0.9,
-        font=\small,
-        concept/.style={draw, thick, fill=blue!5, rounded corners=2mm, align=center, minimum width=3.8cm, minimum height=1.2cm},
-        target/.style={draw=orange!80!black, thick, fill=orange!10, rounded corners=2mm, align=center, minimum width=4.2cm, minimum height=1.4cm},
-        arrow/.style={-stealth, line width=1.5pt}
-    ]
-    % Nodes
-    \node[concept] (phys) {Prior Fisika\\ \small (Saha-Boltzmann LTE)};
-    \node[concept, right=1.5cm of phys] (dl) {Deep Learning\\ \small (CNN-Transformer)};
-    \node[target, below=1.5cm of $(phys)!0.5!(dl)$] (novelty) {\textbf{Novelty Penelitian}\\ \small Kuantifikasi Unsur Tanah Vulkanik\\ \small Akurat, Robust, \& Interpretable};
-    
-    \draw[arrow] (phys) -- (novelty);
-    \draw[arrow] (dl) -- (novelty);
-    \end{tikzpicture}
-    }
-  \end{figure}
+
   \begin{center}
     \large\textcolor{uskGold}{\textbf{Terima Kasih atas Perhatian Anda}} \\[0.5em]
     {\normalsize Sesi Tanya Jawab \& Diskusi Dibuka}
